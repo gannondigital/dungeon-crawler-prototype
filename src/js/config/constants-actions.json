@@ -1,0 +1,5 @@
+{
+	"TILE_SET": "setTile",
+	"DIRECTION_SET": "setDirection",
+  "LEVEL_LOADED": "levelLoaded"
+}

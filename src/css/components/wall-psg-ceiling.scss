@@ -1,0 +1,15 @@
+@import '../lib/mixins.scss';
+@import '../lib/vars.scss';
+
+.wall-psg-ceiling {
+	@include panel;
+	@include rotateX(-90deg);
+	@include transform-origin(center 0);
+	
+	width: $ceiling_floor_width;
+	height: $ceiling_floor_height;
+
+	&.shadow {
+		@include ceiling-shadow();
+	}
+}

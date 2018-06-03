@@ -1,0 +1,35 @@
+@import '../lib/mixins.scss';
+@import '../lib/vars.scss';
+
+.passagewrap {
+	@include perspective(200px);
+
+	background: black;
+	width:$wall_width;
+	height:$wall_height;
+	overflow: hidden;
+	position:relative;
+}
+
+.passage {
+	@include perspective(preserve-3d);
+
+	height:100%;
+	width:100%;
+	position:absolute;
+}
+
+.passageoverlay {
+	background: #000;
+	height:$wall_height;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	transition: opacity 200ms;
+	width:$wall_width;
+	z-index: 10000;
+
+	&.show {
+		opacity: 100;
+	}
+}

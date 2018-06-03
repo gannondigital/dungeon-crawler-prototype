@@ -1,0 +1,359 @@
+{
+  "levelName": "one",
+  "tiles": {
+    "1x1": {
+      "coords": {"x": 1, "y": 1},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow",
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        }
+      }
+    },
+    "1x2": {
+      "coords": {"x": 1, "y": 2},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow",
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow",
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        }
+      }
+    },
+    "1x3": {
+      "coords": {"x": 1, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        }
+      }
+    },
+    "2x3": {
+      "coords": {"x": 2, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "3x3": {
+      "coords": {"x": 3, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "4x3": {
+      "coords": {"x": 4, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "5x3": {
+      "coords": {"x": 5, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "5x2": {
+      "coords": {"x": 5, "y": 2},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        }
+      }
+    },
+    "6x2": {
+      "coords": {"x": 6, "y": 2},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "e": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "s": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "6x3": {
+      "coords": {"x": 6, "y": 3},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "s": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    },
+    "5x4": {
+      "coords": {"x": 5, "y": 4},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        }
+      }
+    },
+    "6x4": {
+      "coords": {"x": 6, "y": 4},
+      "walls": {
+        "n": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        },
+        "e": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "s": {
+          "surfaces": [
+            "stonebrick",
+            "shadow"
+          ]
+        },
+        "w": {
+          "surfaces": [
+            "open"
+          ],
+          "exit": true
+        }
+      }
+    }
+  }
+}

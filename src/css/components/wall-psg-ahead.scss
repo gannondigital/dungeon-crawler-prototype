@@ -1,0 +1,18 @@
+@import '../lib/mixins.scss';
+@import '../lib/vars.scss';
+
+.wall-psg-ahead {
+	@include panel;
+	@include translateZ(-$wall_width);
+
+	width: $wall_width;
+	height: $wall_height;
+
+	&.shadow {
+		@include box-shadow($blur: $wall_width * .35, $spread: 70px);
+	}
+
+  &.open {
+    background: #000 !important;
+  }
+}
