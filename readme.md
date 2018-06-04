@@ -23,6 +23,9 @@ Next steps would include:
 * combat rules!
 * soundtrack and sound effects
 
+## Play online!
+See the prototype in action at http://gannondigital.github.io/dungeon-crawler-prototype/. Again, not super interesting from a gameplay POV. 
+
 ## License
 
 No license is given to use or reproduce this code for any purpose. If you are interested in using this package or some part of it, please contact me. 
