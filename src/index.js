@@ -7,6 +7,8 @@ import { loadLevel } from './js/actions/actions-level';
 import { tileActions } from './js/actions/actions-tile';
 import { setDirection } from './js/actions/actions-character';
 import { levelStore } from './js/stores/store-level';
+import { tileStore } from './js/stores/store-tile';
+import { directionStore } from './js/stores/store-direction';
 import { GameRoot } from './js/components/game-root';
 
 /** 
@@ -24,9 +26,10 @@ loadLevel(config.startLevel).then(() => {
   
   ReactDOM.render( React.createElement(GameRoot, { 
     direction: currDir,
-    tile: currTile,
+    initialTile: currTile,
     // tryin some dependency injection...
-    tileFetcher: levelStore.getTile.bind(levelStore)
+    tileFetcher: tileStore.getTile.bind(tileStore),
+    directionFetcher: directionStore.getDirection.bind(directionStore)
   }), document.querySelector(config.rootSelector) );
 }).catch((err) => {
   throw err;

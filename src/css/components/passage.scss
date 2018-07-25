@@ -24,7 +24,7 @@
 	height:$wall_height;
 	opacity: 0;
 	position: absolute;
-	top: 0;
+	top: $headerHeight;
 	transition: opacity 200ms;
 	width:$wall_width;
 	z-index: 10000;

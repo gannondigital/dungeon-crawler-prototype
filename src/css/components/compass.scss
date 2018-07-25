@@ -1,0 +1,51 @@
+.compass {
+  position: absolute;
+  right: 20px;
+}
+
+.compass_disc {
+  background: #fff;
+  display: block;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+}
+
+// @todo be cleverer about the transition/rotation so that the needle never
+// takes the 'long' way around the dial
+@mixin compassPointer {
+  display: block;
+  height: 15px;
+  width: 5px;
+  background: green;
+  position: absolute;
+  transform-origin: bottom center;
+  transition: transform .2s ease-in-out
+}
+
+.compass_pointer--north {
+  @include compassPointer;
+  top: 10%;
+  left: 44%;
+}
+
+.compass_pointer--east {
+  @include compassPointer;
+  transform: rotate(-90deg);
+  top: 0;
+  left: 14px;
+}
+
+.compass_pointer--south {
+  @include compassPointer;
+  transform: rotate(180deg);
+  top: 0;
+  left: 44%
+}
+
+.compass_pointer--west {
+  @include compassPointer;
+  transform: rotate(90deg);
+  top: 0;
+  left: 44%;
+}

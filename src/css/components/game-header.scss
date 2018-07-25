@@ -1,0 +1,7 @@
+@import '../lib/vars.scss';
+
+.game_header {
+  background: $headerColor;
+  height: $headerHeight;
+  position: relative;
+}

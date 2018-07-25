@@ -5,3 +5,4 @@ Enzyme.configure({ adapter: new Adapter() });
 
 // @todo genericize
 import './game-root.spec.js';
+import './compass.spec.js';

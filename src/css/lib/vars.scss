@@ -1,6 +1,11 @@
-$wall_width: 500px;
-$wall_height: 500px;
+$gameSquareDim: 500px;
+
+$wall_width: $gameSquareDim;
+$wall_height: $gameSquareDim;
 //$ceiling_floor_width: $wall_width * 2;
 //$ceiling_floor_height: $wall_height * 2;
 $ceiling_floor_width: $wall_width;
 $ceiling_floor_height: $wall_height;
+
+$headerColor: #000;
+$headerHeight: 35px;
