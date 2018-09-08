@@ -10,6 +10,10 @@ class DirectionStore extends Store {
     this.data = '';
   }
 
+  getDirection() {
+    return this.data;
+  }
+
 }
 
 export const directionStore = new DirectionStore();

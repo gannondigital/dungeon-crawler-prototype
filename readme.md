@@ -12,7 +12,7 @@ This prototype uses a simple Flux pattern, extending Facebook's Flux package, wi
 
 ## Current State and Next Steps
 
-The 'game' isn't very interesting just yet. You can change direction and move through passages and into a single room that has been built out. 
+The 'game' isn't very interesting just yet. You can change direction and move through passages and into a single room that has been built out. There's a compass that points 'north' (your starting direction) to help you stay oriented.
 
 Next steps would include:
 * increased test coverage, streamline test runner (it currently writes built assets to disk when compiling the tests, which is unnecessary)

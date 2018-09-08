@@ -29,13 +29,16 @@ export class Passage extends Component {
   }
 
   static propTypes = {
-    tile: PropTypes.instanceOf(Tile)
+    initialTile: PropTypes.instanceOf(Tile).isRequired,
+    tileFetcher: PropTypes.func,
+    direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
+    defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      tile: props.tile,
+      tile: props.initialTile,
       direction: props.direction,
       faded: false
     };
@@ -57,7 +60,7 @@ export class Passage extends Component {
   }
 
   handleTileUpdate() {
-    const tile = tileStore.getTile();
+    const tile = this.props.tileFetcher();
 
     this.setState((prevState, currProps) => {
       const newState = Object.assign(prevState, { tile });
@@ -77,6 +80,11 @@ export class Passage extends Component {
   render() {
     const dirsForWalls = getDirsForWalls(this.state.direction);
     const tile = this.state.tile;
+
+    if (!(tile instanceof Tile)) {
+      console.log('Invalid Tile in Passage state.')
+      return (<div className="passagenotile" />);
+    }
 
     const overlayClass = this.state.faded ? ' show' : '';
 
@@ -102,7 +110,7 @@ export class Passage extends Component {
     };
 
     return (
-      <div>
+      <div className="passageroot">
         <div className="passagewrap">
           <div className="passage">
             <Wall {...dataCeiling} />
