@@ -14,7 +14,7 @@ export class GameRoot extends Component {
 
     return (
       <div className='game-root'>
-        {/*<GameHeader directionFetcher={this.props.directionFetcher} />*/}
+        <GameHeader directionFetcher={this.props.directionFetcher} />
         <Passage 
           initialTile={this.props.initialTile} 
           direction={this.props.direction} 

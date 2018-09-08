@@ -72,3 +72,9 @@
 @mixin floor-ceiling-shadow($off_y) {
 	@include box-shadow( $offset_y: $off_y, $blur: 140px, $spread: 34px);
 }
+
+@mixin nav-button() {
+	cursor: pointer;
+	height: 36px;
+	width:36px;
+}
