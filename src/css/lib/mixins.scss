@@ -1,3 +1,5 @@
+@import './vars.scss';
+
 @mixin transform-origin($origin) {
 	-webkit-transform-origin: $origin;
 	-moz-transform-origin: $origin;
@@ -39,24 +41,34 @@
 	transform: translateZ($translate);
 }
 
-@mixin panel {
-	background-image: url('../../img/brick-500.jpg');
+@mixin panel($backgroundWidth, $backgroundHeight) {
+	background-image: url('../../img/brick-wall-pixel-wip-3-highlights-borders.png');
+	background-repeat: no-repeat;
+	background-size: $backgroundWidth $backgroundHeight;
 	display: block;
 	position: absolute;
 }
 
+@mixin panelCeilingFloor {
+	@include panel($wall_width, $wall_height * 2);
+}
+
+@mixin panelWall {
+	@include panel($wall_width, $wall_height);
+}
+
 @mixin wall-shadow($off_x) {
-	@include box-shadow($offset_x: $off_x, $blur: $wall_width * .35, $spread: 70px);
+	@include box-shadow($offset_x: $off_x, $blur: $wall_width * .35, $spread: 50px);
 }
 
 @mixin floor-shadow() {
-	@include floor-ceiling-shadow(35px);
+	@include floor-ceiling-shadow($wall_height);
 }
 
 @mixin ceiling-shadow() {
-	@include floor-ceiling-shadow(-35px)
+	@include floor-ceiling-shadow($wall_height / -2)
 }
 
 @mixin floor-ceiling-shadow($off_y) {
-	@include box-shadow( $offset_y: $off_y, $blur: 140px, $spread: 44px);
+	@include box-shadow( $offset_y: $off_y, $blur: 140px, $spread: 34px);
 }

@@ -2,5 +2,7 @@
 
 .game-root {
   margin: 0 auto;
-  width: $gameSquareDim;
+  height: 270px;
+  width: 480px;
+  overflow: hidden;
 }

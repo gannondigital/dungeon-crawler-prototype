@@ -2,8 +2,8 @@
 @import '../lib/vars.scss';
 
 .wall-psg-ceiling {
-	@include panel;
-	@include rotateX(-90deg);
+	@include panelCeilingFloor;
+	@include rotateX(-89deg);
 	@include transform-origin(center 0);
 	
 	width: $ceiling_floor_width;

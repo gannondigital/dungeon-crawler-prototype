@@ -2,12 +2,12 @@
 @import '../lib/vars.scss';
 
 .wall-psg-floor {
-	@include panel;
-	@include rotateX(90deg);
-	@include transform-origin(center $ceiling_floor_width);
+	@include panelCeilingFloor;
+	@include rotateX(89deg);
+	@include transform-origin(center 235px);
 	
 	width: $ceiling_floor_width;
-	height: $ceiling_floor_height;
+	height: 355px;
 
 	&.shadow {
 		@include floor-shadow();
