@@ -2,8 +2,8 @@
 @import '../lib/vars.scss';
 
 .wall-psg-ahead {
-	@include panel;
-	@include translateZ(-$wall_width);
+	@include panel($wall_width, $wall_height);
+	@include translateZ(-$wall_height);
 
 	width: $wall_width;
 	height: $wall_height;
