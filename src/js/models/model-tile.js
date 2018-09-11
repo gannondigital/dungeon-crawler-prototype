@@ -8,6 +8,7 @@ export class Tile {
     }
     this.walls = tileProps.walls;
     this.coords = tileProps.coords;
+    this.monsters = tileProps.monsters;
   }
 
   // assumes level data is valid, and there are no exits to nonexistent tiles
@@ -49,6 +50,10 @@ export class Tile {
     }
 
     return !!wall.exit;
+  }
+
+  getMonsters() {
+    return cloneDeep(this.monsters);
   }
 
 }

@@ -109,6 +109,11 @@ export class Passage extends Component {
       surfaces: tile.getSurfacesForWall(dirsForWalls.ahead)
     };
 
+    const monsters = tile.getMonsters() || null;
+    const monsterElems = monsters ? monsters.forEach((monster) => {
+      return (<Monster monster={monster} />);
+    }) : null;
+
     return (
       <div className="passageroot">
         <div className="passagewrap">
@@ -118,6 +123,7 @@ export class Passage extends Component {
             <Wall {...dataRightWall} />
             <Wall {...dataLeftWall} />
             <Wall {...dataAhead} />
+            { monsters }
           </div>
         </div>
         <div className={`passageoverlay${overlayClass}`} />

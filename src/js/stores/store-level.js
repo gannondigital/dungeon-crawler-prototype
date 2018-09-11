@@ -4,7 +4,7 @@ import { default as cloneDeep } from 'lodash.cloneDeep';
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
-import { Tile } from '../models/model-tile';
+import { TileFactory } from '../lib/tile-factory';
 
 class LevelStore extends Store {
 
@@ -54,7 +54,8 @@ class LevelStore extends Store {
       throw new ReferenceError(`Could not find tile ${tileName}`);
     }
 
-    return new Tile(cloneDeep(tile));
+    // return new Tile(cloneDeep(tile));
+    return TileFactory(cloneDeep(tile));
   }
 
 }
