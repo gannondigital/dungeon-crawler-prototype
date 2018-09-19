@@ -7,3 +7,7 @@ export const TileFactory = (tileProps) => {
   const monsters = getMonstersForTile(tileId);
   return new Tile({ monsters, ...tileProps});
 };
+
+function getMonstersForTile() {
+  
+}
