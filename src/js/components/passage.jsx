@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import cloneDeep from 'lodash.cloneDeep';
 
-import { tileStore } from '../stores/store-tile';
-import { setTile } from '../actions/actions-tile';
 import { levelStore } from '../stores/store-level';
 import { characterStore } from '../stores/store-character';
-import { setDirection } from '../actions/actions-character';
+import { setDirection, setTile } from '../actions/actions-character';
 import { Wall } from './wall';
 import { PassageControls } from './passage-controls';
 import { Tile } from '../models/model-tile';
@@ -47,20 +45,27 @@ export class Passage extends Component {
     this.moveAhead = this.moveAhead.bind(this);
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handleDirectionUpdate = this.handleDirectionUpdate.bind(this);
+    this.handleCharacterUpdate = this.handleCharacterUpdate.bind(this);
   }
 
   componentWillMount() {
-    tileStore.listen(this.handleTileUpdate);
-    characterStore.listen(this.handleDirectionUpdate);
+    levelStore.listen(this.handleTileUpdate);
+    characterStore.listen(this.handleCharacterUpdate);
   }
 
   componentWillUnmount() {
-    tileStore.stopListening(this.handleTileUpdate);
+    levelStore.stopListening(this.handleTileUpdate);
     characterStore.stopListening(this.handleDirectionUpdate);
   }
 
+  handleCharacterUpdate(){
+    this.handleDirectionUpdate();
+    this.handleTileUpdate();
+  }
+
   handleTileUpdate() {
-    const tile = this.props.tileFetcher();
+    const newTileName = characterStore.getCurrTileName();
+    const tile = this.props.tileFetcher(newTileName);
 
     this.setState((prevState, currProps) => {
       const newState = Object.assign(prevState, { tile });
@@ -125,6 +130,7 @@ export class Passage extends Component {
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
           rightClickHandler={this.turnRight} 
+          mapClickHandler={this.props.mapClickHandler}
         />
       </div>
     );
@@ -163,9 +169,8 @@ export class Passage extends Component {
     if (tile.hasExitAtWall(dir)) {
       const nextTileName = tile.getAdjacentTileName(dir);
       this.fadeOut().then(() => {
-        const nextTile = levelStore.getTile(nextTileName);
         console.log('setting new tile: ' + nextTileName);
-        setTile(nextTile);
+        setTile(nextTileName);
         this.fadeIn();
       });
     } else {

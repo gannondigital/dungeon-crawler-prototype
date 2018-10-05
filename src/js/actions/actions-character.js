@@ -14,3 +14,10 @@ export const setDirection = (dir) => {
     }
   });
 };
+
+export const setTile = (tileName) => {
+  dispatcher.dispatch({
+    type: constants.TILE_SET,
+    payload: { tileName }
+  });
+};
