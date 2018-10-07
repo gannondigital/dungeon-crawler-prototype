@@ -27,17 +27,23 @@ export class Passage extends Component {
   }
 
   static propTypes = {
-    initialTile: PropTypes.instanceOf(Tile).isRequired,
+    currTile: PropTypes.instanceOf(Tile).isRequired,
     tileFetcher: PropTypes.func,
     direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
     defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
   }
 
   constructor(props) {
-    super(props)
+    super(props);
+
+    const {
+      direction,
+      currTile
+    } = props;
+
     this.state = {
-      tile: props.initialTile,
-      direction: props.direction,
+      tile: currTile,
+      direction: direction,
       faded: false
     };
     this.turnLeft = this.turnLeft.bind(this);

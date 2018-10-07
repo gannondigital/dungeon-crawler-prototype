@@ -2,11 +2,12 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 
-
 import { Tile } from '../models/model-tile';
 import { Passage } from './passage';
 import { GameHeader } from './game-header';
 import { LevelMap } from './level-map';
+import { characterStore } from '../stores/store-character';
+import { levelStore } from '../stores/store-level';
 
 import '../../css/lib/base.scss';
 import '../../css/components/game-root.scss';
@@ -35,16 +36,26 @@ export class GameRoot extends Component {
   }
 
   render() {
+    const {
+      directionFetcher,
+      tileFetcher
+    } = this.props;
+    const currDir = characterStore.getDirection();
+    const currTileName = characterStore.getCurrTileName();
+    console.log('tilename:');
+    console.log(currTileName);
+    const currTile = levelStore.getTile(currTileName);
+    console.log(currTile);
+
     switch(this.state.uiState) {
       case 'passage':
         return (
           <div className='game-root'>
-            <GameHeader directionFetcher={this.props.directionFetcher} />
+            <GameHeader directionFetcher={directionFetcher} />
             <Passage 
-              initialTile={this.props.initialTile} 
-              direction={this.props.direction} 
-              tileFetcher={this.props.tileFetcher}
-              directionFetcher={this.props.directionFetcher} 
+              currTile={currTile} 
+              direction={currDir} 
+              tileFetcher={tileFetcher}
               mapClickHandler={this.handleMapBtnClick}
             />
           </div>
@@ -65,7 +76,6 @@ export class GameRoot extends Component {
 
 GameRoot.propTypes = {
   tile: PropTypes.instanceOf(Tile),
-  direction: PropTypes.oneOf(['n', 'e', 's', 'w']),
   tileFetcher: PropTypes.func,
   directionFetcher: PropTypes.func,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string)

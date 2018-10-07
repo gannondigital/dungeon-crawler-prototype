@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 
 // @todo inject the subscriber method directly?
-import { directionStore } from '../stores/store-direction.js';
+import { characterStore } from '../stores/store-character.js';
 import { Compass } from './compass';
 
 import '../../css/components/game-header.scss';
@@ -16,7 +16,7 @@ export class GameHeader extends Component {
       direction: currDirection
     };
 
-    directionStore.listen(this.handleDirectionUpdate.bind(this));
+    characterStore.listen(this.handleDirectionUpdate.bind(this));
   }
 
   handleDirectionUpdate() {

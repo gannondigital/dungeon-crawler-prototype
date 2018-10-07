@@ -6,7 +6,7 @@ import * as config from './js/config/config-default.json';
 import { loadLevel } from './js/actions/actions-level';
 import { setDirection } from './js/actions/actions-character';
 import { levelStore } from './js/stores/store-level';       
-import { directionStore } from './js/stores/store-direction';
+import { characterStore } from './js/stores/store-character';
 import { GameRoot } from './js/components/game-root';
 
 /** 
@@ -14,19 +14,12 @@ import { GameRoot } from './js/components/game-root';
  * @todo
  */
 
-const currDir = config.direction;
-setDirection(currDir);
-
 loadLevel(config.startLevel).then(() => {
-  const currTileName = levelStore.getStartTilename();
-  const currTile = levelStore.getTile(currTileName);
   
-  ReactDOM.render( React.createElement(GameRoot, { 
-    direction: currDir,
-    initialTile: currTile,
+  ReactDOM.render( React.createElement(GameRoot, {
     // tryin some dependency injection...
     tileFetcher: levelStore.getTile.bind(levelStore),
-    directionFetcher: directionStore.getDirection.bind(directionStore)
+    directionFetcher: characterStore.getDirection.bind(characterStore)
   }), document.querySelector(config.rootSelector) );
 }).catch((err) => {
   throw err;
