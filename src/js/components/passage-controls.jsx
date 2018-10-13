@@ -11,6 +11,7 @@ export const PassageControls = (props) => {
         <li className="passage_controls--listitem"><button className="button_forward" onClick={props.forwardClickHandler} /></li>
         <li className="passage_controls--listitem"><button className="button_right" onClick={props.rightClickHandler} /></li>
       </ul>
+      <button className="passage_controls--map--toggle" onClick={props.mapClickHandler}>Map</button>
     </nav>
   );
 };
@@ -18,5 +19,6 @@ export const PassageControls = (props) => {
 PassageControls.propTypes = {
   leftClickHandler: PropTypes.func,
   forwardClickHandler: PropTypes.func,
-  rightClickHandler: PropTypes.func
+  rightClickHandler: PropTypes.func,
+  mapClickHandler: PropTypes.func
 };
