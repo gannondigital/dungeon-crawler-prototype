@@ -13,7 +13,7 @@ Store.prototype.listen = function listen(cb) {
 	this.events.on(changeSlug, cb);
 };
 Store.prototype.stopListening = function stopListening(cb) {
-	this.events.off(changeSlug, cb);
+	this.events.removeListener(changeSlug, cb);
 };
 Store.prototype.triggerChange = function triggerChange() {
 	this.events.emit(changeSlug);

@@ -1,5 +1,4 @@
 {
 	"rootSelector": "#game-root-container",
-	"startLevel": "one",
-	"direction": "n"
+	"startLevel": "one"
 }
