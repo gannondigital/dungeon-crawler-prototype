@@ -35,7 +35,7 @@ export class LevelMap extends Component {
 
     const colArr = [];
     while (currCol <= this.props.columns) {
-      colArr.push(this.renderCol(currRow, currCol))
+      colArr.push(this.renderCol(currCol, currRow))
       currCol++;
     }
 

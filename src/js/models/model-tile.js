@@ -6,8 +6,15 @@ export class Tile {
     if (!validateTileProps(tileProps)) {
       throw new TypeError('Invalid tileProps passed to Tile constructor.');
     }
-    this.walls = tileProps.walls;
-    this.coords = tileProps.coords;
+
+    const { walls, coords } = tileProps;
+    this.walls = walls;
+    this.coords = coords;
+    this.name = nameFromCoords(coords);
+  }
+
+  getName() {
+    return this.name;
   }
 
   // assumes level data is valid, and there are no exits to nonexistent tiles
