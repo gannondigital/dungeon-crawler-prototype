@@ -63,7 +63,8 @@
             "shadow"
           ]
         }
-      }
+      },
+      "monsters": ["angry-goose"]
     },
     "1x3": {
       "coords": {"x": 1, "y": 3},

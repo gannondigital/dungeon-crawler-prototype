@@ -1,5 +1,8 @@
 {
 	"TILE_SET": "setTile",
 	"DIRECTION_SET": "setDirection",
-  "LEVEL_LOADED": "levelLoaded"
+  "LEVEL_LOADED": "levelLoaded",
+  "MONSTERS_LOADED": "monstersLoaded",
+  "START_COMBAT": "startCombat",
+  "END_COMBAT": "endCombat"
 }

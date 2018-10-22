@@ -5,8 +5,11 @@ import cloneDeep from 'lodash.cloneDeep';
 
 import { levelStore } from '../stores/store-level';
 import { characterStore } from '../stores/store-character';
+import { combatStore } from '../stores/store-combat';
 import { setDirection, setTile } from '../actions/actions-character';
+import { startCombat } from '../actions/actions-combat';
 import { Wall } from './wall';
+import { Monster } from './monster';
 import { PassageControls } from './passage-controls';
 import { Tile } from '../models/model-tile';
 import { getTilenameForDirection } from '../lib/util/get-tilename-for-direction';
@@ -44,7 +47,8 @@ export class Passage extends Component {
     this.state = {
       tile: currTile,
       direction: direction,
-      faded: false
+      faded: false,
+      inCombat: false
     };
     this.turnLeft = this.turnLeft.bind(this);
     this.turnRight = this.turnRight.bind(this);
@@ -52,11 +56,13 @@ export class Passage extends Component {
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handleDirectionUpdate = this.handleDirectionUpdate.bind(this);
     this.handleCharacterUpdate = this.handleCharacterUpdate.bind(this);
+    this.handleCombatUpdate = this.handleCombatUpdate.bind(this);
   }
 
   componentWillMount() {
     levelStore.listen(this.handleTileUpdate);
     characterStore.listen(this.handleCharacterUpdate);
+    combatStore.listen(this.handleCombatUpdate);
   }
 
   componentWillUnmount() {
@@ -84,6 +90,15 @@ export class Passage extends Component {
 
     this.setState((prevState, currProps) => {
       const newState = Object.assign(prevState, { direction });
+      return newState;
+    });
+  }
+
+  handleCombatUpdate() {
+    const inCombat = combatStore.isInCombat();
+
+    this.setState((prevState, currProps) => {
+      const newState = Object.assign(prevState, { inCombat });
       return newState;
     });
   }
@@ -121,8 +136,8 @@ export class Passage extends Component {
     };
 
     const monsters = tile.getMonsters() || null;
-    const monsterElems = monsters ? monsters.forEach((monster) => {
-      return (<Monster monster={monster} />);
+    const monsterElems = monsters.length ? monsters.map((monster) => {
+      return (<Monster monster={monster} key={monster.getName()} />);
     }) : null;
 
     return (
@@ -134,7 +149,7 @@ export class Passage extends Component {
             <Wall {...dataRightWall} />
             <Wall {...dataLeftWall} />
             <Wall {...dataAhead} />
-            { monsters }
+            { monsterElems }
           </div>
         </div>
         <div className={`passageoverlay${overlayClass}`} />
@@ -146,6 +161,14 @@ export class Passage extends Component {
         />
       </div>
     );
+  }
+
+  componentDidUpdate() {
+    const monsters = this.state.tile.getMonsters() || null;
+
+    if (monsters.length && !this.state.inCombat) {
+      startCombat(monsters);
+    }
   }
 
   turnRight() {
@@ -177,6 +200,11 @@ export class Passage extends Component {
     const dirsForWalls = getDirsForWalls(this.state.direction);
     const dir = dirsForWalls.ahead;
     const tile = this.state.tile;
+
+    if (this.state.inCombat) {
+      console.log('Can\'t get past without fighting!');
+      return;
+    }
 
     if (tile.hasExitAtWall(dir)) {
       const nextTileName = tile.getAdjacentTileName(dir);

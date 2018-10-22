@@ -10,10 +10,16 @@ class CharacterStore extends Store {
     this.data = {
       currLevel: 'one',
       currTileName: '1x1',
-      currDirection: 'n'
+      currDirection: 'n',
+      health: 0,
+      attributes: {
+        attackPercentage: 0,
+        evasion: 0,
+        damage: 0,
+        intelligence: 0,
+        stamina: 0
+      }
     };
-
-    //this.dispatchToken = dispatcher.register(this.handleDispatch.bind(this));
   }
 
   getDirection() {

@@ -1,0 +1,10 @@
+@import '../lib/mixins.scss';
+@import '../lib/vars.scss';
+
+.monster {
+  @include translateZ(-$wall_height);
+  
+  position:absolute;
+  text-align: center;
+  width: 480px;
+}
