@@ -11,6 +11,7 @@ import { startCombat } from '../actions/actions-combat';
 import { showGameMsg } from '../actions/actions-messages';
 import { Wall } from './wall';
 import { Monster } from './monster';
+import { CombatControls } from './combat-controls';
 import { PassageControls } from './passage-controls';
 import { Tile } from '../models/model-tile';
 import { getTilenameForDirection } from '../lib/util/get-tilename-for-direction';
@@ -106,7 +107,7 @@ export class Passage extends Component {
 
   render() {
     const dirsForWalls = getDirsForWalls(this.state.direction);
-    const tile = this.state.tile;
+    const { tile, inCombat } = this.state;
 
     if (!(tile instanceof Tile)) {
       console.log('Invalid Tile in Passage state.')
@@ -154,6 +155,7 @@ export class Passage extends Component {
           </div>
         </div>
         <div className={`passageoverlay${overlayClass}`} />
+        {inCombat && <CombatControls />}
         <PassageControls 
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
@@ -162,14 +164,6 @@ export class Passage extends Component {
         />
       </div>
     );
-  }
-
-  componentDidUpdate() {
-    const monsters = this.state.tile.getMonsters() || null;
-
-    if (monsters.length && !this.state.inCombat) {
-      startCombat(monsters);
-    }
   }
 
   turnRight() {

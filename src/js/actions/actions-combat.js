@@ -2,11 +2,17 @@
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions.json';
 
-export const startCombat = (opponents) => {
+export const startCombat = ({ 
+  opponents,
+  characterSurprised,
+  opponentsSurprised
+}) => {
   dispatcher.dispatch({
     type: constants.START_COMBAT,
     payload: {
-      opponents
+      opponents,
+      characterSurprised,
+      opponentsSurprised
     }
   });
 };

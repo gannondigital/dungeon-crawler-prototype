@@ -2,6 +2,7 @@
 
 // stats:
 //   health
+//   maxHealth
 // treasure:
 //   gold
 //   items
@@ -43,6 +44,11 @@ export class Monster {
 
   getName() {
     return this.meta.name;
+  }
+
+  takeDamage({dmg, dmgType}) {
+    this.stats.health = this.stats.health - dmg;
+    
   }
 
 }

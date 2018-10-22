@@ -10,7 +10,7 @@ class CombatStore extends Store {
     this.data = {
       characterSurprised: false,
       inCombat: false,
-      monsterSurprised: false,
+      opponentsSurprised: false,
       opponents: [],
       round: 0,
       currTurn: null,
@@ -28,10 +28,15 @@ export const combatStore = new CombatStore();
 combatStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
     case constants.START_COMBAT:
-      const { opponents } = action.payload;
+      const { 
+        opponents,
+        characterSurprised,
+        opponentsSurprised
+      } = action.payload;
       combatStore.data = Object.assign(combatStore.data, {
         inCombat: true,
-        opponents
+        characterSurprised,
+        opponentsSurprised
       });
       combatStore.triggerChange();
       break;
