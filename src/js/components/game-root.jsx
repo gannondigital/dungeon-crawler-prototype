@@ -1,13 +1,16 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 
 import { Tile } from '../models/model-tile';
 import { Passage } from './passage';
 import { GameHeader } from './game-header';
 import { LevelMap } from './level-map';
+import { GameMsg } from './game-msg';
+
 import { characterStore } from '../stores/store-character';
 import { levelStore } from '../stores/store-level';
+import { msgStore } from '../stores/store-messages';
 
 import '../../css/lib/base.scss';
 import '../../css/components/game-root.scss';
@@ -17,10 +20,12 @@ export class GameRoot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uiState: 'passage'
+      uiState: 'passage',
+      gameMsg: ''
     };
     this.handleMapBtnClick = this.handleMapBtnClick.bind(this);
     this.handleCloseBtnClick = this.handleCloseBtnClick.bind(this);
+    this.handleMsgUpdate = this.handleMsgUpdate.bind(this);
   }
 
   handleMapBtnClick() {
@@ -35,22 +40,25 @@ export class GameRoot extends Component {
     });
   }
 
+  componentWillMount() {
+    msgStore.listen(this.handleMsgUpdate);
+  }
+
   render() {
     const {
       directionFetcher,
       tileFetcher
     } = this.props;
+    const gameMsg = this.state.gameMsg;
     const currDir = characterStore.getDirection();
     const currTileName = characterStore.getCurrTileName();
-    console.log('tilename:');
-    console.log(currTileName);
     const currTile = levelStore.getTile(currTileName);
-    console.log(currTile);
 
+    let gameContent = null;
     switch(this.state.uiState) {
       case 'passage':
-        return (
-          <div className='game-root'>
+        gameContent = (
+          <Fragment>
             <GameHeader directionFetcher={directionFetcher} />
             <Passage 
               currTile={currTile} 
@@ -58,19 +66,35 @@ export class GameRoot extends Component {
               tileFetcher={tileFetcher}
               mapClickHandler={this.handleMapBtnClick}
             />
-          </div>
+          </Fragment>
         );
+        break;
       case 'map':
-        return (
-          <div className='game-root'>
+        gameContent = (
+          <Fragment>
             <LevelMap 
               rows={20} 
               columns={20}
               closeClickHandler={this.handleCloseBtnClick}
             />
-          </div>
+          </Fragment>
         );
+        break;
+      default:
+        throw new TypeError('Invalid UI state in GameRoot');
     }
+
+    return (
+      <div className='game-root'>
+        { gameMsg && <GameMsg msgText={gameMsg} />}
+        { gameContent }
+      </div>
+    );
+  }
+
+  handleMsgUpdate() {
+    const msgText = msgStore.getCurrMsgText();
+    this.setState({gameMsg: msgText});
   }
 }
 

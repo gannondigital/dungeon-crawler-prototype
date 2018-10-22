@@ -4,5 +4,7 @@
   "LEVEL_LOADED": "levelLoaded",
   "MONSTERS_LOADED": "monstersLoaded",
   "START_COMBAT": "startCombat",
-  "END_COMBAT": "endCombat"
+  "END_COMBAT": "endCombat",
+  "SHOW_GAME_MSG": "showGameMsg",
+  "REMOVE_GAME_MSG": "removeGameMsg"
 }

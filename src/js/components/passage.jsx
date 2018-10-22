@@ -8,6 +8,7 @@ import { characterStore } from '../stores/store-character';
 import { combatStore } from '../stores/store-combat';
 import { setDirection, setTile } from '../actions/actions-character';
 import { startCombat } from '../actions/actions-combat';
+import { showGameMsg } from '../actions/actions-messages';
 import { Wall } from './wall';
 import { Monster } from './monster';
 import { PassageControls } from './passage-controls';
@@ -202,7 +203,7 @@ export class Passage extends Component {
     const tile = this.state.tile;
 
     if (this.state.inCombat) {
-      console.log('Can\'t get past without fighting!');
+      showGameMsg('Can\'t get past without fighting!');
       return;
     }
 
