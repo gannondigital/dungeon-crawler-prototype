@@ -3,5 +3,7 @@
     "@babel/preset-env",
     "@babel/preset-react",
     "@babel/preset-stage-3",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }
