@@ -5,6 +5,7 @@
   "MONSTERS_LOADED": "monstersLoaded",
   "START_COMBAT": "startCombat",
   "END_COMBAT": "endCombat",
+  "COMBAT_ATTACK": "combatAttack",
   "SHOW_GAME_MSG": "showGameMsg",
   "REMOVE_GAME_MSG": "removeGameMsg"
 }

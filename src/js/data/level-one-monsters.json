@@ -2,8 +2,21 @@
   "angry-goose": {
     "meta": {
       "name": "angry-goose",
-      "label": "Angry Goose"
+      "label": "Angry Goose",
+      "type": [],
+      "lore": "Qwek qwek qwek"
+    },
+    "stats": {
+      "maxHealth": 20
+    },
+    "treasure": {
+      "items": []
+    },
+    "attacks": {
+      "hitVal": 4,
+      "damage": 6,
+      "stamina": 3,
+      "evasion": 8
     }
-    
   }
 }

@@ -22,3 +22,15 @@ export const endCombat = () => {
     type: constants.END_COMBAT
   });
 };
+
+export const attack = ({
+  dmg,
+  hitValue
+}) => {
+  dispatcher.dispatch({
+    type: constants.COMBAT_ATTACK,
+    payload: {
+      hitValue
+    }
+  });
+};

@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash.cloneDeep';
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
@@ -13,7 +14,7 @@ class CombatStore extends Store {
       opponentsSurprised: false,
       opponents: [],
       round: 0,
-      currTurn: null,
+      hasCurrTurn: null, // opponent obj, or string 'character'
     };
   }
 
@@ -21,8 +22,15 @@ class CombatStore extends Store {
     return this.data.inCombat;
   }
 
-}
+  areOpponentsDefeated() {
+    const remainingOpponents = this.data.opponents.filter((opponent) => {
+      return !(opponent.isDefeated());
+    });
 
+    return !(remainingOpponents.length);
+  }
+
+}
 export const combatStore = new CombatStore();
 
 combatStore.dispatchToken = dispatcher.register((action) => {
@@ -33,11 +41,21 @@ combatStore.dispatchToken = dispatcher.register((action) => {
         characterSurprised,
         opponentsSurprised
       } = action.payload;
+
       combatStore.data = Object.assign(combatStore.data, {
         inCombat: true,
         characterSurprised,
         opponentsSurprised
       });
+
+      // set up opponents
+      combatStore.data.opponents = cloneDeep(opponents);
+
+      // set up rounds/turns
+      combatStore.data.round = 1;
+      // @todo handle initiative/surprise
+      combatStore.data.hasCurrTurn = 'character';
+
       combatStore.triggerChange();
       break;
     case constants.END_COMBAT:
@@ -45,6 +63,20 @@ combatStore.dispatchToken = dispatcher.register((action) => {
         inCombat: false
       });
       combatStore.triggerChange();
+      break;
+    case constants.COMBAT_ATTACK: 
+      const {
+        dmg,
+        hitValue
+      } = action.payload;
+      // @todo support multiple opponents
+      const opponent = combatStore.data.opponents[0];
+      opponent.takeDamage({ dmg });
+      const opponentsDefeated = combatStore.areOpponentsDefeated();
+      if (opponentsDefeated) {
+        // @todo
+      }
+
       break;
     default:
       break;

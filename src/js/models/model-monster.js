@@ -1,5 +1,7 @@
 
 
+// status:
+//   isDefeated
 // stats:
 //   health
 //   maxHealth
@@ -36,6 +38,9 @@ export class Monster {
     this.treasure = props.treasure;
     this.attacks = props.attacks;
     this.meta = props.meta;
+    this.status = {
+      isDefeated: false
+    };
   }
 
   getImageUrl() {
@@ -48,7 +53,16 @@ export class Monster {
 
   takeDamage({dmg, dmgType}) {
     this.stats.health = this.stats.health - dmg;
-    
+    if (this.stats.health < 0) {
+      this.stats.health = 0;
+    }
+    if (this.stats.health === 0) {
+      this.status.isDefeated = true;
+    }
+  }
+
+  isDefeated() {
+    return this.status.isDefeated;
   }
 
 }

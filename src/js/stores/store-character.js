@@ -13,7 +13,7 @@ class CharacterStore extends Store {
       currDirection: 'n',
       health: 0,
       attributes: {
-        attackPercentage: 0,
+        hit: 0,
         evasion: 0,
         damage: 0,
         intelligence: 0,
@@ -28,6 +28,18 @@ class CharacterStore extends Store {
 
   getCurrTileName() {
     return this.data.currTileName;
+  }
+
+  getHitVal() {
+    return this.data.attributes.hit;
+  }
+
+  getDmgVal() {
+    return this.data.attributes.damage;
+  }
+
+  getIntVal() {
+    return this.data.attributes.intelligence;
   }
 
 }

@@ -22,7 +22,7 @@ export const setTile = (tileName) => {
 
   const monsters = tile.getMonsters();
   if (monsters.length) {
-    startCombat({ monsters });
+    startCombat({ opponents: monsters });
   }
 
   dispatcher.dispatch({
