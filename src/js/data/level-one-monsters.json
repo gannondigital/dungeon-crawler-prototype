@@ -9,9 +9,7 @@
     "stats": {
       "maxHealth": 20
     },
-    "treasure": {
-      "items": []
-    },
+    "treasure": [],
     "attacks": {
       "hitVal": 4,
       "damage": 6,

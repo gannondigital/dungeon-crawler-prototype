@@ -65,6 +65,10 @@ export class Monster {
     return this.status.isDefeated;
   }
 
+  getTreasure() {
+    return this.treasure;
+  }
+
 }
 
 function validateProps(monsterProps) {

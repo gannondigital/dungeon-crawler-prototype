@@ -49,7 +49,7 @@ export class GameRoot extends Component {
       directionFetcher,
       tileFetcher
     } = this.props;
-    const gameMsg = this.state.gameMsg;
+    const gameMsgs = this.state.gameMsgs;
     const currDir = characterStore.getDirection();
     const currTileName = characterStore.getCurrTileName();
     const currTile = levelStore.getTile(currTileName);
@@ -86,15 +86,15 @@ export class GameRoot extends Component {
 
     return (
       <div className='game-root'>
-        { gameMsg && <GameMsg msgText={gameMsg} />}
+        { gameMsgs && <GameMsg msgs={gameMsgs} />}
         { gameContent }
       </div>
     );
   }
 
   handleMsgUpdate() {
-    const msgText = msgStore.getCurrMsgText();
-    this.setState({gameMsg: msgText});
+    const msgs = msgStore.getCurrMsgs();
+    this.setState({ gameMsgs: msgs });
   }
 }
 

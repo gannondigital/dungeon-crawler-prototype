@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash.cloneDeep';
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
@@ -8,13 +9,13 @@ class MessageStore extends Store {
   constructor() {
     super();
     this.data = {
-      msgText: '',
+      msgs: [],
       showingMsg: false
     };
   }
 
-  getCurrMsgText() {
-    return this.data.msgText;
+  getCurrMsgs() {
+    return cloneDeep(this.data.msgs);
   }
 
 }
@@ -24,16 +25,16 @@ export const msgStore = new MessageStore();
 msgStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
     case constants.SHOW_GAME_MSG:
-      const { msgText } = action.payload;
+      const { msgArr } = action.payload;
       msgStore.data = Object.assign(msgStore.data, {
-        msgText,
+        msgs: msgArr,
         showingMsg: true
       });
       msgStore.triggerChange();
       break;
     case constants.REMOVE_GAME_MSG:
       msgStore.data = {
-        msgText: '',
+        msgs: [],
         showingMsg: false
       };
       msgStore.triggerChange();

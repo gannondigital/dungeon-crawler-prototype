@@ -2,11 +2,11 @@ import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions.json';
 import * as gameConfig from '../config/config-default.json';
 
-export const showGameMsg = (msgText) => {
+export const showGameMsg = (msgArr) => {
   dispatcher.dispatch({
     type: constants.SHOW_GAME_MSG,
     payload: {
-      msgText
+      msgArr
     }
   });
   setTimeout(removeGameMsg, gameConfig.msgSpeed)

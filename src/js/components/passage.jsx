@@ -197,7 +197,7 @@ export class Passage extends Component {
     const tile = this.state.tile;
 
     if (this.state.inCombat) {
-      showGameMsg('Can\'t get past without fighting!');
+      showGameMsg(['Can\'t get past without fighting!']);
       return;
     }
 

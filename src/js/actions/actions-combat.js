@@ -33,4 +33,13 @@ export const attack = ({
       hitValue
     }
   });
+
+  if (combatStore.areOpponentsDefeated()) {
+    dispatcher.dispatch({
+      type: constants.COMBAT_OPPONENTS_DEFEATED,
+      payload: {
+        hitValue
+      }
+    });
+  }
 };

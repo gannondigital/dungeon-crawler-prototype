@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { attack } from '../actions/actions-combat';
 import { characterStore } from '../stores/store-character';
 //import { inventoryStore } from '../stores/store-inventory';
+import { combatStore } from '../stores/store-combat';
 
 export class CombatControls extends Component {
 
@@ -35,6 +36,7 @@ export class CombatControls extends Component {
       dmg,
       hitValue
     });
+    
   }
 
   handleCharacterUpdate() {

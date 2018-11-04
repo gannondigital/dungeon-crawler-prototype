@@ -2,6 +2,7 @@ import cloneDeep from 'lodash.cloneDeep';
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
+import { disburseTreasure } from '../lib/combat';
 import * as constants from '../config/constants-actions';
 
 class CombatStore extends Store {
@@ -28,6 +29,14 @@ class CombatStore extends Store {
     });
 
     return !(remainingOpponents.length);
+  }
+
+  getTreasure() {
+    const totalTreasure = this.data.opponents.map((opponent) => {
+      return opponent.getTreasure();
+    });
+
+    return totalTreasure;
   }
 
 }
@@ -71,12 +80,14 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       } = action.payload;
       // @todo support multiple opponents
       const opponent = combatStore.data.opponents[0];
+      // @todo hit
+      
       opponent.takeDamage({ dmg });
-      const opponentsDefeated = combatStore.areOpponentsDefeated();
-      if (opponentsDefeated) {
-        // @todo
-      }
-
+      combatStore.triggerChange();
+      break;
+    case constants.COMBAT_OPPONENTS_DEFEATED:
+      const treasure = combatStore.getTreasure();
+      disburseTreasure(treasure);
       break;
     default:
       break;

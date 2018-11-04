@@ -6,6 +6,8 @@
   "START_COMBAT": "startCombat",
   "END_COMBAT": "endCombat",
   "COMBAT_ATTACK": "combatAttack",
+  "COMBAT_OPPONENTS_DEFEATED": "combatOpponentsDefeated",
   "SHOW_GAME_MSG": "showGameMsg",
-  "REMOVE_GAME_MSG": "removeGameMsg"
+  "REMOVE_GAME_MSG": "removeGameMsg",
+  "INVENTORY_ADD_ITEMS": "inventoryAddItems"
 }
