@@ -8,6 +8,7 @@ import { loadMonsters } from './js/actions/actions-monsters';
 import { setDirection } from './js/actions/actions-character';
 import { levelStore } from './js/stores/store-level';       
 import { characterStore } from './js/stores/store-character';
+import { playHistoryStore } from './js/stores/store-play-history';
 import { GameRoot } from './js/components/game-root';
 
 /** 

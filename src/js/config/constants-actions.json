@@ -5,9 +5,10 @@
   "MONSTERS_LOADED": "monstersLoaded",
   "START_COMBAT": "startCombat",
   "END_COMBAT": "endCombat",
-  "COMBAT_ATTACK": "combatAttack",
+  "COMBAT_DAMAGE": "combatDamage",
   "COMBAT_OPPONENTS_DEFEATED": "combatOpponentsDefeated",
   "SHOW_GAME_MSG": "showGameMsg",
   "REMOVE_GAME_MSG": "removeGameMsg",
-  "INVENTORY_ADD_ITEMS": "inventoryAddItems"
+  "INVENTORY_ADD_ITEMS": "inventoryAddItems",
+  "ADD_TO_RECORD": "addToRecord"
 }

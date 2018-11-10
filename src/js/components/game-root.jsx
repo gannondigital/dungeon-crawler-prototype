@@ -21,7 +21,7 @@ export class GameRoot extends Component {
     super(props);
     this.state = {
       uiState: 'passage',
-      gameMsg: ''
+      gameMsgs: []
     };
     this.handleMapBtnClick = this.handleMapBtnClick.bind(this);
     this.handleCloseBtnClick = this.handleCloseBtnClick.bind(this);

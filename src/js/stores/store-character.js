@@ -13,9 +13,9 @@ class CharacterStore extends Store {
       currDirection: 'n',
       health: 0,
       attributes: {
-        hit: 0,
+        hit: 1,
         evasion: 0,
-        damage: 0,
+        damage: 1,
         intelligence: 0,
         stamina: 0
       }

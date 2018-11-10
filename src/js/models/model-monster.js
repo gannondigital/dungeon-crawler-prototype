@@ -35,6 +35,8 @@ export class Monster {
 
   initialize(props) {
     this.stats = props.stats;
+    // allow initial health to be the default max
+    this.stats.health = this.stats.health || this.stats.maxHealth;
     this.treasure = props.treasure;
     this.attacks = props.attacks;
     this.meta = props.meta;
@@ -51,7 +53,9 @@ export class Monster {
     return this.meta.name;
   }
 
-  takeDamage({dmg, dmgType}) {
+  takeDamage(damage) {
+    const { dmg, type } = damage;
+
     this.stats.health = this.stats.health - dmg;
     if (this.stats.health < 0) {
       this.stats.health = 0;

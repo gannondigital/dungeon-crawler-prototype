@@ -21,6 +21,7 @@ export class CombatControls extends Component {
   }
 
   componentWillMount() {
+    this.handleCharacterUpdate()
     characterStore.listen(this.handleCharacterUpdate);
     //inventoryStore.listen(this.handleInventoryUpdate);
   }
@@ -33,7 +34,10 @@ export class CombatControls extends Component {
   handleAttackClick() {
     const { dmg, hitValue } = this.state;
     attack({
-      dmg,
+      dmg: {
+        type: 'normal',
+        dmg
+      },
       hitValue
     });
     

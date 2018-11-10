@@ -6,9 +6,12 @@ import cloneDeep from 'lodash.cloneDeep';
 import { levelStore } from '../stores/store-level';
 import { characterStore } from '../stores/store-character';
 import { combatStore } from '../stores/store-combat';
+import { playHistoryStore } from '../stores/store-play-history';
+
 import { setDirection, setTile } from '../actions/actions-character';
 import { startCombat } from '../actions/actions-combat';
 import { showGameMsg } from '../actions/actions-messages';
+
 import { Wall } from './wall';
 import { Monster } from './monster';
 import { CombatControls } from './combat-controls';
@@ -108,6 +111,7 @@ export class Passage extends Component {
   render() {
     const dirsForWalls = getDirsForWalls(this.state.direction);
     const { tile, inCombat } = this.state;
+    const currTilename = this.state.tile.getName();
 
     if (!(tile instanceof Tile)) {
       console.log('Invalid Tile in Passage state.')
@@ -137,10 +141,15 @@ export class Passage extends Component {
       surfaces: tile.getSurfacesForWall(dirsForWalls.ahead)
     };
 
-    const monsters = tile.getMonsters() || null;
-    const monsterElems = monsters.length ? monsters.map((monster) => {
-      return (<Monster monster={monster} key={monster.getName()} />);
-    }) : null;
+    let monsterElems = null;
+    const monsters = tile.getMonsters() || [];
+    const thereAreMonsters = monsters.length && 
+      !playHistoryStore.getTileEvent(currTilename, 'opponentsDefeated'); 
+    if(thereAreMonsters) {
+      monsterElems = monsters.map((monster) => {
+        return (<Monster monster={monster} key={monster.getName()} />);
+      });
+    }
 
     return (
       <div className="passageroot">
@@ -197,7 +206,7 @@ export class Passage extends Component {
     const tile = this.state.tile;
 
     if (this.state.inCombat) {
-      showGameMsg(['Can\'t get past without fighting!']);
+      showGameMsg('Can\'t get past without fighting!');
       return;
     }
 

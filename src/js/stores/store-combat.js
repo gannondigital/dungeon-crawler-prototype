@@ -2,7 +2,6 @@ import cloneDeep from 'lodash.cloneDeep';
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
-import { disburseTreasure } from '../lib/combat';
 import * as constants from '../config/constants-actions';
 
 class CombatStore extends Store {
@@ -67,27 +66,31 @@ combatStore.dispatchToken = dispatcher.register((action) => {
 
       combatStore.triggerChange();
       break;
+
     case constants.END_COMBAT:
       combatStore.data = Object.assign(combatStore.data, {
         inCombat: false
       });
       combatStore.triggerChange();
       break;
-    case constants.COMBAT_ATTACK: 
+
+    case constants.COMBAT_DAMAGE: 
       const {
         dmg,
         hitValue
       } = action.payload;
+
+      if (!dmg || !hitValue) {
+        throw new ReferenceError('dmg or hit value missing in COMBAT_DAMAGE action');
+      }
       // @todo support multiple opponents
       const opponent = combatStore.data.opponents[0];
-      // @todo hit
-      
-      opponent.takeDamage({ dmg });
+      opponent.takeDamage(dmg);
+
       combatStore.triggerChange();
       break;
     case constants.COMBAT_OPPONENTS_DEFEATED:
-      const treasure = combatStore.getTreasure();
-      disburseTreasure(treasure);
+      
       break;
     default:
       break;

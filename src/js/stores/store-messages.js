@@ -25,11 +25,10 @@ export const msgStore = new MessageStore();
 msgStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
     case constants.SHOW_GAME_MSG:
-      const { msgArr } = action.payload;
-      msgStore.data = Object.assign(msgStore.data, {
-        msgs: msgArr,
-        showingMsg: true
-      });
+      const { msgText } = action.payload;
+      const currMsgs = msgStore.data.msgs;
+      currMsgs.push(msgText);
+      msgStore.data.showingMsg = true;
       msgStore.triggerChange();
       break;
     case constants.REMOVE_GAME_MSG:
