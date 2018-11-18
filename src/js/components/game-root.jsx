@@ -7,6 +7,7 @@ import { Passage } from './passage';
 import { GameHeader } from './game-header';
 import { LevelMap } from './level-map';
 import { GameMsg } from './game-msg';
+import { Inventory } from './inventory';
 
 import { characterStore } from '../stores/store-character';
 import { levelStore } from '../stores/store-level';
@@ -23,22 +24,30 @@ export class GameRoot extends Component {
       uiState: 'passage',
       gameMsgs: []
     };
-    this.handleMapBtnClick = this.handleMapBtnClick.bind(this);
-    this.handleCloseBtnClick = this.handleCloseBtnClick.bind(this);
-    this.handleMsgUpdate = this.handleMsgUpdate.bind(this);
   }
 
-  handleMapBtnClick() {
+  handleMapBtnClick = () => {
     this.setState({
       uiState: 'map'
     });
-  }
+  };
 
-  handleCloseBtnClick() {
+  handleCloseBtnClick = () => {
     this.setState({
       uiState: 'passage'
     });
-  }
+  };
+
+  handleMsgUpdate = () => {
+    const msgs = msgStore.getCurrMsgs();
+    this.setState({ gameMsgs: msgs });
+  };
+
+  handleInventoryClick = () => {
+    this.setState({
+      uiState: 'inventory'
+    });
+  };
 
   componentWillMount() {
     msgStore.listen(this.handleMsgUpdate);
@@ -65,6 +74,7 @@ export class GameRoot extends Component {
               direction={currDir} 
               tileFetcher={tileFetcher}
               mapClickHandler={this.handleMapBtnClick}
+              inventoryClickHandler={this.handleInventoryClick}
             />
           </Fragment>
         );
@@ -80,6 +90,15 @@ export class GameRoot extends Component {
           </Fragment>
         );
         break;
+      case 'inventory':
+        gameContent = (
+          <Fragment>
+            <Inventory
+              closeClickHandler={this.handleCloseBtnClick}
+            />
+          </Fragment>
+        );
+        break;
       default:
         throw new TypeError('Invalid UI state in GameRoot');
     }
@@ -90,11 +109,6 @@ export class GameRoot extends Component {
         { gameContent }
       </div>
     );
-  }
-
-  handleMsgUpdate() {
-    const msgs = msgStore.getCurrMsgs();
-    this.setState({ gameMsgs: msgs });
   }
 }
 

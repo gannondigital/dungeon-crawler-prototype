@@ -60,19 +60,6 @@ class LevelStore extends Store {
     return TileFactory(cloneDeep(tile));
   }
 
-  getMapTile(tileName) {
-    if (!tileName || typeof tileName !== 'string') {
-      throw new TypeError('invalid tileName passed to getMapTile.');
-    }
-
-    const tile = this.data.tiles[tileName];
-    if (typeof tile === 'undefined') {
-      throw new ReferenceError(`Could not find tile ${tileName}`);
-    }
-
-    return new MapTile(cloneDeep(tile));
-  }
-
 }
 
 export const levelStore = new LevelStore();
