@@ -8,11 +8,13 @@ export const GameMsg = (props) => {
   let msgComponents = null;
   if (msgs && typeof msgs === 'object' && msgs.length) {
     msgComponents = msgs.map((msg) => {
-      return (<p className="game-msg--text" key={msg}>{msg}</p>);
+      return (<p key={msg}>{msg}</p>);
     });
   }
 
   return (
-    msgComponents
+    <div className="game-msg--text">
+      { msgComponents }
+    </div>
   );
 };

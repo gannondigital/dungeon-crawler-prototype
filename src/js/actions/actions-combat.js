@@ -61,14 +61,7 @@ export const attack = ({
       }
     });
 
-    dispatcher.dispatch({
-      type: constants.SHOW_GAME_MSG,
-      payload: {
-        msgArr: [
-          'Opponents defeated!'
-        ]
-      }
-    });
+    showGameMsg('Opponents defeated!');
 
     dispatcher.dispatch({
       type: constants.END_COMBAT,
