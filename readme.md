@@ -12,19 +12,17 @@ This prototype uses a simple Flux pattern, extending Facebook's Flux package, wi
 
 ## Current State and Next Steps
 
-The 'game' isn't very interesting just yet. You can change direction and move through passages and into a single room that has been built out. There's a compass that points 'north' (your starting direction) to help you stay oriented.
+The engine is populated with a couple of passages and rooms. You can change direction and move through passages; there's a compass that points 'north' (your starting direction) to help you stay oriented. There's also a simple map view. You can encounter a monster, and attack and defeat it.
 
 Next steps would include:
 * increased test coverage, streamline test runner (it currently writes built assets to disk when compiling the tests, which is unnecessary)
 * additional assets, such as varied wall textures, doors, monsters, etc.
-* support for rendering monsters and objects within a tile
-* support for a map view
 * support for player character info screen (stats, inventory, etc.)
-* combat rules!
+* proper combat
 * soundtrack and sound effects
 
 ## Play online!
-See the prototype in action at http://gannondigital.github.io/dungeon-crawler-prototype/. Again, not super interesting from a gameplay POV. 
+See the prototype in action at http://gannondigital.github.io/dungeon-crawler-prototype/. 
 
 ## License
 
