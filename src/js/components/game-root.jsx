@@ -68,6 +68,7 @@ export class GameRoot extends Component {
       case 'passage':
         gameContent = (
           <Fragment>
+            { gameMsgs && <GameMsg msgs={gameMsgs} />}
             <GameHeader directionFetcher={directionFetcher} />
             <Passage 
               currTile={currTile} 
@@ -105,7 +106,6 @@ export class GameRoot extends Component {
 
     return (
       <div className='game-root'>
-        { gameMsgs && <GameMsg msgs={gameMsgs} />}
         { gameContent }
       </div>
     );

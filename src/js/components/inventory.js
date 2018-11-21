@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Item } from '../models/item';
+import { Item } from '../models/model-item';
 import { ItemTile } from './item-tile';
 
 // @todo if we have more item roles, abstract out the roles
