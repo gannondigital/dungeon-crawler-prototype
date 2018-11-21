@@ -1,7 +1,7 @@
 import { default as tape } from 'tape';
 
 // under test
-import { Tile } from '../../../src/js/models/model-tile';
+import { Tile, isValidMonsterProps } from '../../../src/js/models/model-tile';
 
 const validWalls = {
   'n': {},
@@ -122,6 +122,15 @@ tape('Tile getAdjacentTileName returns correct name', (t) => {
     tile.getAdjacentTileName('foo');
   }, 'throws an exception when given an invalid direction');
 
+  t.end();
+});
+
+tape('Tile\'s isValidMonsterProps', (t) => {
+  t.equals(isValidMonsterProps(), true, 'allows missing prop');
+  t.equals(isValidMonsterProps(['kobold', 'shadow demon']), true, 'validates on happy path');
+  t.equals(isValidMonsterProps(['dragon', 345]), false, 'rejects numbers');
+  t.equals(isValidMonsterProps(['orc', {'dragon': 'woo'}]), false, 'rejects objs');
+  t.equals(isValidMonsterProps(['angry goose', ['goblin', 'roc']]), false, 'rejects nested arrays');
   t.end();
 });
 

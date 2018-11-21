@@ -10,10 +10,16 @@ class CharacterStore extends Store {
     this.data = {
       currLevel: 'one',
       currTileName: '1x1',
-      currDirection: 'n'
+      currDirection: 'n',
+      health: 0,
+      attributes: {
+        hit: 1,
+        evasion: 0,
+        damage: 1,
+        intelligence: 0,
+        stamina: 0
+      }
     };
-
-    //this.dispatchToken = dispatcher.register(this.handleDispatch.bind(this));
   }
 
   getDirection() {
@@ -22,6 +28,18 @@ class CharacterStore extends Store {
 
   getCurrTileName() {
     return this.data.currTileName;
+  }
+
+  getHitVal() {
+    return this.data.attributes.hit;
+  }
+
+  getDmgVal() {
+    return this.data.attributes.damage;
+  }
+
+  getIntVal() {
+    return this.data.attributes.intelligence;
   }
 
 }

@@ -1,6 +1,8 @@
 
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions.json';
+import { levelStore } from '../stores/store-level';
+import { startCombat } from '../actions/actions-combat';
 
 export const setDirection = (dir) => {
   if (!dir || typeof dir !== 'string') {
@@ -16,6 +18,13 @@ export const setDirection = (dir) => {
 };
 
 export const setTile = (tileName) => {
+  const tile = levelStore.getTile(tileName);
+
+  const monsters = tile.getMonsters();
+  if (monsters.length) {
+    startCombat({ opponents: monsters });
+  }
+
   dispatcher.dispatch({
     type: constants.TILE_SET,
     payload: { tileName }

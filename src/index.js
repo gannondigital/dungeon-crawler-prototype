@@ -4,9 +4,11 @@ import ReactDOM from 'react-dom';
 
 import * as config from './js/config/config-default.json';
 import { loadLevel } from './js/actions/actions-level';
+import { loadMonsters } from './js/actions/actions-monsters';
 import { setDirection } from './js/actions/actions-character';
 import { levelStore } from './js/stores/store-level';       
 import { characterStore } from './js/stores/store-character';
+import { playHistoryStore } from './js/stores/store-play-history';
 import { GameRoot } from './js/components/game-root';
 
 /** 
@@ -15,7 +17,8 @@ import { GameRoot } from './js/components/game-root';
  */
 
 loadLevel(config.startLevel).then(() => {
-  
+  return loadMonsters(config.startLevel);
+}).then(() => {
   ReactDOM.render( React.createElement(GameRoot, {
     // tryin some dependency injection...
     tileFetcher: levelStore.getTile.bind(levelStore),

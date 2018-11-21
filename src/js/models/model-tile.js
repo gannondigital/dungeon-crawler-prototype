@@ -1,5 +1,7 @@
 import cloneDeep from 'lodash.cloneDeep';
 
+import { Monster } from './model-monster.js';
+
 export class Tile {
 
   constructor(tileProps) {
@@ -7,10 +9,11 @@ export class Tile {
       throw new TypeError('Invalid tileProps passed to Tile constructor.');
     }
 
-    const { walls, coords } = tileProps;
+    const { walls, coords, monsters } = tileProps;
     this.walls = walls;
     this.coords = coords;
     this.name = nameFromCoords(coords);
+    this.monsters = monsters;
   }
 
   getName() {
@@ -58,6 +61,10 @@ export class Tile {
     return !!wall.exit;
   }
 
+  getMonsters() {
+    return cloneDeep(this.monsters);
+  }
+
 }
 
 const nameFromCoords = (coords) => {
@@ -67,6 +74,7 @@ const nameFromCoords = (coords) => {
 const validateTileProps = (tileProps) => {
   let isValid = isValidWallProps(tileProps.walls);
   isValid = isValid && isValidCoords(tileProps.coords);
+  isValid = isValid && isValidMonsterProps(tileProps.monsters);
   return isValid;
 };
 
@@ -94,3 +102,17 @@ const isValidWallProps = (walls) => {
   }, 'n');
   return hasCorrectKeys;
 };
+
+export const isValidMonsterProps = (monsterProps) => {
+  if (typeof monsterProps === 'undefined') {
+    return true; // allow absent monsters prop
+  }
+
+  if (!(monsterProps instanceof Array)) {
+    return false;
+  }
+  return monsterProps.reduce((accum, monster) => {
+    return accum && !!(monster instanceof Monster);
+  }, true);
+};
+

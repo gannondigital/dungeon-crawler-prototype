@@ -4,6 +4,7 @@ import { default as cloneDeep } from 'lodash.cloneDeep';
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
+import { TileFactory } from '../lib/tile-factory';
 import { Tile } from '../models/model-tile';
 import { MapTile } from '../models/model-map-tile';
 
@@ -55,20 +56,8 @@ class LevelStore extends Store {
       throw new ReferenceError(`Could not find tile ${tileName}`);
     }
 
-    return new Tile(cloneDeep(tile));
-  }
-
-  getMapTile(tileName) {
-    if (!tileName || typeof tileName !== 'string') {
-      throw new TypeError('invalid tileName passed to getMapTile.');
-    }
-
-    const tile = this.data.tiles[tileName];
-    if (typeof tile === 'undefined') {
-      throw new ReferenceError(`Could not find tile ${tileName}`);
-    }
-
-    return new MapTile(cloneDeep(tile));
+    // return new Tile(cloneDeep(tile));
+    return TileFactory(cloneDeep(tile));
   }
 
 }
