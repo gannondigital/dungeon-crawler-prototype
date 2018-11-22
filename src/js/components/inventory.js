@@ -32,6 +32,7 @@ export class Inventory extends Component {
 
     return (
       <div class="inventory">
+        <button onClick={this.props.closeClickHandler}>Back</button>
         <div class="inventory--tabs">
           <button>Arms & Armor</button>
           <button>Items</button>
