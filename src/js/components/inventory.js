@@ -49,6 +49,10 @@ Inventory.propTypes = {
   items: PropTypes.arrayOf(Item),
 };
 
+Inventory.defaultProps = {
+  items: []
+};
+
 const sortItems = (items) => {
   const sorted = {
     armsAndArmor: [],

@@ -27,20 +27,6 @@ import '../../css/components/passage';
 
 export class Passage extends Component {
 
-  static defaultProps = {
-    defaultSurfaces: [
-      'stonebrick',
-      'shadow'
-    ]
-  }
-
-  static propTypes = {
-    currTile: PropTypes.instanceOf(Tile).isRequired,
-    tileFetcher: PropTypes.func,
-    direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
-    defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
-  }
-
   constructor(props) {
     super(props);
 
@@ -168,6 +154,7 @@ export class Passage extends Component {
         <PassageControls 
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
+          inventoryClickHandler={this.props.inventoryClickHandler}
           rightClickHandler={this.turnRight} 
           mapClickHandler={this.props.mapClickHandler}
         />
@@ -246,6 +233,22 @@ export class Passage extends Component {
   }
 
 }
+
+Passage.propTypes = {
+  currTile: PropTypes.instanceOf(Tile).isRequired,
+  direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
+  defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
+  inventoryClickHandler: PropTypes.func,
+  mapClickHandler: PropTypes.func,
+  tileFetcher: PropTypes.func
+};
+
+Passage.defaultProps = {
+  defaultSurfaces: [
+    'stonebrick',
+    'shadow'
+  ]
+};
 
 const dirsForWalls = {
   n: {
