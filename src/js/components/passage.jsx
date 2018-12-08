@@ -6,7 +6,6 @@ import cloneDeep from 'lodash.cloneDeep';
 import { levelStore } from '../stores/store-level';
 import { characterStore } from '../stores/store-character';
 import { combatStore } from '../stores/store-combat';
-import { playHistoryStore } from '../stores/store-play-history';
 
 import { setDirection, setTile } from '../actions/actions-character';
 import { startCombat } from '../actions/actions-combat';
@@ -18,6 +17,7 @@ import { CombatControls } from './combat-controls';
 import { PassageControls } from './passage-controls';
 import { Tile } from '../models/model-tile';
 import { getTilenameForDirection } from '../lib/util/get-tilename-for-direction';
+import { tileHasUndefeatedOpponents } from '../lib/combat';
 
 const directionOrder = ['n', 'e', 's', 'w'];
 const fadeTime = 100;
@@ -129,8 +129,8 @@ export class Passage extends Component {
 
     let monsterElems = null;
     const monsters = tile.getMonsters() || [];
-    const thereAreMonsters = monsters.length && 
-      !playHistoryStore.getTileEvent(currTilename, 'opponentsDefeated'); 
+    const thereAreMonsters = tileHasUndefeatedOpponents(tile);
+
     if(thereAreMonsters) {
       monsterElems = monsters.map((monster) => {
         return (<Monster monster={monster} key={monster.getName()} />);
