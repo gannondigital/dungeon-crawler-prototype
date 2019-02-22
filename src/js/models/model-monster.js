@@ -1,5 +1,4 @@
 
-
 // status:
 //   isDefeated
 // stats:
@@ -18,6 +17,8 @@
 //   name 
 //   type
 //   lore
+
+import { Damage } from '../models/model-damage';   
 
 const placeholderImg = require('../../img/monster-placeholder.png');
 
@@ -54,9 +55,16 @@ export class Monster {
   }
 
   takeDamage(damage) {
-    const { dmg, type } = damage;
+    if (!(damage) instanceof Damage) {
+      throw new TypeError('Invalid damage passed to takeDamage');
+    }
 
-    this.stats.health = this.stats.health - dmg;
+    const dmgPoints = damage.getDmgPoints();
+    const dmgType = damage.getType();
+
+    // @todo account for different dmg types
+
+    this.stats.health = this.stats.health - dmgPoints;
     if (this.stats.health < 0) {
       this.stats.health = 0;
     }
@@ -70,7 +78,10 @@ export class Monster {
   }
 
   getTreasure() {
-    return this.treasure;
+    let { items } = this.treasure;
+    items = items ? items : [];
+
+    return { items };
   }
 
 }

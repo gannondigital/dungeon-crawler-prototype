@@ -9,13 +9,21 @@ class InventoryStore extends Store {
     super();
     this.data = {
       activeWeapon: null,
-      items: {},
-      // mocks
-      weapons: {
-        'stick': {
-          dmg: 1
-        }
-      },
+      items: {
+        weapons: [
+          {
+            'stick': {
+              dmg: 1
+            }
+          },
+        ],
+        armor: [
+
+        ],
+        items: [
+
+        ]
+      }
     };
   }
 

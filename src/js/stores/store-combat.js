@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.cloneDeep';
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
+import { Damage } from '../models/model-damage';
 
 class CombatStore extends Store {
 
@@ -75,13 +76,10 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       break;
 
     case constants.COMBAT_DAMAGE: 
-      const {
-        dmg,
-        hitValue
-      } = action.payload;
+      const { dmg } = action.payload;
 
-      if (!dmg || !hitValue) {
-        throw new ReferenceError('dmg or hit value missing in COMBAT_DAMAGE action');
+      if (!(dmg instanceof Damage)) {
+        throw new ReferenceError('dmg or missing in COMBAT_DAMAGE action');
       }
       // @todo support multiple opponents
       const opponent = combatStore.data.opponents[0];

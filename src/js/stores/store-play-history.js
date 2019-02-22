@@ -15,7 +15,7 @@ class PlayHistoryStore extends Store {
 
   handleAction = (action) => {
     switch (action.type) {
-      case constants.ADD_TO_RECORD:
+      case constants.ADD_TO_HISTORY:
         const {
           tileName,
           eventName
