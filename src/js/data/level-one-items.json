@@ -1,25 +1,17 @@
 {
-  "armor": {
-
-  },
-  "weapons": {
-
-  },
-  "items": {
-    "healing-potion": {
-      "bulkSize": 1,
-      "itemRoles": [
-        "item",
-        "singleUse"
-      ],
-      "meta": {
-        "imageUrl": "",
-        "name": "Healing Potion"
-      },
-      "name": "healing-potion",
-      "types": [
-        "magical"
-      ]
-    }
+  "healing-potion": {
+    "bulkSize": 1,
+    "itemRoles": [
+      "item",
+      "singleUse"
+    ],
+    "meta": {
+      "imageUrl": "",
+      "name": "Healing Potion"
+    },
+    "name": "healing-potion",
+    "types": [
+      "magical"
+    ]
   }
 }

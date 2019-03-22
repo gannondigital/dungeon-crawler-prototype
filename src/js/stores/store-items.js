@@ -1,6 +1,7 @@
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
+import Item from '../models/model-item';
 
 class ItemStore extends Store {
 
@@ -33,8 +34,8 @@ class ItemStore extends Store {
     const itemsArr = itemNames.map((itemName) => {
       const item = this.data.itemsByName[itemName];
       if (!item) {
-        console.log(`Could not find item ${itemName} in itemsStore`);
-        return null;
+        console.log(this);
+        throw new ReferenceError(`Could not find item ${itemName} in itemsStore`);
       }
 
       return item;
@@ -44,7 +45,11 @@ class ItemStore extends Store {
       return !!item;
     });
 
-    return justItems;
+    const itemObjs = justItems.map((itemData) => {
+      return new Item(itemData);
+    });
+
+    return itemObjs;
   }
 
 }
@@ -54,10 +59,15 @@ itemsStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
     case constants.ITEMS_LOADED:
       const oldLevel = itemsStore.data.levelName;
-      itemsStore.data.levelName = action.payload.levelName;
+      const newLevel = action.payload.levelName;
+
+      if (oldLevel === newLevel) {
+        return;
+      }
+      itemsStore.data.levelName = newLevel;
+      itemsStore.data.itemsByName = action.payload.items;
 
       itemsStore.triggerChange();
-
       break;
     default:
       break;

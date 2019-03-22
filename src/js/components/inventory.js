@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Item } from '../models/model-item';
+import { inventoryStore } from "../stores/store-inventory";
+import Item from '../models/model-item';
 import { ItemTile } from './item-tile';
 
 // @todo if we have more item roles, abstract out the roles
@@ -10,34 +11,55 @@ export class Inventory extends Component {
   constructor(props) {
     super(props);
 
+    const allItems = inventoryStore.getAllItems();
+
     this.state = {
-      uiState: 'armsAndArmor' // or 'items'
+      uiState: 'items', // 'armor' || 'weapons'
+      items: allItems
     };
   }
 
   switchToArmsArmor = () => {
-    this.setState({ uiState: 'armsAndArmor' });
+    this.setState({ uiState: 'armor' });
   };
+
+  switchToWeapons = () => {
+    this.setState({ uiState: 'weapons'})
+  }
 
   switchToItems = () => {
     this.setState({ uiState: 'items' });
   };
 
+  handleInventoryUpdate() {
+    const allItems = inventoryStore.getAllItems();
+    this.setState({ items: allItems });
+  }
+
+  componentDidMount() {
+    inventoryStore.listen(this.handleInventoryUpdate);
+  }
+
+  componentWillUnmount() {
+    inventoryStore.stopListening(this.handleInventoryUpdate);
+  }
+
   render() {
-    const { armsAndArmor, items } = sortItems(this.props.items);
-    const itemsToRender = (this.state.uiState === 'armsAndArmor') ? armsAndArmor : items;
+    const { uiState, items } = this.state;
+    const itemsToRender = items[uiState];
+    
     const itemComponents = itemsToRender.map((item) => {
       return (<ItemTile item={item} />);
     });
 
     return (
-      <div class="inventory">
+      <div className="inventory">
         <button onClick={this.props.closeClickHandler}>Back</button>
-        <div class="inventory--tabs">
+        <div className="inventory--tabs">
           <button>Arms & Armor</button>
           <button>Items</button>
         </div>
-        <div class="inventory--itemlist">
+        <div className="inventory--itemlist">
           { itemComponents }
         </div>
       </div>

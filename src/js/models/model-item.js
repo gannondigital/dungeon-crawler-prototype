@@ -8,7 +8,7 @@
 // - isEquipped
 // - equipsToSlot
 
-export class Item {
+export default class Item {
 
   constructor(props) {
     if (!isValidProps(props)) {
@@ -38,8 +38,21 @@ export class Item {
     }, false);
   }
 
+  getName() {
+    return this.meta.name;
+  }
+
   getImageUrl() {
     return this.meta.imageUrl;
   }
 
+  getRoles() {
+    return [].concat(this.itemRoles);
+  }
+
+}
+
+function isValidProps(itemProps) {
+  // @todo
+  return true;
 }

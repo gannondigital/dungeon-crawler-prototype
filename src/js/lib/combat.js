@@ -33,7 +33,7 @@ export const attack = ({ dmg, hitValue }) => {
 
   if (combatStore.areOpponentsDefeated()) {
     const treasure = combatStore.getTreasure();
-    //disburseTreasure(treasure);
+    disburseTreasure(treasure);
 
     const tileName = characterStore.getCurrTileName();
     addToPlayHistory({
@@ -47,15 +47,12 @@ export const attack = ({ dmg, hitValue }) => {
   }
 };
 
-export const disburseTreasure = (treasureArr) => {
-  const messages = [];
-  const toInventory = [];
-  treasureArr.forEach((treasure) => {
-    messages.push(treasure.getReceivedMessage());
-    toInventory.push(treasure.getInventory());
+export const disburseTreasure = (treasures) => {
+  treasures.forEach((treasure) => {
+      const messages = treasure.getReceivedMessages();
+      const toInventory = treasure.getItemsForInventory();
+
+      showGameMsg(messages);
+      addToInventory(toInventory);
   });
-
-  showGameMsg(messages);
-
-
 };

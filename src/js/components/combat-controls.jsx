@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 //import { attack } from '../actions/actions-combat';
-import { attach } from '../lib/combat';
+import { attack } from '../lib/combat';
 import { characterStore } from '../stores/store-character';
 //import { inventoryStore } from '../stores/store-inventory';
 import { combatStore } from '../stores/store-combat';

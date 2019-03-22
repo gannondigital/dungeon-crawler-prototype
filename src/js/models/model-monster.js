@@ -18,7 +18,8 @@
 //   type
 //   lore
 
-import { Damage } from '../models/model-damage';   
+import { Damage } from '../models/model-damage';
+import { Treasure } from '../models/model-treasure';
 
 const placeholderImg = require('../../img/monster-placeholder.png');
 
@@ -77,11 +78,12 @@ export class Monster {
     return this.status.isDefeated;
   }
 
+  // @todo return other types of treasure
   getTreasure() {
     let { items } = this.treasure;
     items = items ? items : [];
 
-    return { items };
+    return new Treasure({ items });
   }
 
 }

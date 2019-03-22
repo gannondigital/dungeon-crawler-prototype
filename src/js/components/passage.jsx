@@ -59,6 +59,7 @@ export class Passage extends Component {
   componentWillUnmount() {
     levelStore.stopListening(this.handleTileUpdate);
     characterStore.stopListening(this.handleDirectionUpdate);
+    combatStore.stopListening(this.handleCombatUpdate);
   }
 
   handleCharacterUpdate(){
