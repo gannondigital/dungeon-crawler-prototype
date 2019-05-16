@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
-import { attack } from '../actions/actions-combat';
+//import { attack } from '../actions/actions-combat';
+import { attack } from '../lib/combat';
 import { characterStore } from '../stores/store-character';
 //import { inventoryStore } from '../stores/store-inventory';
 import { combatStore } from '../stores/store-combat';
+import { Damage } from '../models/model-damage';
 
 export class CombatControls extends Component {
 
@@ -33,19 +35,17 @@ export class CombatControls extends Component {
 
   handleAttackClick() {
     const { dmg, hitValue } = this.state;
-    attack({
-      dmg: {
-        type: 'normal',
-        dmg
-      },
-      hitValue
-    });
-    
+    attack({ dmg, hitValue });
   }
 
   handleCharacterUpdate() {
     const hitValue = characterStore.getHitVal();
-    const dmg = characterStore.getDmgVal();
+    // @todo account for dmg type in addition to amount
+    const dmgPoints = characterStore.getDmgVal();
+    const dmg = new Damage({
+      dmgPoints,
+      type: 'normal'
+    })
     this.setState({
       dmg,
       hitValue

@@ -9,7 +9,11 @@
     "stats": {
       "maxHealth": 5
     },
-    "treasure": [],
+    "treasure": {
+      "items": [
+        "healing-potion"
+      ]
+    },
     "attacks": {
       "hitVal": 4,
       "damage": 6,

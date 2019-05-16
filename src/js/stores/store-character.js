@@ -15,7 +15,7 @@ class CharacterStore extends Store {
       attributes: {
         hit: 1,
         evasion: 0,
-        damage: 1,
+        dmgPoints: 1,
         intelligence: 0,
         stamina: 0
       }
@@ -35,7 +35,7 @@ class CharacterStore extends Store {
   }
 
   getDmgVal() {
-    return this.data.attributes.damage;
+    return this.data.attributes.dmgPoints;
   }
 
   getIntVal() {

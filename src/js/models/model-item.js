@@ -8,7 +8,9 @@
 // - isEquipped
 // - equipsToSlot
 
-export class Item {
+const placeholderImg = require('../../img/potion.png');
+
+export default class Item {
 
   constructor(props) {
     if (!isValidProps(props)) {
@@ -21,7 +23,8 @@ export class Item {
   initialize(props) {
     this.meta = {};
     this.meta.name = props.meta.name;
-    this.meta.imageUrl = props.meta.imageUrl;
+    //this.meta.imageUrl = props.meta.imageUrl;
+    this.meta.imageUrl = placeholderImg;
     this.itemRoles = props.itemRoles || ['item'];
     this.types = props.types || ['normal'];
     this.bulkSize = props.bulkSize;
@@ -38,8 +41,21 @@ export class Item {
     }, false);
   }
 
+  getName() {
+    return this.meta.name;
+  }
+
   getImageUrl() {
     return this.meta.imageUrl;
   }
 
+  getRoles() {
+    return [].concat(this.itemRoles);
+  }
+
+}
+
+function isValidProps(itemProps) {
+  // @todo
+  return true;
 }

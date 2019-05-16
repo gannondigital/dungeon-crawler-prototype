@@ -6,7 +6,6 @@ import cloneDeep from 'lodash.cloneDeep';
 import { levelStore } from '../stores/store-level';
 import { characterStore } from '../stores/store-character';
 import { combatStore } from '../stores/store-combat';
-import { playHistoryStore } from '../stores/store-play-history';
 
 import { setDirection, setTile } from '../actions/actions-character';
 import { startCombat } from '../actions/actions-combat';
@@ -18,6 +17,7 @@ import { CombatControls } from './combat-controls';
 import { PassageControls } from './passage-controls';
 import { Tile } from '../models/model-tile';
 import { getTilenameForDirection } from '../lib/util/get-tilename-for-direction';
+import { tileHasUndefeatedOpponents } from '../lib/combat';
 
 const directionOrder = ['n', 'e', 's', 'w'];
 const fadeTime = 100;
@@ -26,20 +26,6 @@ import '../../css/lib/base';
 import '../../css/components/passage';
 
 export class Passage extends Component {
-
-  static defaultProps = {
-    defaultSurfaces: [
-      'stonebrick',
-      'shadow'
-    ]
-  }
-
-  static propTypes = {
-    currTile: PropTypes.instanceOf(Tile).isRequired,
-    tileFetcher: PropTypes.func,
-    direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
-    defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
-  }
 
   constructor(props) {
     super(props);
@@ -73,6 +59,7 @@ export class Passage extends Component {
   componentWillUnmount() {
     levelStore.stopListening(this.handleTileUpdate);
     characterStore.stopListening(this.handleDirectionUpdate);
+    combatStore.stopListening(this.handleCombatUpdate);
   }
 
   handleCharacterUpdate(){
@@ -143,8 +130,8 @@ export class Passage extends Component {
 
     let monsterElems = null;
     const monsters = tile.getMonsters() || [];
-    const thereAreMonsters = monsters.length && 
-      !playHistoryStore.getTileEvent(currTilename, 'opponentsDefeated'); 
+    const thereAreMonsters = tileHasUndefeatedOpponents(tile);
+
     if(thereAreMonsters) {
       monsterElems = monsters.map((monster) => {
         return (<Monster monster={monster} key={monster.getName()} />);
@@ -168,6 +155,7 @@ export class Passage extends Component {
         <PassageControls 
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
+          inventoryClickHandler={this.props.inventoryClickHandler}
           rightClickHandler={this.turnRight} 
           mapClickHandler={this.props.mapClickHandler}
         />
@@ -246,6 +234,22 @@ export class Passage extends Component {
   }
 
 }
+
+Passage.propTypes = {
+  currTile: PropTypes.instanceOf(Tile).isRequired,
+  direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
+  defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
+  inventoryClickHandler: PropTypes.func,
+  mapClickHandler: PropTypes.func,
+  tileFetcher: PropTypes.func
+};
+
+Passage.defaultProps = {
+  defaultSurfaces: [
+    'stonebrick',
+    'shadow'
+  ]
+};
 
 const dirsForWalls = {
   n: {
