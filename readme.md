@@ -12,13 +12,15 @@ This prototype uses a simple Flux pattern, extending Facebook's Flux package, wi
 
 ## Current State and Next Steps
 
-The engine is populated with a couple of passages and rooms. You can change direction and move through passages; there's a compass that points 'north' (your starting direction) to help you stay oriented. There's also a simple map view. You can encounter a monster, and attack and defeat it.
+The engine is populated with a couple of passages and rooms. You can change direction and move through passages; there's a compass that points 'north' (your starting direction) to help you stay oriented. There's also a simple map view. You can encounter a monster, and attack and defeat it. You can receive items as 'treasure' after defeating a monster, and view your items in an Inventory screen.
 
 Next steps would include:
 * increased test coverage, streamline test runner (it currently writes built assets to disk when compiling the tests, which is unnecessary)
 * additional assets, such as varied wall textures, doors, monsters, etc.
-* support for player character info screen (stats, inventory, etc.)
+* support for player character info screen (stats, etc.)
 * proper combat
+* item use
+* magic use
 * soundtrack and sound effects
 
 ## Play online!
