@@ -14,7 +14,7 @@ export class CombatControls extends Component {
 
     this.state = {
       dmg: 0,
-      hitValue: 0
+      accuracy: 0
     };
 
     this.handleAttackClick = this.handleAttackClick.bind(this);
@@ -34,21 +34,21 @@ export class CombatControls extends Component {
   }
 
   handleAttackClick() {
-    const { dmg, hitValue } = this.state;
-    attack({ dmg, hitValue });
+    const { dmg, accuracy } = this.state;
+    attack({ dmg, accuracy });
   }
 
   handleCharacterUpdate() {
-    const hitValue = characterStore.getHitVal();
+    const accuracy = characterStore.getAccuracy();
     // @todo account for dmg type in addition to amount
-    const dmgPoints = characterStore.getDmgVal();
+    const str = characterStore.getStr();
     const dmg = new Damage({
-      dmgPoints,
-      type: 'normal'
+      dmgPoints: str,
+      types: ['normal']
     })
     this.setState({
       dmg,
-      hitValue
+      accuracy
     });
   }
 

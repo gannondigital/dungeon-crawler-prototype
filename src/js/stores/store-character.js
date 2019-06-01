@@ -13,9 +13,9 @@ class CharacterStore extends Store {
       currDirection: 'n',
       health: 0,
       attributes: {
-        hit: 1,
-        evasion: 0,
-        dmgPoints: 1,
+        accuracy: 1,
+        dex: 0,
+        str: 1,
         intelligence: 0,
         stamina: 0
       }
@@ -30,12 +30,12 @@ class CharacterStore extends Store {
     return this.data.currTileName;
   }
 
-  getHitVal() {
-    return this.data.attributes.hit;
+  getAccuracy() {
+    return this.data.attributes.accuracy;
   }
 
-  getDmgVal() {
-    return this.data.attributes.dmgPoints;
+  getStr() {
+    return this.data.attributes.str;
   }
 
   getIntVal() {

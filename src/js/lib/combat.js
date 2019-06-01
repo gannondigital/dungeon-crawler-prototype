@@ -9,6 +9,10 @@ import { characterStore } from '../stores/store-character';
 
 import { Damage } from '../models/model-damage';
 
+import { getRandomNum } from './util';
+
+const HIT_CONST = 10;
+
 export const tileHasUndefeatedOpponents = (tile) => {
   const tilename = tile.getName();
   const monsters = tile.getMonsters() || [];
@@ -18,13 +22,20 @@ export const tileHasUndefeatedOpponents = (tile) => {
   return thereAreMonsters;
 };
 
-export const attack = ({ dmg, hitValue }) => {
-  if (!(dmg instanceof Damage) || !hitValue || typeof hitValue !== 'number') {
-    throw new ReferenceError('Invalid dmg/hitValue passed to attack');
+export const attack = ({ dmg, accuracy }) => {
+  if (!(dmg instanceof Damage) || !accuracy || typeof accuracy !== 'number') {
+    throw new ReferenceError('Invalid dmg/accuracy passed to attack');
   }
   // @todo don't always hit
-  const hitSucceeded = true;
+  const hitSucceeded = doesAttackHit( accuracy, combatStore.getOpponentsEvasion() );
+  if (hitSucceeded) {
+    handleHit(dmg);
+  } else {
+    handleMiss();
+  }
+};
 
+export const handleHit = (dmg) => {
   damageOpponent(dmg);
 
   // @todo can we know the dmg amount here if the type 
@@ -45,14 +56,26 @@ export const attack = ({ dmg, hitValue }) => {
 
     endCombat();
   }
+}
+
+export const handleMiss = () => {
+  showGameMsg('Missed!');
+};
+
+export const doesAttackHit = (attackerAccuracy, defenderEvasion) => {
+  const rand = getRandomNum();
+  if (rand - defenderEvasion + attackerAccuracy > HIT_CONST) {
+    return true;
+  }
+  return false;
 };
 
 export const disburseTreasure = (treasures) => {
   treasures.forEach((treasure) => {
-      const messages = treasure.getReceivedMessages();
-      const toInventory = treasure.getItemsForInventory();
+    const messages = treasure.getReceivedMessages();
+    const toInventory = treasure.getItemsForInventory();
 
-      showGameMsg(messages);
-      addToInventory(toInventory);
+    showGameMsg(messages);
+    addToInventory(toInventory);
   });
 };

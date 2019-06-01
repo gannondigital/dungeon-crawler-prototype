@@ -39,6 +39,10 @@ class CombatStore extends Store {
     return totalTreasure;
   }
 
+  getOpponentsEvasion() {
+    return this.data.opponents[0].getEvasion();
+  }
+
 }
 export const combatStore = new CombatStore();
 

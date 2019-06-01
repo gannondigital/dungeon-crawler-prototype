@@ -1,8 +1,8 @@
 {
-  "angry-goose": {
+  "small-ghost": {
     "meta": {
-      "name": "angry-goose",
-      "label": "Angry Goose",
+      "name": "small-ghost",
+      "label": "Small Ghost",
       "type": [],
       "lore": "Qwek qwek qwek"
     },
@@ -14,11 +14,31 @@
         "healing-potion"
       ]
     },
+    "attr": {
+      "str": 1,
+      "dex": 3,
+      "accuracy": 2
+    },
     "attacks": {
-      "hitVal": 4,
-      "damage": 6,
-      "stamina": 3,
-      "evasion": 8
+      "spook": {
+        "dmg": 1,
+        "dmgTypes": [
+          "undead"
+        ],
+        "accuracyMod": 0
+      }
+    },
+    "armor": {
+      "protection": 3,
+      "protectedAgainst": [
+        "weapon-edged",
+        "weapon-blunt",
+        "weapon-normal",
+        "cold"
+      ],
+      "vulnerableTo": [
+        "faith"
+      ]
     }
   }
 }

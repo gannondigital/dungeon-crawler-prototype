@@ -7,11 +7,18 @@
 // treasure:
 //   gold
 //   items
+// attr
+//   str
+//   dex
+//   accuracy
+// armor
+//   protection
+//   protected
+//   vulnerableTo
 // attacks
-//   hit %
-//   damage #
-//   stamina
-//   evasion
+//   dmg
+//   dmgType
+//   accuracyMod
 // meta
 //   img
 //   name 
@@ -36,11 +43,13 @@ export class Monster {
   }
 
   initialize(props) {
+    this.attr = props.attr;
     this.stats = props.stats;
     // allow initial health to be the default max
     this.stats.health = this.stats.health || this.stats.maxHealth;
     this.treasure = props.treasure;
     this.attacks = props.attacks;
+    this.armor = props.armor;
     this.meta = props.meta;
     this.status = {
       isDefeated: false
@@ -61,7 +70,7 @@ export class Monster {
     }
 
     const dmgPoints = damage.getDmgPoints();
-    const dmgType = damage.getType();
+    const dmgTypes = damage.getTypes();
 
     // @todo account for different dmg types
 
@@ -84,6 +93,10 @@ export class Monster {
     items = items ? items : [];
 
     return new Treasure({ items });
+  }
+
+  getEvasion() {
+    return this.attr.dex;
   }
 
 }

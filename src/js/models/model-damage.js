@@ -5,11 +5,11 @@ export class Damage {
     }
 
     this.dmgPoints = opts.dmgPoints;
-    this.type = opts.type;
+    this.types = opts.types;
   }
 
-  getType() {
-    return this.type;
+  getTypes() {
+    return this.types;
   }
 
   getDmgPoints() {
@@ -20,7 +20,8 @@ export class Damage {
 function isValidOpts(opts) {
   if (typeof opts !== 'object' || !opts ||
     typeof opts.dmgPoints !== 'number' || isNaN(opts.dmgPoints) || 
-    typeof opts.type !== 'string' || !opts.type) {
+    typeof opts.types !== 'object' || !opts.types || 
+    typeof opts.types.length !== "number") {
     return false;
   }
 
