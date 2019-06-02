@@ -1,7 +1,7 @@
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
-import Item from '../models/model-item';
+import ItemFactory from '../lib/item-factory';
 
 class ItemStore extends Store {
 
@@ -46,7 +46,7 @@ class ItemStore extends Store {
     });
 
     const itemObjs = justItems.map((itemData) => {
-      return new Item(itemData);
+      return ItemFactory(itemData);
     });
 
     return itemObjs;

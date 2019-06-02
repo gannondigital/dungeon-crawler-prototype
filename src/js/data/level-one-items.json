@@ -7,11 +7,32 @@
     ],
     "meta": {
       "imageUrl": "",
-      "name": "Healing Potion"
+      "label": "Healing Potion"
     },
     "name": "healing-potion",
     "types": [
       "magical"
     ]
+  },
+  "staff": {
+    "bulkSize": 2,
+    "itemRoles": [
+      "weapon"
+    ],
+    "meta": {
+      "imageUrl": "",
+      "label": "Staff"
+    },
+    "name": "staff",
+    "types": [
+      "normal"
+    ],
+    "dmg": 1,
+    "dmgTypes": [
+      "normal",
+      "blunt"
+    ],
+    "accuracyMod": 0,
+    "evasionMod": 0
   }
 }

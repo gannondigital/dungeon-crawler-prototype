@@ -1,6 +1,6 @@
-import Item from 'model-item';
+import Item from './model-item';
 
-class Armor extends Item {
+export default class Armor extends Item {
 
   constructor(props) {
     super(props);

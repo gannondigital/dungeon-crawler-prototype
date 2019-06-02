@@ -1,6 +1,6 @@
 import Item from "./model-item";
 
-export class Weapon extends Item {
+export default class Weapon extends Item {
   constructor(props) {
     super(props);
 
@@ -32,7 +32,7 @@ export class Weapon extends Item {
 }
 
 function validateProps(props) {
-  if (typeof props.dmg !== "number" || isNan(props.dmg)) {
+  if (typeof props.dmg !== "number" || isNaN(props.dmg)) {
     return false;
   }
 
@@ -41,11 +41,11 @@ function validateProps(props) {
     return false;
   }
 
-  if (typeof props.accuracyMod !== "number" || isNan(props.accuracyMod)) {
+  if (typeof props.accuracyMod !== "number" || isNaN(props.accuracyMod)) {
     return false;
   }
 
-  if (typeof props.evasionMod !== "number" || isNan(props.evasionMod)) {
+  if (typeof props.evasionMod !== "number" || isNaN(props.evasionMod)) {
     return false;
   }
 

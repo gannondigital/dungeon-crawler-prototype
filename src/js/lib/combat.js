@@ -26,7 +26,7 @@ export const attack = ({ dmg, accuracy }) => {
   if (!(dmg instanceof Damage) || !accuracy || typeof accuracy !== 'number') {
     throw new ReferenceError('Invalid dmg/accuracy passed to attack');
   }
-  // @todo don't always hit
+
   const hitSucceeded = doesAttackHit( accuracy, combatStore.getOpponentsEvasion() );
   if (hitSucceeded) {
     handleHit(dmg);
