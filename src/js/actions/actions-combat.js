@@ -23,12 +23,12 @@ export const startCombat = ({
 };
 
 export const damageOpponent = (dmg) => {
-  if (!(dmg instanceof Damage)) {
+  if (typeof dmg !== "number") {
     throw new TypeError('Invalid damage passed to damageOpponent');
   }
   
   dispatcher.dispatch({
-    type: constants.COMBAT_DAMAGE,
+    type: constants.COMBAT_DAMAGE_OPPONENT,
     payload: { dmg }
   });
 };

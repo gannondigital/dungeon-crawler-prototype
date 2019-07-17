@@ -15,19 +15,19 @@ export default class Weapon extends Item {
   }
 
   getDmg() {
-
+    return this.dmg;
   }
 
   getDmgTypes() {
-
+    return this.dmgTypes;
   }
 
   getAccuracyMod() {
-
+    return this.accuracyMod;
   }
 
   getEvasionMod() {
-
+    return this.evasionMod;
   }
 }
 

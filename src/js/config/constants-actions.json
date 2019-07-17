@@ -1,6 +1,6 @@
 {
   "ADD_TO_HISTORY": "addToHistory",
-  "COMBAT_DAMAGE": "combatDamage",
+  "COMBAT_DAMAGE_OPPONENT": "combatDamageOpponent",
   "COMBAT_OPPONENTS_DEFEATED": "combatOpponentsDefeated",
   "DIRECTION_SET": "setDirection",
   "END_COMBAT": "endCombat",

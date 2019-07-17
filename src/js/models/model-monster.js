@@ -13,7 +13,7 @@
 //   accuracy
 // armor
 //   protection
-//   protected
+//   protectedAgainst
 //   vulnerableTo
 // attacks
 //   dmg
@@ -27,6 +27,7 @@
 
 import { Damage } from '../models/model-damage';
 import { Treasure } from '../models/model-treasure';
+import combatConstants from '../config/constants-combat';
 
 const placeholderImg = require('../../img/monster-placeholder.png');
 
@@ -64,17 +65,12 @@ export class Monster {
     return this.meta.name;
   }
 
-  takeDamage(damage) {
-    if (!(damage) instanceof Damage) {
+  takeDamage(dmg) {
+    if (typeof dmg !== "number") {
       throw new TypeError('Invalid damage passed to takeDamage');
     }
 
-    const dmgPoints = damage.getDmgPoints();
-    const dmgTypes = damage.getTypes();
-
-    // @todo account for different dmg types
-
-    this.stats.health = this.stats.health - dmgPoints;
+    this.stats.health = this.stats.health - dmg;
     if (this.stats.health < 0) {
       this.stats.health = 0;
     }
@@ -97,6 +93,10 @@ export class Monster {
 
   getEvasion() {
     return this.attr.dex;
+  }
+
+  getArmor() {
+    return this.armor;
   }
 
 }

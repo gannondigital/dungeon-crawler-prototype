@@ -7,6 +7,7 @@ module.exports = {
   devServer: {
     contentBase: './build'
   },
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js'

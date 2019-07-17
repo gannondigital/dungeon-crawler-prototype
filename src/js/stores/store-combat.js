@@ -43,6 +43,10 @@ class CombatStore extends Store {
     return this.data.opponents[0].getEvasion();
   }
 
+  getOpponentsArmor() {
+    return this.data.opponents[0].getArmor();
+  }
+
 }
 export const combatStore = new CombatStore();
 
@@ -79,12 +83,9 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       combatStore.triggerChange();
       break;
 
-    case constants.COMBAT_DAMAGE: 
+    case constants.COMBAT_DAMAGE_OPPONENT: 
       const { dmg } = action.payload;
 
-      if (!(dmg instanceof Damage)) {
-        throw new ReferenceError('dmg or missing in COMBAT_DAMAGE action');
-      }
       // @todo support multiple opponents
       const opponent = combatStore.data.opponents[0];
       opponent.takeDamage(dmg);

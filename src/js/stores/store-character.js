@@ -18,7 +18,8 @@ class CharacterStore extends Store {
         str: 1,
         intelligence: 0,
         stamina: 0
-      }
+      },
+      expLevel: 1
     };
   }
 
@@ -40,6 +41,10 @@ class CharacterStore extends Store {
 
   getIntVal() {
     return this.data.attributes.intelligence;
+  }
+
+  getExpLevel() {
+    return this.data.expLevel;
   }
 
 }
