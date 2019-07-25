@@ -11,6 +11,7 @@ import { inventoryStore } from '../stores/store-inventory';
 import { Damage } from '../models/model-damage';
 
 import { getRandomNum } from './util';
+import generalConstants from "../config/constants-general";
 
 const HIT_CONST = 10;
 
@@ -124,7 +125,7 @@ export const disburseTreasure = (treasures) => {
     const messages = treasure.getReceivedMessages();
     const toInventory = treasure.getItemsForInventory();
 
-    showGameMsg(messages);
+    showGameMsg(messages, generalConstants.MSG_SPEED_MED);
     addToInventory(toInventory);
   });
 };

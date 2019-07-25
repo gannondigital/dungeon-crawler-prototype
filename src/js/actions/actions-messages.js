@@ -1,19 +1,21 @@
 import { dispatcher } from '../lib/game-dispatcher';
-import * as constants from '../config/constants-actions.json';
+import actionConstants from '../config/constants-actions.json';
+import generalConstants from '../config/constants-general.json';
 import * as gameConfig from '../config/config-default.json';
 
-export const showGameMsg = (msgText) => {
+export const showGameMsg = (msgText, msgSpeed) => {
+  const speed = (msgSpeed === generalConstants.MSG_SPEED_MED) ? gameConfig.msgSpeedMed : gameConfig.msgSpeedFast
   dispatcher.dispatch({
-    type: constants.SHOW_GAME_MSG,
+    type: actionConstants.SHOW_GAME_MSG,
     payload: {
       msgText
     }
   });
-  setTimeout(removeGameMsg, gameConfig.msgSpeed)
+  setTimeout(removeGameMsg, speed)
 };
 
 export const removeGameMsg = () => {
   dispatcher.dispatch({
-    type: constants.REMOVE_GAME_MSG,
+    type: actionConstants.REMOVE_GAME_MSG,
   });
 };

@@ -1,5 +1,6 @@
 {
 	"rootSelector": "#game-root-container",
 	"startLevel": "one",
-  "msgSpeed": 500
+  "msgSpeedFast": 500,
+  "msgSpeedMed": 3000
 }

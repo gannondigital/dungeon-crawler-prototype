@@ -7,9 +7,9 @@
     ],
     "meta": {
       "imageUrl": "",
-      "label": "Healing Potion"
+      "label": "Healing Potion",
+      "name": "healing-potion"
     },
-    "name": "healing-potion",
     "types": [
       "magical"
     ]
@@ -21,9 +21,9 @@
     ],
     "meta": {
       "imageUrl": "",
-      "label": "Staff"
+      "label": "Staff",
+      "name": "staff"
     },
-    "name": "staff",
     "types": [
       "normal"
     ],

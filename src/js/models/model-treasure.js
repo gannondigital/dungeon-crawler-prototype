@@ -14,7 +14,7 @@ export class Treasure {
   getReceivedMessages() {
     // @todo support non-item treasure
     return this.items.map((item) => {
-      return `Received ${item.getName()}!`;
+      return `Received ${item.getLabel()}!`;
     });
   }
 
