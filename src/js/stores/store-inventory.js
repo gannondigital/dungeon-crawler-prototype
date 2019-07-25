@@ -47,10 +47,7 @@ inventoryStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
     case constants.INVENTORY_ADD_ITEMS:
       const { items } = action.payload;
-      const itemInstances = items.forEach((itemProps) => {
-        return ItemFactory(itemProps);
-      });
-      const sortedItems = sortItems(itemInstances);
+      const sortedItems = sortItems(items);
       Object.keys(sortedItems).forEach((itemCategory) => {
         inventoryStore.data.items[itemCategory] = inventoryStore.data.items[itemCategory].concat(sortedItems[itemCategory]);
       });
@@ -68,7 +65,7 @@ function sortItems(itemInstances) {
   const armorToAdd = [];
   const itemsToAdd = [];
 
-  return itemsArr.reduce( (sortedItems, item) => {
+  return itemInstances.reduce( (sortedItems, item) => {
     
     if (item instanceof Weapon) {
       sortedItems.weapons.push(item)

@@ -24,6 +24,7 @@ export class Treasure {
 
 }
 
+// @todo
 function validateProps(treasureProps) {
   return true;
 }
