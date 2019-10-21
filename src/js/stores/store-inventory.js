@@ -4,12 +4,17 @@ import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions';
 
+import ItemFactory from '../lib/item-factory';
+import Weapon from '../models/model-weapon';
+import Armor from '../models/model-armor';
+
 class InventoryStore extends Store {
 
   constructor() {
     super();
     this.data = {
       activeWeapon: null,
+      activeArmor: null,
       items: {
         weapons: [
           {
@@ -29,7 +34,15 @@ class InventoryStore extends Store {
   }
 
   getAllItems() {
-    return cloneDeep(this.data.items);
+    return this.data.items;
+  }
+
+  getActiveWeapon() {
+    return this.data.activeWeapon;
+  }
+
+  getActiveArmor() {
+    return this.data.activeArmor;
   }
 
 }
@@ -44,21 +57,27 @@ inventoryStore.dispatchToken = dispatcher.register((action) => {
         inventoryStore.data.items[itemCategory] = inventoryStore.data.items[itemCategory].concat(sortedItems[itemCategory]);
       });
       break;
+    case constants.INVENTORY_SET_ACTIVE_WEAPON:
+      const { weapon } = action.payload;
+      inventoryStore.data.activeWeapon = weapon;
+    case constants.INVENTORY_SET_ACTIVE_ARMOR:
+      const { armor } = action.payload;
+      inventoryStore.data.activeArmor = armor;
     default:
       break;
   }
 });
 
-function sortItems(itemsArr) {
+function sortItems(itemInstances) {
   const weaponsToAdd = [];
   const armorToAdd = [];
   const itemsToAdd = [];
 
-  return itemsArr.reduce( (sortedItems, item) => {
-    const roles = item.getRoles();
-    if (roles.indexOf('weapon') !== -1) {
+  return itemInstances.reduce( (sortedItems, item) => {
+    
+    if (item instanceof Weapon) {
       sortedItems.weapons.push(item)
-    }else if (roles.indexOf('armor') !== -1) {
+    }else if (item instanceof Armor) {
       sortedItems.armor.push(item);
     } else {
       sortedItems.items.push(item);

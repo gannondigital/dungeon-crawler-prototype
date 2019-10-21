@@ -7,11 +7,51 @@
     ],
     "meta": {
       "imageUrl": "",
-      "name": "Healing Potion"
+      "label": "Healing Potion",
+      "name": "healing-potion"
     },
-    "name": "healing-potion",
     "types": [
       "magical"
     ]
+  },
+  "staff": {
+    "bulkSize": 2,
+    "itemRoles": [
+      "weapon"
+    ],
+    "meta": {
+      "imageUrl": "",
+      "label": "Staff",
+      "name": "staff"
+    },
+    "types": [
+      "normal"
+    ],
+    "dmg": 10,
+    "dmgTypes": [
+      "normal",
+      "blunt"
+    ],
+    "accuracyMod": 0,
+    "evasionMod": 0
+  },
+  "clothes": {
+    "bulkSize": 1,
+    "itemRoles": [
+      "armor"
+    ],
+    "meta": {
+      "imageUrl": "",
+      "label": "Clothes",
+      "name": "clothes"
+    },
+    "types": [
+      "normal"
+    ],
+    "accuracyMod": 0,
+    "evasionMod": 0,
+    "protection": 1,
+    "protectedAgainst": [],
+    "vulnerableTo": []
   }
 }

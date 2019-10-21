@@ -23,6 +23,7 @@ export default class Item {
   initialize(props) {
     this.meta = {};
     this.meta.name = props.meta.name;
+    this.meta.label = props.meta.label;
     //this.meta.imageUrl = props.meta.imageUrl;
     this.meta.imageUrl = placeholderImg;
     this.itemRoles = props.itemRoles || ['item'];
@@ -43,6 +44,10 @@ export default class Item {
 
   getName() {
     return this.meta.name;
+  }
+
+  getLabel() {
+    return this.meta.label;
   }
 
   getImageUrl() {

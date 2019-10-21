@@ -1,7 +1,18 @@
 
 import { dispatcher } from '../lib/game-dispatcher';
 import { disburseTreasure } from '../lib/combat';
-import * as constants from '../config/constants-actions.json';
+import { 
+  START_COMBAT,
+  COMBAT_DAMAGE_OPPONENT,
+  COMBAT_DAMAGE_CHARACTER,
+  END_COMBAT,
+  COMBAT_SET_ADVANTAGE,
+  COMBAT_START_ROUND,
+  COMBAT_START_TURN_OPPONENT,
+  COMBAT_START_TURN_CHARACTER,
+  COMBAT_END_TURN_CHARACTER
+} from '../config/constants-actions.json';
+import { CHARACTER, OPPONENT } from "../config/constants-general";
 import { combatStore } from '../stores/store-combat';
 import { characterStore } from '../stores/store-character';
 import { showGameMsg } from '../actions/actions-messages';
@@ -13,7 +24,7 @@ export const startCombat = ({
   opponentsSurprised
 }) => {
   dispatcher.dispatch({
-    type: constants.START_COMBAT,
+    type: START_COMBAT,
     payload: {
       opponents,
       characterSurprised,
@@ -23,19 +34,70 @@ export const startCombat = ({
 };
 
 export const damageOpponent = (dmg) => {
-  if (!(dmg instanceof Damage)) {
+  if (typeof dmg !== "number") {
     throw new TypeError('Invalid damage passed to damageOpponent');
   }
   
   dispatcher.dispatch({
-    type: constants.COMBAT_DAMAGE,
+    type: COMBAT_DAMAGE_OPPONENT,
+    payload: { dmg }
+  });
+};
+
+export const damageCharacter = (dmg) => {
+  if (typeof dmg !== "number") {
+    throw new TypeError('Invalid damage passed to damageCharacter');
+  }
+  
+  dispatcher.dispatch({
+    type: COMBAT_DAMAGE_CHARACTER,
     payload: { dmg }
   });
 };
 
 export const endCombat = () => {
   dispatcher.dispatch({
-    type: constants.END_COMBAT
+    type: END_COMBAT
   });
 };
 
+export const setAdvantage = (whoHasAdvantage) => {
+  if (whoHasAdvantage && whoHasAdvantage !== CHARACTER &&
+    whoHasAdvantage !== OPPONENT) {
+    throw new TypeError("Invalid party passed to setAdvantage");
+  }
+
+  dispatcher.dispatch({
+    type: COMBAT_SET_ADVANTAGE,
+    payload: {
+      whoHasAdvantage
+    }
+  });
+};
+
+export const startRound = () => {
+  dispatcher.dispatch({
+    type: COMBAT_START_ROUND
+  });
+};
+
+export const startOpponentsTurn = () => {
+  console.log('starting opponents turn');
+  dispatcher.dispatch({
+    type: COMBAT_START_TURN_OPPONENT
+  });
+};
+
+export const startCharactersTurn = () => {
+  console.log('starting chars turn');
+  dispatcher.dispatch({
+    type: COMBAT_START_TURN_CHARACTER
+  });
+};
+
+export const endCharactersTurn = () => {
+  console.log('ending chars turn');
+  dispatcher.dispatch({
+    type: COMBAT_END_TURN_CHARACTER
+  });
+}

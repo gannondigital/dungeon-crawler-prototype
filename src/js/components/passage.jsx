@@ -39,7 +39,8 @@ export class Passage extends Component {
       tile: currTile,
       direction: direction,
       faded: false,
-      inCombat: false
+      inCombat: false,
+      isCharactersTurn: false
     };
     this.turnLeft = this.turnLeft.bind(this);
     this.turnRight = this.turnRight.bind(this);
@@ -88,16 +89,21 @@ export class Passage extends Component {
 
   handleCombatUpdate() {
     const inCombat = combatStore.isInCombat();
+    const isCharactersTurn = combatStore.isCharactersTurn();
 
     this.setState((prevState, currProps) => {
-      const newState = Object.assign(prevState, { inCombat });
+      if (isCharactersTurn) { console.log('is characters turn')}
+      const newState = Object.assign(prevState, {
+        inCombat,
+        isCharactersTurn
+      });
       return newState;
     });
   }
 
   render() {
     const dirsForWalls = getDirsForWalls(this.state.direction);
-    const { tile, inCombat } = this.state;
+    const { tile, inCombat, isCharactersTurn } = this.state;
     const currTilename = this.state.tile.getName();
 
     if (!(tile instanceof Tile)) {
@@ -151,7 +157,7 @@ export class Passage extends Component {
           </div>
         </div>
         <div className={`passageoverlay${overlayClass}`} />
-        {inCombat && <CombatControls />}
+        {inCombat && isCharactersTurn && <CombatControls />}
         <PassageControls 
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}

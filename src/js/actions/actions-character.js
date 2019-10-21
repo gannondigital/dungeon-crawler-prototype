@@ -1,8 +1,10 @@
 import { dispatcher } from '../lib/game-dispatcher';
 import * as constants from '../config/constants-actions.json';
 import { levelStore } from '../stores/store-level';
-import { startCombat } from '../actions/actions-combat';
+import { startCombat as startCombatAction } from "../actions/actions-combat";
+import { startCombat } from '../lib/combat';
 import { tileHasUndefeatedOpponents } from '../lib/combat';
+import { CHARACTER } from "../config/constants-general";
 
 export const setDirection = (dir) => {
   if (!dir || typeof dir !== 'string') {
@@ -20,13 +22,17 @@ export const setDirection = (dir) => {
 export const setTile = (tileName) => {
   const tile = levelStore.getTile(tileName);
 
-  if (tileHasUndefeatedOpponents(tile)) {
-    const monsters = tile.getMonsters();
-    startCombat({ opponents: monsters });
-  }
-
   dispatcher.dispatch({
     type: constants.TILE_SET,
     payload: { tileName }
   });
+
+  // @todo this is a weird place to do this, also
+  // weird that there's an action and a fn for starting combat
+  // maybe move all this to lib/combat?
+  if (tileHasUndefeatedOpponents(tile)) {
+    const monsters = tile.getMonsters();
+    startCombatAction({ opponents: monsters });
+    startCombat({ whoHasAdvantage: CHARACTER });
+  }
 };

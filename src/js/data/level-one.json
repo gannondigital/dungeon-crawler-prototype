@@ -64,7 +64,7 @@
           ]
         }
       },
-      "monsters": ["angry-goose"]
+      "monsters": ["small-ghost"]
     },
     "1x3": {
       "coords": {"x": 1, "y": 3},

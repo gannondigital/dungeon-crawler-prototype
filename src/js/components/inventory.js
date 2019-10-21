@@ -12,10 +12,12 @@ export class Inventory extends Component {
     super(props);
 
     const allItems = inventoryStore.getAllItems();
+    const activeWeapon = inventoryStore.getActiveWeapon();
 
     this.state = {
       uiState: 'items', // 'armor' || 'weapons'
-      items: allItems
+      items: allItems,
+      activeWeapon
     };
   }
 
@@ -33,7 +35,11 @@ export class Inventory extends Component {
 
   handleInventoryUpdate() {
     const allItems = inventoryStore.getAllItems();
-    this.setState({ items: allItems });
+    const activeWeapon = inventoryStore.getActiveWeapon();
+    this.setState({
+      items: allItems,
+      activeWeapon
+    });
   }
 
   componentDidMount() {
@@ -45,7 +51,11 @@ export class Inventory extends Component {
   }
 
   render() {
-    const { uiState, items } = this.state;
+    const {
+      uiState,
+      items,
+      activeWeapon
+    } = this.state;
     const itemsToRender = items[uiState];
     
     const itemComponents = itemsToRender.map((item) => {
@@ -58,6 +68,10 @@ export class Inventory extends Component {
         <div className="inventory--tabs">
           <button>Arms & Armor</button>
           <button>Items</button>
+        </div>
+        <div className="inventory--active_weapon">
+          <span>Active Weapon:</span>
+          <ItemTile item={ activeWeapon } />
         </div>
         <div className="inventory--itemlist">
           { itemComponents }
