@@ -31,7 +31,7 @@ import { MSG_SPEED_MED } from "../config/constants-general";
 import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
 
 const HIT_CONST = 10;
-const DELAY_BETWEEN_TURNS_MS = 1000;
+const DELAY_BETWEEN_TURNS_MS = 1250;
 
 export const startCombat = ({
   whoHasAdvantage
@@ -49,18 +49,18 @@ const runCombat = () => {
   runCombatRounds();
 };
 
-// @todo this is a mess, refactor
+// @todo this is even worse now, refactor
 const runCombatRounds = () => {
   startRound();
 
   if (combatStore.opponentHasAdvantage()) {
-    runTurnForOpponent();
+    runTurnForOpponent().then(() => {
+      if (!combatStore.isInCombat()) {
+        return;
+      }
 
-    if (!combatStore.isInCombat()) {
-      return;
-    }
-
-    runTurnForCharacter().then(() => {
+      return runTurnForCharacter();
+    }).then(() => {
       if (combatStore.isInCombat()) {
         runCombatRounds();
       }
@@ -73,7 +73,8 @@ const runCombatRounds = () => {
         return;
       }
 
-      runTurnForOpponent();
+      return runTurnForOpponent();
+    }).then(() => {
       if (combatStore.isInCombat()) {
         runCombatRounds();
       }
@@ -84,23 +85,30 @@ const runCombatRounds = () => {
 };
 
 const runTurnForOpponent = () => {
-  startOpponentsTurn();
+  return new Promise((resolve, reject) => {
+    startOpponentsTurn();
 
-  // UX needs a delay bewteen user action and opponent's
-  // it doesn't have to be here, but this works pretty well
-  setTimeout(() => {
-    const attacks = combatStore.getOpponentsAttacks();
-    const action = chooseOpponentsAction(attacks);
-    
-    switch (action.type) {
-      case COMBAT_ACTION_ATTACK: 
-          attackCharacter(action.attack);
-        break;
+    // UX needs a delay bewteen user action and opponent's
+    // it doesn't have to be here, but this works pretty well
+    setTimeout(() => {
+      try {
+        const attacks = combatStore.getOpponentsAttacks();
+        const action = chooseOpponentsAction(attacks);
+        
+        switch (action.type) {
+          case COMBAT_ACTION_ATTACK: 
+              attackCharacter(action.attack);
+              resolve()
+            break;
 
-      default: 
-        throw new TypeError("Unrecognized combat action type");
-    }
-  }, DELAY_BETWEEN_TURNS_MS);
+          default: 
+            throw new TypeError("Unrecognized combat action type");
+        }
+      } catch (err) {
+        reject(err);
+      }
+    }, DELAY_BETWEEN_TURNS_MS);
+  });
 };
 
 // @todo build some modicum of intelligence into this --

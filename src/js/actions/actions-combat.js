@@ -82,18 +82,21 @@ export const startRound = () => {
 };
 
 export const startOpponentsTurn = () => {
+  console.log('starting opponents turn');
   dispatcher.dispatch({
     type: COMBAT_START_TURN_OPPONENT
   });
 };
 
 export const startCharactersTurn = () => {
+  console.log('starting chars turn');
   dispatcher.dispatch({
     type: COMBAT_START_TURN_CHARACTER
   });
 };
 
 export const endCharactersTurn = () => {
+  console.log('ending chars turn');
   dispatcher.dispatch({
     type: COMBAT_END_TURN_CHARACTER
   });

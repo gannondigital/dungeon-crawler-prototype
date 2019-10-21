@@ -92,6 +92,7 @@ export class Passage extends Component {
     const isCharactersTurn = combatStore.isCharactersTurn();
 
     this.setState((prevState, currProps) => {
+      if (isCharactersTurn) { console.log('is characters turn')}
       const newState = Object.assign(prevState, {
         inCombat,
         isCharactersTurn
