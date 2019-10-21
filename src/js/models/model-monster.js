@@ -19,14 +19,16 @@
 //   dmg
 //   dmgType
 //   accuracyMod
+// expLevel
 // meta
 //   img
-//   name 
+//   name
+//   label
 //   type
 //   lore
 
-import { Damage } from '../models/model-damage';
 import { Treasure } from '../models/model-treasure';
+import OpponentAttack from "../models/model-opponent-attack";
 import combatConstants from '../config/constants-combat';
 
 const placeholderImg = require('../../img/monster-placeholder.png');
@@ -61,8 +63,23 @@ export class Monster {
     return this.meta.img_url;
   }
 
+  getExpLevel() {
+    return this.expLevel;
+  }
+
+  /**
+   * Returns code-friendly, unique name of monster
+   * @return {[type]} [description]
+   */
   getName() {
     return this.meta.name;
+  }
+
+  /**
+   * Returns human-friendly name of monster
+   */
+  getLabel() {
+    return this.meta.label;
   }
 
   takeDamage(dmg) {
@@ -91,19 +108,33 @@ export class Monster {
     return new Treasure({ items });
   }
 
+  getStr() {
+    return this.attr.str;
+  }
+
   getEvasion() {
     return this.attr.dex;
+  }
+
+  getAccuracy() {
+    return this.attr.accuracy;
   }
 
   getArmor() {
     return this.armor;
   }
 
+  getAttacks() {
+    return this.attacks;
+  }
+
 }
 
 function validateProps(monsterProps) {
   let isValid = true;
-  isValid = validateMeta(monsterProps.meta);
+  isValid = isValid && validateMeta(monsterProps.meta);
+  isValid = isValid && validateAttacks(monsterProps.attacks);
+  isValid = isValid && (typeof monsterProps.expLevel === "number" && !isNaN(monsterProps.expLevel));
   return isValid;
 }
 
@@ -111,4 +142,20 @@ function validateMeta(monsterMeta) {
   return !!(monsterMeta && typeof monsterMeta === 'object' &&
     monsterMeta.name && typeof monsterMeta.name === 'string' &&
     monsterMeta.label && typeof monsterMeta.label === 'string');
+}
+
+/**
+ * Validates attack data, which should be a obj of OpponentAttacks
+ * keyed by attack name.
+ * @param  {Object} monsterAttacks OpponentAttack objects keyed on attack name
+ * @return {Boolean}
+ */
+function validateAttacks(monsterAttacks) {
+  let isValid = true;
+  Object.values(monsterAttacks).forEach(attackObj => {
+    if ( !(attackObj instanceof OpponentAttack ) ) {
+      isValid = false;
+    }
+  });
+  return isValid;
 }

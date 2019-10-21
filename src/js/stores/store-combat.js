@@ -2,21 +2,38 @@ import cloneDeep from 'lodash.cloneDeep';
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
-import * as constants from '../config/constants-actions';
+import {
+  START_COMBAT,
+  END_COMBAT,
+  COMBAT_DAMAGE_OPPONENT,
+  COMBAT_OPPONENTS_DEFEATED,
+  COMBAT_SET_ADVANTAGE,
+  COMBAT_START_TURN_OPPONENT,
+  COMBAT_START_TURN_CHARACTER,
+  COMBAT_START_ROUND,
+  COMBAT_END_TURN_CHARACTER
+} from '../config/constants-actions';
+import { OPPONENT, CHARACTER } from "../config/constants-general";
 import { Damage } from '../models/model-damage';
+
+const initialState = {
+  inCombat: false,
+  opponentHasAdvantage: false,
+  characterHasAdvantage: false,
+  opponents: [],
+  round: 0,
+  hasCurrTurn: '', // CHARACTER or OPPONENT
+};
 
 class CombatStore extends Store {
 
   constructor() {
     super();
-    this.data = {
-      characterSurprised: false,
-      inCombat: false,
-      opponentsSurprised: false,
-      opponents: [],
-      round: 0,
-      hasCurrTurn: null, // opponent obj, or string 'character'
-    };
+    this.data = Object.assign({}, initialState);
+  }
+
+  getOpponent() {
+    return this.data.opponents[0];
   }
 
   isInCombat() {
@@ -39,12 +56,40 @@ class CombatStore extends Store {
     return totalTreasure;
   }
 
+  getOpponentsName() {
+    return this.getOpponent().getLabel();
+  }
+
+  getOpponentsLevel() {
+    return this.getOpponent().getExpLevel();
+  }
+
+  getOpponentsStr() {
+    return this.getOpponent().getStr();
+  }
+
   getOpponentsEvasion() {
-    return this.data.opponents[0].getEvasion();
+    return this.getOpponent().getEvasion();
   }
 
   getOpponentsArmor() {
-    return this.data.opponents[0].getArmor();
+    return this.getOpponent().getArmor();
+  }
+
+  opponentHasAdvantage() {
+    return this.data.opponentHasAdvantage;
+  }
+
+  getOpponentsAttacks() {
+    return this.getOpponent().getAttacks();
+  }
+
+  getOpponentsAccuracy() {
+    return this.getOpponent().getAccuracy();
+  }
+
+  isCharactersTurn() {
+    return this.data.hasCurrTurn === CHARACTER;
   }
 
 }
@@ -52,17 +97,13 @@ export const combatStore = new CombatStore();
 
 combatStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
-    case constants.START_COMBAT:
+    case START_COMBAT:
       const { 
-        opponents,
-        characterSurprised,
-        opponentsSurprised
+        opponents
       } = action.payload;
 
       combatStore.data = Object.assign(combatStore.data, {
         inCombat: true,
-        characterSurprised,
-        opponentsSurprised
       });
 
       // set up opponents
@@ -70,20 +111,18 @@ combatStore.dispatchToken = dispatcher.register((action) => {
 
       // set up rounds/turns
       combatStore.data.round = 1;
-      // @todo handle initiative/surprise
+
       combatStore.data.hasCurrTurn = 'character';
 
       combatStore.triggerChange();
       break;
 
-    case constants.END_COMBAT:
-      combatStore.data = Object.assign(combatStore.data, {
-        inCombat: false
-      });
+    case END_COMBAT:
+      this.data = Object.assign({}, initialState);
       combatStore.triggerChange();
       break;
 
-    case constants.COMBAT_DAMAGE_OPPONENT: 
+    case COMBAT_DAMAGE_OPPONENT: 
       const { dmg } = action.payload;
 
       // @todo support multiple opponents
@@ -92,9 +131,46 @@ combatStore.dispatchToken = dispatcher.register((action) => {
 
       combatStore.triggerChange();
       break;
-    case constants.COMBAT_OPPONENTS_DEFEATED:
+    
+    case COMBAT_OPPONENTS_DEFEATED:
       
       break;
+
+    case COMBAT_SET_ADVANTAGE: 
+      const { whoHasAdvantage } = action.payload;
+      if (whoHasAdvantage && whoHasAdvantage === OPPONENT) {
+        combatStore.data = Object.assign(combatStore.data, {
+          opponentHasAdvantage: true,
+          characterHasAdvantage: false
+        });
+      } else if (whoHasAdvantage && whoHasAdvantage === CHARACTER) {
+        combatStore.data = Object.assign(combatStore.data, {
+          characterHasAdvantage: true,
+          opponentHasAdvantage: false
+        });
+      }
+      combatStore.triggerChange();
+
+      break;
+
+    case COMBAT_START_ROUND:
+      combatStore.data.round++;
+      combatStore.triggerChange();
+      break;
+
+    case COMBAT_START_TURN_OPPONENT:
+      combatStore.data.hasCurrTurn = OPPONENT;
+      combatStore.triggerChange();
+      break;
+
+    case COMBAT_START_TURN_CHARACTER:
+      combatStore.data.hasCurrTurn = CHARACTER;
+      combatStore.triggerChange();
+      break;
+
+    case COMBAT_END_TURN_CHARACTER:
+      combatStore.data.hasCurrTurn = '';
+      combatStore.triggerChange();
     default:
       break;
   }

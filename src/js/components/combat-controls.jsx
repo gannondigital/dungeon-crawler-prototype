@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { attackOpponent } from '../lib/combat';
+import { endCharactersTurn } from "../actions/actions-combat";
 
 export class CombatControls extends Component {
 
@@ -12,6 +13,7 @@ export class CombatControls extends Component {
 
   handleAttackClick() {
     attackOpponent();
+    endCharactersTurn();
   }
 
   render() {

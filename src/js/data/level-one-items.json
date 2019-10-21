@@ -34,5 +34,24 @@
     ],
     "accuracyMod": 0,
     "evasionMod": 0
+  },
+  "clothes": {
+    "bulkSize": 1,
+    "itemRoles": [
+      "armor"
+    ],
+    "meta": {
+      "imageUrl": "",
+      "label": "Clothes",
+      "name": "clothes"
+    },
+    "types": [
+      "normal"
+    ],
+    "accuracyMod": 0,
+    "evasionMod": 0,
+    "protection": 1,
+    "protectedAgainst": [],
+    "vulnerableTo": []
   }
 }

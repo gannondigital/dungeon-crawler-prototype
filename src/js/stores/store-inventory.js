@@ -14,6 +14,7 @@ class InventoryStore extends Store {
     super();
     this.data = {
       activeWeapon: null,
+      activeArmor: null,
       items: {
         weapons: [
           {
@@ -40,6 +41,10 @@ class InventoryStore extends Store {
     return this.data.activeWeapon;
   }
 
+  getActiveArmor() {
+    return this.data.activeArmor;
+  }
+
 }
 
 export const inventoryStore = new InventoryStore();
@@ -55,6 +60,9 @@ inventoryStore.dispatchToken = dispatcher.register((action) => {
     case constants.INVENTORY_SET_ACTIVE_WEAPON:
       const { weapon } = action.payload;
       inventoryStore.data.activeWeapon = weapon;
+    case constants.INVENTORY_SET_ACTIVE_ARMOR:
+      const { armor } = action.payload;
+      inventoryStore.data.activeArmor = armor;
     default:
       break;
   }

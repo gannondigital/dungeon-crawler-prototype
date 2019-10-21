@@ -4,8 +4,9 @@
       "name": "small-ghost",
       "label": "Small Ghost",
       "type": [],
-      "lore": "Qwek qwek qwek"
+      "lore": "Qwek qwek qwek boo"
     },
+    "expLevel": 1,
     "stats": {
       "maxHealth": 5
     },
@@ -21,8 +22,8 @@
     },
     "attacks": {
       "spook": {
-        "dmg": 1,
-        "dmgTypes": [
+        "dmgPoints": 1,
+        "types": [
           "undead"
         ],
         "accuracyMod": 0

@@ -1,5 +1,7 @@
 import { Monster } from '../models/model-monster';
 import { Treasure } from '../models/model-treasure';
+import { Damage } from "../models/model-damage";
+import OpponentAttack from "../models/model-opponent-attack";
 import { itemsStore } from '../stores/store-items';
 
 /**
@@ -20,6 +22,8 @@ export const MonsterFactory = (monsterProps) => {
       items
     }
   });
+  const attacks = getAttacksForMonster(monsterProps.attacks);
+  newMonsterProps.attacks = attacks;
   return new Monster(newMonsterProps);
 };
 
@@ -35,4 +39,30 @@ function getTreasureForMonster(treasureObj) {
   const itemNameArr = treasureObj.items;
   const items = itemsStore.getItems(itemNameArr);
   return items;
+}
+
+/**
+ * Replaces the raw attack data's dmg values with a Damage object
+ * @param  {Object} rawAttackData Raw JSON object of a monster's attacks, keyed on name
+ * @return {Object}               Similar object, with dmgPoints and types replaced by
+ *                                a `dmg` object
+ */
+function getAttacksForMonster(rawAttackData) {
+  const attackObjs = {};
+  for (const attackName in rawAttackData) {
+    if (!rawAttackData.hasOwnProperty(attackName)) {
+      continue;
+    }
+
+    const { dmgPoints, types, accuracyMod } = rawAttackData[attackName];
+    const dmg = new Damage({
+      dmgPoints,
+      types
+    });
+    attackObjs[attackName] = new OpponentAttack({
+      dmg,
+      accuracyMod
+    });
+  }
+  return attackObjs;
 }

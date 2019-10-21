@@ -1,5 +1,10 @@
 import Item from "./model-item";
 
+// @todo should this be able to provide a Damage 
+// instance? clarify boundaries
+// we do need more than just this to get a final Damage
+// but if Damage instances could easily be composed into 
+// new Damage instances, it would make sense here
 export default class Weapon extends Item {
   constructor(props) {
     super(props);

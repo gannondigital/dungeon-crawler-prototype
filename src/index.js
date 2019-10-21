@@ -7,7 +7,7 @@ import * as config from './js/config/config-default.json';
 import { loadLevel } from './js/actions/actions-level';
 import { loadMonsters } from './js/actions/actions-monsters';
 import { loadItems } from './js/actions/actions-items';
-import { setActiveWeapon } from './js/actions/actions-inventory';
+import { setActiveWeapon, setActiveArmor } from './js/actions/actions-inventory';
 
 import { levelStore } from './js/stores/store-level';       
 import { characterStore } from './js/stores/store-character';
@@ -40,4 +40,7 @@ loadLevel(config.startLevel).then(() => {
 function bootstrapCharacter() {
   const initialWeapon = itemsStore.getItems(['staff'])[0];
   setActiveWeapon(initialWeapon);
+
+  const initialArmor = itemsStore.getItems(['clothes'])[0];
+  setActiveArmor(initialArmor);
 }

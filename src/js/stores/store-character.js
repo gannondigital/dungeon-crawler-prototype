@@ -1,7 +1,11 @@
 
 import { Store } from '../lib/store';
 import { dispatcher } from '../lib/game-dispatcher';
-import * as constants from '../config/constants-actions';
+import {
+  TILE_SET,
+  DIRECTION_SET,
+  COMBAT_DAMAGE_CHARACTER
+} from '../config/constants-actions';
 
 class CharacterStore extends Store {
 
@@ -43,6 +47,10 @@ class CharacterStore extends Store {
     return this.data.attributes.intelligence;
   }
 
+  getEvasion() {
+    return this.data.attributes.dex;
+  }
+
   getExpLevel() {
     return this.data.expLevel;
   }
@@ -53,11 +61,12 @@ export const characterStore = new CharacterStore();
 
 characterStore.dispatchToken = dispatcher.register((action) => {
   switch (action.type) {
-    case constants.TILE_SET:
+    case TILE_SET:
       characterStore.data.currTileName = action.payload.tileName;
       characterStore.triggerChange();
       break;
-    case constants.DIRECTION_SET:
+
+    case DIRECTION_SET:
       const newDir = action.payload.direction;
       if (!newDir || typeof newDir !== 'string') {
         throw new TypeError('Invalid direction received from DIRECTION_SET action');
@@ -69,6 +78,20 @@ characterStore.dispatchToken = dispatcher.register((action) => {
         characterStore.triggerChange();
       }
       break;
+
+    case COMBAT_DAMAGE_CHARACTER:
+      const { dmg } = action.payload;
+      if (dmg) {
+        const { data: { health } } = characterStore;
+        characterStore.data.health = health - dmg;
+        // @todo handle character "death"
+        if (characterStore.data.health <= 0) {
+          console.log('zero health!');
+        }
+        characterStore.triggerChange();
+      }
+      break;
+
     default:
       break;
   }

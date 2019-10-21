@@ -5,55 +5,74 @@ export default class Armor extends Item {
   constructor(props) {
     super(props);
 
+    const {
+      protection,
+      protectedAgainst,
+      vulnerableTo,
+      evasionMod,
+      accuracyMod
+    } = props;
+
     if (!validateProps(props)) {
       throw new TypeError('Invalid props passed to Armor constructor');
     }
 
-    this.protection = props.protection;
-    this.protectsAgainst = props.protectsAgainst;
-    this.vulnerableTo = props.vulnerableTo;
-    this.evasionMod = props.evasionMod;
-    this.accuracyMod = props.accuracyMod;
+    this.data = {
+      protection,
+      protectedAgainst,
+      vulnerableTo,
+      evasionMod,
+      accuracyMod
+    };
   }
 
   getProtection() {
-
+    return this.data.protection;
   }
 
-  getProtectsAgainst() {
-
+  getProtectedAgainst() {
+    return this.data.protectedAgainst;
   }
 
   getVulnerableTo() {
-
+    return this.data.vulnerableTo;
   };
 
   getEvasionMod() {
-
+    return this.data.evasionMod;
   };
 
   getAccuracyMod() {
-
+    return this.data.accuracyMod;
   }
  
 }
 
 function validateProps(props) {
-  if (typeof props.protection !=='number' || isNaN(props.protection)) {
+  const {
+    protection,
+    protectedAgainst,
+    vulnerableTo,
+    evasionMod,
+    accuracyMod
+  } = props;
+  if (typeof protection !=='number' || isNaN(protection)) {
     return false;
   } 
 
-  if (typeof props.protectsAgainst !==  "object" || !props.getProtectsAgainst || typeof props.protectsAgainst.length !== "number" ) {
+  if (!Array.isArray(protectedAgainst)) {
     return false;
   }
-  if (typeof props.vulnerableTo !== "object" || !props.vulnerableTo || typeof props.vulnerableTo.length !== "number" ) {
+
+  if (!Array.isArray(vulnerableTo)) {
     return false;
   }
-  if (typeof props.evasionMod !=='number' || isNaN(props.evasionMod)) {
+
+  if (typeof evasionMod !=='number' || isNaN(evasionMod)) {
     return false;
   
   }
-  if (typeof props.accuracyMod !=='number' || isNaN(props.accuracyMod)) {
+  if (typeof accuracyMod !=='number' || isNaN(accuracyMod)) {
     return false;
   }
 

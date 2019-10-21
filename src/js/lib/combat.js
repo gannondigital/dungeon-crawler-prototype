@@ -1,6 +1,21 @@
+// @todo this file is a beast, it does probably make sense
+// as a combat library but at the very least it could be split
+// out into better encapsulated submodules
+
+// @todo visual cues for attacks & damage in the UI
+
 import { showGameMsg } from '../actions/actions-messages';
 import { addToInventory } from '../actions/actions-inventory';
-import { damageOpponent, endCombat } from '../actions/actions-combat';
+import {
+  startCombat as startCombatAction,
+  damageOpponent,
+  damageCharacter,
+  endCombat,
+  setAdvantage,
+  startRound,
+  startOpponentsTurn,
+  startCharactersTurn
+} from '../actions/actions-combat';
 import { addToPlayHistory } from '../actions/actions-playhistory';
 import { playHistoryStore } from '../stores/store-play-history';
 
@@ -9,11 +24,129 @@ import { characterStore } from '../stores/store-character';
 import { inventoryStore } from '../stores/store-inventory';
 
 import { Damage } from '../models/model-damage';
+import Defense from '../models/model-defense';
 
 import { getRandomNum } from './util';
-import generalConstants from "../config/constants-general";
+import { MSG_SPEED_MED } from "../config/constants-general";
+import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
 
 const HIT_CONST = 10;
+const DELAY_BETWEEN_TURNS_MS = 1000;
+
+export const startCombat = ({
+  whoHasAdvantage
+}) => {
+  setAdvantage(whoHasAdvantage);
+  runCombat();
+};
+
+const runCombat = () => {
+  let isInCombat = combatStore.isInCombat();
+  if (!isInCombat) {
+    throw new Error("runCombat called when combat not started");
+  }
+
+  runCombatRounds();
+};
+
+// @todo this is a mess, refactor
+const runCombatRounds = () => {
+  startRound();
+
+  if (combatStore.opponentHasAdvantage()) {
+    runTurnForOpponent();
+
+    if (!combatStore.isInCombat()) {
+      return;
+    }
+
+    runTurnForCharacter().then(() => {
+      if (combatStore.isInCombat()) {
+        runCombatRounds();
+      }
+    }).catch(err => {
+      throw err;
+    });
+  } else {
+    runTurnForCharacter().then(() => {
+      if (!combatStore.isInCombat()) {
+        return;
+      }
+
+      runTurnForOpponent();
+      if (combatStore.isInCombat()) {
+        runCombatRounds();
+      }
+    }).catch(err => {
+      throw err;
+    });
+  }
+};
+
+const runTurnForOpponent = () => {
+  startOpponentsTurn();
+
+  // UX needs a delay bewteen user action and opponent's
+  // it doesn't have to be here, but this works pretty well
+  setTimeout(() => {
+    const attacks = combatStore.getOpponentsAttacks();
+    const action = chooseOpponentsAction(attacks);
+    
+    switch (action.type) {
+      case COMBAT_ACTION_ATTACK: 
+          attackCharacter(action.attack);
+        break;
+
+      default: 
+        throw new TypeError("Unrecognized combat action type");
+    }
+  }, DELAY_BETWEEN_TURNS_MS);
+};
+
+// @todo build some modicum of intelligence into this --
+// when do they try to run/heal/change attack strategy?
+// Maybe predefined tiers of cleverness, monster data
+// could specify a monster's tier
+const chooseOpponentsAction = (attacks) => {
+  // @todo support running, magic, items
+  const attackList = Object.keys(attacks);
+  if (attackList.length === 0) {
+    throw new ReferenceError("opponent has no attacks");
+  }
+  let attackName;
+  if (attackList.length === 1) {
+    attackName = attackList[0];
+  } else {
+    const index = getRandomNum(attackList.length - 1);
+    attackName = attackList[index];
+  }
+  
+  const attack = attacks[attackName];
+  const action = {
+    type: COMBAT_ACTION_ATTACK,
+    attack
+  }
+  return action;
+};
+
+/**
+ * Relies on user input for triggering their action, user
+ * actions will end turn, so we poll for the character's
+ * turn to be done. There is probably a more elegant way 
+ */
+const runTurnForCharacter = () => {
+  return new Promise((resolve, reject) => {
+    startCharactersTurn();
+    let isCharactersTurn = combatStore.isCharactersTurn();
+
+    const charTurnCheck = setInterval(() => {
+      if(!combatStore.isCharactersTurn()) {
+        clearInterval(charTurnCheck);
+        resolve();
+      }
+    }, 250);
+  });
+};
 
 export const tileHasUndefeatedOpponents = (tile) => {
   const tilename = tile.getName();
@@ -24,7 +157,7 @@ export const tileHasUndefeatedOpponents = (tile) => {
   return thereAreMonsters;
 };
 
-export const getCurrTotalAccuracy = () => {
+export const getCharactersTotalAccuracy = () => {
   const charAccuracy = characterStore.getAccuracy();
   const selectedWeapon = inventoryStore.getActiveWeapon();
   // @todo active armor modifiers also
@@ -32,24 +165,48 @@ export const getCurrTotalAccuracy = () => {
   return totalAccuracy;
 };
 
-export const attackOpponent = () => {
-  const totalAccuracy = getCurrTotalAccuracy();
+const getOpponentsTotalAccuracy = (attack) => {
+  const opponentAccuracy = combatStore.getOpponentsAccuracy();
+  const attackMod = attack.getAccuracyMod();
+  return opponentAccuracy + attackMod;
+};
 
-  const hitSucceeded = doesAttackHit( totalAccuracy, combatStore.getOpponentsEvasion() );
+/**
+ * Coordinates an opponent attack on the character
+ * @param  {OpponentAttack} attack An OpponentAttack representing
+ *                                 the attack being used
+ */
+export const attackCharacter = (attack) => {
+  const charEvasion = characterStore.getEvasion();
+  const totalAccuracy = getOpponentsTotalAccuracy(attack);
+
+  const hitSucceeded = doesAttackHit(totalAccuracy, charEvasion);
+
   if (hitSucceeded) {
-    handleHit();
+    handleHitToCharacter(attack);
   } else {
-    handleMiss();
+    handleMissToCharacter();
   }
 };
 
-export const handleHit = () => {
-  const dmg = getDmgDealt();
-  const modifiedDmg = calculateModifiedDmg(dmg);
+export const attackOpponent = () => {
+  const totalAccuracy = getCharactersTotalAccuracy();
+
+  const hitSucceeded = doesAttackHit( totalAccuracy, combatStore.getOpponentsEvasion() );
+  if (hitSucceeded) {
+    handleHitToOpponent();
+  } else {
+    handleMissToOpponent();
+  }
+};
+
+export const handleHitToOpponent = () => {
+  const dmg = getDmgDealtByCharacter();
+  const defense = getOpponentsDefense();
+
+  const modifiedDmg = calculateModifiedDmg(dmg, defense);
   damageOpponent(modifiedDmg);
 
-  // @todo can we know the dmg amount here if the type 
-  // dictates how much dmg is inflicted on the opponent?
   showGameMsg(`Did ${modifiedDmg} damage!`);
 
   if (combatStore.areOpponentsDefeated()) {
@@ -68,8 +225,43 @@ export const handleHit = () => {
   }
 }
 
-export const handleMiss = () => {
+/**
+ * Does all the things when an opponent hits a character
+ * @param  {OpponentAttack} attack 
+ */
+export const handleHitToCharacter = (attack) => {
+  const dmg = getDmgDealtByOpponent(attack);
+  const defense = getCharactersDefense();
+
+  const modifiedDmg = calculateModifiedDmg(dmg, defense);
+  damageCharacter(modifiedDmg);
+
+  showGameMsg(`Opponent did ${modifiedDmg} damage!`);
+
+  // @todo handle zero health
+};
+
+export const getOpponentsDefense = () => {
+  const armor = combatStore.getOpponentsArmor();
+  const { protection, protectedAgainst, vulnerableTo } = armor;
+  return new Defense({ protection, protectedAgainst, vulnerableTo });
+};
+
+export const getCharactersDefense = () => {
+  const activeArmor = inventoryStore.getActiveArmor();
+  const protection = activeArmor.getProtection();
+  const protectedAgainst = activeArmor.getProtectedAgainst();
+  const vulnerableTo = activeArmor.getVulnerableTo();
+  return new Defense({ protection, protectedAgainst, vulnerableTo });
+};
+
+export const handleMissToOpponent = () => {
   showGameMsg('Missed!');
+};
+
+export const handleMissToCharacter = () => {
+  const opponentName = combatStore.getOpponentsName();
+  showGameMsg(`${opponentName} missed!`);
 };
 
 export const doesAttackHit = (attackerAccuracy, defenderEvasion) => {
@@ -80,7 +272,9 @@ export const doesAttackHit = (attackerAccuracy, defenderEvasion) => {
   return false;
 };
 
-export const getDmgDealt = () => {
+// @todo let some attacks use attrs other than Str as a modifier
+// @todo get a Damage from weapon and derive a new Damage from it
+export const getDmgDealtByCharacter = () => {
   const activeWeapon = inventoryStore.getActiveWeapon();
   const dmgTypes = activeWeapon.getDmgTypes();
 
@@ -92,22 +286,37 @@ export const getDmgDealt = () => {
   return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes});
 };
 
-export const calculateModifiedDmg = (dmg) => {
+/**
+ * @param  {OpponentAttack} attack 
+ * @return {Damage}        
+ */
+export const getDmgDealtByOpponent = (attack) => {
+  const dmgTypes = attack.getDmgTypes();
+
+  const attackDmg = getRandomNum(attack.getDmgPoints());
+  const opponentLevelDmgMod = getRandomNum(combatStore.getOpponentsLevel());
+  const opponentStrMod = combatStore.getOpponentsStr();
+
+  const baseDmgDealt = attackDmg + opponentLevelDmgMod + opponentStrMod;
+  return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes});
+};
+
+/**
+ * Starting with a basic Dmg, applies modifiers based on protection/
+ * vulnerability
+ * @param  {Damage} dmg     Dmg object
+ * @param  {Defense} defense Defense object
+ * @return {Number}         Damage done taking into account protection/
+ *                          vulnerability
+ */
+export const calculateModifiedDmg = (dmg, defense) => {
   const dmgPoints = dmg.getDmgPoints();
   const dmgTypes = dmg.getTypes();
+  const protection = defense.getProtection();
 
-  const armor = combatStore.getOpponentsArmor();
-  const { protection, protectedAgainst, vulnerableTo } = armor;
-
-  const isProtected = dmgTypes.reduce((acc, dmgType) => {
-    return acc || protectedAgainst.includes(dmgType);
-  }, false);
-  let isVulnerable = false;
-  if (!isProtected) {
-    isVulnerable = dmgTypes.reduce((acc, dmgType) => {
-      return acc || vulnerableTo.includes(dmgType);
-    }, false);
-  }
+  // protection takes precedence over vulnerability
+  const isProtected = defense.isProtectedAgainst(dmgTypes);
+  const isVulnerable = !isProtected && defense.isVulnerableTo(dmgTypes);
 
   let modifiedDmg = dmgPoints;
   if (isProtected) {
@@ -125,7 +334,7 @@ export const disburseTreasure = (treasures) => {
     const messages = treasure.getReceivedMessages();
     const toInventory = treasure.getItemsForInventory();
 
-    showGameMsg(messages, generalConstants.MSG_SPEED_MED);
+    showGameMsg(messages, MSG_SPEED_MED);
     addToInventory(toInventory);
   });
 };
