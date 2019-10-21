@@ -27,7 +27,7 @@
     "types": [
       "normal"
     ],
-    "dmg": 3,
+    "dmg": 10,
     "dmgTypes": [
       "normal",
       "blunt"

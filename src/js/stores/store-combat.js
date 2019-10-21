@@ -118,7 +118,7 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       break;
 
     case END_COMBAT:
-      this.data = Object.assign({}, initialState);
+      combatStore.data = Object.assign({}, initialState);
       combatStore.triggerChange();
       break;
 
