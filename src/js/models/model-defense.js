@@ -1,15 +1,10 @@
-
 export default class Defense {
   constructor(props) {
     if (!arePropsValid(props)) {
       throw new TypeError("Invalid props passed to Defense constructor");
     }
 
-    const {
-      protection,
-      protectedAgainst,
-      vulnerableTo
-    } = props;
+    const { protection, protectedAgainst, vulnerableTo } = props;
 
     this.data = {
       protection,
@@ -32,7 +27,7 @@ export default class Defense {
 
   /**
    * @param  {Array}  dmgTypes Array of attack type strings
-   * @return {Boolean}       
+   * @return {Boolean}
    */
   isProtectedAgainst(dmgTypes) {
     return dmgTypes.reduce((acc, dmgType) => {
@@ -42,7 +37,7 @@ export default class Defense {
 
   /**
    * @param  {Array}  types Array of attack type strings
-   * @return {Boolean}       
+   * @return {Boolean}
    */
   isVulnerableTo(dmgTypes) {
     return dmgTypes.reduce((acc, dmgType) => {
@@ -52,9 +47,11 @@ export default class Defense {
 }
 
 const arePropsValid = props => {
-  if (typeof props.protection !== "number" ||
+  if (
+    typeof props.protection !== "number" ||
     !Array.isArray(props.protectedAgainst) ||
-    !Array.isArray(props.vulnerableTo)) {
+    !Array.isArray(props.vulnerableTo)
+  ) {
     return false;
   }
   return true;

@@ -11,9 +11,7 @@
       "maxHealth": 5
     },
     "treasure": {
-      "items": [
-        "healing-potion"
-      ]
+      "items": ["healing-potion"]
     },
     "attr": {
       "str": 1,
@@ -23,9 +21,7 @@
     "attacks": {
       "spook": {
         "dmgPoints": 1,
-        "types": [
-          "undead"
-        ],
+        "types": ["undead"],
         "accuracyMod": 0
       }
     },
@@ -37,9 +33,7 @@
         "weapon-normal",
         "cold"
       ],
-      "vulnerableTo": [
-        "faith"
-      ]
+      "vulnerableTo": ["faith"]
     }
   }
 }

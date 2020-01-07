@@ -1,80 +1,91 @@
-@import './vars.scss';
+@import "./vars.scss";
 
 @mixin transform-origin($origin) {
-	-webkit-transform-origin: $origin;
-	-moz-transform-origin: $origin;
-	-ms-transform-origin: $origin;
-	transform-origin: $origin;
+  -webkit-transform-origin: $origin;
+  -moz-transform-origin: $origin;
+  -ms-transform-origin: $origin;
+  transform-origin: $origin;
 }
 @mixin rotateX($deg) {
-	-webkit-transform: rotateX($deg);
-	-moz-transform: rotateX($deg);
-	-ms-transform: rotateX($deg);
-	transform: rotateX($deg);
+  -webkit-transform: rotateX($deg);
+  -moz-transform: rotateX($deg);
+  -ms-transform: rotateX($deg);
+  transform: rotateX($deg);
 }
 @mixin rotateY($deg) {
-	-webkit-transform: rotateY($deg);
-	-moz-transform: rotateY($deg);
-	-ms-transform: rotateY($deg);
-	transform: rotateY($deg);
+  -webkit-transform: rotateY($deg);
+  -moz-transform: rotateY($deg);
+  -ms-transform: rotateY($deg);
+  transform: rotateY($deg);
 }
 @mixin perspective($perspective) {
-	-webkit-perspective: $perspective;
-	-moz-perspective: $perspective;
-	perspective: $perspective;
+  -webkit-perspective: $perspective;
+  -moz-perspective: $perspective;
+  perspective: $perspective;
 }
 // IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children
 @mixin transform-style($style) {
-	-webkit-transform-style: $style;
-	-moz-transform-style: $style;
-	transform-style: $style;
+  -webkit-transform-style: $style;
+  -moz-transform-style: $style;
+  transform-style: $style;
 }
 // for box-shadow in IE9 or later, must set border-collaps: separate;
-@mixin box-shadow($inset: inset, $offset_x: 0, $offset_y: 0, $blur: 0, $spread: 0, $color: #000) {
-	-webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;
-	-moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;
-	box-shadow: $inset $offset_x $offset_y $blur $spread $color;
+@mixin box-shadow(
+  $inset: inset,
+  $offset_x: 0,
+  $offset_y: 0,
+  $blur: 0,
+  $spread: 0,
+  $color: #000
+) {
+  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;
+  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;
+  box-shadow: $inset $offset_x $offset_y $blur $spread $color;
 }
 @mixin translateZ($translate) {
-	-webkit-transform: translateZ($translate);
-	-moz-transform: translateZ($translate);
-	transform: translateZ($translate);
+  -webkit-transform: translateZ($translate);
+  -moz-transform: translateZ($translate);
+  transform: translateZ($translate);
 }
 
 @mixin panel($backgroundWidth, $backgroundHeight) {
-	background-image: url('../../img/brick-wall-pixel-wip-3-highlights-borders.png');
-	background-repeat: no-repeat;
-	background-size: $backgroundWidth $backgroundHeight;
-	display: block;
-	position: absolute;
+  background-image: url("../../img/brick-wall-pixel-wip-3-highlights-borders.png");
+  background-repeat: no-repeat;
+  background-size: $backgroundWidth $backgroundHeight;
+  display: block;
+  position: absolute;
 }
 
 @mixin panelCeilingFloor {
-	@include panel($wall_width, $wall_height * 2);
+  @include panel($wall_width, $wall_height * 2);
 }
 
 @mixin panelWall {
-	@include panel($wall_width, $wall_height);
+  @include panel($wall_width, $wall_height);
 }
 
 @mixin wall-shadow($off_x) {
-	@include box-shadow($offset_x: $off_x, $blur: $wall_width * .35, $spread: 50px);
+  @include box-shadow(
+    $offset_x: $off_x,
+    $blur: $wall_width * 0.35,
+    $spread: 50px
+  );
 }
 
 @mixin floor-shadow() {
-	@include floor-ceiling-shadow($wall_height);
+  @include floor-ceiling-shadow($wall_height);
 }
 
 @mixin ceiling-shadow() {
-	@include floor-ceiling-shadow($wall_height / -2)
+  @include floor-ceiling-shadow($wall_height / -2);
 }
 
 @mixin floor-ceiling-shadow($off_y) {
-	@include box-shadow( $offset_y: $off_y, $blur: 140px, $spread: 34px);
+  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);
 }
 
 @mixin nav-button() {
-	cursor: pointer;
-	height: 36px;
-	width:36px;
+  cursor: pointer;
+  height: 36px;
+  width: 36px;
 }

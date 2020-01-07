@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { attackOpponent } from '../lib/combat';
+import { attackOpponent } from "../lib/combat";
 import { endCharactersTurn } from "../actions/actions-combat";
 
 export class CombatControls extends Component {
-
   constructor(props) {
     super(props);
 
@@ -17,11 +16,15 @@ export class CombatControls extends Component {
   }
 
   render() {
-
     return (
       <ul className="combat-controls">
         <li>
-          <button className="combat-controls--attack" onClick={this.handleAttackClick}>Attack</button>
+          <button
+            className="combat-controls--attack"
+            onClick={this.handleAttackClick}
+          >
+            Attack
+          </button>
         </li>
         <li>
           <button className="combat-controls--magic">Magic</button>
@@ -32,5 +35,4 @@ export class CombatControls extends Component {
       </ul>
     );
   }
-
 }

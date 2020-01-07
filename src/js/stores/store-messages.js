@@ -1,11 +1,10 @@
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from "lodash.cloneDeep";
 
-import { Store } from '../lib/store';
-import { dispatcher } from '../lib/game-dispatcher';
-import * as constants from '../config/constants-actions';
+import { Store } from "../lib/store";
+import { dispatcher } from "../lib/game-dispatcher";
+import * as constants from "../config/constants-actions";
 
 class MessageStore extends Store {
-
   constructor() {
     super();
     this.data = {
@@ -17,12 +16,11 @@ class MessageStore extends Store {
   getCurrMsgs() {
     return cloneDeep(this.data.msgs);
   }
-
 }
 
 export const msgStore = new MessageStore();
 
-msgStore.dispatchToken = dispatcher.register((action) => {
+msgStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case constants.SHOW_GAME_MSG:
       const { msgText } = action.payload;

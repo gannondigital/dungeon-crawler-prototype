@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import { MapTile } from './map-tile';
-import { levelStore } from '../stores/store-level';
-import { characterStore } from '../stores/store-character';
+import { MapTile } from "./map-tile";
+import { levelStore } from "../stores/store-level";
+import { characterStore } from "../stores/store-character";
 
 function getTilename(row, column) {
   return `${row}x${column}`;
@@ -23,9 +23,7 @@ export class LevelMap extends Component {
         <button type="button" onClick={this.props.closeClickHandler}>
           Back
         </button>
-        <table className="">
-          {mapEls}
-        </table>
+        <table className="">{mapEls}</table>
       </div>
     );
   }
@@ -35,15 +33,11 @@ export class LevelMap extends Component {
 
     const colArr = [];
     while (currCol <= this.props.columns) {
-      colArr.push(this.renderCol(currCol, currRow))
+      colArr.push(this.renderCol(currCol, currRow));
       currCol++;
     }
 
-    return (
-      <tr>
-        {colArr}
-      </tr>
-    );
+    return <tr>{colArr}</tr>;
   }
 
   renderCol(currRow, currCol) {
@@ -51,17 +45,16 @@ export class LevelMap extends Component {
     let mapTile;
     try {
       mapTile = levelStore.getTile(tileName);
-    } catch(err) {
+    } catch (err) {
       // tile has not been populated
-      return <MapTile isEmpty={true} />
+      return <MapTile isEmpty={true} />;
     }
 
     const currTileName = characterStore.getCurrTileName();
     const isCurrTile = !!(currTileName === tileName);
-    
-    return (<MapTile tile={mapTile} isCurrTile={isCurrTile} />);
+
+    return <MapTile tile={mapTile} isCurrTile={isCurrTile} />;
   }
-  
 }
 
 LevelMap.propTypes = {

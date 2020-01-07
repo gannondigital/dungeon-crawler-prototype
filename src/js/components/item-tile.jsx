@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-export const ItemTile = (props) => {
+export const ItemTile = props => {
   const { item } = props;
   const itemImgUrl = item.getImageUrl();
   const itemName = item.getName();

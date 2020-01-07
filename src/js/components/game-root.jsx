@@ -1,40 +1,38 @@
+import React, { Component, Fragment } from "react";
+import { PropTypes } from "prop-types";
 
-import React, { Component, Fragment } from 'react';
-import { PropTypes } from 'prop-types';
+import { Tile } from "../models/model-tile";
+import { Passage } from "./passage";
+import { GameHeader } from "./game-header";
+import { LevelMap } from "./level-map";
+import { GameMsg } from "./game-msg";
+import { Inventory } from "./inventory";
 
-import { Tile } from '../models/model-tile';
-import { Passage } from './passage';
-import { GameHeader } from './game-header';
-import { LevelMap } from './level-map';
-import { GameMsg } from './game-msg';
-import { Inventory } from './inventory';
+import { characterStore } from "../stores/store-character";
+import { levelStore } from "../stores/store-level";
+import { msgStore } from "../stores/store-messages";
 
-import { characterStore } from '../stores/store-character';
-import { levelStore } from '../stores/store-level';
-import { msgStore } from '../stores/store-messages';
-
-import '../../css/lib/base.scss';
-import '../../css/components/game-root.scss';
+import "../../css/lib/base.scss";
+import "../../css/components/game-root.scss";
 
 export class GameRoot extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      uiState: 'passage',
+      uiState: "passage",
       gameMsgs: []
     };
   }
 
   handleMapBtnClick = () => {
     this.setState({
-      uiState: 'map'
+      uiState: "map"
     });
   };
 
   handleCloseBtnClick = () => {
     this.setState({
-      uiState: 'passage'
+      uiState: "passage"
     });
   };
 
@@ -45,7 +43,7 @@ export class GameRoot extends Component {
 
   handleInventoryClick = () => {
     this.setState({
-      uiState: 'inventory'
+      uiState: "inventory"
     });
   };
 
@@ -54,25 +52,22 @@ export class GameRoot extends Component {
   }
 
   render() {
-    const {
-      directionFetcher,
-      tileFetcher
-    } = this.props;
+    const { directionFetcher, tileFetcher } = this.props;
     const gameMsgs = this.state.gameMsgs;
     const currDir = characterStore.getDirection();
     const currTileName = characterStore.getCurrTileName();
     const currTile = levelStore.getTile(currTileName);
 
     let gameContent = null;
-    switch(this.state.uiState) {
-      case 'passage':
+    switch (this.state.uiState) {
+      case "passage":
         gameContent = (
           <Fragment>
-            { gameMsgs && <GameMsg msgs={gameMsgs} />}
+            {gameMsgs && <GameMsg msgs={gameMsgs} />}
             <GameHeader directionFetcher={directionFetcher} />
-            <Passage 
-              currTile={currTile} 
-              direction={currDir} 
+            <Passage
+              currTile={currTile}
+              direction={currDir}
               tileFetcher={tileFetcher}
               mapClickHandler={this.handleMapBtnClick}
               inventoryClickHandler={this.handleInventoryClick}
@@ -80,35 +75,29 @@ export class GameRoot extends Component {
           </Fragment>
         );
         break;
-      case 'map':
+      case "map":
         gameContent = (
           <Fragment>
-            <LevelMap 
-              rows={20} 
+            <LevelMap
+              rows={20}
               columns={20}
               closeClickHandler={this.handleCloseBtnClick}
             />
           </Fragment>
         );
         break;
-      case 'inventory':
+      case "inventory":
         gameContent = (
           <Fragment>
-            <Inventory
-              closeClickHandler={this.handleCloseBtnClick}
-            />
+            <Inventory closeClickHandler={this.handleCloseBtnClick} />
           </Fragment>
         );
         break;
       default:
-        throw new TypeError('Invalid UI state in GameRoot');
+        throw new TypeError("Invalid UI state in GameRoot");
     }
 
-    return (
-      <div className='game-root'>
-        { gameContent }
-      </div>
-    );
+    return <div className="game-root">{gameContent}</div>;
   }
 }
 
@@ -118,4 +107,3 @@ GameRoot.propTypes = {
   directionFetcher: PropTypes.func,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
 };
-

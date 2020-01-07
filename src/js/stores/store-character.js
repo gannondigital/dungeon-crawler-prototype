@@ -1,20 +1,18 @@
-
-import { Store } from '../lib/store';
-import { dispatcher } from '../lib/game-dispatcher';
+import { Store } from "../lib/store";
+import { dispatcher } from "../lib/game-dispatcher";
 import {
   TILE_SET,
   DIRECTION_SET,
   COMBAT_DAMAGE_CHARACTER
-} from '../config/constants-actions';
+} from "../config/constants-actions";
 
 class CharacterStore extends Store {
-
   constructor() {
     super();
     this.data = {
-      currLevel: 'one',
-      currTileName: '1x1',
-      currDirection: 'n',
+      currLevel: "one",
+      currTileName: "1x1",
+      currDirection: "n",
       health: 0,
       attributes: {
         accuracy: 1,
@@ -54,12 +52,11 @@ class CharacterStore extends Store {
   getExpLevel() {
     return this.data.expLevel;
   }
-
 }
 
 export const characterStore = new CharacterStore();
 
-characterStore.dispatchToken = dispatcher.register((action) => {
+characterStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case TILE_SET:
       characterStore.data.currTileName = action.payload.tileName;
@@ -68,8 +65,10 @@ characterStore.dispatchToken = dispatcher.register((action) => {
 
     case DIRECTION_SET:
       const newDir = action.payload.direction;
-      if (!newDir || typeof newDir !== 'string') {
-        throw new TypeError('Invalid direction received from DIRECTION_SET action');
+      if (!newDir || typeof newDir !== "string") {
+        throw new TypeError(
+          "Invalid direction received from DIRECTION_SET action"
+        );
       }
 
       const oldDirection = characterStore.data.currDirection;
@@ -82,11 +81,13 @@ characterStore.dispatchToken = dispatcher.register((action) => {
     case COMBAT_DAMAGE_CHARACTER:
       const { dmg } = action.payload;
       if (dmg) {
-        const { data: { health } } = characterStore;
+        const {
+          data: { health }
+        } = characterStore;
         characterStore.data.health = health - dmg;
         // @todo handle character "death"
         if (characterStore.data.health <= 0) {
-          console.log('zero health!');
+          console.log("zero health!");
         }
         characterStore.triggerChange();
       }

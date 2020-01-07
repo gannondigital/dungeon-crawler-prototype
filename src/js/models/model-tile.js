@@ -1,12 +1,11 @@
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from "lodash.cloneDeep";
 
-import { Monster } from './model-monster.js';
+import { Monster } from "./model-monster.js";
 
 export class Tile {
-
   constructor(tileProps) {
     if (!validateTileProps(tileProps)) {
-      throw new TypeError('Invalid tileProps passed to Tile constructor.');
+      throw new TypeError("Invalid tileProps passed to Tile constructor.");
     }
 
     const { walls, coords, monsters } = tileProps;
@@ -24,29 +23,33 @@ export class Tile {
   getAdjacentTileName(direction) {
     let coords;
     switch (direction) {
-      case 'n':
-        coords = {x: this.coords.x, y: this.coords.y - 1};
+      case "n":
+        coords = { x: this.coords.x, y: this.coords.y - 1 };
         break;
-      case 'e':
-        coords = {x: this.coords.x + 1, y: this.coords.y};
+      case "e":
+        coords = { x: this.coords.x + 1, y: this.coords.y };
         break;
-      case 's':
-        coords = {x: this.coords.x, y: this.coords.y + 1}
+      case "s":
+        coords = { x: this.coords.x, y: this.coords.y + 1 };
         break;
-      case 'w': 
-        coords = {x: this.coords.x - 1, y: this.coords.y};
+      case "w":
+        coords = { x: this.coords.x - 1, y: this.coords.y };
         break;
       default:
-        throw new ReferenceError('Invalid direction passed to getAdjacentTileName.');
+        throw new ReferenceError(
+          "Invalid direction passed to getAdjacentTileName."
+        );
     }
 
     return nameFromCoords(coords);
   }
 
   getSurfacesForWall(direction) {
-    const wall = this.walls[direction]
-    if (typeof wall === 'undefined') {
-      throw new ReferenceError('Invalid direction passed to getSurfacesForWall.');
+    const wall = this.walls[direction];
+    if (typeof wall === "undefined") {
+      throw new ReferenceError(
+        "Invalid direction passed to getSurfacesForWall."
+      );
     }
 
     return cloneDeep(wall.surfaces);
@@ -54,8 +57,8 @@ export class Tile {
 
   hasExitAtWall(direction) {
     const wall = this.walls[direction];
-    if (typeof wall === 'undefined') {
-      throw new ReferenceError('Invalid direction passed to hasExitAtWall.');
+    if (typeof wall === "undefined") {
+      throw new ReferenceError("Invalid direction passed to hasExitAtWall.");
     }
 
     return !!wall.exit;
@@ -64,47 +67,53 @@ export class Tile {
   getMonsters() {
     return cloneDeep(this.monsters);
   }
-
 }
 
-const nameFromCoords = (coords) => {
-  return `${coords.x}x${coords.y}`
+const nameFromCoords = coords => {
+  return `${coords.x}x${coords.y}`;
 };
 
-const validateTileProps = (tileProps) => {
+const validateTileProps = tileProps => {
   let isValid = isValidWallProps(tileProps.walls);
   isValid = isValid && isValidCoords(tileProps.coords);
   isValid = isValid && isValidMonsterProps(tileProps.monsters);
   return isValid;
 };
 
-const isValidCoords = (coords) => {
-  if (typeof coords !== 'object' || !coords) {
+const isValidCoords = coords => {
+  if (typeof coords !== "object" || !coords) {
     return false;
   }
 
-  if ( typeof coords.x !== 'number' || typeof coords.y !== 'number' ||
-    isNaN(coords.x) || isNaN(coords.y) ) {
+  if (
+    typeof coords.x !== "number" ||
+    typeof coords.y !== "number" ||
+    isNaN(coords.x) ||
+    isNaN(coords.y)
+  ) {
     return false;
   }
 
   return true;
 };
 
-const isValidWallProps = (walls) => {
-  if (typeof walls !== 'object' || !walls) {
+const isValidWallProps = walls => {
+  if (typeof walls !== "object" || !walls) {
     return false;
   }
 
-  const hasCorrectKeys = ['n', 'e', 's', 'w'].reduce((lastVal, currProp) => {
-
-    return !!(lastVal && typeof walls[currProp] === 'object' && walls[currProp]);
-  }, 'n');
+  const hasCorrectKeys = ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
+    return !!(
+      lastVal &&
+      typeof walls[currProp] === "object" &&
+      walls[currProp]
+    );
+  }, "n");
   return hasCorrectKeys;
 };
 
-export const isValidMonsterProps = (monsterProps) => {
-  if (typeof monsterProps === 'undefined') {
+export const isValidMonsterProps = monsterProps => {
+  if (typeof monsterProps === "undefined") {
     return true; // allow absent monsters prop
   }
 
@@ -115,4 +124,3 @@ export const isValidMonsterProps = (monsterProps) => {
     return accum && !!(monster instanceof Monster);
   }, true);
 };
-

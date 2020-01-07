@@ -1,7 +1,7 @@
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from "lodash.cloneDeep";
 
-import { Store } from '../lib/store';
-import { dispatcher } from '../lib/game-dispatcher';
+import { Store } from "../lib/store";
+import { dispatcher } from "../lib/game-dispatcher";
 import {
   START_COMBAT,
   END_COMBAT,
@@ -12,9 +12,9 @@ import {
   COMBAT_START_TURN_CHARACTER,
   COMBAT_START_ROUND,
   COMBAT_END_TURN_CHARACTER
-} from '../config/constants-actions';
+} from "../config/constants-actions";
 import { OPPONENT, CHARACTER } from "../config/constants-general";
-import { Damage } from '../models/model-damage';
+import { Damage } from "../models/model-damage";
 
 const initialState = {
   inCombat: false,
@@ -22,11 +22,10 @@ const initialState = {
   characterHasAdvantage: false,
   opponents: [],
   round: 0,
-  hasCurrTurn: '', // CHARACTER or OPPONENT
+  hasCurrTurn: "" // CHARACTER or OPPONENT
 };
 
 class CombatStore extends Store {
-
   constructor() {
     super();
     this.data = Object.assign({}, initialState);
@@ -41,15 +40,15 @@ class CombatStore extends Store {
   }
 
   areOpponentsDefeated() {
-    const remainingOpponents = this.data.opponents.filter((opponent) => {
-      return !(opponent.isDefeated());
+    const remainingOpponents = this.data.opponents.filter(opponent => {
+      return !opponent.isDefeated();
     });
 
-    return !(remainingOpponents.length);
+    return !remainingOpponents.length;
   }
 
   getTreasure() {
-    const totalTreasure = this.data.opponents.map((opponent) => {
+    const totalTreasure = this.data.opponents.map(opponent => {
       return opponent.getTreasure();
     });
 
@@ -91,19 +90,16 @@ class CombatStore extends Store {
   isCharactersTurn() {
     return this.data.hasCurrTurn === CHARACTER;
   }
-
 }
 export const combatStore = new CombatStore();
 
-combatStore.dispatchToken = dispatcher.register((action) => {
+combatStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case START_COMBAT:
-      const { 
-        opponents
-      } = action.payload;
+      const { opponents } = action.payload;
 
       combatStore.data = Object.assign(combatStore.data, {
-        inCombat: true,
+        inCombat: true
       });
 
       // set up opponents
@@ -112,7 +108,7 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       // set up rounds/turns
       combatStore.data.round = 1;
 
-      combatStore.data.hasCurrTurn = 'character';
+      combatStore.data.hasCurrTurn = "character";
 
       combatStore.triggerChange();
       break;
@@ -122,7 +118,7 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       combatStore.triggerChange();
       break;
 
-    case COMBAT_DAMAGE_OPPONENT: 
+    case COMBAT_DAMAGE_OPPONENT:
       const { dmg } = action.payload;
 
       // @todo support multiple opponents
@@ -131,12 +127,11 @@ combatStore.dispatchToken = dispatcher.register((action) => {
 
       combatStore.triggerChange();
       break;
-    
+
     case COMBAT_OPPONENTS_DEFEATED:
-      
       break;
 
-    case COMBAT_SET_ADVANTAGE: 
+    case COMBAT_SET_ADVANTAGE:
       const { whoHasAdvantage } = action.payload;
       if (whoHasAdvantage && whoHasAdvantage === OPPONENT) {
         combatStore.data = Object.assign(combatStore.data, {
@@ -169,7 +164,7 @@ combatStore.dispatchToken = dispatcher.register((action) => {
       break;
 
     case COMBAT_END_TURN_CHARACTER:
-      combatStore.data.hasCurrTurn = '';
+      combatStore.data.hasCurrTurn = "";
       combatStore.triggerChange();
     default:
       break;

@@ -1,20 +1,19 @@
+import { default as EventEmitter } from "events";
 
-import { default as EventEmitter } from 'events';
-
-const changeSlug = 'change';
+const changeSlug = "change";
 
 export const Store = function() {
-	this.events = new EventEmitter();
+  this.events = new EventEmitter();
 };
 Store.prototype.get = function get() {
-	return this.data;
+  return this.data;
 };
 Store.prototype.listen = function listen(cb) {
-	this.events.on(changeSlug, cb);
+  this.events.on(changeSlug, cb);
 };
 Store.prototype.stopListening = function stopListening(cb) {
-	this.events.removeListener(changeSlug, cb);
+  this.events.removeListener(changeSlug, cb);
 };
 Store.prototype.triggerChange = function triggerChange() {
-	this.events.emit(changeSlug);
+  this.events.emit(changeSlug);
 };

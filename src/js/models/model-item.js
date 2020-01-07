@@ -1,4 +1,4 @@
-// - meta 
+// - meta
 //   - name
 //   - imageUrl
 // - itemRoles[] // weapon, item, magical, etc.
@@ -8,13 +8,12 @@
 // - isEquipped
 // - equipsToSlot
 
-const placeholderImg = require('../../img/potion.png');
+const placeholderImg = require("../../img/potion.png");
 
 export default class Item {
-
   constructor(props) {
     if (!isValidProps(props)) {
-      throw new TypeError('Invalid props passed to Item constructor');
+      throw new TypeError("Invalid props passed to Item constructor");
     }
 
     this.initialize(props);
@@ -26,8 +25,8 @@ export default class Item {
     this.meta.label = props.meta.label;
     //this.meta.imageUrl = props.meta.imageUrl;
     this.meta.imageUrl = placeholderImg;
-    this.itemRoles = props.itemRoles || ['item'];
-    this.types = props.types || ['normal'];
+    this.itemRoles = props.itemRoles || ["item"];
+    this.types = props.types || ["normal"];
     this.bulkSize = props.bulkSize;
     this.isOwned = props.isOwned || false;
     this.isEquipped = props.isEquipped;
@@ -36,7 +35,7 @@ export default class Item {
 
   hasRole(role) {
     // for convenience, allow single role or array
-    const roles = typeof role === 'string' ? [ role ] : role;
+    const roles = typeof role === "string" ? [role] : role;
     return roles.reduce((acc, role) => {
       return acc || !!(this.itemRoles.indexOf(role) !== -1);
     }, false);
@@ -57,7 +56,6 @@ export default class Item {
   getRoles() {
     return [].concat(this.itemRoles);
   }
-
 }
 
 function isValidProps(itemProps) {

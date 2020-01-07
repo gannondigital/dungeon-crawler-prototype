@@ -6,7 +6,8 @@
   "scripts": {
     "devServer": "cp ./src/index.html ./build/index.html && webpack-dev-server --open",
     "clean": "rm -rf ./build/*",
-    "test": "webpack --config webpack-test.config.js"
+    "test": "webpack --config webpack-test.config.js",
+    "prettier": "prettier --write \"./**/*.{js,scss,json,jsx,html}\""
   },
   "author": "Brendan Gannon",
   "license": "not licensed for reproduction or use",
@@ -39,6 +40,7 @@
     "lodash": "^4.17.10",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.9.0",
+    "prettier": "^1.19.1",
     "prop-types": "^15.6.2",
     "react": "16.3.2",
     "react-dom": "^16.3.2",

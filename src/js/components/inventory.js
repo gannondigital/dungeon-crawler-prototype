@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import { inventoryStore } from "../stores/store-inventory";
-import Item from '../models/model-item';
-import { ItemTile } from './item-tile';
+import Item from "../models/model-item";
+import { ItemTile } from "./item-tile";
 
 // @todo if we have more item roles, abstract out the roles
 export class Inventory extends Component {
-
   constructor(props) {
     super(props);
 
@@ -15,22 +14,22 @@ export class Inventory extends Component {
     const activeWeapon = inventoryStore.getActiveWeapon();
 
     this.state = {
-      uiState: 'items', // 'armor' || 'weapons'
+      uiState: "items", // 'armor' || 'weapons'
       items: allItems,
       activeWeapon
     };
   }
 
   switchToArmsArmor = () => {
-    this.setState({ uiState: 'armor' });
+    this.setState({ uiState: "armor" });
   };
 
   switchToWeapons = () => {
-    this.setState({ uiState: 'weapons'})
-  }
+    this.setState({ uiState: "weapons" });
+  };
 
   switchToItems = () => {
-    this.setState({ uiState: 'items' });
+    this.setState({ uiState: "items" });
   };
 
   handleInventoryUpdate() {
@@ -51,15 +50,11 @@ export class Inventory extends Component {
   }
 
   render() {
-    const {
-      uiState,
-      items,
-      activeWeapon
-    } = this.state;
+    const { uiState, items, activeWeapon } = this.state;
     const itemsToRender = items[uiState];
-    
-    const itemComponents = itemsToRender.map((item) => {
-      return (<ItemTile item={item} />);
+
+    const itemComponents = itemsToRender.map(item => {
+      return <ItemTile item={item} />;
     });
 
     return (
@@ -71,33 +66,30 @@ export class Inventory extends Component {
         </div>
         <div className="inventory--active_weapon">
           <span>Active Weapon:</span>
-          <ItemTile item={ activeWeapon } />
+          <ItemTile item={activeWeapon} />
         </div>
-        <div className="inventory--itemlist">
-          { itemComponents }
-        </div>
+        <div className="inventory--itemlist">{itemComponents}</div>
       </div>
     );
   }
-
 }
 
 Inventory.propTypes = {
-  items: PropTypes.arrayOf(Item),
+  items: PropTypes.arrayOf(Item)
 };
 
 Inventory.defaultProps = {
   items: []
 };
 
-const sortItems = (items) => {
+const sortItems = items => {
   const sorted = {
     armsAndArmor: [],
     items: []
   };
 
-  items.forEach((item) => {
-    if (item.hasRole(['weapon', 'armor'])) {
+  items.forEach(item => {
+    if (item.hasRole(["weapon", "armor"])) {
       sorted.armsAndArmor.push(item);
     } else {
       sorted.items.push(item);

@@ -19,5 +19,5 @@
   "REMOVE_GAME_MSG": "removeGameMsg",
   "SHOW_GAME_MSG": "showGameMsg",
   "START_COMBAT": "startCombat",
-	"TILE_SET": "setTile"
+  "TILE_SET": "setTile"
 }

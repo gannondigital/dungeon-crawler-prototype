@@ -20,7 +20,7 @@
   background: green;
   position: absolute;
   transform-origin: bottom center;
-  transition: transform .2s ease-in-out
+  transition: transform 0.2s ease-in-out;
 }
 
 .compass_pointer--north {
@@ -40,7 +40,7 @@
   @include compassPointer;
   transform: rotate(180deg);
   top: 0;
-  left: 44%
+  left: 44%;
 }
 
 .compass_pointer--west {

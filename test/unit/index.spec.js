@@ -1,3 +1,3 @@
 // @todo genericize
-import './components/index.spec.js';
-import './models/index.spec.js';
+import "./components/index.spec.js";
+import "./models/index.spec.js";
