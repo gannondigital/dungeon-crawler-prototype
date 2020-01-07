@@ -1,16 +1,16 @@
 import Item from "./model-item";
 
-// @todo should this be able to provide a Damage 
+// @todo should this be able to provide a Damage
 // instance? clarify boundaries
 // we do need more than just this to get a final Damage
-// but if Damage instances could easily be composed into 
+// but if Damage instances could easily be composed into
 // new Damage instances, it would make sense here
 export default class Weapon extends Item {
   constructor(props) {
     super(props);
 
     if (!validateProps(props)) {
-      throw new TypeError('Invalid props passed to Weapon constructor');
+      throw new TypeError("Invalid props passed to Weapon constructor");
     }
 
     this.dmg = props.dmg;
@@ -41,8 +41,11 @@ function validateProps(props) {
     return false;
   }
 
-  if (typeof props.dmgTypes !== "object" || !props.dmgTypes || 
-    typeof props.dmgTypes.length !== "number") {
+  if (
+    typeof props.dmgTypes !== "object" ||
+    !props.dmgTypes ||
+    typeof props.dmgTypes.length !== "number"
+  ) {
     return false;
   }
 

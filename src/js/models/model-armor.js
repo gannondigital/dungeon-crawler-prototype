@@ -1,7 +1,6 @@
-import Item from './model-item';
+import Item from "./model-item";
 
 export default class Armor extends Item {
-
   constructor(props) {
     super(props);
 
@@ -14,7 +13,7 @@ export default class Armor extends Item {
     } = props;
 
     if (!validateProps(props)) {
-      throw new TypeError('Invalid props passed to Armor constructor');
+      throw new TypeError("Invalid props passed to Armor constructor");
     }
 
     this.data = {
@@ -36,16 +35,15 @@ export default class Armor extends Item {
 
   getVulnerableTo() {
     return this.data.vulnerableTo;
-  };
+  }
 
   getEvasionMod() {
     return this.data.evasionMod;
-  };
+  }
 
   getAccuracyMod() {
     return this.data.accuracyMod;
   }
- 
 }
 
 function validateProps(props) {
@@ -56,9 +54,9 @@ function validateProps(props) {
     evasionMod,
     accuracyMod
   } = props;
-  if (typeof protection !=='number' || isNaN(protection)) {
+  if (typeof protection !== "number" || isNaN(protection)) {
     return false;
-  } 
+  }
 
   if (!Array.isArray(protectedAgainst)) {
     return false;
@@ -68,11 +66,10 @@ function validateProps(props) {
     return false;
   }
 
-  if (typeof evasionMod !=='number' || isNaN(evasionMod)) {
+  if (typeof evasionMod !== "number" || isNaN(evasionMod)) {
     return false;
-  
   }
-  if (typeof accuracyMod !=='number' || isNaN(accuracyMod)) {
+  if (typeof accuracyMod !== "number" || isNaN(accuracyMod)) {
     return false;
   }
 

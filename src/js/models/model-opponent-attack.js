@@ -22,10 +22,10 @@ export default class OpponentAttack {
   }
 }
 
-const isValidAttackProps = (attackProps) => {
+const isValidAttackProps = attackProps => {
   let isValid = true;
-  const required = [ "dmg", "accuracyMod"];
-  required.forEach((propName) =>{
+  const required = ["dmg", "accuracyMod"];
+  required.forEach(propName => {
     if (typeof attackProps[propName] === "undefined") {
       isValid = false;
     }

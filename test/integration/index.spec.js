@@ -1,3 +1,3 @@
 // @todo genericize
 
-import './load-level.spec.js';
+import "./load-level.spec.js";

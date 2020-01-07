@@ -1,136 +1,145 @@
-import { default as tape } from 'tape';
+import { default as tape } from "tape";
 
 // under test
-import { Tile, isValidMonsterProps } from '../../../src/js/models/model-tile';
+import { Tile, isValidMonsterProps } from "../../../src/js/models/model-tile";
 
 const validWalls = {
-  'n': {},
-  'e': {},
-  's': {},
-  'w': {}
+  n: {},
+  e: {},
+  s: {},
+  w: {}
 };
-const validCoords = { x: 1, y: 1};
+const validCoords = { x: 1, y: 1 };
 
-tape('Tile constructor validates props', (t) => {
+tape("Tile constructor validates props", t => {
   const validWalls = {
-    'n': {},
-    'e': {},
-    's': {},
-    'w': {}
+    n: {},
+    e: {},
+    s: {},
+    w: {}
   };
 
   const tile = new Tile({ walls: validWalls, coords: validCoords });
-  t.ok(tile instanceof Tile, 'constructor returns valid instance');
+  t.ok(tile instanceof Tile, "constructor returns valid instance");
   t.end();
 });
 
-tape('Tile constructor rejects missing walls', (t) => {
-
+tape("Tile constructor rejects missing walls", t => {
   t.throws(() => {
-    const tile = new Tile({foo: 'bar', coords: validCoords });
-  }, 'throws an excpetion when walls missing');
-  
+    const tile = new Tile({ foo: "bar", coords: validCoords });
+  }, "throws an excpetion when walls missing");
+
   t.end();
 });
 
-tape('Tile constructor rejects missing wall props', (t) => {
+tape("Tile constructor rejects missing wall props", t => {
+  t.throws(() => {
+    const invalidWalls = {
+      n: {},
+      e: {},
+      s: {}
+    };
+    const tile = new Tile({ walls: invalidWalls, coords: validCoords });
+  }, "throws an exception when west wall missing");
 
   t.throws(() => {
     const invalidWalls = {
-      'n': {},
-      'e': {},
-      's': {}
+      n: {},
+      e: {},
+      w: {}
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
-  }, 'throws an exception when west wall missing');
+  }, "throws an exception when south wall missing");
 
   t.throws(() => {
     const invalidWalls = {
-      'n': {},
-      'e': {},
-      'w': {}
+      n: {},
+      w: {},
+      s: {}
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
-  }, 'throws an exception when south wall missing');
+  }, "throws an exception when east wall missing");
 
   t.throws(() => {
     const invalidWalls = {
-      'n': {},
-      'w': {},
-      's': {}
+      e: {},
+      w: {},
+      s: {}
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
-  }, 'throws an exception when east wall missing');
+  }, "throws an exception when north wall missing");
 
-  t.throws(() => {
-    const invalidWalls = {
-      'e': {},
-      'w': {},
-      's': {}
-    };
-    const tile = new Tile({ walls: invalidWalls, coords: validCoords });
-  }, 'throws an exception when north wall missing');
-  
   t.end();
 });
 
-tape('Tile constructor validates coordinates', (t) => {
+tape("Tile constructor validates coordinates", t => {
   t.throws(() => {
     const invalidCoords = {};
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
-  }, 'throws an exeption when coordinates empty');
+  }, "throws an exeption when coordinates empty");
 
   t.throws(() => {
-    const invalidCoords = {y: 1};
+    const invalidCoords = { y: 1 };
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
-  }, 'throws an exeption when x coordinate missing');
+  }, "throws an exeption when x coordinate missing");
 
   t.throws(() => {
-    const invalidCoords = {x: 1};
+    const invalidCoords = { x: 1 };
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
-  }, 'throws an exeption when y coordinate missing');
+  }, "throws an exeption when y coordinate missing");
 
   t.throws(() => {
-    const invalidCoords = {x: '1', y: 1};
+    const invalidCoords = { x: "1", y: 1 };
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
-  }, 'throws an exeption when x coordinate invalid');
+  }, "throws an exeption when x coordinate invalid");
 
   t.throws(() => {
-    const invalidCoords = {x: 1, y: '1'};
+    const invalidCoords = { x: 1, y: "1" };
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
-  }, 'throws an exeption when y coordinates invalid');
-  
-  t.end();
-});
-
-tape('Tile getAdjacentTileName returns correct name', (t) => {
-  const tile = new Tile({ walls: validWalls, coords: {x:22, y:17} });
-  
-  const name1 = tile.getAdjacentTileName('n');
-  t.equals(name1, '22x16', 'for north direction');
-
-  const name2 = tile.getAdjacentTileName('e');
-  t.equals(name2, '23x17', 'for east direction');
-
-  const name3 = tile.getAdjacentTileName('w');
-  t.equals(name3, '21x17', 'for west direction');
-
-  const name4 = tile.getAdjacentTileName('s');
-  t.equals(name4, '22x18', 'for south direction');
-
-  t.throws(() => {
-    tile.getAdjacentTileName('foo');
-  }, 'throws an exception when given an invalid direction');
+  }, "throws an exeption when y coordinates invalid");
 
   t.end();
 });
 
-tape('Tile\'s isValidMonsterProps', (t) => {
-  t.equals(isValidMonsterProps(), true, 'allows missing prop');
-  t.equals(isValidMonsterProps(['kobold', 'shadow demon']), true, 'validates on happy path');
-  t.equals(isValidMonsterProps(['dragon', 345]), false, 'rejects numbers');
-  t.equals(isValidMonsterProps(['orc', {'dragon': 'woo'}]), false, 'rejects objs');
-  t.equals(isValidMonsterProps(['angry goose', ['goblin', 'roc']]), false, 'rejects nested arrays');
+tape("Tile getAdjacentTileName returns correct name", t => {
+  const tile = new Tile({ walls: validWalls, coords: { x: 22, y: 17 } });
+
+  const name1 = tile.getAdjacentTileName("n");
+  t.equals(name1, "22x16", "for north direction");
+
+  const name2 = tile.getAdjacentTileName("e");
+  t.equals(name2, "23x17", "for east direction");
+
+  const name3 = tile.getAdjacentTileName("w");
+  t.equals(name3, "21x17", "for west direction");
+
+  const name4 = tile.getAdjacentTileName("s");
+  t.equals(name4, "22x18", "for south direction");
+
+  t.throws(() => {
+    tile.getAdjacentTileName("foo");
+  }, "throws an exception when given an invalid direction");
+
   t.end();
 });
 
+tape("Tile's isValidMonsterProps", t => {
+  t.equals(isValidMonsterProps(), true, "allows missing prop");
+  t.equals(
+    isValidMonsterProps(["kobold", "shadow demon"]),
+    true,
+    "validates on happy path"
+  );
+  t.equals(isValidMonsterProps(["dragon", 345]), false, "rejects numbers");
+  t.equals(
+    isValidMonsterProps(["orc", { dragon: "woo" }]),
+    false,
+    "rejects objs"
+  );
+  t.equals(
+    isValidMonsterProps(["angry goose", ["goblin", "roc"]]),
+    false,
+    "rejects nested arrays"
+  );
+  t.end();
+});

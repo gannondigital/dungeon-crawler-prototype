@@ -1,4 +1,3 @@
-
 // status:
 //   isDefeated
 // stats:
@@ -27,20 +26,19 @@
 //   type
 //   lore
 
-import { Treasure } from '../models/model-treasure';
+import { Treasure } from "../models/model-treasure";
 import OpponentAttack from "../models/model-opponent-attack";
-import combatConstants from '../config/constants-combat';
+import combatConstants from "../config/constants-combat";
 
-const placeholderImg = require('../../img/monster-placeholder.png');
+const placeholderImg = require("../../img/monster-placeholder.png");
 
 export class Monster {
-
   constructor(monsterProps) {
     const isValid = validateProps(monsterProps);
     if (!isValid) {
-      throw new TypeError('Invalid props passed to Monster constructor');
+      throw new TypeError("Invalid props passed to Monster constructor");
     }
-    this.initialize(monsterProps)
+    this.initialize(monsterProps);
 
     this.meta.img_url = placeholderImg;
   }
@@ -84,7 +82,7 @@ export class Monster {
 
   takeDamage(dmg) {
     if (typeof dmg !== "number") {
-      throw new TypeError('Invalid damage passed to takeDamage');
+      throw new TypeError("Invalid damage passed to takeDamage");
     }
 
     this.stats.health = this.stats.health - dmg;
@@ -127,21 +125,27 @@ export class Monster {
   getAttacks() {
     return this.attacks;
   }
-
 }
 
 function validateProps(monsterProps) {
   let isValid = true;
   isValid = isValid && validateMeta(monsterProps.meta);
   isValid = isValid && validateAttacks(monsterProps.attacks);
-  isValid = isValid && (typeof monsterProps.expLevel === "number" && !isNaN(monsterProps.expLevel));
+  isValid =
+    isValid &&
+    typeof monsterProps.expLevel === "number" && !isNaN(monsterProps.expLevel);
   return isValid;
 }
 
 function validateMeta(monsterMeta) {
-  return !!(monsterMeta && typeof monsterMeta === 'object' &&
-    monsterMeta.name && typeof monsterMeta.name === 'string' &&
-    monsterMeta.label && typeof monsterMeta.label === 'string');
+  return !!(
+    monsterMeta &&
+    typeof monsterMeta === "object" &&
+    monsterMeta.name &&
+    typeof monsterMeta.name === "string" &&
+    monsterMeta.label &&
+    typeof monsterMeta.label === "string"
+  );
 }
 
 /**
@@ -153,7 +157,7 @@ function validateMeta(monsterMeta) {
 function validateAttacks(monsterAttacks) {
   let isValid = true;
   Object.values(monsterAttacks).forEach(attackObj => {
-    if ( !(attackObj instanceof OpponentAttack ) ) {
+    if (!(attackObj instanceof OpponentAttack)) {
       isValid = false;
     }
   });

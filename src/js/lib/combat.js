@@ -4,8 +4,8 @@
 
 // @todo visual cues for attacks & damage in the UI
 
-import { showGameMsg } from '../actions/actions-messages';
-import { addToInventory } from '../actions/actions-inventory';
+import { showGameMsg } from "../actions/actions-messages";
+import { addToInventory } from "../actions/actions-inventory";
 import {
   startCombat as startCombatAction,
   damageOpponent,
@@ -15,27 +15,25 @@ import {
   startRound,
   startOpponentsTurn,
   startCharactersTurn
-} from '../actions/actions-combat';
-import { addToPlayHistory } from '../actions/actions-playhistory';
-import { playHistoryStore } from '../stores/store-play-history';
+} from "../actions/actions-combat";
+import { addToPlayHistory } from "../actions/actions-playhistory";
+import { playHistoryStore } from "../stores/store-play-history";
 
-import { combatStore } from '../stores/store-combat';
-import { characterStore } from '../stores/store-character';
-import { inventoryStore } from '../stores/store-inventory';
+import { combatStore } from "../stores/store-combat";
+import { characterStore } from "../stores/store-character";
+import { inventoryStore } from "../stores/store-inventory";
 
-import { Damage } from '../models/model-damage';
-import Defense from '../models/model-defense';
+import { Damage } from "../models/model-damage";
+import Defense from "../models/model-defense";
 
-import { getRandomNum } from './util';
+import { getRandomNum } from "./util";
 import { MSG_SPEED_MED } from "../config/constants-general";
 import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
 
 const HIT_CONST = 10;
 const DELAY_BETWEEN_TURNS_MS = 1250;
 
-export const startCombat = ({
-  whoHasAdvantage
-}) => {
+export const startCombat = ({ whoHasAdvantage }) => {
   setAdvantage(whoHasAdvantage);
   runCombat();
 };
@@ -54,33 +52,39 @@ const runCombatRounds = () => {
   startRound();
 
   if (combatStore.opponentHasAdvantage()) {
-    runTurnForOpponent().then(() => {
-      if (!combatStore.isInCombat()) {
-        return;
-      }
+    runTurnForOpponent()
+      .then(() => {
+        if (!combatStore.isInCombat()) {
+          return;
+        }
 
-      return runTurnForCharacter();
-    }).then(() => {
-      if (combatStore.isInCombat()) {
-        runCombatRounds();
-      }
-    }).catch(err => {
-      throw err;
-    });
+        return runTurnForCharacter();
+      })
+      .then(() => {
+        if (combatStore.isInCombat()) {
+          runCombatRounds();
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   } else {
-    runTurnForCharacter().then(() => {
-      if (!combatStore.isInCombat()) {
-        return;
-      }
+    runTurnForCharacter()
+      .then(() => {
+        if (!combatStore.isInCombat()) {
+          return;
+        }
 
-      return runTurnForOpponent();
-    }).then(() => {
-      if (combatStore.isInCombat()) {
-        runCombatRounds();
-      }
-    }).catch(err => {
-      throw err;
-    });
+        return runTurnForOpponent();
+      })
+      .then(() => {
+        if (combatStore.isInCombat()) {
+          runCombatRounds();
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   }
 };
 
@@ -94,14 +98,14 @@ const runTurnForOpponent = () => {
       try {
         const attacks = combatStore.getOpponentsAttacks();
         const action = chooseOpponentsAction(attacks);
-        
+
         switch (action.type) {
-          case COMBAT_ACTION_ATTACK: 
-              attackCharacter(action.attack);
-              resolve()
+          case COMBAT_ACTION_ATTACK:
+            attackCharacter(action.attack);
+            resolve();
             break;
 
-          default: 
+          default:
             throw new TypeError("Unrecognized combat action type");
         }
       } catch (err) {
@@ -115,7 +119,7 @@ const runTurnForOpponent = () => {
 // when do they try to run/heal/change attack strategy?
 // Maybe predefined tiers of cleverness, monster data
 // could specify a monster's tier
-const chooseOpponentsAction = (attacks) => {
+const chooseOpponentsAction = attacks => {
   // @todo support running, magic, items
   const attackList = Object.keys(attacks);
   if (attackList.length === 0) {
@@ -128,19 +132,19 @@ const chooseOpponentsAction = (attacks) => {
     const index = getRandomNum(attackList.length - 1);
     attackName = attackList[index];
   }
-  
+
   const attack = attacks[attackName];
   const action = {
     type: COMBAT_ACTION_ATTACK,
     attack
-  }
+  };
   return action;
 };
 
 /**
  * Relies on user input for triggering their action, user
  * actions will end turn, so we poll for the character's
- * turn to be done. There is probably a more elegant way 
+ * turn to be done. There is probably a more elegant way
  */
 const runTurnForCharacter = () => {
   return new Promise((resolve, reject) => {
@@ -148,7 +152,7 @@ const runTurnForCharacter = () => {
     let isCharactersTurn = combatStore.isCharactersTurn();
 
     const charTurnCheck = setInterval(() => {
-      if(!combatStore.isCharactersTurn()) {
+      if (!combatStore.isCharactersTurn()) {
         clearInterval(charTurnCheck);
         resolve();
       }
@@ -156,11 +160,12 @@ const runTurnForCharacter = () => {
   });
 };
 
-export const tileHasUndefeatedOpponents = (tile) => {
+export const tileHasUndefeatedOpponents = tile => {
   const tilename = tile.getName();
   const monsters = tile.getMonsters() || [];
-  const thereAreMonsters = monsters.length && 
-    !playHistoryStore.getTileEvent(tilename, 'opponentsDefeated');
+  const thereAreMonsters =
+    monsters.length &&
+    !playHistoryStore.getTileEvent(tilename, "opponentsDefeated");
 
   return thereAreMonsters;
 };
@@ -173,7 +178,7 @@ export const getCharactersTotalAccuracy = () => {
   return totalAccuracy;
 };
 
-const getOpponentsTotalAccuracy = (attack) => {
+const getOpponentsTotalAccuracy = attack => {
   const opponentAccuracy = combatStore.getOpponentsAccuracy();
   const attackMod = attack.getAccuracyMod();
   return opponentAccuracy + attackMod;
@@ -184,7 +189,7 @@ const getOpponentsTotalAccuracy = (attack) => {
  * @param  {OpponentAttack} attack An OpponentAttack representing
  *                                 the attack being used
  */
-export const attackCharacter = (attack) => {
+export const attackCharacter = attack => {
   const charEvasion = characterStore.getEvasion();
   const totalAccuracy = getOpponentsTotalAccuracy(attack);
 
@@ -200,7 +205,10 @@ export const attackCharacter = (attack) => {
 export const attackOpponent = () => {
   const totalAccuracy = getCharactersTotalAccuracy();
 
-  const hitSucceeded = doesAttackHit( totalAccuracy, combatStore.getOpponentsEvasion() );
+  const hitSucceeded = doesAttackHit(
+    totalAccuracy,
+    combatStore.getOpponentsEvasion()
+  );
   if (hitSucceeded) {
     handleHitToOpponent();
   } else {
@@ -223,21 +231,21 @@ export const handleHitToOpponent = () => {
 
     const tileName = characterStore.getCurrTileName();
     addToPlayHistory({
-      eventName: 'opponentsDefeated',
+      eventName: "opponentsDefeated",
       tileName
     });
 
-    showGameMsg('Opponents defeated!');
+    showGameMsg("Opponents defeated!");
 
     endCombat();
   }
-}
+};
 
 /**
  * Does all the things when an opponent hits a character
- * @param  {OpponentAttack} attack 
+ * @param  {OpponentAttack} attack
  */
-export const handleHitToCharacter = (attack) => {
+export const handleHitToCharacter = attack => {
   const dmg = getDmgDealtByOpponent(attack);
   const defense = getCharactersDefense();
 
@@ -264,7 +272,7 @@ export const getCharactersDefense = () => {
 };
 
 export const handleMissToOpponent = () => {
-  showGameMsg('Missed!');
+  showGameMsg("Missed!");
 };
 
 export const handleMissToCharacter = () => {
@@ -291,14 +299,14 @@ export const getDmgDealtByCharacter = () => {
   const characterStrMod = characterStore.getStr();
 
   const baseDmgDealt = weaponDmg + characterLevelDmgMod + characterStrMod;
-  return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes});
+  return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes });
 };
 
 /**
- * @param  {OpponentAttack} attack 
- * @return {Damage}        
+ * @param  {OpponentAttack} attack
+ * @return {Damage}
  */
-export const getDmgDealtByOpponent = (attack) => {
+export const getDmgDealtByOpponent = attack => {
   const dmgTypes = attack.getDmgTypes();
 
   const attackDmg = getRandomNum(attack.getDmgPoints());
@@ -306,7 +314,7 @@ export const getDmgDealtByOpponent = (attack) => {
   const opponentStrMod = combatStore.getOpponentsStr();
 
   const baseDmgDealt = attackDmg + opponentLevelDmgMod + opponentStrMod;
-  return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes});
+  return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes });
 };
 
 /**
@@ -335,10 +343,10 @@ export const calculateModifiedDmg = (dmg, defense) => {
 
   modifiedDmg = modifiedDmg - protection;
   return modifiedDmg;
-}
+};
 
-export const disburseTreasure = (treasures) => {
-  treasures.forEach((treasure) => {
+export const disburseTreasure = treasures => {
+  treasures.forEach(treasure => {
     const messages = treasure.getReceivedMessages();
     const toInventory = treasure.getItemsForInventory();
 

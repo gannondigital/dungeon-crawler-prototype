@@ -1,19 +1,19 @@
-@import '../lib/mixins.scss';
-@import '../lib/vars.scss';
+@import "../lib/mixins.scss";
+@import "../lib/vars.scss";
 
 .wall-psg-left {
-	@include panelWall;
-	@include rotateY(89deg);
-	@include transform-origin(0px);
+  @include panelWall;
+  @include rotateY(89deg);
+  @include transform-origin(0px);
 
   top: 0;
   left: 0;
-	width: $wall_width;
-	height: $wall_height;
+  width: $wall_width;
+  height: $wall_height;
 
-	&.shadow {
-		@include wall-shadow($wall_width / -2);
-	}
+  &.shadow {
+    @include wall-shadow($wall_width / -2);
+  }
 
   &.open {
     background: #000;

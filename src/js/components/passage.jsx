@@ -1,39 +1,34 @@
+import React, { Component } from "react";
+import { PropTypes } from "prop-types";
+import cloneDeep from "lodash.cloneDeep";
 
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import cloneDeep from 'lodash.cloneDeep';
+import { levelStore } from "../stores/store-level";
+import { characterStore } from "../stores/store-character";
+import { combatStore } from "../stores/store-combat";
 
-import { levelStore } from '../stores/store-level';
-import { characterStore } from '../stores/store-character';
-import { combatStore } from '../stores/store-combat';
+import { setDirection, setTile } from "../actions/actions-character";
+import { startCombat } from "../actions/actions-combat";
+import { showGameMsg } from "../actions/actions-messages";
 
-import { setDirection, setTile } from '../actions/actions-character';
-import { startCombat } from '../actions/actions-combat';
-import { showGameMsg } from '../actions/actions-messages';
+import { Wall } from "./wall";
+import { Monster } from "./monster";
+import { CombatControls } from "./combat-controls";
+import { PassageControls } from "./passage-controls";
+import { Tile } from "../models/model-tile";
+import { getTilenameForDirection } from "../lib/util/get-tilename-for-direction";
+import { tileHasUndefeatedOpponents } from "../lib/combat";
 
-import { Wall } from './wall';
-import { Monster } from './monster';
-import { CombatControls } from './combat-controls';
-import { PassageControls } from './passage-controls';
-import { Tile } from '../models/model-tile';
-import { getTilenameForDirection } from '../lib/util/get-tilename-for-direction';
-import { tileHasUndefeatedOpponents } from '../lib/combat';
-
-const directionOrder = ['n', 'e', 's', 'w'];
+const directionOrder = ["n", "e", "s", "w"];
 const fadeTime = 100;
 
-import '../../css/lib/base';
-import '../../css/components/passage';
+import "../../css/lib/base";
+import "../../css/components/passage";
 
 export class Passage extends Component {
-
   constructor(props) {
     super(props);
 
-    const {
-      direction,
-      currTile
-    } = props;
+    const { direction, currTile } = props;
 
     this.state = {
       tile: currTile,
@@ -63,7 +58,7 @@ export class Passage extends Component {
     combatStore.stopListening(this.handleCombatUpdate);
   }
 
-  handleCharacterUpdate(){
+  handleCharacterUpdate() {
     this.handleDirectionUpdate();
     this.handleTileUpdate();
   }
@@ -92,7 +87,9 @@ export class Passage extends Component {
     const isCharactersTurn = combatStore.isCharactersTurn();
 
     this.setState((prevState, currProps) => {
-      if (isCharactersTurn) { console.log('is characters turn')}
+      if (isCharactersTurn) {
+        console.log("is characters turn");
+      }
       const newState = Object.assign(prevState, {
         inCombat,
         isCharactersTurn
@@ -107,30 +104,30 @@ export class Passage extends Component {
     const currTilename = this.state.tile.getName();
 
     if (!(tile instanceof Tile)) {
-      console.log('Invalid Tile in Passage state.')
-      return (<div className="passagenotile" />);
+      console.log("Invalid Tile in Passage state.");
+      return <div className="passagenotile" />;
     }
 
-    const overlayClass = this.state.faded ? ' show' : '';
+    const overlayClass = this.state.faded ? " show" : "";
 
     const dataCeiling = {
-      placement: 'psg-ceiling',
+      placement: "psg-ceiling",
       surfaces: this.props.defaultSurfaces
     };
     const dataFloor = {
-      placement: 'psg-floor',
+      placement: "psg-floor",
       surfaces: this.props.defaultSurfaces
     };
     const dataRightWall = {
-      placement: 'psg-right',
+      placement: "psg-right",
       surfaces: tile.getSurfacesForWall(dirsForWalls.right)
     };
     const dataLeftWall = {
-      placement: 'psg-left',
+      placement: "psg-left",
       surfaces: tile.getSurfacesForWall(dirsForWalls.left)
     };
     const dataAhead = {
-      placement: 'psg-ahead',
+      placement: "psg-ahead",
       surfaces: tile.getSurfacesForWall(dirsForWalls.ahead)
     };
 
@@ -138,9 +135,9 @@ export class Passage extends Component {
     const monsters = tile.getMonsters() || [];
     const thereAreMonsters = tileHasUndefeatedOpponents(tile);
 
-    if(thereAreMonsters) {
-      monsterElems = monsters.map((monster) => {
-        return (<Monster monster={monster} key={monster.getName()} />);
+    if (thereAreMonsters) {
+      monsterElems = monsters.map(monster => {
+        return <Monster monster={monster} key={monster.getName()} />;
       });
     }
 
@@ -153,16 +150,16 @@ export class Passage extends Component {
             <Wall {...dataRightWall} />
             <Wall {...dataLeftWall} />
             <Wall {...dataAhead} />
-            { monsterElems }
+            {monsterElems}
           </div>
         </div>
         <div className={`passageoverlay${overlayClass}`} />
         {inCombat && isCharactersTurn && <CombatControls />}
-        <PassageControls 
+        <PassageControls
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
           inventoryClickHandler={this.props.inventoryClickHandler}
-          rightClickHandler={this.turnRight} 
+          rightClickHandler={this.turnRight}
           mapClickHandler={this.props.mapClickHandler}
         />
       </div>
@@ -172,9 +169,10 @@ export class Passage extends Component {
   turnRight() {
     this.fadeOut().then(() => {
       const currDirection = this.state.direction;
-      const newDirection = directionOrder[ (directionOrder.indexOf(currDirection) + 1) % 4 ];
-      console.log('curr orienation: ' + currDirection);
-      console.log('new direction: ' + newDirection);
+      const newDirection =
+        directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
+      console.log("curr orienation: " + currDirection);
+      console.log("new direction: " + newDirection);
 
       setDirection(newDirection);
       this.fadeIn();
@@ -184,9 +182,10 @@ export class Passage extends Component {
   turnLeft() {
     this.fadeOut().then(() => {
       const currDirection = this.state.direction;
-      const newDirection = directionOrder[ (directionOrder.indexOf(currDirection) - 1 + 4) % 4 ];
-      console.log('curr orienation: ' + currDirection);
-      console.log('new direction: ' + newDirection);
+      const newDirection =
+        directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
+      console.log("curr orienation: " + currDirection);
+      console.log("new direction: " + newDirection);
 
       setDirection(newDirection);
 
@@ -200,19 +199,19 @@ export class Passage extends Component {
     const tile = this.state.tile;
 
     if (this.state.inCombat) {
-      showGameMsg('Can\'t get past without fighting!');
+      showGameMsg("Can't get past without fighting!");
       return;
     }
 
     if (tile.hasExitAtWall(dir)) {
       const nextTileName = tile.getAdjacentTileName(dir);
       this.fadeOut().then(() => {
-        console.log('setting new tile: ' + nextTileName);
+        console.log("setting new tile: " + nextTileName);
         setTile(nextTileName);
         this.fadeIn();
       });
     } else {
-      console.log('You can\'t go that way.');
+      console.log("You can't go that way.");
     }
   }
 
@@ -227,23 +226,25 @@ export class Passage extends Component {
   // @todo there is likely a more elegant way to do this
   fade(fadeIn) {
     return new Promise((resolve, reject) => {
-      this.setState((prevState, currProps) => {
-        const newState = cloneDeep(prevState);
-        newState.faded = !!fadeIn;
-        return newState;
-      }, () => {
-        setTimeout(() => {
-          resolve();
-        }, 200)
-      });  
+      this.setState(
+        (prevState, currProps) => {
+          const newState = cloneDeep(prevState);
+          newState.faded = !!fadeIn;
+          return newState;
+        },
+        () => {
+          setTimeout(() => {
+            resolve();
+          }, 200);
+        }
+      );
     });
   }
-
 }
 
 Passage.propTypes = {
   currTile: PropTypes.instanceOf(Tile).isRequired,
-  direction: PropTypes.oneOf(['n', 'e', 's', 'w']).isRequired,
+  direction: PropTypes.oneOf(["n", "e", "s", "w"]).isRequired,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
   inventoryClickHandler: PropTypes.func,
   mapClickHandler: PropTypes.func,
@@ -251,52 +252,49 @@ Passage.propTypes = {
 };
 
 Passage.defaultProps = {
-  defaultSurfaces: [
-    'stonebrick',
-    'shadow'
-  ]
+  defaultSurfaces: ["stonebrick", "shadow"]
 };
 
 const dirsForWalls = {
   n: {
-    ahead: 'n',
-    right: 'e',
-    left: 'w'
+    ahead: "n",
+    right: "e",
+    left: "w"
   },
   e: {
-    ahead: 'e',
-    right: 's',
-    left: 'n'
+    ahead: "e",
+    right: "s",
+    left: "n"
   },
   s: {
-    ahead: 's',
-    right: 'w',
-    left: 'e'
+    ahead: "s",
+    right: "w",
+    left: "e"
   },
   w: {
-    ahead: 'w',
-    right: 'n',
-    left: 's'
+    ahead: "w",
+    right: "n",
+    left: "s"
   }
-}
+};
 
 // assumes north is the original forward dir
-const getDirsForWalls = (direction) => {
+const getDirsForWalls = direction => {
   if (!isValidDirection(direction)) {
-    throw new TypeError('Invalid direction set on Passage');
+    throw new TypeError("Invalid direction set on Passage");
   }
 
   return dirsForWalls[direction];
-}
+};
 
-const isValidDirection = (direction) => {
+const isValidDirection = direction => {
   switch (direction) {
-    case 'n':
-    case 'e':
-    case 's':
-    case 'w': 
+    case "n":
+    case "e":
+    case "s":
+    case "w":
       return true;
     default:
       return false;
   }
-}
+};

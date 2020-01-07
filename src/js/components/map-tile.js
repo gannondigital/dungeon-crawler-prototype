@@ -1,23 +1,17 @@
-import React from 'react';
-import classnames from 'classnames';
+import React from "react";
+import classnames from "classnames";
 
-import '../../css/components/map-tile.scss';
+import "../../css/components/map-tile.scss";
 
-export const MapTile = (props) => {
-  const {
-    isEmpty,
-    isCurrTile,
-    tile
-  } = props;
+export const MapTile = props => {
+  const { isEmpty, isCurrTile, tile } = props;
 
   const tileName = tile && tile.getName();
   const classes = classnames(
     tileName,
-    'map-tile',
-    {'map-tile-empty': isEmpty},
-    {'map-tile-current': isCurrTile}
+    "map-tile",
+    { "map-tile-empty": isEmpty },
+    { "map-tile-current": isCurrTile }
   );
-  return (
-    <td className={classes} />
-  );
+  return <td className={classes} />;
 };

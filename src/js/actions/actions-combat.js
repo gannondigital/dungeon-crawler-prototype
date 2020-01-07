@@ -1,7 +1,6 @@
-
-import { dispatcher } from '../lib/game-dispatcher';
-import { disburseTreasure } from '../lib/combat';
-import { 
+import { dispatcher } from "../lib/game-dispatcher";
+import { disburseTreasure } from "../lib/combat";
+import {
   START_COMBAT,
   COMBAT_DAMAGE_OPPONENT,
   COMBAT_DAMAGE_CHARACTER,
@@ -11,14 +10,14 @@ import {
   COMBAT_START_TURN_OPPONENT,
   COMBAT_START_TURN_CHARACTER,
   COMBAT_END_TURN_CHARACTER
-} from '../config/constants-actions.json';
+} from "../config/constants-actions.json";
 import { CHARACTER, OPPONENT } from "../config/constants-general";
-import { combatStore } from '../stores/store-combat';
-import { characterStore } from '../stores/store-character';
-import { showGameMsg } from '../actions/actions-messages';
-import { Damage } from '../models/model-damage';
+import { combatStore } from "../stores/store-combat";
+import { characterStore } from "../stores/store-character";
+import { showGameMsg } from "../actions/actions-messages";
+import { Damage } from "../models/model-damage";
 
-export const startCombat = ({ 
+export const startCombat = ({
   opponents,
   characterSurprised,
   opponentsSurprised
@@ -33,22 +32,22 @@ export const startCombat = ({
   });
 };
 
-export const damageOpponent = (dmg) => {
+export const damageOpponent = dmg => {
   if (typeof dmg !== "number") {
-    throw new TypeError('Invalid damage passed to damageOpponent');
+    throw new TypeError("Invalid damage passed to damageOpponent");
   }
-  
+
   dispatcher.dispatch({
     type: COMBAT_DAMAGE_OPPONENT,
     payload: { dmg }
   });
 };
 
-export const damageCharacter = (dmg) => {
+export const damageCharacter = dmg => {
   if (typeof dmg !== "number") {
-    throw new TypeError('Invalid damage passed to damageCharacter');
+    throw new TypeError("Invalid damage passed to damageCharacter");
   }
-  
+
   dispatcher.dispatch({
     type: COMBAT_DAMAGE_CHARACTER,
     payload: { dmg }
@@ -61,9 +60,12 @@ export const endCombat = () => {
   });
 };
 
-export const setAdvantage = (whoHasAdvantage) => {
-  if (whoHasAdvantage && whoHasAdvantage !== CHARACTER &&
-    whoHasAdvantage !== OPPONENT) {
+export const setAdvantage = whoHasAdvantage => {
+  if (
+    whoHasAdvantage &&
+    whoHasAdvantage !== CHARACTER &&
+    whoHasAdvantage !== OPPONENT
+  ) {
     throw new TypeError("Invalid party passed to setAdvantage");
   }
 
@@ -82,22 +84,22 @@ export const startRound = () => {
 };
 
 export const startOpponentsTurn = () => {
-  console.log('starting opponents turn');
+  console.log("starting opponents turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_OPPONENT
   });
 };
 
 export const startCharactersTurn = () => {
-  console.log('starting chars turn');
+  console.log("starting chars turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_CHARACTER
   });
 };
 
 export const endCharactersTurn = () => {
-  console.log('ending chars turn');
+  console.log("ending chars turn");
   dispatcher.dispatch({
     type: COMBAT_END_TURN_CHARACTER
   });
-}
+};

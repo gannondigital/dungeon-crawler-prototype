@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { Monster as MonsterModel } from '../models/model-monster';
-import '../../css/components/monster.scss';
+import { Monster as MonsterModel } from "../models/model-monster";
+import "../../css/components/monster.scss";
 
-export const Monster = (props) => {
+export const Monster = props => {
   const { monster } = props;
-  if ( !(monster instanceof MonsterModel)) {
-    throw new TypeError('Invalid monster obj passed to Monster component');
+  if (!(monster instanceof MonsterModel)) {
+    throw new TypeError("Invalid monster obj passed to Monster component");
   }
 
   const img_url = monster.getImageUrl();
@@ -15,4 +15,4 @@ export const Monster = (props) => {
       <img src={img_url} />
     </div>
   );
-}
+};

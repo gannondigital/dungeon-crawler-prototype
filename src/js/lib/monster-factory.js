@@ -1,8 +1,8 @@
-import { Monster } from '../models/model-monster';
-import { Treasure } from '../models/model-treasure';
+import { Monster } from "../models/model-monster";
+import { Treasure } from "../models/model-treasure";
 import { Damage } from "../models/model-damage";
 import OpponentAttack from "../models/model-opponent-attack";
-import { itemsStore } from '../stores/store-items';
+import { itemsStore } from "../stores/store-items";
 
 /**
  * Composes the necessary data to make a monster. Takes the monster's
@@ -10,8 +10,7 @@ import { itemsStore } from '../stores/store-items';
  * @param  {Object} monsterProps Monster data, from store/level data
  * @return {Monster}              Instance of Monster model
  */
-export const MonsterFactory = (monsterProps) => {
-
+export const MonsterFactory = monsterProps => {
   const treasureObj = monsterProps.treasure || {
     // @todo could include other treasure besides `items`
     items: []
@@ -29,7 +28,7 @@ export const MonsterFactory = (monsterProps) => {
 
 /**
  * Returns the complete item objects specified by the monster's
- * treasure.items, from the store. 
+ * treasure.items, from the store.
  * @todo  support non-item treasure
  * @param  {Object} treasureObj items: array of item names, corresponding
  *                              to items in the store/level data
