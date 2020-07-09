@@ -14,6 +14,7 @@ import { msgStore } from "../stores/store-messages";
 
 import "../../css/lib/base.scss";
 import "../../css/components/game-root.scss";
+import "../../css/components/header-nav-button";
 
 export class GameRoot extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ export class GameRoot extends Component {
     msgStore.listen(this.handleMsgUpdate);
   }
 
+  // @todo DRY up back button
   render() {
     const { directionFetcher, tileFetcher } = this.props;
     const gameMsgs = this.state.gameMsgs;
@@ -59,37 +61,67 @@ export class GameRoot extends Component {
     const currTile = levelStore.getTile(currTileName);
 
     let gameContent = null;
+    let backButton;
     switch (this.state.uiState) {
       case "passage":
         gameContent = (
           <Fragment>
             {gameMsgs && <GameMsg msgs={gameMsgs} />}
-            <GameHeader directionFetcher={directionFetcher} />
+            <GameHeader
+              directionFetcher={directionFetcher}
+              button={[
+                (<button
+                  className="header-nav-button"
+                  onClick={this.handleMapBtnClick}
+                  key="map"
+                >
+                  Map
+                </button>),
+                (<button
+                  className="header-nav-button"
+                  onClick={this.handleInventoryClick}
+                  key="inventory"
+                >
+                  Inventory
+                </button>)
+              ]}
+            />
             <Passage
               currTile={currTile}
               direction={currDir}
               tileFetcher={tileFetcher}
-              mapClickHandler={this.handleMapBtnClick}
-              inventoryClickHandler={this.handleInventoryClick}
             />
           </Fragment>
         );
         break;
       case "map":
+        backButton = (
+            <button className="header-nav-button" onClick={this.handleCloseBtnClick}>Back</button>
+        );
         gameContent = (
           <Fragment>
+            <GameHeader
+              button={backButton}
+              directionFetcher={directionFetcher}
+            />
             <LevelMap
               rows={20}
               columns={20}
-              closeClickHandler={this.handleCloseBtnClick}
             />
           </Fragment>
         );
         break;
       case "inventory":
+        backButton = (
+            <button className="header-nav-button" onClick={this.handleCloseBtnClick}>Back</button>
+        );
         gameContent = (
           <Fragment>
-            <Inventory closeClickHandler={this.handleCloseBtnClick} />
+            <GameHeader
+              button={backButton}
+              directionFetcher={directionFetcher}
+            />
+            <Inventory />
           </Fragment>
         );
         break;

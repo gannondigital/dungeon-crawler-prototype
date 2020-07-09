@@ -24,14 +24,18 @@ export class GameHeader extends Component {
   }
 
   render() {
+    const { button } = this.props;
     return (
       <header className="game_header">
+        {button && button }
         <Compass direction={this.state.direction} />
+        }
       </header>
     );
   }
 }
 
 GameHeader.propTypes = {
-  directionFetcher: PropTypes.func
+  directionFetcher: PropTypes.func,
+  button: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
 };

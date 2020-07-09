@@ -5,6 +5,8 @@ import { inventoryStore } from "../stores/store-inventory";
 import Item from "../models/model-item";
 import { ItemTile } from "./item-tile";
 
+import "../../css/components/inventory.scss";
+
 // @todo if we have more item roles, abstract out the roles
 export class Inventory extends Component {
   constructor(props) {
@@ -12,11 +14,13 @@ export class Inventory extends Component {
 
     const allItems = inventoryStore.getAllItems();
     const activeWeapon = inventoryStore.getActiveWeapon();
+    const activeArmor = inventoryStore.getActiveArmor();
 
     this.state = {
       uiState: "items", // 'armor' || 'weapons'
       items: allItems,
-      activeWeapon
+      activeWeapon,
+      activeArmor
     };
   }
 
@@ -35,9 +39,11 @@ export class Inventory extends Component {
   handleInventoryUpdate() {
     const allItems = inventoryStore.getAllItems();
     const activeWeapon = inventoryStore.getActiveWeapon();
+    const activeArmor = inventoryStore.getActiveArmor();
     this.setState({
       items: allItems,
-      activeWeapon
+      activeWeapon,
+      activeArmor
     });
   }
 
@@ -50,7 +56,7 @@ export class Inventory extends Component {
   }
 
   render() {
-    const { uiState, items, activeWeapon } = this.state;
+    const { uiState, items, activeWeapon, activeArmor } = this.state;
     const itemsToRender = items[uiState];
 
     const itemComponents = itemsToRender.map(item => {
@@ -59,7 +65,6 @@ export class Inventory extends Component {
 
     return (
       <div className="inventory">
-        <button onClick={this.props.closeClickHandler}>Back</button>
         <div className="inventory--tabs">
           <button>Arms & Armor</button>
           <button>Items</button>
@@ -67,6 +72,10 @@ export class Inventory extends Component {
         <div className="inventory--active_weapon">
           <span>Active Weapon:</span>
           <ItemTile item={activeWeapon} />
+        </div>
+        <div className="inventory--active_armor">
+          <span>Active Armor:</span>
+          <ItemTile item={activeArmor} />
         </div>
         <div className="inventory--itemlist">{itemComponents}</div>
       </div>

@@ -33,9 +33,9 @@ loadLevel(config.startLevel)
   })
   .then(() => {
     bootstrapCharacter();
+    
     ReactDOM.render(
       React.createElement(GameRoot, {
-        // tryin some dependency injection...
         tileFetcher: levelStore.getTile.bind(levelStore),
         directionFetcher: characterStore.getDirection.bind(characterStore)
       }),

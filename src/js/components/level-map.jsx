@@ -20,9 +20,6 @@ export class LevelMap extends Component {
 
     return (
       <div className="level-map-wrapper">
-        <button type="button" onClick={this.props.closeClickHandler}>
-          Back
-        </button>
         <table className="">{mapEls}</table>
       </div>
     );

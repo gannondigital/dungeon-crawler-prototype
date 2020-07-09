@@ -20,18 +20,6 @@ export const PassageControls = props => {
           <button className="button_right" onClick={props.rightClickHandler} />
         </li>
       </ul>
-      <button
-        className="passage_controls--map--toggle"
-        onClick={props.mapClickHandler}
-      >
-        Map
-      </button>
-      <button
-        className="passage_controls--inventory--toggle"
-        onClick={props.inventoryClickHandler}
-      >
-        Inventory
-      </button>
     </nav>
   );
 };
@@ -39,7 +27,5 @@ export const PassageControls = props => {
 PassageControls.propTypes = {
   leftClickHandler: PropTypes.func,
   forwardClickHandler: PropTypes.func,
-  inventoryClickHandler: PropTypes.func,
-  rightClickHandler: PropTypes.func,
-  mapClickHandler: PropTypes.func
+  rightClickHandler: PropTypes.func
 };
