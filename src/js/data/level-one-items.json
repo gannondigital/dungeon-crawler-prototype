@@ -3,7 +3,7 @@
     "bulkSize": 1,
     "itemRoles": ["item", "singleUse"],
     "meta": {
-      "imageUrl": "",
+      "imageUrl": "healing-potion.png",
       "label": "Healing Potion",
       "name": "healing-potion"
     },
@@ -13,7 +13,7 @@
     "bulkSize": 2,
     "itemRoles": ["weapon"],
     "meta": {
-      "imageUrl": "",
+      "imageUrl": "staff.png",
       "label": "Staff",
       "name": "staff"
     },
@@ -27,7 +27,7 @@
     "bulkSize": 1,
     "itemRoles": ["armor"],
     "meta": {
-      "imageUrl": "",
+      "imageUrl": "clothes.png",
       "label": "Clothes",
       "name": "clothes"
     },

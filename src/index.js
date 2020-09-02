@@ -9,7 +9,8 @@ import { loadMonsters } from "./js/actions/actions-monsters";
 import { loadItems } from "./js/actions/actions-items";
 import {
   setActiveWeapon,
-  setActiveArmor
+  setActiveArmor,
+  addToInventory
 } from "./js/actions/actions-inventory";
 
 import { levelStore } from "./js/stores/store-level";
@@ -32,10 +33,11 @@ loadLevel(config.startLevel)
     return loadItems(config.startLevel);
   })
   .then(() => {
+    // @todo load character
     bootstrapCharacter();
+
     ReactDOM.render(
       React.createElement(GameRoot, {
-        // tryin some dependency injection...
         tileFetcher: levelStore.getTile.bind(levelStore),
         directionFetcher: characterStore.getDirection.bind(characterStore)
       }),
@@ -49,8 +51,10 @@ loadLevel(config.startLevel)
 // @todo more mature version of this
 function bootstrapCharacter() {
   const initialWeapon = itemsStore.getItems(["staff"])[0];
-  setActiveWeapon(initialWeapon);
-
   const initialArmor = itemsStore.getItems(["clothes"])[0];
+
+  setActiveWeapon(initialWeapon);
   setActiveArmor(initialArmor);
+
+  addToInventory([initialWeapon, initialArmor]);
 }

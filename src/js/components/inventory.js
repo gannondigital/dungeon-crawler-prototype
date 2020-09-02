@@ -5,39 +5,34 @@ import { inventoryStore } from "../stores/store-inventory";
 import Item from "../models/model-item";
 import { ItemTile } from "./item-tile";
 
+import "../../css/components/inventory.scss";
+
 // @todo if we have more item roles, abstract out the roles
 export class Inventory extends Component {
   constructor(props) {
     super(props);
 
-    const allItems = inventoryStore.getAllItems();
     const activeWeapon = inventoryStore.getActiveWeapon();
+    const activeArmor = inventoryStore.getActiveArmor();
+    const sortedItems = inventoryStore.getAllItems();
 
     this.state = {
-      uiState: "items", // 'armor' || 'weapons'
-      items: allItems,
-      activeWeapon
+      uiState: "equipped", // "armor" | "weapons" | "items"
+      items: sortedItems,
+      activeWeapon,
+      activeArmor
     };
   }
 
-  switchToArmsArmor = () => {
-    this.setState({ uiState: "armor" });
-  };
-
-  switchToWeapons = () => {
-    this.setState({ uiState: "weapons" });
-  };
-
-  switchToItems = () => {
-    this.setState({ uiState: "items" });
-  };
-
   handleInventoryUpdate() {
-    const allItems = inventoryStore.getAllItems();
     const activeWeapon = inventoryStore.getActiveWeapon();
+    const activeArmor = inventoryStore.getActiveArmor();
+    const sortedItems = inventoryStore.getAllItems();
+
     this.setState({
-      items: allItems,
-      activeWeapon
+      items: sortedItems,
+      activeWeapon,
+      activeArmor
     });
   }
 
@@ -50,25 +45,51 @@ export class Inventory extends Component {
   }
 
   render() {
-    const { uiState, items, activeWeapon } = this.state;
-    const itemsToRender = items[uiState];
+    const { uiState, items, activeWeapon, activeArmor } = this.state;
 
-    const itemComponents = itemsToRender.map(item => {
-      return <ItemTile item={item} />;
+    // @todo are these going to stay similar enough that we can consolidate this?
+    let panelContents;
+    switch (uiState) {
+      case "armor":
+        panelContents = items.armor.map(item => (
+          <ItemTile item={item} key={item.name} />
+        ));
+        break;
+      case "weapons":
+        panelContents = items.weapons.map(item => (
+          <ItemTile item={item} key={item.name} />
+        ));
+        break;
+      case "items":
+        panelContents = items.items.map(item => (
+          <ItemTile item={item} key={item.name} />
+        ));
+        break;
+      // @todo labels etc, nicer ui
+      case "equipped":
+        panelContents = [activeWeapon, activeArmor].map(item => (
+          <ItemTile item={item} key={item.name} />
+        ));
+        break;
+    }
+
+    // @todo this is pretty hardcode-y but it'll do for now
+    const tabs = ["equipped", "armor", "weapons", "items"].map(tabname => {
+      return (
+        <button
+          key={tabname}
+          onClick={() => this.setState({ uiState: tabname })}
+          className={uiState === tabname ? "inventory_tab--selected" : ""}
+        >
+          {tabname.toUpperCase()}
+        </button>
+      );
     });
 
     return (
       <div className="inventory">
-        <button onClick={this.props.closeClickHandler}>Back</button>
-        <div className="inventory--tabs">
-          <button>Arms & Armor</button>
-          <button>Items</button>
-        </div>
-        <div className="inventory--active_weapon">
-          <span>Active Weapon:</span>
-          <ItemTile item={activeWeapon} />
-        </div>
-        <div className="inventory--itemlist">{itemComponents}</div>
+        <nav className="inventory--tabs">{tabs}</nav>
+        <section className="inventory--content">{panelContents}</section>
       </div>
     );
   }
@@ -80,21 +101,4 @@ Inventory.propTypes = {
 
 Inventory.defaultProps = {
   items: []
-};
-
-const sortItems = items => {
-  const sorted = {
-    armsAndArmor: [],
-    items: []
-  };
-
-  items.forEach(item => {
-    if (item.hasRole(["weapon", "armor"])) {
-      sorted.armsAndArmor.push(item);
-    } else {
-      sorted.items.push(item);
-    }
-  });
-
-  return sorted;
 };

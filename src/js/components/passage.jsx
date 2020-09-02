@@ -158,9 +158,7 @@ export class Passage extends Component {
         <PassageControls
           leftClickHandler={this.turnLeft}
           forwardClickHandler={this.moveAhead}
-          inventoryClickHandler={this.props.inventoryClickHandler}
           rightClickHandler={this.turnRight}
-          mapClickHandler={this.props.mapClickHandler}
         />
       </div>
     );
@@ -246,8 +244,6 @@ Passage.propTypes = {
   currTile: PropTypes.instanceOf(Tile).isRequired,
   direction: PropTypes.oneOf(["n", "e", "s", "w"]).isRequired,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
-  inventoryClickHandler: PropTypes.func,
-  mapClickHandler: PropTypes.func,
   tileFetcher: PropTypes.func
 };
 

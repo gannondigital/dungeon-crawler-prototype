@@ -1,0 +1,21 @@
+@import "../lib/vars.scss";
+
+.inventory {
+  padding: 12px;
+  width: 480px;
+  height: 270px;
+  background: #000;
+  color: $textLight;
+}
+
+.inventory--tabs {
+  margin-bottom: 12px;
+}
+
+.inventory_tab--selected {
+  background: #ddd;
+}
+
+.inventory--content {
+  display: flex;
+}
