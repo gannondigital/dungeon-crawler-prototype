@@ -27,9 +27,8 @@ export class GameHeader extends Component {
     const { button } = this.props;
     return (
       <header className="game_header">
-        {button && button }
+        {button && button}
         <Compass direction={this.state.direction} />
-        }
       </header>
     );
   }
@@ -37,5 +36,8 @@ export class GameHeader extends Component {
 
 GameHeader.propTypes = {
   directionFetcher: PropTypes.func,
-  button: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
+  button: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ])
 };

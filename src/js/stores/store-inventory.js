@@ -15,13 +15,7 @@ class InventoryStore extends Store {
       activeWeapon: null,
       activeArmor: null,
       items: {
-        weapons: [
-          {
-            stick: {
-              dmg: 1
-            }
-          }
-        ],
+        weapons: [],
         armor: [],
         items: []
       }

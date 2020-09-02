@@ -1,6 +1,8 @@
+@import "../lib/vars.scss";
+
 .map-tile {
   background: #fff;
-  border: 1px solid darkgrey;
+  border: 1px solid $textLight;
   height: 20px;
   min-width: 20px;
   position: relative;

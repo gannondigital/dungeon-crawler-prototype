@@ -70,20 +70,20 @@ export class GameRoot extends Component {
             <GameHeader
               directionFetcher={directionFetcher}
               button={[
-                (<button
+                <button
                   className="header-nav-button"
                   onClick={this.handleMapBtnClick}
                   key="map"
                 >
                   Map
-                </button>),
-                (<button
+                </button>,
+                <button
                   className="header-nav-button"
                   onClick={this.handleInventoryClick}
                   key="inventory"
                 >
                   Inventory
-                </button>)
+                </button>
               ]}
             />
             <Passage
@@ -96,7 +96,12 @@ export class GameRoot extends Component {
         break;
       case "map":
         backButton = (
-            <button className="header-nav-button" onClick={this.handleCloseBtnClick}>Back</button>
+          <button
+            className="header-nav-button"
+            onClick={this.handleCloseBtnClick}
+          >
+            Back
+          </button>
         );
         gameContent = (
           <Fragment>
@@ -104,16 +109,18 @@ export class GameRoot extends Component {
               button={backButton}
               directionFetcher={directionFetcher}
             />
-            <LevelMap
-              rows={20}
-              columns={20}
-            />
+            <LevelMap rows={10} columns={20} />
           </Fragment>
         );
         break;
       case "inventory":
         backButton = (
-            <button className="header-nav-button" onClick={this.handleCloseBtnClick}>Back</button>
+          <button
+            className="header-nav-button"
+            onClick={this.handleCloseBtnClick}
+          >
+            Back
+          </button>
         );
         gameContent = (
           <Fragment>

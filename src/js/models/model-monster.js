@@ -133,7 +133,8 @@ function validateProps(monsterProps) {
   isValid = isValid && validateAttacks(monsterProps.attacks);
   isValid =
     isValid &&
-    typeof monsterProps.expLevel === "number" && !isNaN(monsterProps.expLevel);
+    typeof monsterProps.expLevel === "number" &&
+    !isNaN(monsterProps.expLevel);
   return isValid;
 }
 

@@ -5,6 +5,8 @@ import { MapTile } from "./map-tile";
 import { levelStore } from "../stores/store-level";
 import { characterStore } from "../stores/store-character";
 
+import "../../css/components/level-map.scss";
+
 function getTilename(row, column) {
   return `${row}x${column}`;
 }
