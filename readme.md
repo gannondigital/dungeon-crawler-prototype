@@ -12,12 +12,16 @@ This prototype uses a simple Flux pattern, extending Facebook's Flux package, wi
 
 ## Current State and Next Steps
 
-The engine is populated with a couple of passages and rooms. You can change direction and move through passages; there's a compass that points 'north' (your starting direction) to help you stay oriented. There's also a simple map view. You can encounter a monster, fight it, and defeat it (you can't die yet, though). You can receive items as 'treasure' after defeating a monster, and view your items in an Inventory screen.
+- The engine is populated with a couple of passages and rooms. You can change direction and move through passages; there's a compass that points 'north'
+- There's a simple map view
+- You can encounter a (placeholder) monster, fight it, and defeat it (you can't die yet, though)
+- You can receive items as 'treasure' after defeating a monster, and view your items in an Inventory screen.
 
 Next steps would include:
-* increased test coverage, switch to Jest for tests
-* add prettier and linting, ugh
 * refactoring throughout; it's now far enough along that there are patterns established and some of them are crummy
+* starting screen, transition to/from gameplay
+* test coverage, switch to Jest for tests
+* add linting, ugh
 * additional assets, such as varied wall textures, doors, monsters, etc.
 * UI effects for attacks/damage
 * support for player character info screen (stats, etc.)
