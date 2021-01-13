@@ -10,7 +10,7 @@ import "../../css/components/game-header.scss";
 export class GameHeader extends Component {
   constructor(props) {
     super(props);
-    const currDirection = this.props.directionFetcher();
+    const currDirection = characterStore.getDirection();
     this.state = {
       direction: currDirection
     };
@@ -19,7 +19,7 @@ export class GameHeader extends Component {
   }
 
   handleDirectionUpdate() {
-    const currDirection = this.props.directionFetcher();
+    const currDirection = characterStore.getDirection();
     this.setState({ direction: currDirection });
   }
 
@@ -35,7 +35,6 @@ export class GameHeader extends Component {
 }
 
 GameHeader.propTypes = {
-  directionFetcher: PropTypes.func,
   button: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element)

@@ -13,7 +13,6 @@ import {
   addToInventory
 } from "./js/actions/actions-inventory";
 
-import { levelStore } from "./js/stores/store-level";
 import { characterStore } from "./js/stores/store-character";
 import { playHistoryStore } from "./js/stores/store-play-history";
 import { itemsStore } from "./js/stores/store-items";
@@ -25,6 +24,19 @@ import { GameRoot } from "./js/components/game-root";
  * @todo
  */
 
+// @todo more mature version of this
+function bootstrapCharacter() {
+  const initialWeapon = itemsStore.getItems(["staff"])[0];
+  const initialArmor = itemsStore.getItems(["clothes"])[0];
+
+  setActiveWeapon(initialWeapon);
+  setActiveArmor(initialArmor);
+
+  addToInventory([initialWeapon, initialArmor]);
+}
+
+// @todo support non-gameplay states like start screen, don't
+// load assets until we need them
 loadLevel(config.startLevel)
   .then(() => {
     return loadMonsters(config.startLevel);
@@ -37,24 +49,10 @@ loadLevel(config.startLevel)
     bootstrapCharacter();
 
     ReactDOM.render(
-      React.createElement(GameRoot, {
-        tileFetcher: levelStore.getTile.bind(levelStore),
-        directionFetcher: characterStore.getDirection.bind(characterStore)
-      }),
+      React.createElement(GameRoot),
       document.querySelector(config.rootSelector)
     );
   })
   .catch(err => {
     throw err;
   });
-
-// @todo more mature version of this
-function bootstrapCharacter() {
-  const initialWeapon = itemsStore.getItems(["staff"])[0];
-  const initialArmor = itemsStore.getItems(["clothes"])[0];
-
-  setActiveWeapon(initialWeapon);
-  setActiveArmor(initialArmor);
-
-  addToInventory([initialWeapon, initialArmor]);
-}
