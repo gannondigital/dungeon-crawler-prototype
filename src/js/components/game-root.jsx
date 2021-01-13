@@ -5,12 +5,11 @@ import { Tile } from "../models/model-tile";
 import { Passage } from "./passage";
 import { GameHeader } from "./game-header";
 import { LevelMap } from "./level-map";
-import { GameMsg } from "./game-msg";
+import GameMsg from "./game-msg";
 import { Inventory } from "./inventory";
 
 import { characterStore } from "../stores/store-character";
 import { levelStore } from "../stores/store-level";
-import { msgStore } from "../stores/store-messages";
 
 import "../../css/lib/base.scss";
 import "../../css/components/game-root.scss";
@@ -37,24 +36,14 @@ export class GameRoot extends Component {
     });
   };
 
-  handleMsgUpdate = () => {
-    const msgs = msgStore.getCurrMsgs();
-    this.setState({ gameMsgs: msgs });
-  };
-
   handleInventoryClick = () => {
     this.setState({
       uiState: "inventory"
     });
   };
 
-  componentWillMount() {
-    msgStore.listen(this.handleMsgUpdate);
-  }
-
   // @todo DRY up back button
   render() {
-    const { directionFetcher, tileFetcher } = this.props;
     const gameMsgs = this.state.gameMsgs;
     const currDir = characterStore.getDirection();
     const currTileName = characterStore.getCurrTileName();
@@ -66,9 +55,8 @@ export class GameRoot extends Component {
       case "passage":
         gameContent = (
           <Fragment>
-            {gameMsgs && <GameMsg msgs={gameMsgs} />}
+            <GameMsg />
             <GameHeader
-              directionFetcher={directionFetcher}
               button={[
                 <button
                   className="header-nav-button"
@@ -86,11 +74,7 @@ export class GameRoot extends Component {
                 </button>
               ]}
             />
-            <Passage
-              currTile={currTile}
-              direction={currDir}
-              tileFetcher={tileFetcher}
-            />
+            <Passage currTile={currTile} direction={currDir} />
           </Fragment>
         );
         break;
@@ -105,10 +89,7 @@ export class GameRoot extends Component {
         );
         gameContent = (
           <Fragment>
-            <GameHeader
-              button={backButton}
-              directionFetcher={directionFetcher}
-            />
+            <GameHeader button={backButton} />
             <LevelMap rows={10} columns={20} />
           </Fragment>
         );
@@ -124,10 +105,7 @@ export class GameRoot extends Component {
         );
         gameContent = (
           <Fragment>
-            <GameHeader
-              button={backButton}
-              directionFetcher={directionFetcher}
-            />
+            <GameHeader button={backButton} />
             <Inventory />
           </Fragment>
         );
@@ -142,7 +120,5 @@ export class GameRoot extends Component {
 
 GameRoot.propTypes = {
   tile: PropTypes.instanceOf(Tile),
-  tileFetcher: PropTypes.func,
-  directionFetcher: PropTypes.func,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
 };
