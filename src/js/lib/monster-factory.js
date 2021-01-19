@@ -36,8 +36,7 @@ export const MonsterFactory = monsterProps => {
  */
 function getTreasureForMonster(treasureObj) {
   const itemNameArr = treasureObj.items;
-  const items = itemsStore.getItems(itemNameArr);
-  return items;
+  return itemNameArr.length ? itemsStore.getItems(itemNameArr) : []
 }
 
 /**

@@ -38,6 +38,7 @@ class InventoryStore extends Store {
 export const inventoryStore = new InventoryStore();
 inventoryStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
+    // @todo support items that you can have multiples of
     case constants.INVENTORY_ADD_ITEMS:
       const { items } = action.payload;
       const sortedItems = sortItems(items);

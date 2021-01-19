@@ -37,7 +37,7 @@
           "surfaces": ["stonebrick", "shadow"]
         }
       },
-      "monsters": ["small-ghost"]
+      "monsters": ["blade-bearer"]
     },
     "1x3": {
       "coords": { "x": 1, "y": 3 },
@@ -94,7 +94,8 @@
           "surfaces": ["open"],
           "exit": true
         }
-      }
+      },
+      "monsters": ["moss-golem"]
     },
     "4x3": {
       "coords": { "x": 4, "y": 3 },
@@ -192,7 +193,8 @@
           "surfaces": ["open"],
           "exit": true
         }
-      }
+      },
+      "monsters": ["mimic"]
     },
     "5x4": {
       "coords": { "x": 5, "y": 4 },
