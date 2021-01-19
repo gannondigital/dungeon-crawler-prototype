@@ -32,9 +32,12 @@ import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
 
 const HIT_CONST = 10;
 const DELAY_BETWEEN_TURNS_MS = 1250;
+const POLLING_INTERVAL_FOR_CHAR_ACTION = 250;
 
 export const startCombat = ({ whoHasAdvantage }) => {
   setAdvantage(whoHasAdvantage);
+  const opponentName = combatStore.getOpponentsName();
+  showGameMsg(`${opponentName} attacked!`);
   runCombat();
 };
 
@@ -92,7 +95,7 @@ const runTurnForOpponent = () => {
   return new Promise((resolve, reject) => {
     startOpponentsTurn();
 
-    // UX needs a delay bewteen user action and opponent's
+    // UX needs a delay between user action and opponent's
     // it doesn't have to be here, but this works pretty well
     setTimeout(() => {
       try {
@@ -156,10 +159,11 @@ const runTurnForCharacter = () => {
         clearInterval(charTurnCheck);
         resolve();
       }
-    }, 250);
+    }, POLLING_INTERVAL_FOR_CHAR_ACTION);
   });
 };
 
+// @todo does this belong here?
 export const tileHasUndefeatedOpponents = tile => {
   const tilename = tile.getName();
   const monsters = tile.getMonsters() || [];
@@ -217,6 +221,7 @@ export const attackOpponent = () => {
 };
 
 export const handleHitToOpponent = () => {
+  const opponentName = combatStore.getOpponentsName();
   const dmg = getDmgDealtByCharacter();
   const defense = getOpponentsDefense();
 
@@ -235,7 +240,7 @@ export const handleHitToOpponent = () => {
       tileName
     });
 
-    showGameMsg("Opponents defeated!");
+    showGameMsg(`${opponentName} defeated!`);
 
     endCombat();
   }
@@ -246,13 +251,14 @@ export const handleHitToOpponent = () => {
  * @param  {OpponentAttack} attack
  */
 export const handleHitToCharacter = attack => {
+  const opponentName = combatStore.getOpponentsName();
   const dmg = getDmgDealtByOpponent(attack);
   const defense = getCharactersDefense();
 
   const modifiedDmg = calculateModifiedDmg(dmg, defense);
   damageCharacter(modifiedDmg);
 
-  showGameMsg(`Opponent did ${modifiedDmg} damage!`);
+  showGameMsg(`${opponentName} did ${modifiedDmg} damage!`);
 
   // @todo handle zero health
 };

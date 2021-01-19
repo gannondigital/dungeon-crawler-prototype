@@ -1,6 +1,10 @@
 @import "../lib/mixins.scss";
 @import "../lib/vars.scss";
 
+.passageroot {
+  display: relative;
+}
+
 .passagewrap {
   @include perspective($wall_width);
 
@@ -27,7 +31,7 @@
   top: $headerHeight;
   transition: opacity 200ms;
   width: $wall_width;
-  z-index: 10000;
+  z-index: 10;
 
   &.show {
     opacity: 100;

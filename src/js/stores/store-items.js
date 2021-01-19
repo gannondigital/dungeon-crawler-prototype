@@ -17,6 +17,10 @@ class ItemStore extends Store {
     };
   }
 
+  /**
+   * @param  {Array} itemNames Array of item 'name' fields
+   * @return {Array}           Array of Item objects
+   */
   getItems(itemNames) {
     if (!itemNames || typeof itemNames !== "object" || !itemNames.length) {
       throw new TypeError("Invalid itemNames passed to getItems");

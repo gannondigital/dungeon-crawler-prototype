@@ -39,8 +39,6 @@ export class Monster {
       throw new TypeError("Invalid props passed to Monster constructor");
     }
     this.initialize(monsterProps);
-
-    this.meta.img_url = placeholderImg;
   }
 
   initialize(props) {
@@ -58,7 +56,7 @@ export class Monster {
   }
 
   getImageUrl() {
-    return this.meta.img_url;
+    return this.meta.imgUrl;
   }
 
   getExpLevel() {

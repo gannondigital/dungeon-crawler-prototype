@@ -9,10 +9,12 @@ export const Monster = props => {
     throw new TypeError("Invalid monster obj passed to Monster component");
   }
 
-  const img_url = monster.getImageUrl();
+  const imgUrl = monster.getImageUrl();
+  const imgFileUrl = require(`../../img/monsters/${imgUrl}`);
+
   return (
     <div className="monster">
-      <img src={img_url} />
+      <img src={imgFileUrl} />
     </div>
   );
 };

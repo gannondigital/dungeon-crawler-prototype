@@ -1,0 +1,11 @@
+.combat-controls {
+  position: absolute;
+  top: 287px;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  z-index: 10;
+
+  li {
+    display: inline-block;
+  }
+}

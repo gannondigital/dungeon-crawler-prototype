@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import { attackOpponent } from "../lib/combat";
 import { endCharactersTurn } from "../actions/actions-combat";
 
+import "../../css/components/combat-controls";
+
+/**
+ * @todo support Magic, Run and Item options
+ */
 export class CombatControls extends Component {
   constructor(props) {
     super(props);
@@ -27,10 +32,13 @@ export class CombatControls extends Component {
           </button>
         </li>
         <li>
-          <button className="combat-controls--magic">Magic</button>
+          <button disabled>Magic</button>
         </li>
         <li>
-          <button className="combat-controls--run">Run</button>
+          <button disabled>Run</button>
+        </li>
+        <li>
+          <button disabled>Item</button>
         </li>
       </ul>
     );

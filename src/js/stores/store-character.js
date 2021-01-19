@@ -12,7 +12,7 @@ class CharacterStore extends Store {
     this.data = {
       currLevel: "one",
       currTileName: "1x1",
-      currDirection: "n",
+      currDirection: "s",
       health: 0,
       attributes: {
         accuracy: 1,
