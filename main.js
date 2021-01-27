@@ -525,6 +525,25 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./src/css/components/combat-controls.scss":
+/*!********************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js!./src/css/components/combat-controls.scss ***!
+  \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".combat-controls {\n  position: absolute;\n  top: 287px;\n  background-color: rgba(0, 0, 0, 0.7);\n  width: 100%;\n  z-index: 10; }\n  .combat-controls li {\n    display: inline-block; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./src/css/components/compass.scss":
 /*!************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js!./src/css/components/compass.scss ***!
@@ -575,7 +594,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".game-msg--text {\n  background-color: rgba(0, 0, 0, 0.7);\n  color: #fff;\n  letter-spacing: 1.5px;\n  padding: 5px 10px;\n  position: absolute;\n  top: 30px;\n  width: 100%;\n  z-index: 10; }\n", ""]);
+exports.push([module.i, ".game-msg--text {\n  position: absolute;\n  top: 30px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: #fff;\n  letter-spacing: 1.5px;\n  width: 100%;\n  z-index: 10; }\n  .game-msg--text p {\n    padding: 5px 10px; }\n", ""]);
 
 // exports
 
@@ -708,7 +727,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".monster {\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  position: absolute;\n  text-align: center;\n  width: 480px; }\n", ""]);
+exports.push([module.i, "/* @todo make less hardcodey */\n.monster {\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  /* temp measure, adjust monster graphics so that monster overlay is 1:1\n    with passage UI and monsters still align on 'ground' */\n  margin-top: 80px;\n  position: absolute;\n  text-align: center;\n  width: 480px; }\n  .monster img {\n    width: 480px; }\n", ""]);
 
 // exports
 
@@ -747,7 +766,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".passagewrap {\n  -webkit-perspective: 480px;\n  -moz-perspective: 480px;\n  perspective: 480px;\n  background: black;\n  width: 480px;\n  height: 270px;\n  overflow: hidden;\n  position: relative; }\n\n.passage {\n  -webkit-perspective: preserve-3d;\n  -moz-perspective: preserve-3d;\n  perspective: preserve-3d;\n  height: 100%;\n  width: 100%;\n  position: absolute; }\n\n.passageoverlay {\n  background: #000;\n  height: 270px;\n  opacity: 0;\n  position: absolute;\n  top: 35px;\n  transition: opacity 200ms;\n  width: 480px;\n  z-index: 10000; }\n  .passageoverlay.show {\n    opacity: 100; }\n", ""]);
+exports.push([module.i, ".passageroot {\n  display: relative; }\n\n.passagewrap {\n  -webkit-perspective: 480px;\n  -moz-perspective: 480px;\n  perspective: 480px;\n  background: black;\n  width: 480px;\n  height: 270px;\n  overflow: hidden;\n  position: relative; }\n\n.passage {\n  -webkit-perspective: preserve-3d;\n  -moz-perspective: preserve-3d;\n  perspective: preserve-3d;\n  height: 100%;\n  width: 100%;\n  position: absolute; }\n\n.passageoverlay {\n  background: #000;\n  height: 270px;\n  opacity: 0;\n  position: absolute;\n  top: 35px;\n  transition: opacity 200ms;\n  width: 480px;\n  z-index: 10; }\n  .passageoverlay.show {\n    opacity: 100; }\n", ""]);
 
 // exports
 
@@ -25053,6 +25072,36 @@ webpackContext.id = "./src/css/components sync recursive \\/wall\\-.*\\.scss";
 
 /***/ }),
 
+/***/ "./src/css/components/combat-controls.scss":
+/*!*************************************************!*\
+  !*** ./src/css/components/combat-controls.scss ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/sass-loader/lib/loader.js!./combat-controls.scss */ "./node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./src/css/components/combat-controls.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./src/css/components/compass.scss":
 /*!*****************************************!*\
   !*** ./src/css/components/compass.scss ***!
@@ -25648,6 +25697,7 @@ var map = {
 	"./clothes.png": "./src/img/items/clothes.png",
 	"./healing-potion.png": "./src/img/items/healing-potion.png",
 	"./staff.png": "./src/img/items/staff.png",
+	"./sword-sea.png": "./src/img/items/sword-sea.png",
 	"./sword.png": "./src/img/items/sword.png"
 };
 
@@ -25707,6 +25757,17 @@ module.exports = __webpack_require__.p + "cc1a6a0582668672f472aa099a036fd1.png";
 
 /***/ }),
 
+/***/ "./src/img/items/sword-sea.png":
+/*!*************************************!*\
+  !*** ./src/img/items/sword-sea.png ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "8e13c22534ef36e1b69261f59c6f0edf.png";
+
+/***/ }),
+
 /***/ "./src/img/items/sword.png":
 /*!*********************************!*\
   !*** ./src/img/items/sword.png ***!
@@ -25729,6 +25790,111 @@ module.exports = __webpack_require__.p + "86c2524f66e330240f7a346f6ccc9bb1.png";
 
 /***/ }),
 
+/***/ "./src/img/monsters sync recursive ^\\.\\/.*$":
+/*!****************************************!*\
+  !*** ./src/img/monsters sync ^\.\/.*$ ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./bladebearer.png": "./src/img/monsters/bladebearer.png",
+	"./deep-fungus.png": "./src/img/monsters/deep-fungus.png",
+	"./eyeslime.png": "./src/img/monsters/eyeslime.png",
+	"./faint-ghost.png": "./src/img/monsters/faint-ghost.png",
+	"./mimic.png": "./src/img/monsters/mimic.png",
+	"./moss-golem.png": "./src/img/monsters/moss-golem.png"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) { // check for number or string
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return id;
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src/img/monsters sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./src/img/monsters/bladebearer.png":
+/*!******************************************!*\
+  !*** ./src/img/monsters/bladebearer.png ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "74fbbfac578e0fe458ad6edccd7f7bca.png";
+
+/***/ }),
+
+/***/ "./src/img/monsters/deep-fungus.png":
+/*!******************************************!*\
+  !*** ./src/img/monsters/deep-fungus.png ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "537796862c73e7567abf12adc85a4049.png";
+
+/***/ }),
+
+/***/ "./src/img/monsters/eyeslime.png":
+/*!***************************************!*\
+  !*** ./src/img/monsters/eyeslime.png ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "a1a2809645ec005cabdb9c5587900ad9.png";
+
+/***/ }),
+
+/***/ "./src/img/monsters/faint-ghost.png":
+/*!******************************************!*\
+  !*** ./src/img/monsters/faint-ghost.png ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "2bd4d4dfc07e1663e7a7ead25baaaef3.png";
+
+/***/ }),
+
+/***/ "./src/img/monsters/mimic.png":
+/*!************************************!*\
+  !*** ./src/img/monsters/mimic.png ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "0683da768b8f5ac8342d2254f1e4d946.png";
+
+/***/ }),
+
+/***/ "./src/img/monsters/moss-golem.png":
+/*!*****************************************!*\
+  !*** ./src/img/monsters/moss-golem.png ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "0fe5c541e9a2b241a1ef4a25c096f20d.png";
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -25748,13 +25914,11 @@ var _js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#_
 /* harmony import */ var _js_actions_actions_monsters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/actions/actions-monsters */ "./src/js/actions/actions-monsters.js");
 /* harmony import */ var _js_actions_actions_items__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/actions/actions-items */ "./src/js/actions/actions-items.js");
 /* harmony import */ var _js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/actions/actions-inventory */ "./src/js/actions/actions-inventory.js");
-/* harmony import */ var _js_stores_store_level__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/stores/store-level */ "./src/js/stores/store-level.js");
-/* harmony import */ var _js_stores_store_character__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/stores/store-character */ "./src/js/stores/store-character.js");
-/* harmony import */ var _js_stores_store_play_history__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/stores/store-play-history */ "./src/js/stores/store-play-history.js");
-/* harmony import */ var _js_stores_store_items__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./js/stores/store-items */ "./src/js/stores/store-items.js");
-/* harmony import */ var _js_components_game_root__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./js/components/game-root */ "./src/js/components/game-root.jsx");
+/* harmony import */ var _js_stores_store_character__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/stores/store-character */ "./src/js/stores/store-character.js");
+/* harmony import */ var _js_stores_store_play_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/stores/store-play-history */ "./src/js/stores/store-play-history.js");
+/* harmony import */ var _js_stores_store_items__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/stores/store-items */ "./src/js/stores/store-items.js");
+/* harmony import */ var _js_components_game_root__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./js/components/game-root */ "./src/js/components/game-root.jsx");
 // bootstrapping application
-
 
 
 
@@ -25770,6 +25934,17 @@ var _js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#_
  * retrieve saved state if any
  * @todo
  */
+// @todo more mature version of this
+
+function bootstrapCharacter() {
+  var initialWeapon = _js_stores_store_items__WEBPACK_IMPORTED_MODULE_9__["itemsStore"].getItems(["staff"])[0];
+  var initialArmor = _js_stores_store_items__WEBPACK_IMPORTED_MODULE_9__["itemsStore"].getItems(["clothes"])[0];
+  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["setActiveWeapon"])(initialWeapon);
+  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["setActiveArmor"])(initialArmor);
+  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["addToInventory"])([initialWeapon, initialArmor]);
+} // @todo support non-gameplay states like start screen, don't
+// load assets until we need them
+
 
 Object(_js_actions_actions_level__WEBPACK_IMPORTED_MODULE_3__["loadLevel"])(_js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2__["startLevel"]).then(function () {
   return Object(_js_actions_actions_monsters__WEBPACK_IMPORTED_MODULE_4__["loadMonsters"])(_js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2__["startLevel"]);
@@ -25778,21 +25953,10 @@ Object(_js_actions_actions_level__WEBPACK_IMPORTED_MODULE_3__["loadLevel"])(_js_
 }).then(function () {
   // @todo load character
   bootstrapCharacter();
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_js_components_game_root__WEBPACK_IMPORTED_MODULE_11__["GameRoot"], {
-    tileFetcher: _js_stores_store_level__WEBPACK_IMPORTED_MODULE_7__["levelStore"].getTile.bind(_js_stores_store_level__WEBPACK_IMPORTED_MODULE_7__["levelStore"]),
-    directionFetcher: _js_stores_store_character__WEBPACK_IMPORTED_MODULE_8__["characterStore"].getDirection.bind(_js_stores_store_character__WEBPACK_IMPORTED_MODULE_8__["characterStore"])
-  }), document.querySelector(_js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2__["rootSelector"]));
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_js_components_game_root__WEBPACK_IMPORTED_MODULE_10__["GameRoot"]), document.querySelector(_js_config_config_default_json__WEBPACK_IMPORTED_MODULE_2__["rootSelector"]));
 }).catch(function (err) {
   throw err;
-}); // @todo more mature version of this
-
-function bootstrapCharacter() {
-  var initialWeapon = _js_stores_store_items__WEBPACK_IMPORTED_MODULE_10__["itemsStore"].getItems(["staff"])[0];
-  var initialArmor = _js_stores_store_items__WEBPACK_IMPORTED_MODULE_10__["itemsStore"].getItems(["clothes"])[0];
-  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["setActiveWeapon"])(initialWeapon);
-  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["setActiveArmor"])(initialArmor);
-  Object(_js_actions_actions_inventory__WEBPACK_IMPORTED_MODULE_6__["addToInventory"])([initialWeapon, initialArmor]);
-}
+});
 
 /***/ }),
 
@@ -26123,15 +26287,14 @@ var _config_config_default_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PU
 
 
 
-var showGameMsg = function showGameMsg(msgText, msgSpeed) {
-  var speed = msgSpeed === _config_constants_general_json__WEBPACK_IMPORTED_MODULE_2__.MSG_SPEED_MED ? _config_config_default_json__WEBPACK_IMPORTED_MODULE_3__["msgSpeedMed"] : _config_config_default_json__WEBPACK_IMPORTED_MODULE_3__["msgSpeedFast"];
+var showGameMsg = function showGameMsg(msgText) {
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__["dispatcher"].dispatch({
     type: _config_constants_actions_json__WEBPACK_IMPORTED_MODULE_1__.SHOW_GAME_MSG,
     payload: {
       msgText: msgText
     }
   });
-  setTimeout(removeGameMsg, speed);
+  setTimeout(removeGameMsg, _config_constants_general_json__WEBPACK_IMPORTED_MODULE_2__.MSG_SPEED_MED);
 };
 var removeGameMsg = function removeGameMsg() {
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__["dispatcher"].dispatch({
@@ -26225,6 +26388,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _lib_combat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/combat */ "./src/js/lib/combat.js");
 /* harmony import */ var _actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/actions-combat */ "./src/js/actions/actions-combat.js");
+/* harmony import */ var _css_components_combat_controls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../css/components/combat-controls */ "./src/css/components/combat-controls.scss");
+/* harmony import */ var _css_components_combat_controls__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_components_combat_controls__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26245,6 +26410,11 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 
 
+
+
+/**
+ * @todo support Magic, Run and Item options
+ */
 
 var CombatControls =
 /*#__PURE__*/
@@ -26276,10 +26446,12 @@ function (_Component) {
         className: "combat-controls--attack",
         onClick: this.handleAttackClick
       }, "Attack")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "combat-controls--magic"
+        disabled: true
       }, "Magic")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "combat-controls--run"
-      }, "Run")));
+        disabled: true
+      }, "Run")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        disabled: true
+      }, "Item")));
     }
   }]);
 
@@ -26382,9 +26554,7 @@ function (_Component) {
     _classCallCheck(this, GameHeader);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GameHeader).call(this, props));
-
-    var currDirection = _this.props.directionFetcher();
-
+    var currDirection = _stores_store_character_js__WEBPACK_IMPORTED_MODULE_2__["characterStore"].getDirection();
     _this.state = {
       direction: currDirection
     };
@@ -26395,7 +26565,7 @@ function (_Component) {
   _createClass(GameHeader, [{
     key: "handleDirectionUpdate",
     value: function handleDirectionUpdate() {
-      var currDirection = this.props.directionFetcher();
+      var currDirection = _stores_store_character_js__WEBPACK_IMPORTED_MODULE_2__["characterStore"].getDirection();
       this.setState({
         direction: currDirection
       });
@@ -26415,7 +26585,6 @@ function (_Component) {
   return GameHeader;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 GameHeader.propTypes = {
-  directionFetcher: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].func,
   button: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].element, prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].element)])
 };
 
@@ -26425,36 +26594,101 @@ GameHeader.propTypes = {
 /*!****************************************!*\
   !*** ./src/js/components/game-msg.jsx ***!
   \****************************************/
-/*! exports provided: GameMsg */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameMsg", function() { return GameMsg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GameMsg; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _css_components_game_msg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../css/components/game-msg */ "./src/css/components/game-msg.scss");
-/* harmony import */ var _css_components_game_msg__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_css_components_game_msg__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _stores_store_messages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stores/store-messages */ "./src/js/stores/store-messages.js");
+/* harmony import */ var _css_components_game_msg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/components/game-msg */ "./src/css/components/game-msg.scss");
+/* harmony import */ var _css_components_game_msg__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_components_game_msg__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var GameMsg = function GameMsg(props) {
-  var msgs = props.msgs;
-  var msgComponents = null;
 
-  if (msgs && _typeof(msgs) === "object" && msgs.length) {
-    msgComponents = msgs.map(function (msg) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        key: msg
-      }, msg);
+ // @todo set display duration based on message count
+
+var GameMsg =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(GameMsg, _Component);
+
+  function GameMsg(props) {
+    var _this;
+
+    _classCallCheck(this, GameMsg);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GameMsg).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleMsgUpdate", function () {
+      var msgs = _stores_store_messages__WEBPACK_IMPORTED_MODULE_1__["msgStore"].getCurrMsgs();
+
+      _this.setState({
+        msgs: msgs
+      });
     });
+
+    _this.state = {
+      msgs: []
+    };
+    return _this;
   }
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "game-msg--text"
-  }, msgComponents);
-};
+  _createClass(GameMsg, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      _stores_store_messages__WEBPACK_IMPORTED_MODULE_1__["msgStore"].listen(this.handleMsgUpdate);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      _stores_store_messages__WEBPACK_IMPORTED_MODULE_1__["msgStore"].stopListening(this.handleMsgUpdate);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var msgs = this.state.msgs;
+      var msgComponents = null;
+
+      if (Array.isArray(msgs)) {
+        msgComponents = msgs.map(function (msg) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            key: msg
+          }, msg);
+        });
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "game-msg--text"
+      }, msgComponents);
+    }
+  }]);
+
+  return GameMsg;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
 
 /***/ }),
 
@@ -26480,13 +26714,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inventory__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./inventory */ "./src/js/components/inventory.js");
 /* harmony import */ var _stores_store_character__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../stores/store-character */ "./src/js/stores/store-character.js");
 /* harmony import */ var _stores_store_level__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../stores/store-level */ "./src/js/stores/store-level.js");
-/* harmony import */ var _stores_store_messages__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../stores/store-messages */ "./src/js/stores/store-messages.js");
-/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../css/lib/base.scss */ "./src/css/lib/base.scss");
-/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_css_lib_base_scss__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
-/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../css/components/header-nav-button */ "./src/css/components/header-nav-button.scss");
-/* harmony import */ var _css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../css/lib/base.scss */ "./src/css/lib/base.scss");
+/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_css_lib_base_scss__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
+/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../css/components/header-nav-button */ "./src/css/components/header-nav-button.scss");
+/* harmony import */ var _css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_css_components_header_nav_button__WEBPACK_IMPORTED_MODULE_12__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26506,7 +26739,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -26545,14 +26777,6 @@ function (_Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleMsgUpdate", function () {
-      var msgs = _stores_store_messages__WEBPACK_IMPORTED_MODULE_10__["msgStore"].getCurrMsgs();
-
-      _this.setState({
-        gameMsgs: msgs
-      });
-    });
-
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleInventoryClick", function () {
       _this.setState({
         uiState: "inventory"
@@ -26567,17 +26791,9 @@ function (_Component) {
   }
 
   _createClass(GameRoot, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      _stores_store_messages__WEBPACK_IMPORTED_MODULE_10__["msgStore"].listen(this.handleMsgUpdate);
-    } // @todo DRY up back button
-
-  }, {
     key: "render",
+    // @todo DRY up back button
     value: function render() {
-      var _this$props = this.props,
-          directionFetcher = _this$props.directionFetcher,
-          tileFetcher = _this$props.tileFetcher;
       var gameMsgs = this.state.gameMsgs;
       var currDir = _stores_store_character__WEBPACK_IMPORTED_MODULE_8__["characterStore"].getDirection();
       var currTileName = _stores_store_character__WEBPACK_IMPORTED_MODULE_8__["characterStore"].getCurrTileName();
@@ -26587,10 +26803,7 @@ function (_Component) {
 
       switch (this.state.uiState) {
         case "passage":
-          gameContent = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, gameMsgs && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_msg__WEBPACK_IMPORTED_MODULE_6__["GameMsg"], {
-            msgs: gameMsgs
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_header__WEBPACK_IMPORTED_MODULE_4__["GameHeader"], {
-            directionFetcher: directionFetcher,
+          gameContent = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_msg__WEBPACK_IMPORTED_MODULE_6__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_header__WEBPACK_IMPORTED_MODULE_4__["GameHeader"], {
             button: [react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "header-nav-button",
               onClick: this.handleMapBtnClick,
@@ -26602,8 +26815,7 @@ function (_Component) {
             }, "Inventory")]
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_passage__WEBPACK_IMPORTED_MODULE_3__["Passage"], {
             currTile: currTile,
-            direction: currDir,
-            tileFetcher: tileFetcher
+            direction: currDir
           }));
           break;
 
@@ -26613,8 +26825,7 @@ function (_Component) {
             onClick: this.handleCloseBtnClick
           }, "Back");
           gameContent = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_header__WEBPACK_IMPORTED_MODULE_4__["GameHeader"], {
-            button: backButton,
-            directionFetcher: directionFetcher
+            button: backButton
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_level_map__WEBPACK_IMPORTED_MODULE_5__["LevelMap"], {
             rows: 10,
             columns: 20
@@ -26627,8 +26838,7 @@ function (_Component) {
             onClick: this.handleCloseBtnClick
           }, "Back");
           gameContent = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_header__WEBPACK_IMPORTED_MODULE_4__["GameHeader"], {
-            button: backButton,
-            directionFetcher: directionFetcher
+            button: backButton
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inventory__WEBPACK_IMPORTED_MODULE_7__["Inventory"], null));
           break;
 
@@ -26646,8 +26856,6 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 GameRoot.propTypes = {
   tile: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].instanceOf(_models_model_tile__WEBPACK_IMPORTED_MODULE_2__["Tile"]),
-  tileFetcher: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].func,
-  directionFetcher: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].func,
   defaultSurfaces: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].string)
 };
 
@@ -27041,11 +27249,14 @@ var Monster = function Monster(props) {
     throw new TypeError("Invalid monster obj passed to Monster component");
   }
 
-  var img_url = monster.getImageUrl();
+  var imgUrl = monster.getImageUrl();
+
+  var imgFileUrl = __webpack_require__("./src/img/monsters sync recursive ^\\.\\/.*$")("./".concat(imgUrl));
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "monster"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: img_url
+    src: imgFileUrl
   }));
 };
 
@@ -27149,6 +27360,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -27180,22 +27393,110 @@ function (_Component) {
     _classCallCheck(this, Passage);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Passage).call(this, props));
-    var direction = props.direction,
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "turnLeft", function () {
+      _this.fade(true).then(function () {
+        var currDirection = _this.state.direction;
+        var newDirection = directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
+        console.log("curr orienation: " + currDirection);
+        console.log("new direction: " + newDirection);
+        Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setDirection"])(newDirection);
+
+        _this.fade(false);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "turnRight", function () {
+      _this.fade(true).then(function () {
+        var currDirection = _this.state.direction;
+        var newDirection = directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
+        console.log("curr orienation: " + currDirection);
+        console.log("new direction: " + newDirection);
+        Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setDirection"])(newDirection);
+
+        _this.fade(false);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "moveAhead", function () {
+      var dirsForWalls = getDirsForWalls(_this.state.direction);
+      var dir = dirsForWalls.ahead;
+      var tile = _this.state.tile;
+
+      if (_this.state.inCombat) {
+        Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_8__["showGameMsg"])("Can't get past without fighting!");
+        return;
+      }
+
+      if (tile.hasExitAtWall(dir)) {
+        var nextTileName = tile.getAdjacentTileName(dir);
+
+        _this.fade(true).then(function () {
+          console.log("setting new tile: " + nextTileName);
+          Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setTile"])(nextTileName);
+
+          _this.fade(false);
+        });
+      } else {
+        console.log("You can't go that way.");
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleCharacterUpdate", function () {
+      _this.handleDirectionUpdate();
+
+      _this.handleTileUpdate();
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleTileUpdate", function () {
+      var newTileName = _stores_store_character__WEBPACK_IMPORTED_MODULE_4__["characterStore"].getCurrTileName();
+      var tile = _stores_store_level__WEBPACK_IMPORTED_MODULE_3__["levelStore"].getTile(newTileName);
+
+      _this.setState(function (prevState, currProps) {
+        var newState = Object.assign(prevState, {
+          tile: tile
+        });
+        return newState;
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleDirectionUpdate", function () {
+      var direction = _stores_store_character__WEBPACK_IMPORTED_MODULE_4__["characterStore"].getDirection();
+
+      _this.setState(function (prevState, currProps) {
+        var newState = Object.assign(prevState, {
+          direction: direction
+        });
+        return newState;
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleCombatUpdate", function () {
+      var inCombat = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].isInCombat();
+      var isCharactersTurn = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].isCharactersTurn();
+
+      _this.setState(function (prevState, currProps) {
+        if (isCharactersTurn) {
+          console.log("is characters turn");
+        }
+
+        var newState = Object.assign(prevState, {
+          inCombat: inCombat,
+          isCharactersTurn: isCharactersTurn
+        });
+        return newState;
+      });
+    });
+
+    var _direction = props.direction,
         currTile = props.currTile;
     _this.state = {
       tile: currTile,
-      direction: direction,
+      direction: _direction,
       faded: false,
       inCombat: false,
       isCharactersTurn: false
     };
-    _this.turnLeft = _this.turnLeft.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.turnRight = _this.turnRight.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.moveAhead = _this.moveAhead.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleTileUpdate = _this.handleTileUpdate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleDirectionUpdate = _this.handleDirectionUpdate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleCharacterUpdate = _this.handleCharacterUpdate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleCombatUpdate = _this.handleCombatUpdate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -27212,51 +27513,23 @@ function (_Component) {
       _stores_store_level__WEBPACK_IMPORTED_MODULE_3__["levelStore"].stopListening(this.handleTileUpdate);
       _stores_store_character__WEBPACK_IMPORTED_MODULE_4__["characterStore"].stopListening(this.handleDirectionUpdate);
       _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].stopListening(this.handleCombatUpdate);
-    }
-  }, {
-    key: "handleCharacterUpdate",
-    value: function handleCharacterUpdate() {
-      this.handleDirectionUpdate();
-      this.handleTileUpdate();
-    }
-  }, {
-    key: "handleTileUpdate",
-    value: function handleTileUpdate() {
-      var newTileName = _stores_store_character__WEBPACK_IMPORTED_MODULE_4__["characterStore"].getCurrTileName();
-      var tile = this.props.tileFetcher(newTileName);
-      this.setState(function (prevState, currProps) {
-        var newState = Object.assign(prevState, {
-          tile: tile
-        });
-        return newState;
-      });
-    }
-  }, {
-    key: "handleDirectionUpdate",
-    value: function handleDirectionUpdate() {
-      var direction = _stores_store_character__WEBPACK_IMPORTED_MODULE_4__["characterStore"].getDirection();
-      this.setState(function (prevState, currProps) {
-        var newState = Object.assign(prevState, {
-          direction: direction
-        });
-        return newState;
-      });
-    }
-  }, {
-    key: "handleCombatUpdate",
-    value: function handleCombatUpdate() {
-      var inCombat = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].isInCombat();
-      var isCharactersTurn = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].isCharactersTurn();
-      this.setState(function (prevState, currProps) {
-        if (isCharactersTurn) {
-          console.log("is characters turn");
-        }
+    } // @todo there is likely a more elegant way to do this
 
-        var newState = Object.assign(prevState, {
-          inCombat: inCombat,
-          isCharactersTurn: isCharactersTurn
+  }, {
+    key: "fade",
+    value: function fade(fadeIn) {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        _this2.setState(function (prevState, currProps) {
+          var newState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2___default()(prevState);
+          newState.faded = !!fadeIn;
+          return newState;
+        }, function () {
+          setTimeout(function () {
+            resolve();
+          }, 200);
         });
-        return newState;
       });
     }
   }, {
@@ -27277,23 +27550,23 @@ function (_Component) {
       }
 
       var overlayClass = this.state.faded ? " show" : "";
-      var dataCeiling = {
+      var propsCeiling = {
         placement: "psg-ceiling",
         surfaces: this.props.defaultSurfaces
       };
-      var dataFloor = {
+      var propsFloor = {
         placement: "psg-floor",
         surfaces: this.props.defaultSurfaces
       };
-      var dataRightWall = {
+      var propsRightWall = {
         placement: "psg-right",
         surfaces: tile.getSurfacesForWall(dirsForWalls.right)
       };
-      var dataLeftWall = {
+      var propsLeftWall = {
         placement: "psg-left",
         surfaces: tile.getSurfacesForWall(dirsForWalls.left)
       };
-      var dataAhead = {
+      var propsAhead = {
         placement: "psg-ahead",
         surfaces: tile.getSurfacesForWall(dirsForWalls.ahead)
       };
@@ -27316,97 +27589,13 @@ function (_Component) {
         className: "passagewrap"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "passage"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], dataCeiling), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], dataFloor), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], dataRightWall), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], dataLeftWall), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], dataAhead), monsterElems)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], propsCeiling), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], propsFloor), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], propsRightWall), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], propsLeftWall), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__["Wall"], propsAhead), monsterElems)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "passageoverlay".concat(overlayClass)
       }), inCombat && isCharactersTurn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_combat_controls__WEBPACK_IMPORTED_MODULE_11__["CombatControls"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_passage_controls__WEBPACK_IMPORTED_MODULE_12__["PassageControls"], {
         leftClickHandler: this.turnLeft,
         forwardClickHandler: this.moveAhead,
         rightClickHandler: this.turnRight
       }));
-    }
-  }, {
-    key: "turnRight",
-    value: function turnRight() {
-      var _this2 = this;
-
-      this.fadeOut().then(function () {
-        var currDirection = _this2.state.direction;
-        var newDirection = directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
-        console.log("curr orienation: " + currDirection);
-        console.log("new direction: " + newDirection);
-        Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setDirection"])(newDirection);
-
-        _this2.fadeIn();
-      });
-    }
-  }, {
-    key: "turnLeft",
-    value: function turnLeft() {
-      var _this3 = this;
-
-      this.fadeOut().then(function () {
-        var currDirection = _this3.state.direction;
-        var newDirection = directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
-        console.log("curr orienation: " + currDirection);
-        console.log("new direction: " + newDirection);
-        Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setDirection"])(newDirection);
-
-        _this3.fadeIn();
-      });
-    }
-  }, {
-    key: "moveAhead",
-    value: function moveAhead() {
-      var _this4 = this;
-
-      var dirsForWalls = getDirsForWalls(this.state.direction);
-      var dir = dirsForWalls.ahead;
-      var tile = this.state.tile;
-
-      if (this.state.inCombat) {
-        Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_8__["showGameMsg"])("Can't get past without fighting!");
-        return;
-      }
-
-      if (tile.hasExitAtWall(dir)) {
-        var nextTileName = tile.getAdjacentTileName(dir);
-        this.fadeOut().then(function () {
-          console.log("setting new tile: " + nextTileName);
-          Object(_actions_actions_character__WEBPACK_IMPORTED_MODULE_6__["setTile"])(nextTileName);
-
-          _this4.fadeIn();
-        });
-      } else {
-        console.log("You can't go that way.");
-      }
-    }
-  }, {
-    key: "fadeOut",
-    value: function fadeOut() {
-      return this.fade(true);
-    }
-  }, {
-    key: "fadeIn",
-    value: function fadeIn() {
-      return this.fade(false);
-    } // @todo there is likely a more elegant way to do this
-
-  }, {
-    key: "fade",
-    value: function fade(fadeIn) {
-      var _this5 = this;
-
-      return new Promise(function (resolve, reject) {
-        _this5.setState(function (prevState, currProps) {
-          var newState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2___default()(prevState);
-          newState.faded = !!fadeIn;
-          return newState;
-        }, function () {
-          setTimeout(function () {
-            resolve();
-          }, 200);
-        });
-      });
     }
   }]);
 
@@ -27415,8 +27604,7 @@ function (_Component) {
 Passage.propTypes = {
   currTile: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].instanceOf(_models_model_tile__WEBPACK_IMPORTED_MODULE_13__["Tile"]).isRequired,
   direction: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].oneOf(["n", "e", "s", "w"]).isRequired,
-  defaultSurfaces: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].string),
-  tileFetcher: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].func
+  defaultSurfaces: prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1__["PropTypes"].string)
 };
 Passage.defaultProps = {
   defaultSurfaces: ["stonebrick", "shadow"]
@@ -27590,10 +27778,10 @@ _defineProperty(Wall, "propTypes", {
 /*!*******************************************!*\
   !*** ./src/js/config/config-default.json ***!
   \*******************************************/
-/*! exports provided: rootSelector, startLevel, msgSpeedFast, msgSpeedMed, default */
+/*! exports provided: rootSelector, startLevel, default */
 /***/ (function(module) {
 
-module.exports = {"rootSelector":"#game-root-container","startLevel":"one","msgSpeedFast":500,"msgSpeedMed":5000};
+module.exports = {"rootSelector":"#game-root-container","startLevel":"one"};
 
 /***/ }),
 
@@ -27626,7 +27814,7 @@ module.exports = {"DMG_PROTECTED_MOD":0.65,"DMG_VULNERABLE_MOD":1.5,"COMBAT_ACTI
 /*! exports provided: MSG_SPEED_MED, CHARACTER, OPPONENT, default */
 /***/ (function(module) {
 
-module.exports = {"MSG_SPEED_MED":"MSG_SPEED_MED","CHARACTER":"CHARACTER","OPPONENT":"OPPONENT"};
+module.exports = {"MSG_SPEED_MED":500,"CHARACTER":"CHARACTER","OPPONENT":"OPPONENT"};
 
 /***/ }),
 
@@ -27645,10 +27833,10 @@ module.exports = {"healing-potion":{"bulkSize":1,"itemRoles":["item","singleUse"
 /*!*********************************************!*\
   !*** ./src/js/data/level-one-monsters.json ***!
   \*********************************************/
-/*! exports provided: small-ghost, default */
+/*! exports provided: blade-bearer, deep-fungus, eye-slime, mimic, moss-golem, default */
 /***/ (function(module) {
 
-module.exports = {"small-ghost":{"meta":{"name":"small-ghost","label":"Small Ghost","type":[],"lore":"Qwek qwek qwek boo"},"expLevel":1,"stats":{"maxHealth":5},"treasure":{"items":["healing-potion"]},"attr":{"str":1,"dex":3,"accuracy":2},"attacks":{"spook":{"dmgPoints":1,"types":["undead"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","weapon-blunt","weapon-normal","cold"],"vulnerableTo":["faith"]}}};
+module.exports = {"blade-bearer":{"meta":{"name":"blade-bearer","label":"Blade Bearer","type":["undead"],"lore":"super spooky","imgUrl":"bladebearer.png"},"expLevel":1,"stats":{"maxHealth":8},"treasure":{"items":[]},"attr":{"str":3,"dex":1,"accuracy":3},"attacks":{"swipe":{"dmgPoints":2,"types":["undead","weapon-edged"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","weapon-blunt","weapon-normal","cold"],"vulnerableTo":["faith"]}},"deep-fungus":{"meta":{"name":"deep-fungus","label":"Deep Fungus","type":["earth","plant","fungus","poison"],"lore":"Smells weird","imgUrl":"deep-fungus.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":1,"dex":1,"accuracy":3},"attacks":{"spore-puff":{"dmgPoints":1,"types":["poison"],"accuracyMod":2}},"armor":{"protection":1,"protectedAgainst":["cold","poison","fear"],"vulnerableTo":["fire"]}},"eye-slime":{"meta":{"name":"eye-slime","label":"Eye Slime","type":["slime","watcher"],"lore":"You're not supposed to look them in the eyes","imgUrl":"eye-slime.png"},"expLevel":1,"stats":{"maxHealth":5},"treasure":{"items":[]},"attr":{"str":2,"dex":2,"accuracy":3},"attacks":{"daze":{"dmgPoints":1,"types":["stun","slow"],"accuracyMod":3},"ooze":{"dmgPoints":2,"types":["poison","slime"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","cold","poison","stun"],"vulnerableTo":["weapon-ranged"]}},"mimic":{"meta":{"name":"mimic","label":"Mimic","type":["horror","shapechanger","magic"],"lore":"If your torch is getting low, you want to be sure to look real close","imgUrl":"mimic.png"},"expLevel":2,"stats":{"maxHealth":10},"treasure":{"items":["healing-potion"]},"attr":{"str":4,"dex":2,"accuracy":1},"attacks":{"bash":{"dmgPoints":2,"types":["weapon-blunt"],"accuracyMod":0},"flowing-maw":{"dmgPoints":4,"types":["weapon-blunt","shapechanger","surprise"],"accuracyMod":1}},"armor":{"protection":3,"protectedAgainst":[],"vulnerableTo":["fire"]}},"moss-golem":{"meta":{"name":"moss-golem","label":"Moss Golem","type":["magic","plant","golem"],"lore":"It's slow, and it stinks","imgUrl":"moss-golem.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":3,"dex":2,"accuracy":1},"attacks":{"sap":{"dmgPoints":1,"types":["drain","plant"],"accuracyMod":1},"envelop":{"dmgPoints":3,"types":["plant","stun"],"accuracyMod":0}},"armor":{"protection":2,"protectedAgainst":["weapon-blunt","weapon-ranged","cold","water"],"vulnerableTo":["fire","weapon-edged"]}}};
 
 /***/ }),
 
@@ -27659,7 +27847,7 @@ module.exports = {"small-ghost":{"meta":{"name":"small-ghost","label":"Small Gho
 /*! exports provided: levelName, tiles, default */
 /***/ (function(module) {
 
-module.exports = {"levelName":"one","tiles":{"1x1":{"coords":{"x":1,"y":1},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"1x2":{"coords":{"x":1,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow","open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}},"monsters":["small-ghost"]},"1x3":{"coords":{"x":1,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"2x3":{"coords":{"x":2,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"3x3":{"coords":{"x":3,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"4x3":{"coords":{"x":4,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"5x3":{"coords":{"x":5,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"5x2":{"coords":{"x":5,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"6x2":{"coords":{"x":6,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"6x3":{"coords":{"x":6,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"5x4":{"coords":{"x":5,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"6x4":{"coords":{"x":6,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}}}};
+module.exports = {"levelName":"one","tiles":{"1x1":{"coords":{"x":1,"y":1},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"1x2":{"coords":{"x":1,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow","open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}},"monsters":["blade-bearer"]},"1x3":{"coords":{"x":1,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"2x3":{"coords":{"x":2,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"3x3":{"coords":{"x":3,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}},"monsters":["moss-golem"]},"4x3":{"coords":{"x":4,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"5x3":{"coords":{"x":5,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"5x2":{"coords":{"x":5,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"6x2":{"coords":{"x":6,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"6x3":{"coords":{"x":6,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}},"monsters":["mimic"]},"5x4":{"coords":{"x":5,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"6x4":{"coords":{"x":6,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}}}};
 
 /***/ }),
 
@@ -27722,9 +27910,12 @@ var _config_constants_combat__WEBPACK_IMPORTED_MODULE_12___namespace = /*#__PURE
 
 var HIT_CONST = 10;
 var DELAY_BETWEEN_TURNS_MS = 1250;
+var POLLING_INTERVAL_FOR_CHAR_ACTION = 250;
 var startCombat = function startCombat(_ref) {
   var whoHasAdvantage = _ref.whoHasAdvantage;
   Object(_actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__["setAdvantage"])(whoHasAdvantage);
+  var opponentName = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].getOpponentsName();
+  Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_0__["showGameMsg"])("".concat(opponentName, " attacked!"));
   runCombat();
 };
 
@@ -27775,7 +27966,7 @@ var runCombatRounds = function runCombatRounds() {
 
 var runTurnForOpponent = function runTurnForOpponent() {
   return new Promise(function (resolve, reject) {
-    Object(_actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__["startOpponentsTurn"])(); // UX needs a delay bewteen user action and opponent's
+    Object(_actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__["startOpponentsTurn"])(); // UX needs a delay between user action and opponent's
     // it doesn't have to be here, but this works pretty well
 
     setTimeout(function () {
@@ -27843,9 +28034,10 @@ var runTurnForCharacter = function runTurnForCharacter() {
         clearInterval(charTurnCheck);
         resolve();
       }
-    }, 250);
+    }, POLLING_INTERVAL_FOR_CHAR_ACTION);
   });
-};
+}; // @todo does this belong here?
+
 
 var tileHasUndefeatedOpponents = function tileHasUndefeatedOpponents(tile) {
   var tilename = tile.getName();
@@ -27895,6 +28087,7 @@ var attackOpponent = function attackOpponent() {
   }
 };
 var handleHitToOpponent = function handleHitToOpponent() {
+  var opponentName = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].getOpponentsName();
   var dmg = getDmgDealtByCharacter();
   var defense = getOpponentsDefense();
   var modifiedDmg = calculateModifiedDmg(dmg, defense);
@@ -27909,7 +28102,7 @@ var handleHitToOpponent = function handleHitToOpponent() {
       eventName: "opponentsDefeated",
       tileName: tileName
     });
-    Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_0__["showGameMsg"])("Opponents defeated!");
+    Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_0__["showGameMsg"])("".concat(opponentName, " defeated!"));
     Object(_actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__["endCombat"])();
   }
 };
@@ -27919,11 +28112,12 @@ var handleHitToOpponent = function handleHitToOpponent() {
  */
 
 var handleHitToCharacter = function handleHitToCharacter(attack) {
+  var opponentName = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].getOpponentsName();
   var dmg = getDmgDealtByOpponent(attack);
   var defense = getCharactersDefense();
   var modifiedDmg = calculateModifiedDmg(dmg, defense);
   Object(_actions_actions_combat__WEBPACK_IMPORTED_MODULE_2__["damageCharacter"])(modifiedDmg);
-  Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_0__["showGameMsg"])("Opponent did ".concat(modifiedDmg, " damage!")); // @todo handle zero health
+  Object(_actions_actions_messages__WEBPACK_IMPORTED_MODULE_0__["showGameMsg"])("".concat(opponentName, " did ").concat(modifiedDmg, " damage!")); // @todo handle zero health
 };
 var getOpponentsDefense = function getOpponentsDefense() {
   var armor = _stores_store_combat__WEBPACK_IMPORTED_MODULE_5__["combatStore"].getOpponentsArmor();
@@ -28141,8 +28335,7 @@ var MonsterFactory = function MonsterFactory(monsterProps) {
 
 function getTreasureForMonster(treasureObj) {
   var itemNameArr = treasureObj.items;
-  var items = _stores_store_items__WEBPACK_IMPORTED_MODULE_4__["itemsStore"].getItems(itemNameArr);
-  return items;
+  return itemNameArr.length ? _stores_store_items__WEBPACK_IMPORTED_MODULE_4__["itemsStore"].getItems(itemNameArr) : [];
 }
 /**
  * Replaces the raw attack data's dmg values with a Damage object
@@ -28751,7 +28944,6 @@ function () {
     }
 
     this.initialize(monsterProps);
-    this.meta.img_url = placeholderImg;
   }
 
   _createClass(Monster, [{
@@ -28772,7 +28964,7 @@ function () {
   }, {
     key: "getImageUrl",
     value: function getImageUrl() {
-      return this.meta.img_url;
+      return this.meta.imgUrl;
     }
   }, {
     key: "getExpLevel",
@@ -29456,7 +29648,7 @@ function (_Store) {
     _this.data = {
       currLevel: "one",
       currTileName: "1x1",
-      currDirection: "n",
+      currDirection: "s",
       health: 0,
       attributes: {
         accuracy: 1,
@@ -29868,6 +30060,7 @@ function (_Store) {
 var inventoryStore = new InventoryStore();
 inventoryStore.dispatchToken = _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_2__["dispatcher"].register(function (action) {
   switch (action.type) {
+    // @todo support items that you can have multiples of
     case _config_constants_actions__WEBPACK_IMPORTED_MODULE_3__["INVENTORY_ADD_ITEMS"]:
       var items = action.payload.items;
       var sortedItems = sortItems(items);
@@ -29972,6 +30165,11 @@ function (_Store) {
     };
     return _this;
   }
+  /**
+   * @param  {Array} itemNames Array of item 'name' fields
+   * @return {Array}           Array of Item objects
+   */
+
 
   _createClass(ItemStore, [{
     key: "getItems",
