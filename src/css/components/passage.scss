@@ -16,7 +16,7 @@
 }
 
 .passage {
-  @include perspective(preserve-3d);
+  @include transform-style(preserve-3d);
 
   height: 100%;
   width: 100%;
