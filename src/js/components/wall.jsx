@@ -26,22 +26,29 @@ export class Wall extends Component {
       true,
       /\/wall\-.*\.scss/
     )(req);
+
   }
 
   render() {
     const classes = this.getClasses();
     this.loadTextures();
 
-    // @todo render objects (e.g. doors) as children
+    // @todo render objects as children
 
     return <div className={classes}></div>;
   }
 
   getClasses() {
-    const classArr = ["wall-" + this.props.placement];
-    this.props.surfaces.forEach(function(surfaceName) {
-      classArr.push(surfaceName);
-    });
+    const {
+      surfaces,
+      placement
+    } = this.props;
+
+    const classArr = [
+      ...surfaces,
+      `wall-${placement}`
+    ];
+
     return classArr.join(" ");
   }
 

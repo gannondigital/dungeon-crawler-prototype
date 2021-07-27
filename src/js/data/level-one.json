@@ -183,7 +183,8 @@
           "exit": true
         },
         "e": {
-          "surfaces": ["stonebrick", "shadow"]
+          "surfaces": ["door-1", "shadow"],
+          "exit": true
         },
         "s": {
           "surfaces": ["open"],
@@ -194,7 +195,7 @@
           "exit": true
         }
       },
-      "monsters": ["mimic"]
+      "monsters": ["eye-slime"]
     },
     "5x4": {
       "coords": { "x": 5, "y": 4 },
