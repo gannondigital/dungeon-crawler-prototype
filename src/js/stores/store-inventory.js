@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.cloneDeep";
 
-import { Store } from "../lib/store";
+import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import * as constants from "../config/constants-actions";
 

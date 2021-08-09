@@ -5,11 +5,11 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   devServer: {
-    contentBase: "./build"
+    contentBase: "./dist"
   },
   devtool: "source-map",
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].js"
   },
   module: {
@@ -20,13 +20,27 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            // @todo tune preset-env targets
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  debug: true
+                }
+              ],
+              '@babel/preset-react'],
+            plugins: []
+          }
+        }
       },
       {
         test: /\.(jpg|png|gif)$/,
         exclude: /node_modules/,
-        use: ["file-loader", "image-webpack-loader"]
+        type: 'asset'
       }
     ]
   },

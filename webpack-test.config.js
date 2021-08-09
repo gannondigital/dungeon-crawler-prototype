@@ -7,7 +7,7 @@ module.exports = {
   mode: "development",
   entry: "./test/index.spec.js",
   output: {
-    path: path.resolve(__dirname, "build", "test"),
+    path: path.resolve(__dirname, "dist", "test"),
     filename: "test.js"
   },
   module: {

@@ -1,7 +1,7 @@
-import { default as isEqual } from "lodash.isEqual";
-import { default as cloneDeep } from "lodash.cloneDeep";
+import isEqual from "lodash.isEqual";
+import cloneDeep from "lodash.cloneDeep";
 
-import { Store } from "../lib/store";
+import Store from "../lib/store";
 import { MonsterFactory } from "../lib/monster-factory";
 import { dispatcher } from "../lib/game-dispatcher";
 import * as constants from "../config/constants-actions";

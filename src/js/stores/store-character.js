@@ -1,4 +1,4 @@
-import { Store } from "../lib/store";
+import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import {
   TILE_SET,

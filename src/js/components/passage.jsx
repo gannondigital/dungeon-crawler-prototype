@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import cloneDeep from "lodash.cloneDeep";
+import PropTypes from "prop-types";
+import cloneDeep from "lodash.clonedeep";
 
 import { levelStore } from "../stores/store-level";
 import { characterStore } from "../stores/store-character";
