@@ -1,6 +1,13 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import { disburseTreasure } from "../lib/combat";
-import {
+import { combatStore } from "../stores/store-combat";
+import { characterStore } from "../stores/store-character";
+import { showGameMsg } from "../actions/actions-messages";
+import { Damage } from "../models/model-damage";
+import constants from "../constants";
+import actionConstants from "../constants/actions";
+const { CHARACTER, OPPONENT } = constants;
+const {
   START_COMBAT,
   COMBAT_DAMAGE_OPPONENT,
   COMBAT_DAMAGE_CHARACTER,
@@ -10,12 +17,7 @@ import {
   COMBAT_START_TURN_OPPONENT,
   COMBAT_START_TURN_CHARACTER,
   COMBAT_END_TURN_CHARACTER
-} from "../constants/actions";
-import { CHARACTER, OPPONENT } from "../constants";
-import { combatStore } from "../stores/store-combat";
-import { characterStore } from "../stores/store-character";
-import { showGameMsg } from "../actions/actions-messages";
-import { Damage } from "../models/model-damage";
+} = actionConstants;
 
 export const startCombat = ({
   opponents,

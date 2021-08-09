@@ -1,10 +1,13 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
 import { levelStore } from "../stores/store-level";
 import { startCombat as startCombatAction } from "../actions/actions-combat";
 import { startCombat } from "../lib/combat";
 import { tileHasUndefeatedOpponents } from "../lib/combat";
-import { CHARACTER } from "../constants";
+import constants from "../constants";
+import actionConstants from "../constants/actions";
+
+const { DIRECTION_SET, TILE_SET } = actionConstants;
+const { CHARACTER } = constants;
 
 export const setDirection = dir => {
   if (!dir || typeof dir !== "string") {
@@ -12,7 +15,7 @@ export const setDirection = dir => {
     return;
   }
   dispatcher.dispatch({
-    type: constants.DIRECTION_SET,
+    type: DIRECTION_SET,
     payload: {
       direction: dir
     }
@@ -23,7 +26,7 @@ export const setTile = tileName => {
   const tile = levelStore.getTile(tileName);
 
   dispatcher.dispatch({
-    type: constants.TILE_SET,
+    type: TILE_SET,
     payload: { tileName }
   });
 

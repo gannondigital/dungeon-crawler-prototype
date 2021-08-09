@@ -1,9 +1,11 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import {
+import actionConstants from "../constants/actions";
+
+const {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_WEAPON,
   INVENTORY_SET_ACTIVE_ARMOR
-} from "../constants/actions";
+} = actionConstants;
 
 export const addToInventory = itemsArr => {
   dispatcher.dispatch({

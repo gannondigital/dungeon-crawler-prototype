@@ -2,7 +2,12 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import {
+import { Damage } from "../models/model-damage";
+import constants from "../constants";
+import actionConstants from "../constants/actions";
+
+const { OPPONENT, CHARACTER } = constants;
+const {
   START_COMBAT,
   END_COMBAT,
   COMBAT_DAMAGE_OPPONENT,
@@ -12,9 +17,7 @@ import {
   COMBAT_START_TURN_CHARACTER,
   COMBAT_START_ROUND,
   COMBAT_END_TURN_CHARACTER
-} from "../constants/actions";
-import { OPPONENT, CHARACTER } from "../constants/general";
-import { Damage } from "../models/model-damage";
+} = actionConstants;
 
 const initialState = {
   inCombat: false,

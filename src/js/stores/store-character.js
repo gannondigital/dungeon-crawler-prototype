@@ -1,10 +1,12 @@
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import {
+import actionConstants from "../constants/actions";
+
+const {
   TILE_SET,
   DIRECTION_SET,
   COMBAT_DAMAGE_CHARACTER
-} from "../constants/actions";
+} = actionConstants;
 
 class CharacterStore extends Store {
   constructor() {
