@@ -10,8 +10,8 @@ import {
   COMBAT_START_TURN_OPPONENT,
   COMBAT_START_TURN_CHARACTER,
   COMBAT_END_TURN_CHARACTER
-} from "../constants/constants-actions";
-import { CHARACTER, OPPONENT } from "../constants/constants-general";
+} from "../constants/actions";
+import { CHARACTER, OPPONENT } from "../constants";
 import { combatStore } from "../stores/store-combat";
 import { characterStore } from "../stores/store-character";
 import { showGameMsg } from "../actions/actions-messages";

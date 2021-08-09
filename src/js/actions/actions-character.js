@@ -1,10 +1,10 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../constants/constants-actions";
+import constants from "../constants/actions";
 import { levelStore } from "../stores/store-level";
 import { startCombat as startCombatAction } from "../actions/actions-combat";
 import { startCombat } from "../lib/combat";
 import { tileHasUndefeatedOpponents } from "../lib/combat";
-import { CHARACTER } from "../constants/constants-general";
+import { CHARACTER } from "../constants";
 
 export const setDirection = dir => {
   if (!dir || typeof dir !== "string") {

@@ -1,6 +1,6 @@
 import { itemsService } from "../services/service-items";
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../constants/constants-actions.json";
+import constants from "../constants/actions";
 
 export const loadItems = levelName => {
   return new Promise((resolve, reject) => {

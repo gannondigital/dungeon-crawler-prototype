@@ -12,7 +12,7 @@ export const itemsService = {
       // @todo genericize, turn into a real thing
       switch (levelName) {
         case "one":
-          return resolve(require("../data/level-one-items.json"));
+          return resolve(require("../data/level-one-items"));
         default:
           reject();
       }

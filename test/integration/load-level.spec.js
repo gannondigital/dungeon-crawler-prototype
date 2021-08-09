@@ -4,7 +4,7 @@ const tape = require("tape");
 import { loadLevel } from "../../src/js/actions/actions-level.js";
 import { levelStore } from "../../src/js/stores/store-level.js";
 import { TileFactory } from "../../src/js/lib/tile-factory.js";
-import * as levelOne from "../../src/js/data/level-one.json";
+import levelOne from "../../src/js/data/level-one";
 
 tape("level can be loaded by calling an action creator", t => {
   t.plan(1);

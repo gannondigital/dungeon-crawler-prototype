@@ -4,7 +4,7 @@ import cloneDeep from "lodash.cloneDeep";
 import Store from "../lib/store";
 import { MonsterFactory } from "../lib/monster-factory";
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../constants/constants-actions";
+import constants from "../constants/actions";
 import { Monster } from "../models/model-monster";
 
 class MonsterStore extends Store {
