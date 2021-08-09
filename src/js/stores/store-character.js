@@ -4,7 +4,7 @@ import {
   TILE_SET,
   DIRECTION_SET,
   COMBAT_DAMAGE_CHARACTER
-} from "../config/constants-actions";
+} from "../constants/actions";
 
 class CharacterStore extends Store {
   constructor() {

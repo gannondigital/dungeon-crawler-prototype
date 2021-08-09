@@ -1,6 +1,6 @@
 import { monsterService } from "../services/service-monsters";
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../config/constants-actions.json";
+import constants from "../constants/actions";
 
 export const loadMonsters = levelName => {
   return new Promise((resolve, reject) => {

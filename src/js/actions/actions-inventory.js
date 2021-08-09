@@ -3,7 +3,7 @@ import {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_WEAPON,
   INVENTORY_SET_ACTIVE_ARMOR
-} from "../config/constants-actions";
+} from "../constants/constants-actions";
 
 export const addToInventory = itemsArr => {
   dispatcher.dispatch({

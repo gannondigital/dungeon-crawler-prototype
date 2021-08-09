@@ -1,5 +1,5 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../config/constants-actions.json";
+import constants from "../constants/actions";
 
 export const addToPlayHistory = ({ eventName, tileName }) => {
   dispatcher.dispatch({

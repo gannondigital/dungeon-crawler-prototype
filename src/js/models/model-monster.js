@@ -28,7 +28,7 @@
 
 import { Treasure } from "../models/model-treasure";
 import OpponentAttack from "../models/model-opponent-attack";
-import combatConstants from "../config/constants-combat";
+import combatConstants from "../constants/combat";
 
 const placeholderImg = require("../../img/monster-placeholder.png");
 

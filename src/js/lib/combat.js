@@ -27,8 +27,8 @@ import { Damage } from "../models/model-damage";
 import Defense from "../models/model-defense";
 
 import { getRandomNum } from "./util";
-import { MSG_SPEED_MED } from "../config/constants-general";
-import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
+import { MSG_SPEED_MED } from "../constants/general";
+import { COMBAT_ACTION_ATTACK } from "../constants/combat";
 
 const HIT_CONST = 10;
 const DELAY_BETWEEN_TURNS_MS = 1250;

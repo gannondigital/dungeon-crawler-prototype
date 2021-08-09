@@ -12,8 +12,8 @@ import {
   COMBAT_START_TURN_CHARACTER,
   COMBAT_START_ROUND,
   COMBAT_END_TURN_CHARACTER
-} from "../config/constants-actions";
-import { OPPONENT, CHARACTER } from "../config/constants-general";
+} from "../constants/actions";
+import { OPPONENT, CHARACTER } from "../constants/general";
 import { Damage } from "../models/model-damage";
 
 const initialState = {

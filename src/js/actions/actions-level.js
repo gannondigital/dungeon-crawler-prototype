@@ -1,6 +1,6 @@
 import { levelService } from "../services/service-level";
 import { dispatcher } from "../lib/game-dispatcher";
-import * as constants from "../config/constants-actions.json";
+import * as constants from "../constants/constants-actions.json";
 
 export const loadLevel = levelName => {
   return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import * as config from "./js/config/config-default.json";
+import config from "./js/config/default";
 
 import { loadLevel } from "./js/actions/actions-level";
 import { loadMonsters } from "./js/actions/actions-monsters";

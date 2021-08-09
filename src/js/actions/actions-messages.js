@@ -1,7 +1,7 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import actionConstants from "../config/constants-actions.json";
-import generalConstants from "../config/constants-general.json";
-import * as gameConfig from "../config/config-default.json";
+import actionConstants from "../constants/constants-actions.json";
+import generalConstants from "../constants/constants-general.json";
+import gameConfig from "../config/default";
 
 export const showGameMsg = (msgText) => {
   dispatcher.dispatch({

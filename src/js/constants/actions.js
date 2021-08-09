@@ -1,4 +1,4 @@
-{
+export default {
   "ADD_TO_HISTORY": "addToHistory",
   "COMBAT_DAMAGE_OPPONENT": "combatDamageOpponent",
   "COMBAT_DAMAGE_CHARACTER": "combatDamageCharacter",
@@ -20,4 +20,4 @@
   "SHOW_GAME_MSG": "showGameMsg",
   "START_COMBAT": "startCombat",
   "TILE_SET": "setTile"
-}
+};
