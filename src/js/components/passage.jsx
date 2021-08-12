@@ -14,7 +14,7 @@ import { Wall } from "./wall";
 import { Monster } from "./monster";
 import { CombatControls } from "./combat-controls";
 import PassageControls from "./passage-controls";
-import { Tile } from "../models/model-tile";
+import Tile from "../models/tile";
 import { getTilenameForDirection } from "../lib/util/get-tilename-for-direction";
 import { tileHasUndefeatedOpponents } from "../lib/combat";
 

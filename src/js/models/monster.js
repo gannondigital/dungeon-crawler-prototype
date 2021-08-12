@@ -26,13 +26,51 @@
 //   type
 //   lore
 
-import { Treasure } from "../models/model-treasure";
-import OpponentAttack from "../models/model-opponent-attack";
+import Treasure from "../models/treasure";
+import OpponentAttack from "../models/opponent-attack";
 import combatConstants from "../constants/combat";
 
 const placeholderImg = require("../../img/monster-placeholder.png");
 
-export class Monster {
+function validateProps(monsterProps) {
+  let isValid = true;
+  isValid = isValid && validateMeta(monsterProps.meta);
+  isValid = isValid && validateAttacks(monsterProps.attacks);
+  isValid =
+    isValid &&
+    typeof monsterProps.expLevel === "number" &&
+    !isNaN(monsterProps.expLevel);
+  return isValid;
+}
+
+function validateMeta(monsterMeta) {
+  return !!(
+    monsterMeta &&
+    typeof monsterMeta === "object" &&
+    monsterMeta.name &&
+    typeof monsterMeta.name === "string" &&
+    monsterMeta.label &&
+    typeof monsterMeta.label === "string"
+  );
+}
+
+/**
+ * Validates attack data, which should be a obj of OpponentAttacks
+ * keyed by attack name.
+ * @param  {Object} monsterAttacks OpponentAttack objects keyed on attack name
+ * @return {Boolean}
+ */
+function validateAttacks(monsterAttacks) {
+  let isValid = true;
+  Object.values(monsterAttacks).forEach(attackObj => {
+    if (!(attackObj instanceof OpponentAttack)) {
+      isValid = false;
+    }
+  });
+  return isValid;
+}
+
+export default class Monster {
   constructor(monsterProps) {
     const isValid = validateProps(monsterProps);
     if (!isValid) {
@@ -123,42 +161,4 @@ export class Monster {
   getAttacks() {
     return this.attacks;
   }
-}
-
-function validateProps(monsterProps) {
-  let isValid = true;
-  isValid = isValid && validateMeta(monsterProps.meta);
-  isValid = isValid && validateAttacks(monsterProps.attacks);
-  isValid =
-    isValid &&
-    typeof monsterProps.expLevel === "number" &&
-    !isNaN(monsterProps.expLevel);
-  return isValid;
-}
-
-function validateMeta(monsterMeta) {
-  return !!(
-    monsterMeta &&
-    typeof monsterMeta === "object" &&
-    monsterMeta.name &&
-    typeof monsterMeta.name === "string" &&
-    monsterMeta.label &&
-    typeof monsterMeta.label === "string"
-  );
-}
-
-/**
- * Validates attack data, which should be a obj of OpponentAttacks
- * keyed by attack name.
- * @param  {Object} monsterAttacks OpponentAttack objects keyed on attack name
- * @return {Boolean}
- */
-function validateAttacks(monsterAttacks) {
-  let isValid = true;
-  Object.values(monsterAttacks).forEach(attackObj => {
-    if (!(attackObj instanceof OpponentAttack)) {
-      isValid = false;
-    }
-  });
-  return isValid;
 }

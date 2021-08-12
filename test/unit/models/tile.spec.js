@@ -1,7 +1,7 @@
 import { default as tape } from "tape";
 
 // under test
-import { Tile, isValidMonsterProps } from "../../../src/js/models/model-tile";
+import Tile, { isValidMonsterProps } from "../../../src/js/models/tile";
 
 const validWalls = {
   n: {},

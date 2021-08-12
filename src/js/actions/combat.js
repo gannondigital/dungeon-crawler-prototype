@@ -3,7 +3,7 @@ import { disburseTreasure } from "../lib/combat";
 import combatStore from "../stores/combat";
 import characterStore from "../stores/character";
 import { showGameMsg } from "../actions/messages";
-import { Damage } from "../models/model-damage";
+import Damage from "../models/damage";
 import constants from "../constants";
 import actionConstants from "../constants/actions";
 const { CHARACTER, OPPONENT } = constants;

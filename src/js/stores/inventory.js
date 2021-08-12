@@ -5,8 +5,8 @@ import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 
 import ItemFactory from "../lib/item-factory";
-import Weapon from "../models/model-weapon";
-import Armor from "../models/model-armor";
+import Weapon from "../models/weapon";
+import Armor from "../models/armor";
 
 function sortItems(itemInstances) {
   const weaponsToAdd = [];

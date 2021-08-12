@@ -1,6 +1,11 @@
 import cloneDeep from "lodash.cloneDeep";
 
-export class Treasure {
+// @todo
+function validateProps(treasureProps) {
+  return true;
+}
+
+export default class Treasure {
   constructor(treasureProps) {
     const isValid = validateProps(treasureProps);
     if (!isValid) {
@@ -23,9 +28,4 @@ export class Treasure {
   getItemsForInventory() {
     return cloneDeep(this.items);
   }
-}
-
-// @todo
-function validateProps(treasureProps) {
-  return true;
 }

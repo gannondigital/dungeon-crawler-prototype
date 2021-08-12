@@ -1,4 +1,4 @@
-import { Tile } from "../models/model-tile";
+import Tile from "../models/tile";
 import monstersStore from "../stores/monsters.js";
 
 export const TileFactory = tileProps => {

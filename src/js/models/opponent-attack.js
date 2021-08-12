@@ -1,26 +1,4 @@
-import { Damage } from "./model-damage";
-
-export default class OpponentAttack {
-  constructor(attackProps) {
-    const isValid = isValidAttackProps(attackProps);
-    if (!isValid) {
-      throw new TypeError("Invaid props passed to OpponentAttack");
-    }
-    this.data = attackProps;
-  }
-
-  getDmgTypes() {
-    return this.data.dmg.getTypes();
-  }
-
-  getDmgPoints() {
-    return this.data.dmg.getDmgPoints();
-  }
-
-  getAccuracyMod() {
-    return this.data.accuracyMod;
-  }
-}
+import Damage from "./damage";
 
 const isValidAttackProps = attackProps => {
   let isValid = true;
@@ -44,3 +22,25 @@ const isValidAttackProps = attackProps => {
 
   return isValid;
 };
+
+export default class OpponentAttack {
+  constructor(attackProps) {
+    const isValid = isValidAttackProps(attackProps);
+    if (!isValid) {
+      throw new TypeError("Invaid props passed to OpponentAttack");
+    }
+    this.data = attackProps;
+  }
+
+  getDmgTypes() {
+    return this.data.dmg.getTypes();
+  }
+
+  getDmgPoints() {
+    return this.data.dmg.getDmgPoints();
+  }
+
+  getAccuracyMod() {
+    return this.data.accuracyMod;
+  }
+}

@@ -5,7 +5,7 @@ import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 import { TileFactory } from "../lib/tile-factory";
-import { Tile } from "../models/model-tile";
+import Tile from "../models/tile";
 
 class LevelStore extends Store {
   constructor() {

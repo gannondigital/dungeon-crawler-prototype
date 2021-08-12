@@ -1,3 +1,15 @@
+// @todo standardize & DRY up non-React argument validation
+const arePropsValid = props => {
+  if (
+    typeof props.protection !== "number" ||
+    !Array.isArray(props.protectedAgainst) ||
+    !Array.isArray(props.vulnerableTo)
+  ) {
+    return false;
+  }
+  return true;
+};
+
 export default class Defense {
   constructor(props) {
     if (!arePropsValid(props)) {
@@ -45,14 +57,3 @@ export default class Defense {
     }, false);
   }
 }
-
-const arePropsValid = props => {
-  if (
-    typeof props.protection !== "number" ||
-    !Array.isArray(props.protectedAgainst) ||
-    !Array.isArray(props.vulnerableTo)
-  ) {
-    return false;
-  }
-  return true;
-};

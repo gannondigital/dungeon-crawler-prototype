@@ -1,4 +1,28 @@
-import Item from "./model-item";
+import Item from "./item";
+
+function validateProps(props) {
+  if (typeof props.dmg !== "number" || isNaN(props.dmg)) {
+    return false;
+  }
+
+  if (
+    typeof props.dmgTypes !== "object" ||
+    !props.dmgTypes ||
+    typeof props.dmgTypes.length !== "number"
+  ) {
+    return false;
+  }
+
+  if (typeof props.accuracyMod !== "number" || isNaN(props.accuracyMod)) {
+    return false;
+  }
+
+  if (typeof props.evasionMod !== "number" || isNaN(props.evasionMod)) {
+    return false;
+  }
+
+  return true;
+}
 
 // @todo should this be able to provide a Damage
 // instance? clarify boundaries
@@ -34,28 +58,4 @@ export default class Weapon extends Item {
   getEvasionMod() {
     return this.evasionMod;
   }
-}
-
-function validateProps(props) {
-  if (typeof props.dmg !== "number" || isNaN(props.dmg)) {
-    return false;
-  }
-
-  if (
-    typeof props.dmgTypes !== "object" ||
-    !props.dmgTypes ||
-    typeof props.dmgTypes.length !== "number"
-  ) {
-    return false;
-  }
-
-  if (typeof props.accuracyMod !== "number" || isNaN(props.accuracyMod)) {
-    return false;
-  }
-
-  if (typeof props.evasionMod !== "number" || isNaN(props.evasionMod)) {
-    return false;
-  }
-
-  return true;
 }

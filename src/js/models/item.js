@@ -8,6 +8,11 @@
 // - isEquipped
 // - equipsToSlot
 
+// @todo
+function isValidProps(itemProps) {
+  return true;
+}
+
 export default class Item {
   constructor(props) {
     if (!isValidProps(props)) {
@@ -53,9 +58,4 @@ export default class Item {
   getRoles() {
     return [].concat(this.itemRoles);
   }
-}
-
-function isValidProps(itemProps) {
-  // @todo
-  return true;
 }

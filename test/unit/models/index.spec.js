@@ -1,3 +1,3 @@
 // @todo genericize
 
-import "./model-tile.spec.js";
+import "./tile.spec.js";

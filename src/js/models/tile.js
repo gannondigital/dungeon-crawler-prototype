@@ -1,8 +1,64 @@
 import cloneDeep from "lodash.cloneDeep";
 
-import { Monster } from "./model-monster.js";
+import Monster from "./monster.js";
 
-export class Tile {
+const nameFromCoords = coords => {
+  return `${coords.x}x${coords.y}`;
+};
+
+const validateTileProps = tileProps => {
+  let isValid = isValidWallProps(tileProps.walls);
+  isValid = isValid && isValidCoords(tileProps.coords);
+  isValid = isValid && isValidMonsterProps(tileProps.monsters);
+  return isValid;
+};
+
+const isValidCoords = coords => {
+  if (typeof coords !== "object" || !coords) {
+    return false;
+  }
+
+  if (
+    typeof coords.x !== "number" ||
+    typeof coords.y !== "number" ||
+    isNaN(coords.x) ||
+    isNaN(coords.y)
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+const isValidWallProps = walls => {
+  if (typeof walls !== "object" || !walls) {
+    return false;
+  }
+
+  const hasCorrectKeys = ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
+    return !!(
+      lastVal &&
+      typeof walls[currProp] === "object" &&
+      walls[currProp]
+    );
+  }, "n");
+  return hasCorrectKeys;
+};
+
+export const isValidMonsterProps = monsterProps => {
+  if (typeof monsterProps === "undefined") {
+    return true; // allow absent monsters prop
+  }
+
+  if (!(monsterProps instanceof Array)) {
+    return false;
+  }
+  return monsterProps.reduce((accum, monster) => {
+    return accum && !!(monster instanceof Monster);
+  }, true);
+};
+
+export default class Tile {
   constructor(tileProps) {
     if (!validateTileProps(tileProps)) {
       throw new TypeError("Invalid tileProps passed to Tile constructor.");
@@ -68,59 +124,3 @@ export class Tile {
     return cloneDeep(this.monsters);
   }
 }
-
-const nameFromCoords = coords => {
-  return `${coords.x}x${coords.y}`;
-};
-
-const validateTileProps = tileProps => {
-  let isValid = isValidWallProps(tileProps.walls);
-  isValid = isValid && isValidCoords(tileProps.coords);
-  isValid = isValid && isValidMonsterProps(tileProps.monsters);
-  return isValid;
-};
-
-const isValidCoords = coords => {
-  if (typeof coords !== "object" || !coords) {
-    return false;
-  }
-
-  if (
-    typeof coords.x !== "number" ||
-    typeof coords.y !== "number" ||
-    isNaN(coords.x) ||
-    isNaN(coords.y)
-  ) {
-    return false;
-  }
-
-  return true;
-};
-
-const isValidWallProps = walls => {
-  if (typeof walls !== "object" || !walls) {
-    return false;
-  }
-
-  const hasCorrectKeys = ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
-    return !!(
-      lastVal &&
-      typeof walls[currProp] === "object" &&
-      walls[currProp]
-    );
-  }, "n");
-  return hasCorrectKeys;
-};
-
-export const isValidMonsterProps = monsterProps => {
-  if (typeof monsterProps === "undefined") {
-    return true; // allow absent monsters prop
-  }
-
-  if (!(monsterProps instanceof Array)) {
-    return false;
-  }
-  return monsterProps.reduce((accum, monster) => {
-    return accum && !!(monster instanceof Monster);
-  }, true);
-};

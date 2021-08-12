@@ -5,7 +5,7 @@ import Store from "../lib/store";
 import { MonsterFactory } from "../lib/monster-factory";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
-import { Monster } from "../models/model-monster";
+import Monster from "../models/monster";
 
 class MonstersStore extends Store {
   constructor() {

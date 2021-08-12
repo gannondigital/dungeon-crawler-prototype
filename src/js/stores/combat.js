@@ -2,7 +2,7 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import { Damage } from "../models/model-damage";
+import Damage from "../models/damage";
 import constants from "../constants";
 import actionConstants from "../constants/actions";
 
