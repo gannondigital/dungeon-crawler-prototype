@@ -8,6 +8,30 @@ import ItemFactory from "../lib/item-factory";
 import Weapon from "../models/model-weapon";
 import Armor from "../models/model-armor";
 
+function sortItems(itemInstances) {
+  const weaponsToAdd = [];
+  const armorToAdd = [];
+  const itemsToAdd = [];
+
+  return itemInstances.reduce(
+    (sortedItems, item) => {
+      if (item instanceof Weapon) {
+        sortedItems.weapons.push(item);
+      } else if (item instanceof Armor) {
+        sortedItems.armor.push(item);
+      } else {
+        sortedItems.items.push(item);
+      }
+      return sortedItems;
+    },
+    {
+      weapons: [],
+      armor: [],
+      items: []
+    }
+  );
+}
+
 class InventoryStore extends Store {
   constructor() {
     super();
@@ -35,7 +59,7 @@ class InventoryStore extends Store {
   }
 }
 
-export const inventoryStore = new InventoryStore();
+const inventoryStore = new InventoryStore();
 inventoryStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     // @todo support items that you can have multiples of
@@ -59,26 +83,4 @@ inventoryStore.dispatchToken = dispatcher.register(action => {
   }
 });
 
-function sortItems(itemInstances) {
-  const weaponsToAdd = [];
-  const armorToAdd = [];
-  const itemsToAdd = [];
-
-  return itemInstances.reduce(
-    (sortedItems, item) => {
-      if (item instanceof Weapon) {
-        sortedItems.weapons.push(item);
-      } else if (item instanceof Armor) {
-        sortedItems.armor.push(item);
-      } else {
-        sortedItems.items.push(item);
-      }
-      return sortedItems;
-    },
-    {
-      weapons: [],
-      armor: [],
-      items: []
-    }
-  );
-}
+export default inventoryStore;

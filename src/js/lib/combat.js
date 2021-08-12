@@ -17,10 +17,10 @@ import {
   startCharactersTurn
 } from "../actions/actions-combat";
 import { addToPlayHistory } from "../actions/actions-playhistory";
-import { playHistoryStore } from "../stores/store-play-history";
-import { combatStore } from "../stores/store-combat";
-import { characterStore } from "../stores/store-character";
-import { inventoryStore } from "../stores/store-inventory";
+import playHistoryStore from "../stores/play-history";
+import combatStore from "../stores/combat";
+import characterStore from "../stores/character";
+import inventoryStore from "../stores/inventory";
 import { Damage } from "../models/model-damage";
 import Defense from "../models/model-defense";
 import { getRandomNum } from "./util";

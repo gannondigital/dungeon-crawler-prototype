@@ -1,7 +1,7 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import { disburseTreasure } from "../lib/combat";
-import { combatStore } from "../stores/store-combat";
-import { characterStore } from "../stores/store-character";
+import combatStore from "../stores/combat";
+import characterStore from "../stores/character";
 import { showGameMsg } from "../actions/actions-messages";
 import { Damage } from "../models/model-damage";
 import constants from "../constants";

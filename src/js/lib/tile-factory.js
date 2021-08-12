@@ -1,5 +1,5 @@
 import { Tile } from "../models/model-tile";
-import { monsterStore } from "../stores/store-monsters.js";
+import monstersStore from "../stores/monsters.js";
 
 export const TileFactory = tileProps => {
   const { tileId } = tileProps;
@@ -11,7 +11,7 @@ export const TileFactory = tileProps => {
 // instantiates Monster objects for each named monster in tile
 function getMonstersForTile(monstArr) {
   const monsters = monstArr.map(monsterName => {
-    return monsterStore.getMonster(monsterName);
+    return monstersStore.getMonster(monsterName);
   });
   return monsters;
 }

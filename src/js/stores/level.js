@@ -50,7 +50,7 @@ class LevelStore extends Store {
   }
 }
 
-export const levelStore = new LevelStore();
+const levelStore = new LevelStore();
 levelStore.dispatchToken = dispatcher.register(action => {
   let levelName;
   let newLevel;
@@ -72,3 +72,5 @@ levelStore.dispatchToken = dispatcher.register(action => {
       break;
   }
 });
+
+export default levelStore;

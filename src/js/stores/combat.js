@@ -94,7 +94,7 @@ class CombatStore extends Store {
     return this.data.hasCurrTurn === CHARACTER;
   }
 }
-export const combatStore = new CombatStore();
+const combatStore = new CombatStore();
 
 combatStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
@@ -173,3 +173,5 @@ combatStore.dispatchToken = dispatcher.register(action => {
       break;
   }
 });
+
+export default combatStore;

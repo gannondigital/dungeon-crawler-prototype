@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import cloneDeep from "lodash.clonedeep";
 
-import { levelStore } from "../stores/store-level";
-import { characterStore } from "../stores/store-character";
-import { combatStore } from "../stores/store-combat";
+import levelStore from "../stores/level";
+import characterStore from "../stores/character";
+import combatStore from "../stores/combat";
 
 import { setDirection, setTile } from "../actions/actions-character";
 import { startCombat } from "../actions/actions-combat";

@@ -8,8 +8,8 @@ import { LevelMap } from "./level-map";
 import GameMsg from "./game-msg";
 import { Inventory } from "./inventory";
 
-import { characterStore } from "../stores/store-character";
-import { levelStore } from "../stores/store-level";
+import characterStore from "../stores/character";
+import levelStore from "../stores/level";
 
 import "../../css/lib/base.scss";
 import "../../css/components/game-root.scss";

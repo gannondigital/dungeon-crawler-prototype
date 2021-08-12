@@ -4,7 +4,7 @@ import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 
-class MessageStore extends Store {
+class MessagesStore extends Store {
   constructor() {
     super();
     this.data = {
@@ -18,25 +18,26 @@ class MessageStore extends Store {
   }
 }
 
-export const msgStore = new MessageStore();
-
-msgStore.dispatchToken = dispatcher.register(action => {
+const messagesStore = new MessagesStore();
+messagesStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case constants.SHOW_GAME_MSG:
       const { msgText } = action.payload;
-      const currMsgs = msgStore.data.msgs;
+      const currMsgs = messagesStore.data.msgs;
       currMsgs.push(msgText);
-      msgStore.data.showingMsg = true;
-      msgStore.triggerChange();
+      messagesStore.data.showingMsg = true;
+      messagesStore.triggerChange();
       break;
     case constants.REMOVE_GAME_MSG:
-      msgStore.data = {
+      messagesStore.data = {
         msgs: [],
         showingMsg: false
       };
-      msgStore.triggerChange();
+      messagesStore.triggerChange();
       break;
     default:
       break;
   }
 });
+
+export default messagesStore;

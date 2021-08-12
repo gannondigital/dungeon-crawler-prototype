@@ -56,7 +56,7 @@ class CharacterStore extends Store {
   }
 }
 
-export const characterStore = new CharacterStore();
+const characterStore = new CharacterStore();
 
 characterStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
@@ -99,3 +99,4 @@ characterStore.dispatchToken = dispatcher.register(action => {
       break;
   }
 });
+export default characterStore;

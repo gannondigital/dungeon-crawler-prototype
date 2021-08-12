@@ -7,7 +7,7 @@ import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 import { Monster } from "../models/model-monster";
 
-class MonsterStore extends Store {
+class MonstersStore extends Store {
   constructor() {
     super();
     this.data = {
@@ -32,15 +32,15 @@ class MonsterStore extends Store {
   }
 }
 
-export const monsterStore = new MonsterStore();
-monsterStore.dispatchToken = dispatcher.register(action => {
+const monstersStore = new MonstersStore();
+monstersStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case constants.MONSTERS_LOADED:
       const { levelName, monsters } = action.payload;
-      if (!isEqual(monsterStore.data, action.payload)) {
-        monsterStore.data.levelName = levelName;
-        monsterStore.data.monsters = monsters;
-        monsterStore.triggerChange();
+      if (!isEqual(monstersStore.data, action.payload)) {
+        monstersStore.data.levelName = levelName;
+        monstersStore.data.monsters = monsters;
+        monstersStore.triggerChange();
       }
 
       break;
@@ -48,3 +48,5 @@ monsterStore.dispatchToken = dispatcher.register(action => {
       break;
   }
 });
+
+export default monstersStore;

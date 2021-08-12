@@ -66,4 +66,25 @@ class PlayHistoryStore extends Store {
   }
 }
 
-export const playHistoryStore = new PlayHistoryStore();
+const playHistoryStore = new PlayHistoryStore();
+// @todo this code is ridiculous and in every store
+playHistoryStore.dispatchToken = dispatcher.register(action => {
+  switch (action.type) {
+    case constants.ITEMS_LOADED:
+      const oldLevel = playHistoryStore.data.levelName;
+      const newLevel = action.payload.levelName;
+
+      if (oldLevel === newLevel) {
+        return;
+      }
+      playHistoryStore.data.levelName = newLevel;
+      playHistoryStore.data.itemsByName = action.payload.items;
+
+      playHistoryStore.triggerChange();
+      break;
+    default:
+      break;
+  }
+});
+
+export default playHistoryStore;

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { MapTile } from "./map-tile";
-import { levelStore } from "../stores/store-level";
-import { characterStore } from "../stores/store-character";
+import levelStore from "../stores/level";
+import characterStore from "../stores/character";
 
 import "../../css/components/level-map.scss";
 

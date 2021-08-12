@@ -50,7 +50,7 @@ class ItemStore extends Store {
   }
 }
 
-export const itemsStore = new ItemStore();
+const itemsStore = new ItemStore();
 itemsStore.dispatchToken = dispatcher.register(action => {
   switch (action.type) {
     case constants.ITEMS_LOADED:
@@ -69,3 +69,5 @@ itemsStore.dispatchToken = dispatcher.register(action => {
       break;
   }
 });
+
+export default itemsStore;

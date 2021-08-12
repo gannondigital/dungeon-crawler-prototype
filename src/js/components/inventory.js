@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { inventoryStore } from "../stores/store-inventory";
+import inventoryStore from "../stores/inventory";
 import Item from "../models/model-item";
 import { ItemTile } from "./item-tile";
 
