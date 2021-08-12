@@ -160,7 +160,7 @@
       "name": "moss-golem",
       "label": "Moss Golem",
       "type": ["magic", "plant", "golem"],
-      "lore": "It's slow, and it stinks",
+      "lore": "It's slow, and it's damp.",
       "imgUrl": "moss-golem.png"
     },
     "expLevel": 1,
@@ -193,9 +193,10 @@
         "weapon-blunt",
         "weapon-ranged",
         "cold",
-        "water"
+        "water",
+        "fire"
       ],
-      "vulnerableTo": ["fire", "weapon-edged"]
+      "vulnerableTo": ["weapon-edged"]
     }
   }
 }

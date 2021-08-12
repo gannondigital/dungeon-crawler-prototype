@@ -1,8 +1,8 @@
-import { Monster } from "../models/model-monster";
-import { Treasure } from "../models/model-treasure";
-import { Damage } from "../models/model-damage";
-import OpponentAttack from "../models/model-opponent-attack";
-import { itemsStore } from "../stores/store-items";
+import Monster from "../models/monster";
+import Treasure from "../models/treasure";
+import Damage from "../models/damage";
+import OpponentAttack from "../models/opponent-attack";
+import itemsStore from "../stores/items";
 
 /**
  * Composes the necessary data to make a monster. Takes the monster's

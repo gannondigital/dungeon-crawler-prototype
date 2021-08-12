@@ -1,6 +1,6 @@
-import Item from "../models/model-item";
-import Weapon from "../models/model-weapon";
-import Armor from "../models/model-armor";
+import Item from "../models/item";
+import Weapon from "../models/weapon";
+import Armor from "../models/armor";
 
 /**
  * Instantiates a Weapon, Armor, or Item based on item type.

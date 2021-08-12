@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import cloneDeep from "lodash.cloneDeep";
+import PropTypes from "prop-types";
+import cloneDeep from "lodash.clonedeep";
 
-import { levelStore } from "../stores/store-level";
-import { characterStore } from "../stores/store-character";
-import { combatStore } from "../stores/store-combat";
+import levelStore from "../stores/level";
+import characterStore from "../stores/character";
+import combatStore from "../stores/combat";
 
-import { setDirection, setTile } from "../actions/actions-character";
-import { startCombat } from "../actions/actions-combat";
-import { showGameMsg } from "../actions/actions-messages";
+import { setDirection, setTile } from "../actions/character";
+import { startCombat } from "../actions/combat";
+import { showGameMsg } from "../actions/messages";
 
 import { Wall } from "./wall";
 import { Monster } from "./monster";
 import { CombatControls } from "./combat-controls";
-import { PassageControls } from "./passage-controls";
-import { Tile } from "../models/model-tile";
+import PassageControls from "./passage-controls";
+import Tile from "../models/tile";
 import { getTilenameForDirection } from "../lib/util/get-tilename-for-direction";
 import { tileHasUndefeatedOpponents } from "../lib/combat";
 
@@ -210,8 +210,9 @@ export class Passage extends Component {
             <Wall {...propsRightWall} />
             <Wall {...propsLeftWall} />
             <Wall {...propsAhead} />
-            {monsterElems}
+            
           </div>
+          {monsterElems}
         </div>
         <div className={`passageoverlay${overlayClass}`} />
         {inCombat && isCharactersTurn && <CombatControls />}
@@ -231,6 +232,8 @@ Passage.propTypes = {
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string)
 };
 
+/* @todo make this a config of the level so that tile data can
+  be less verbose */
 Passage.defaultProps = {
   defaultSurfaces: ["stonebrick", "shadow"]
 };

@@ -1,0 +1,6 @@
+{
+  "rootSelector": "#game-root-container",
+  "startingLevel": "one",
+  "startingArmor": "",
+  "startingWeapon": ""
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Monster as MonsterModel } from "../models/model-monster";
+import MonsterModel from "../models/monster";
 import "../../css/components/monster.scss";
 
 export const Monster = props => {

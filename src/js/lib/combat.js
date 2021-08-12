@@ -4,8 +4,8 @@
 
 // @todo visual cues for attacks & damage in the UI
 
-import { showGameMsg } from "../actions/actions-messages";
-import { addToInventory } from "../actions/actions-inventory";
+import { showGameMsg } from "../actions/messages";
+import { addToInventory } from "../actions/inventory";
 import {
   startCombat as startCombatAction,
   damageOpponent,
@@ -15,21 +15,20 @@ import {
   startRound,
   startOpponentsTurn,
   startCharactersTurn
-} from "../actions/actions-combat";
-import { addToPlayHistory } from "../actions/actions-playhistory";
-import { playHistoryStore } from "../stores/store-play-history";
-
-import { combatStore } from "../stores/store-combat";
-import { characterStore } from "../stores/store-character";
-import { inventoryStore } from "../stores/store-inventory";
-
-import { Damage } from "../models/model-damage";
-import Defense from "../models/model-defense";
-
+} from "../actions/combat";
+import { addToPlayHistory } from "../actions/play-history";
+import playHistoryStore from "../stores/play-history";
+import combatStore from "../stores/combat";
+import characterStore from "../stores/character";
+import inventoryStore from "../stores/inventory";
+import Damage from "../models/damage";
+import Defense from "../models/defense";
 import { getRandomNum } from "./util";
-import { MSG_SPEED_MED } from "../config/constants-general";
-import { COMBAT_ACTION_ATTACK } from "../config/constants-combat";
+import constants from "../constants";
+import combatConstants from "../constants/combat";
 
+const { MSG_SPEED_MED } = constants;
+const { COMBAT_ACTION_ATTACK } = combatConstants;
 const HIT_CONST = 10;
 const DELAY_BETWEEN_TURNS_MS = 1250;
 const POLLING_INTERVAL_FOR_CHAR_ACTION = 250;

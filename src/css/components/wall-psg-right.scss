@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../lib/mixins.scss";
 @import "../lib/vars.scss";
 
@@ -11,7 +12,7 @@
   height: $wall_height;
 
   &.shadow {
-    @include wall-shadow($wall_width / 2);
+    @include wall-shadow(math.div($wall_width, 2));
   }
 
   &.open {

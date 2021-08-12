@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { msgStore } from "../stores/store-messages";
+import messagesStore from "../stores/messages";
 
 import "../../css/components/game-msg";
 
@@ -14,16 +14,16 @@ export default class GameMsg extends Component {
   }
 
   handleMsgUpdate = () => {
-    const msgs = msgStore.getCurrMsgs();
+    const msgs = messagesStore.getCurrMsgs();
     this.setState({ msgs });
   };
 
   componentDidMount() {
-    msgStore.listen(this.handleMsgUpdate);
+    messagesStore.listen(this.handleMsgUpdate);
   }
 
   componentWillUnmount() {
-    msgStore.stopListening(this.handleMsgUpdate);
+    messagesStore.stopListening(this.handleMsgUpdate);
   }
 
   render() {

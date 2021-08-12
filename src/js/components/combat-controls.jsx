@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { attackOpponent } from "../lib/combat";
-import { endCharactersTurn } from "../actions/actions-combat";
+import { endCharactersTurn } from "../actions/combat";
 
 import "../../css/components/combat-controls";
 

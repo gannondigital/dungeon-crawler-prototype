@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "./vars.scss";
 
 @mixin transform-origin($origin) {
@@ -77,7 +78,7 @@
 }
 
 @mixin ceiling-shadow() {
-  @include floor-ceiling-shadow($wall_height / -2);
+  @include floor-ceiling-shadow(math.div($wall_height, -2));
 }
 
 @mixin floor-ceiling-shadow($off_y) {

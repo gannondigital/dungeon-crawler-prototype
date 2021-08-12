@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 
 // @todo inject the subscriber method directly?
-import { characterStore } from "../stores/store-character.js";
+import characterStore from "../stores/character.js";
 import { Compass } from "./compass";
 
 import "../../css/components/game-header.scss";
