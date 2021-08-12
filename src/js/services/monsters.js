@@ -1,6 +1,7 @@
-// super duper mocked out for now, in-memory JSON only
+// super duper mocked out for now, this would be a network call or 
+// local db lookup IRL
 
-export const monsterService = {
+const monsterService = {
   getMonsters: levelName => {
     return new Promise((resolve, reject) => {
       if (!levelName || typeof levelName !== "string") {
@@ -19,3 +20,5 @@ export const monsterService = {
     });
   }
 };
+
+export default monsterService;

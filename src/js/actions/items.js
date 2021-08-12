@@ -1,4 +1,4 @@
-import { itemsService } from "../services/service-items";
+import itemsService  from "../services/items";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 

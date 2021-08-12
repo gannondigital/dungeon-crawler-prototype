@@ -1,4 +1,4 @@
-import { levelService } from "../services/service-level";
+import levelService from "../services/level";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 

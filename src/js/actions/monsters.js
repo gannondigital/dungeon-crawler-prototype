@@ -1,4 +1,4 @@
-import { monsterService } from "../services/service-monsters";
+import monsterService from "../services/monsters";
 import { dispatcher } from "../lib/game-dispatcher";
 import constants from "../constants/actions";
 
