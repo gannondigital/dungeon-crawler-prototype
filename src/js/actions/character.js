@@ -1,6 +1,6 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import levelStore from "../stores/level";
-import { startCombat as startCombatAction } from "../actions/actions-combat";
+import { startCombat as startCombatAction } from "../actions/combat";
 import { startCombat } from "../lib/combat";
 import { tileHasUndefeatedOpponents } from "../lib/combat";
 import constants from "../constants";

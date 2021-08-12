@@ -1,7 +1,7 @@
 const tape = require("tape");
 
 // under test
-import { loadLevel } from "../../src/js/actions/actions-level.js";
+import { loadLevel } from "../../src/js/actions/level.js";
 import levelStore from "../../src/js/stores/level.js";
 import { TileFactory } from "../../src/js/lib/tile-factory.js";
 import levelOne from "../../src/js/data/level-one";

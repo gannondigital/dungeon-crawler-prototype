@@ -6,9 +6,9 @@ import levelStore from "../stores/level";
 import characterStore from "../stores/character";
 import combatStore from "../stores/combat";
 
-import { setDirection, setTile } from "../actions/actions-character";
-import { startCombat } from "../actions/actions-combat";
-import { showGameMsg } from "../actions/actions-messages";
+import { setDirection, setTile } from "../actions/character";
+import { startCombat } from "../actions/combat";
+import { showGameMsg } from "../actions/messages";
 
 import { Wall } from "./wall";
 import { Monster } from "./monster";

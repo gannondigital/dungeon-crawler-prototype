@@ -4,14 +4,14 @@ import ReactDOM from "react-dom";
 
 import config from "./js/config/default";
 
-import { loadLevel } from "./js/actions/actions-level";
-import { loadMonsters } from "./js/actions/actions-monsters";
-import { loadItems } from "./js/actions/actions-items";
+import { loadLevel } from "./js/actions/level";
+import { loadMonsters } from "./js/actions/monsters";
+import { loadItems } from "./js/actions/items";
 import {
   setActiveWeapon,
   setActiveArmor,
   addToInventory
-} from "./js/actions/actions-inventory";
+} from "./js/actions/inventory";
 
 import characterStore from "./js/stores/character";
 import playHistoryStore from "./js/stores/play-history";

@@ -11,6 +11,9 @@ const findEventInEventlist = (eventName, eventList) => {
   });
 };
 
+// @todo is this really enough for keeping track of everything that the 
+// player has done/that has occurred? Probably too flat and will end up
+// being a more domain-specific abstraction
 class PlayHistoryStore extends Store {
   handleAction = action => {
     switch (action.type) {

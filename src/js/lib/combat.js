@@ -4,8 +4,8 @@
 
 // @todo visual cues for attacks & damage in the UI
 
-import { showGameMsg } from "../actions/actions-messages";
-import { addToInventory } from "../actions/actions-inventory";
+import { showGameMsg } from "../actions/messages";
+import { addToInventory } from "../actions/inventory";
 import {
   startCombat as startCombatAction,
   damageOpponent,
@@ -15,8 +15,8 @@ import {
   startRound,
   startOpponentsTurn,
   startCharactersTurn
-} from "../actions/actions-combat";
-import { addToPlayHistory } from "../actions/actions-playhistory";
+} from "../actions/combat";
+import { addToPlayHistory } from "../actions/play-history";
 import playHistoryStore from "../stores/play-history";
 import combatStore from "../stores/combat";
 import characterStore from "../stores/character";
