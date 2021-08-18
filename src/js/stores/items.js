@@ -48,6 +48,10 @@ class ItemStore extends Store {
 
     return itemObjs;
   }
+
+  getItem(itemName) {
+    return this.getItems([itemName])[0];
+  }
 }
 
 const itemsStore = new ItemStore();

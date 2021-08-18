@@ -13,12 +13,14 @@
   "license": "not licensed for reproduction or use",
   "dependencies": {
     "classnames": "^2.3.1",
+    "core-js": "^3.16.1",
     "flux": "^4.0.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
