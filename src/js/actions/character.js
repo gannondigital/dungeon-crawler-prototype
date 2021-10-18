@@ -1,11 +1,8 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import levelStore from "../stores/level";
 import { startCombat } from "../actions/combat";
-import constants from "../constants";
-import actionConstants from "../constants/actions";
-
-const { DIRECTION_SET, TILE_SET } = actionConstants;
-const { CHARACTER } = constants;
+import { CHARACTER } from "../constants";
+import { DIRECTION_SET, TILE_SET } from "../constants/actions";
 
 export const setDirection = dir => {
   if (!dir || typeof dir !== "string") {

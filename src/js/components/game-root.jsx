@@ -87,7 +87,7 @@ export class GameRoot extends Component {
         gameContent = <LevelMap rows={10} columns={20} />;
         break;
       case "inventory":
-        buttons = backButton);
+        buttons = backButton;
         gameContent = <Inventory />;
         break;
       default:

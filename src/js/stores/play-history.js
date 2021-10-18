@@ -1,5 +1,3 @@
-import isEqual from "lodash.isEqual";
-import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";

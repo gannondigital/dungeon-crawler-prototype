@@ -1,9 +1,9 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
+import { ADD_TO_HISTORY } from "../constants/actions";
 
 export const addToPlayHistory = ({ eventName, tileName }) => {
   dispatcher.dispatch({
-    type: constants.ADD_TO_HISTORY,
+    type: ADD_TO_HISTORY,
     payload: {
       eventName,
       tileName

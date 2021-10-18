@@ -1,11 +1,9 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import actionConstants from "../constants/actions";
-
-const {
+import {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_WEAPON,
   INVENTORY_SET_ACTIVE_ARMOR
-} = actionConstants;
+} from "../constants/actions";
 
 /**
  * @param {Array} itemNames Array of item name strings

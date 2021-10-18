@@ -9,6 +9,7 @@ export const COMBAT_START_TURN_OPPONENTS = "combatStartTurnOpponents";
 export const COMBAT_START_TURN_CHARACTER = "combatStatTurnCharacter;";
 export const COMBAT_END_TURN_CHARACTER = "combatEndTurnCharacter";
 export const COMBAT_ATTACK_OPPONENT = "COMBAT_ATTACK_OPPONENT";
+export const COMBAT_ACTION_ATTACK = "COMBAT_ACTION_ATTACK";
 export const DIRECTION_SET = "setDirection";
 export const END_COMBAT = "endCombat";
 export const INVENTORY_ADD_ITEMS = "inventoryAddItems";

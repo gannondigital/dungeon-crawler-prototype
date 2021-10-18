@@ -15,20 +15,19 @@ import {
 } from "../actions/combat";
 import { addToInventory } from "../actions/inventory";
 import { addToPlayHistory } from "../actions/play-history";
-import { SET_TILE } from "../constants/";
+import { SET_TILE, OPPONENTS } from "../constants/";
 import {
   START_COMBAT,
   COMBAT_ACTION_ATTACK, // @todo these names/models aren't right
-  COMBAT_ATTACK_OPPONENT,
-  HIT_CONST,
-  DELAY_BETWEEN_TURNS_MS,
-  POLLING_INTERVAL_FOR_CHAR_ACTION
+  COMBAT_ATTACK_OPPONENT
 } from "../constants/actions";
 import { getRandomNum } from "./util";
-import { OPPONENTS } from "../constants";
 import {
+  DELAY_BETWEEN_TURNS_MS,
   DMG_PROTECTED_MOD,
-  DMG_VULNERABLE_MOD
+  DMG_VULNERABLE_MOD,
+  HIT_CONST,
+  POLLING_INTERVAL_FOR_CHAR_ACTION
 } from "../constants/combat";
 import OpponentAttack from "../models/opponent-attack";
 import Damage from "../models/damage";
@@ -365,7 +364,7 @@ class CombatRunner {
 
     // @todo at least some of this  probably belongs in an Opponent class
     const attacks = combatStore.getOpponentsAttacks();
-    const combatAction = this.              (attacks);
+    const combatAction = this.chooseOpponentsAction(attacks);
     // @todo this is some nascent DSL for actions you can take in 
     // combat. Is there any overlap with flux actions; if so how much
     // if not, maybe use a different term from 'combat action'
