@@ -30,7 +30,7 @@ export class GameRoot extends Component {
     });
   };
 
-  handleCloseBtnClick = () => {
+  handleBackBtnClick = () => {
     this.setState({
       uiState: "passage"
     });
@@ -42,7 +42,9 @@ export class GameRoot extends Component {
     });
   };
 
-  // @todo DRY up back button
+  // @todo looks like we're keeping gameMsgs in state, or expecting
+  // to, but not actually passing them to GameMsg, which currently 
+  // pulls them from the store itself
   render() {
     const gameMsgs = this.state.gameMsgs;
     const currDir = characterStore.getDirection();
@@ -50,71 +52,57 @@ export class GameRoot extends Component {
     const currTile = levelStore.getTile(currTileName);
 
     let gameContent = null;
-    let backButton;
+    let buttons = null;
+    const backButton = (
+      <button
+        className="header-nav-button"
+        onClick={this.handleBackBtnClick}
+      >
+        Back
+      </button>
+    );
+  
     switch (this.state.uiState) {
       case "passage":
-        gameContent = (
-          <Fragment>
-            <GameMsg />
-            <GameHeader
-              button={[
-                <button
-                  className="header-nav-button"
-                  onClick={this.handleMapBtnClick}
-                  key="map"
-                >
-                  Map
-                </button>,
-                <button
-                  className="header-nav-button"
-                  onClick={this.handleInventoryClick}
-                  key="inventory"
-                >
-                  Inventory
-                </button>
-              ]}
-            />
-            <Passage currTile={currTile} direction={currDir} />
-          </Fragment>
-        );
+        buttons = [
+          <button
+            className="header-nav-button"
+            onClick={this.handleMapBtnClick}
+            key="map"
+          >
+            Map
+          </button>,
+          <button
+            className="header-nav-button"
+            onClick={this.handleInventoryClick}
+            key="inventory"
+          >
+            Inventory
+          </button>
+        ]
+        gameContent = <Passage currTile={currTile} direction={currDir} />;
         break;
       case "map":
-        backButton = (
-          <button
-            className="header-nav-button"
-            onClick={this.handleCloseBtnClick}
-          >
-            Back
-          </button>
-        );
-        gameContent = (
-          <Fragment>
-            <GameHeader button={backButton} />
-            <LevelMap rows={10} columns={20} />
-          </Fragment>
-        );
+        buttons = backButton;
+        gameContent = <LevelMap rows={10} columns={20} />;
         break;
       case "inventory":
-        backButton = (
-          <button
-            className="header-nav-button"
-            onClick={this.handleCloseBtnClick}
-          >
-            Back
-          </button>
-        );
-        gameContent = (
-          <Fragment>
-            <GameHeader button={backButton} />
-            <Inventory />
-          </Fragment>
-        );
+        buttons = backButton);
+        gameContent = <Inventory />;
         break;
       default:
         throw new TypeError("Invalid UI state in GameRoot");
     }
 
-    return <div className="game-root">{gameContent}</div>;
+    return (
+      <div className="game-root">
+        <GameMsg />
+        <GameHeader
+          button={buttons}
+        />
+        {gameContent}
+      </div>
+    );
   }
 }
 

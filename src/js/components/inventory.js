@@ -6,31 +6,36 @@ import Item from "../models/item";
 import { ItemTile } from "./item-tile";
 
 import "../../css/components/inventory.scss";
+import ItemFactory from "../lib/item-factory";
 
 // @todo if we have more item roles, abstract out the roles
+// @todo more specific naming in line with roles that manage 
+// views by game state, etc.
 export class Inventory extends Component {
   constructor(props) {
     super(props);
 
     const activeWeapon = inventoryStore.getActiveWeapon();
     const activeArmor = inventoryStore.getActiveArmor();
-    const sortedItems = inventoryStore.getAllItems();
+    const itemsByType = inventoryStore.getFullInventory();
 
     this.state = {
       uiState: "equipped", // "armor" | "weapons" | "items"
-      items: sortedItems,
+      items: itemsByType,
       activeWeapon,
       activeArmor
     };
   }
 
+  // @todo probably worth having a shared abstraction for
+  // the boilerplate of connecting to the store
   handleInventoryUpdate() {
     const activeWeapon = inventoryStore.getActiveWeapon();
     const activeArmor = inventoryStore.getActiveArmor();
-    const sortedItems = inventoryStore.getAllItems();
+    const itemsByType = inventoryStore.getFullInventory();
 
     this.setState({
-      items: sortedItems,
+      items: itemsByType,
       activeWeapon,
       activeArmor
     });
@@ -46,34 +51,22 @@ export class Inventory extends Component {
 
   render() {
     const { uiState, items, activeWeapon, activeArmor } = this.state;
-
-    // @todo are these going to stay similar enough that we can consolidate this?
-    let panelContents;
-    switch (uiState) {
-      case "armor":
-        panelContents = items.armor.map(item => (
-          <ItemTile item={item} key={item.name} />
-        ));
-        break;
-      case "weapons":
-        panelContents = items.weapons.map(item => (
-          <ItemTile item={item} key={item.name} />
-        ));
-        break;
-      case "items":
-        panelContents = items.items.map(item => (
-          <ItemTile item={item} key={item.name} />
-        ));
-        break;
-      // @todo labels etc, nicer ui
-      case "equipped":
-        panelContents = [activeWeapon, activeArmor].map(item => (
-          <ItemTile item={item} key={item.name} />
-        ));
-        break;
+    
+    // @todo better names here
+    let itemsBeingShown;
+    if (uiState === "equipped") {
+      itemsBeingShown = [activeWeapon, activeArmor]
+    } else {
+      itemsBeingShown = items[uiState];
     }
 
+    const itemTiles = itemsBeingShown.map(item =>  <ItemTile
+        item={item}
+        key={item.getName()}
+      />);
+
     // @todo this is pretty hardcode-y but it'll do for now
+    // @todo use 'classnames' library
     const tabs = ["equipped", "armor", "weapons", "items"].map(tabname => {
       return (
         <button
@@ -89,16 +82,8 @@ export class Inventory extends Component {
     return (
       <div className="inventory">
         <nav className="inventory--tabs">{tabs}</nav>
-        <section className="inventory--content">{panelContents}</section>
+        <section className="inventory--content">{itemTiles}</section>
       </div>
     );
   }
 }
-
-Inventory.propTypes = {
-  items: PropTypes.arrayOf(Item)
-};
-
-Inventory.defaultProps = {
-  items: []
-};

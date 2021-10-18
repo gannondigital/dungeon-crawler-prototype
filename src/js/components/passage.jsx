@@ -7,7 +7,6 @@ import characterStore from "../stores/character";
 import combatStore from "../stores/combat";
 
 import { setDirection, setTile } from "../actions/character";
-import { startCombat } from "../actions/combat";
 import { showGameMsg } from "../actions/messages";
 
 import { Wall } from "./wall";
@@ -15,26 +14,32 @@ import { Monster } from "./monster";
 import { CombatControls } from "./combat-controls";
 import PassageControls from "./passage-controls";
 import Tile from "../models/tile";
-import { getTilenameForDirection } from "../lib/util/get-tilename-for-direction";
-import { tileHasUndefeatedOpponents } from "../lib/combat";
 
 const directionOrder = ["n", "e", "s", "w"];
-const fadeTime = 100;
+const FADE_TIME = 200;
 
 import "../../css/lib/base";
 import "../../css/components/passage";
 
+/**
+ * @todo way too big, separate data provision from UI
+ */
 export class Passage extends Component {
   constructor(props) {
     super(props);
 
-    const { direction, currTile } = props;
+    const {
+      direction,
+      currTile,
+      inCombat: initialInCombat
+    } = props;
 
     this.state = {
       tile: currTile,
       direction: direction,
       faded: false,
-      inCombat: false,
+      inCombat: initialInCombat,
+      // @todo this doesn't belong here, it's combat related
       isCharactersTurn: false
     };
   }
@@ -66,6 +71,7 @@ export class Passage extends Component {
     });
   };
 
+  // @todo this should live outside of ui and be passed as props
   moveAhead = () => {
     const dirsForWalls = getDirsForWalls(this.state.direction);
     const dir = dirsForWalls.ahead;
@@ -80,6 +86,8 @@ export class Passage extends Component {
       const nextTileName = tile.getAdjacentTileName(dir);
       this.fade(true).then(() => {
         console.log("setting new tile: " + nextTileName);
+        // @todo this should likely be a handler prop,
+        // with the `setTile` passed in
         setTile(nextTileName);
         this.fade(false);
       });
@@ -142,9 +150,9 @@ export class Passage extends Component {
 
   // @todo there is likely a more elegant way to do this
   fade(fadeIn) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.setState(
-        (prevState, currProps) => {
+        (prevState) => {
           const newState = cloneDeep(prevState);
           newState.faded = !!fadeIn;
           return newState;
@@ -152,7 +160,7 @@ export class Passage extends Component {
         () => {
           setTimeout(() => {
             resolve();
-          }, 200);
+          }, FADE_TIME);
         }
       );
     });
@@ -170,6 +178,7 @@ export class Passage extends Component {
 
     const overlayClass = this.state.faded ? " show" : "";
 
+    // @todo ceiling and floor should be skinnable like walls
     const propsCeiling = {
       placement: "psg-ceiling",
       surfaces: this.props.defaultSurfaces
@@ -192,10 +201,11 @@ export class Passage extends Component {
     };
 
     let monsterElems = null;
-    const monsters = tile.getMonsters() || [];
-    const thereAreMonsters = tileHasUndefeatedOpponents(tile);
-
-    if (thereAreMonsters) {
+    // @todo random encounters would be combat that is not
+    // part of the tile object -- unless implement by instantiating
+    // Tiles with random monsters/or not at creation
+    if (inCombat) {
+      const monsters = tile.getMonsters() || [];
       monsterElems = monsters.map(monster => {
         return <Monster monster={monster} key={monster.getName()} />;
       });
@@ -238,6 +248,7 @@ Passage.defaultProps = {
   defaultSurfaces: ["stonebrick", "shadow"]
 };
 
+// @todo there are almost certainly better ways to do all this
 const dirsForWalls = {
   n: {
     ahead: "n",
@@ -263,21 +274,9 @@ const dirsForWalls = {
 
 // assumes north is the original forward dir
 const getDirsForWalls = direction => {
-  if (!isValidDirection(direction)) {
+  if (!directionOrder.includes(direction)) {
     throw new TypeError("Invalid direction set on Passage");
   }
 
   return dirsForWalls[direction];
-};
-
-const isValidDirection = direction => {
-  switch (direction) {
-    case "n":
-    case "e":
-    case "s":
-    case "w":
-      return true;
-    default:
-      return false;
-  }
 };

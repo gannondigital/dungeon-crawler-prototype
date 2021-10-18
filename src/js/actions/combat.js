@@ -1,41 +1,47 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import { disburseTreasure } from "../lib/combat";
-import combatStore from "../stores/combat";
-import characterStore from "../stores/character";
-import { showGameMsg } from "../actions/messages";
-import Damage from "../models/damage";
-import constants from "../constants";
-import actionConstants from "../constants/actions";
-const { CHARACTER, OPPONENT } = constants;
-const {
+import { CHARACTER, OPPONENTS } from "../constants";
+import {
   START_COMBAT,
   COMBAT_DAMAGE_OPPONENT,
   COMBAT_DAMAGE_CHARACTER,
+  COMBAT_ATTACK_OPPONENT,
   END_COMBAT,
   COMBAT_SET_ADVANTAGE,
   COMBAT_START_ROUND,
-  COMBAT_START_TURN_OPPONENT,
+  COMBAT_START_TURN_OPPONENTS, 
   COMBAT_START_TURN_CHARACTER,
   COMBAT_END_TURN_CHARACTER
-} = actionConstants;
+} from "../constants/actions";
 
+/**
+ * @todo I think I prefer validating input at the store
+ * @param {Object} payloadProps
+ * @param {Array<>} payloadProps.opponents
+ * @param {String|null} payloadProps.hasAdvantage 
+ */
 export const startCombat = ({
   opponents,
-  characterSurprised,
-  opponentsSurprised
+  hasAdvantage
 }) => {
+  if (hasAdvantage && ![CHARACTER, OPPONENTS].includes(hasAdvantage)) {
+    throw new TypeError('Invalid hasAdvantage passed to startCombat');
+  }
+  // @todo verify that each opponent is valid -- Opponent model TBD
+  if (!Array.isArray(opponents) || opponents.length === 0) {
+    throw new TypeError('Invalid opponents passed to startCombat');
+  }
+
   dispatcher.dispatch({
     type: START_COMBAT,
     payload: {
       opponents,
-      characterSurprised,
-      opponentsSurprised
+      hasAdvantage
     }
   });
 };
 
 export const damageOpponent = dmg => {
-  if (typeof dmg !== "number") {
+  if (typeof dmg !== "number" || isNaN(dmg)) {
     throw new TypeError("Invalid damage passed to damageOpponent");
   }
 
@@ -46,7 +52,7 @@ export const damageOpponent = dmg => {
 };
 
 export const damageCharacter = dmg => {
-  if (typeof dmg !== "number") {
+  if (typeof dmg !== "number" || isNaN(dmg)) {
     throw new TypeError("Invalid damage passed to damageCharacter");
   }
 
@@ -56,17 +62,25 @@ export const damageCharacter = dmg => {
   });
 };
 
+export const attackOpponent = () => {
+  dispatcher.dispatch({
+    type: COMBAT_ATTACK_OPPONENT
+  });
+};
+
 export const endCombat = () => {
   dispatcher.dispatch({
     type: END_COMBAT
   });
 };
 
+// @todo this can probably be removed? advantage only set once
+// when combat begins
 export const setAdvantage = whoHasAdvantage => {
   if (
     whoHasAdvantage &&
     whoHasAdvantage !== CHARACTER &&
-    whoHasAdvantage !== OPPONENT
+    whoHasAdvantage !== OPPONENTS
   ) {
     throw new TypeError("Invalid party passed to setAdvantage");
   }
@@ -88,7 +102,7 @@ export const startRound = () => {
 export const startOpponentsTurn = () => {
   console.log("starting opponents turn");
   dispatcher.dispatch({
-    type: COMBAT_START_TURN_OPPONENT
+    type: COMBAT_START_TURN_OPPONENTS
   });
 };
 

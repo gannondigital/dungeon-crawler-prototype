@@ -2,25 +2,49 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
-
 import ItemFactory from "../lib/item-factory";
+import {
+  INVENTORY_ADD_ITEMS,
+  INVENTORY_SET_ACTIVE_ARMOR,
+  INVENTORY_SET_ACTIVE_WEAPON
+} from "../constants/actions";
+
 import Weapon from "../models/weapon";
 import Armor from "../models/armor";
 
-function sortItems(itemInstances) {
-  const weaponsToAdd = [];
-  const armorToAdd = [];
-  const itemsToAdd = [];
+// stores could alternately be exposed as factories, with the app
+// creating instances of them at boot time and exposing those instances 
+// to components of the app via react context etc. Then we could do 
+// a bunch of dependency injection.
+// But that's a lot of overhead I really don't need, when the native 
+// js module pattern gives me the features of a singleton that I want.
+// I can live without dependency injection right now
+import config from "../config/default";
+const {
+  startingArmor,
+  startingWeapon
+} = config;
 
+// @todo use constants for static keys, e.g. armor, weapons?
+
+/**
+ * this is pretty hardcode-y, but it doesn't need to be all purpose
+ * @param {[Item|Weapon|Armor]} itemInstances  
+ * @returns {Object}  Object keyed by item type, where each
+ *                    value is an array of item names
+ */
+function sortItemsByType(itemInstances) {
   return itemInstances.reduce(
     (sortedItems, item) => {
+      const { meta: { name } } = item;
+      const { weapons, armor, items } = sortedItems;
+      
       if (item instanceof Weapon) {
-        sortedItems.weapons.push(item);
+        weapons.push(name);
       } else if (item instanceof Armor) {
-        sortedItems.armor.push(item);
+        armor.push(name);
       } else {
-        sortedItems.items.push(item);
+        items.push(name);
       }
       return sortedItems;
     },
@@ -35,52 +59,93 @@ function sortItems(itemInstances) {
 class InventoryStore extends Store {
   constructor() {
     super();
+    // @todo get from saved data or fall back to 
+    // these defaults
+    // @todo make this data more meaningful, e.g. what is indicated
+    // by order of an item within an array, support sorting, etc.
+    // but let's see what we want that to look like first
     this.data = {
-      activeWeapon: null,
-      activeArmor: null,
+      activeWeapon: startingWeapon,
+      activeArmor: startingArmor,
       items: {
-        weapons: [],
-        armor: [],
+        weapons: [startingWeapon],
+        armor: [startingArmor],
+        // @todo are there any starting items? should support em
         items: []
       }
     };
+    this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
-  getAllItems() {
+  /**
+   * @param {Object} action SFO
+   * @param {String} action.type
+   * @param {Object} action.payload
+   * @param {Array} action.payload.items Array of item name strings
+   */
+  handleAction = (action) => {
+    const {
+      type,
+      payload
+    } = action;
+
+    switch (type) {
+      case INVENTORY_ADD_ITEMS:
+        const { items: itemNames } = payload;
+        // reconstituting the items here ensures the store
+        // doesn't hold on to unexpected references
+        const items = itemNames.map(ItemFactory);
+
+        const itemsByCategory = sortItemsByType(items);
+        // @todo probably want a Set here for unique items
+        // @todo consolidate items that you can have multiples of
+        // @todo dedupe item references in case same item is added twice
+        Object.keys(itemsByCategory).forEach(itemCategory => {
+          this.data.items[itemCategory] = this.data.items[
+            itemCategory
+          ].concat(itemsByCategory[itemCategory]);
+        });
+        break;
+      // @todo validate
+      case INVENTORY_SET_ACTIVE_WEAPON:
+        const { weaponName } = payload;
+        this.data.activeWeapon = ItemFactory(weaponName);
+      // @todo validate
+      case INVENTORY_SET_ACTIVE_ARMOR:
+        const { armorName } = payload;
+        this.data.activeArmor = ItemFactory(armorName);
+      default:
+        break;
+    }
+  }
+
+  /**
+   * yep, shared references. you pull an object from this store,
+   * you've got the same object the rest of the app does, so 
+   * act like it
+   * @returns {Object} An object with keys for armor, weapons,
+   *                          and items; each is an array of 
+   *                          Items (or its Subclasses)
+   * 
+   */
+  getFullInventory() {
     return this.data.items;
   }
 
+  /**
+   * @returns {Item|Weapon|Armor} Currently equipped weapon
+   */
   getActiveWeapon() {
     return this.data.activeWeapon;
   }
 
+  /**
+   * @returns {Item|Weapon|Armor} Currently equipped armor
+   */
   getActiveArmor() {
     return this.data.activeArmor;
   }
 }
 
 const inventoryStore = new InventoryStore();
-inventoryStore.dispatchToken = dispatcher.register(action => {
-  switch (action.type) {
-    // @todo support items that you can have multiples of
-    case constants.INVENTORY_ADD_ITEMS:
-      const { items } = action.payload;
-      const sortedItems = sortItems(items);
-      Object.keys(sortedItems).forEach(itemCategory => {
-        inventoryStore.data.items[itemCategory] = inventoryStore.data.items[
-          itemCategory
-        ].concat(sortedItems[itemCategory]);
-      });
-      break;
-    case constants.INVENTORY_SET_ACTIVE_WEAPON:
-      const { weapon } = action.payload;
-      inventoryStore.data.activeWeapon = weapon;
-    case constants.INVENTORY_SET_ACTIVE_ARMOR:
-      const { armor } = action.payload;
-      inventoryStore.data.activeArmor = armor;
-    default:
-      break;
-  }
-});
-
 export default inventoryStore;

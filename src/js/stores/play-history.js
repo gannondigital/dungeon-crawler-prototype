@@ -3,7 +3,7 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
+import { ADD_TO_HISTORY } from "../constants/actions";
 
 const findEventInEventlist = (eventName, eventList) => {
   return eventList.reduce((foundEvent, eventObj) => {
@@ -16,9 +16,13 @@ const findEventInEventlist = (eventName, eventList) => {
 // being a more domain-specific abstraction
 class PlayHistoryStore extends Store {
   handleAction = action => {
-    switch (action.type) {
-      case constants.ADD_TO_HISTORY:
-        const { tileName, eventName } = action.payload;
+    const { type, payload } = action;
+    switch (type) {
+      // @todo are there 'play history' events that aren't associated
+      // with a Tile?
+      // @todo validate eventName
+      case ADD_TO_HISTORY:
+        const { tileName, eventName } = payload;
         if (!tileName || typeof tileName !== "string") {
           throw new TypeError("Invalid tilename sent to PlayHistoryStore");
         }
@@ -40,10 +44,10 @@ class PlayHistoryStore extends Store {
 
   constructor() {
     super();
-    this.dispatchToken = dispatcher.register(this.handleAction);
     this.data = {
       byTile: {}
     };
+    this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
   getTileEvent(tileName, eventName) {
@@ -57,37 +61,20 @@ class PlayHistoryStore extends Store {
         "tileName or eventName missing in call to getTileEvent"
       );
     }
-    const tileData = this.data.byTile[tileName]
+    const historyByTile = this.data.byTile[tileName]
       ? this.data.byTile[tileName]
       : null;
-    if (!tileData) {
+    if (!historyByTile) {
       return null;
     }
 
-    const eventOccurred = findEventInEventlist(eventName, tileData);
-    return eventOccurred;
+    // @todo are we storing one event per tile? that would obviously
+    // not scale
+    return historyByTile.find(tileEvent => {
+      return tileEvent === eventName;
+    });
   }
 }
 
 const playHistoryStore = new PlayHistoryStore();
-// @todo this code is ridiculous and in every store
-playHistoryStore.dispatchToken = dispatcher.register(action => {
-  switch (action.type) {
-    case constants.ITEMS_LOADED:
-      const oldLevel = playHistoryStore.data.levelName;
-      const newLevel = action.payload.levelName;
-
-      if (oldLevel === newLevel) {
-        return;
-      }
-      playHistoryStore.data.levelName = newLevel;
-      playHistoryStore.data.itemsByName = action.payload.items;
-
-      playHistoryStore.triggerChange();
-      break;
-    default:
-      break;
-  }
-});
-
 export default playHistoryStore;

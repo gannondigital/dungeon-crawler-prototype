@@ -1,6 +1,8 @@
 {
   "rootSelector": "#game-root-container",
   "startingLevel": "one",
+  "startDirection": "n",
+  "startTileName": "1x1",
   "startingArmor": "clothes",
   "startingWeapon": "staff"
 }

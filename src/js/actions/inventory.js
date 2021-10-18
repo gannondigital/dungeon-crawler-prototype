@@ -7,29 +7,38 @@ const {
   INVENTORY_SET_ACTIVE_ARMOR
 } = actionConstants;
 
-export const addToInventory = itemsArr => {
+/**
+ * @param {Array} itemNames Array of item name strings
+ */
+export const addToInventory = itemNames => {
   dispatcher.dispatch({
     type: INVENTORY_ADD_ITEMS,
     payload: {
-      items: itemsArr
+      items: itemNames
     }
   });
 };
 
-export const setActiveWeapon = weapon => {
+/**
+ * @param {String} weaponName 
+ */
+export const setActiveWeapon = weaponName => {
   dispatcher.dispatch({
     type: INVENTORY_SET_ACTIVE_WEAPON,
     payload: {
-      weapon
+      weaponName
     }
   });
 };
 
-export const setActiveArmor = armor => {
+/**
+ * @param {String} armorName 
+ */
+export const setActiveArmor = armorName => {
   dispatcher.dispatch({
     type: INVENTORY_SET_ACTIVE_ARMOR,
     payload: {
-      armor
+      armorName
     }
   });
 };

@@ -1,8 +1,6 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import levelStore from "../stores/level";
-import { startCombat as startCombatAction } from "../actions/combat";
-import { startCombat } from "../lib/combat";
-import { tileHasUndefeatedOpponents } from "../lib/combat";
+import { startCombat } from "../actions/combat";
 import constants from "../constants";
 import actionConstants from "../constants/actions";
 
@@ -27,15 +25,6 @@ export const setTile = tileName => {
 
   dispatcher.dispatch({
     type: TILE_SET,
-    payload: { tileName }
+    payload: { tile }
   });
-
-  // @todo this is a weird place to do this, also
-  // weird that there's an action and a fn for starting combat
-  // maybe move all this to lib/combat?
-  if (tileHasUndefeatedOpponents(tile)) {
-    const monsters = tile.getMonsters();
-    startCombatAction({ opponents: monsters });
-    startCombat({ whoHasAdvantage: CHARACTER });
-  }
 };

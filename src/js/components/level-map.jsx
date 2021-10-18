@@ -46,7 +46,7 @@ export class LevelMap extends Component {
       mapTile = levelStore.getTile(tileName);
     } catch (err) {
       // tile has not been populated
-      return <MapTile isEmpty={true} />;
+      return <MapTile isEmpty />;
     }
 
     const currTileName = characterStore.getCurrTileName();

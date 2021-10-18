@@ -1,10 +1,15 @@
-import cloneDeep from "lodash.cloneDeep";
+import Item from "./item";
 
-// @todo
-function validateProps(treasureProps) {
-  return true;
+function validateProps({ items }) {
+  return Array.isArray(items) &&
+    items.reduce((isValid, item) => {
+      return isValid && item instanceof Item;
+    }, true);
 }
 
+/**
+ * @todo support non-item treasure
+ */
 export default class Treasure {
   constructor(treasureProps) {
     const isValid = validateProps(treasureProps);
@@ -12,10 +17,8 @@ export default class Treasure {
       throw new TypeError("Invalid props passed to Treasure constructor");
     }
 
-    this.items =
-      treasureProps.items && treasureProps.items.length
-        ? treasureProps.items
-        : [];
+    const { items } = treasureProps;
+    this.items = items;
   }
 
   getReceivedMessages() {
@@ -24,8 +27,12 @@ export default class Treasure {
       return `Received ${item.getLabel()}!`;
     });
   }
-
+ 
+/**
+ * 
+ * @returns {Array<String>} Array of item names
+ */
   getItemsForInventory() {
-    return cloneDeep(this.items);
+    return [].concat(this.items);
   }
 }

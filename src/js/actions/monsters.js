@@ -1,28 +1,22 @@
 import monsterService from "../services/monsters";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
+import { MONSTERS_LOADED } from "../constants/actions";
 
-export const loadMonsters = levelName => {
-  return new Promise((resolve, reject) => {
-    if (!levelName || typeof levelName !== "string") {
-      throw new TypeError("Invalid levelName passed to loadMonsters");
+/**
+ * loads monster data from monsters service, and dispatches it
+ * @param {String} levelName e.g., 'one'
+ */
+export const loadMonsters = async levelName => {
+  if (!levelName || typeof levelName !== "string") {
+    throw new TypeError("Invalid levelName passed to loadMonsters");
+  }
+
+  const { monsters } = await monsterService.getMonsters(levelName);
+  dispatcher.dispatch({
+    type: MONSTERS_LOADED,
+    payload: {
+      levelName,
+      monsters
     }
-
-    monsterService
-      .getMonsters(levelName)
-      .then(monsters => {
-        dispatcher.dispatch({
-          type: constants.MONSTERS_LOADED,
-          payload: {
-            levelName: levelName,
-            monsters: monsters
-          }
-        });
-        resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        reject(err);
-      });
   });
 };

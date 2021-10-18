@@ -2,8 +2,7 @@ import React from "react";
 
 import "../../css/components/item-tile";
 
-export const ItemTile = props => {
-  const { item } = props;
+export const ItemTile = ({ item }) => {
   const itemImgUrl = item.getImageUrl();
   const itemName = item.getName();
 

@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.cloneDeep";
-
 import Monster from "./monster.js";
 
 const nameFromCoords = coords => {
@@ -35,26 +33,31 @@ const isValidWallProps = walls => {
     return false;
   }
 
-  const hasCorrectKeys = ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
+  // @todo
+  return ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
     return !!(
       lastVal &&
       typeof walls[currProp] === "object" &&
       walls[currProp]
     );
   }, "n");
-  return hasCorrectKeys;
 };
 
+/**
+ * 
+ * @param {Array<Monster>|undefined} monsterProps monsters for tile
+ * @returns 
+ */
 export const isValidMonsterProps = monsterProps => {
   if (typeof monsterProps === "undefined") {
     return true; // allow absent monsters prop
   }
 
-  if (!(monsterProps instanceof Array)) {
+  if (!Array.isArray(monsterProps)) {
     return false;
   }
   return monsterProps.reduce((accum, monster) => {
-    return accum && !!(monster instanceof Monster);
+    return accum && monster instanceof Monster;
   }, true);
 };
 
@@ -100,6 +103,7 @@ export default class Tile {
     return nameFromCoords(coords);
   }
 
+  // @todo 
   getSurfacesForWall(direction) {
     const wall = this.walls[direction];
     if (typeof wall === "undefined") {
@@ -108,7 +112,7 @@ export default class Tile {
       );
     }
 
-    return cloneDeep(wall.surfaces);
+    return wall.surfaces;
   }
 
   hasExitAtWall(direction) {
@@ -120,7 +124,10 @@ export default class Tile {
     return !!wall.exit;
   }
 
+  /**
+   * @returns {Array<Monster>}
+   */
   getMonsters() {
-    return cloneDeep(this.monsters);
+    return this.monsters;
   }
 }

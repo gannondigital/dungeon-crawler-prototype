@@ -12,7 +12,6 @@ import { loadItems } from "./js/actions/items";
 import {
   setActiveWeapon,
   setActiveArmor,
-  addToInventory
 } from "./js/actions/inventory";
 
 // these all use a module-as-singleton pattern. Booting
@@ -27,6 +26,10 @@ import levelStore from "./js/stores/level";
 import messagesStore from "./js/stores/messages";
 import monstersStore from "./js/stores/monsters";
 
+// same for combatRunner as it listens for actions
+// https://frinkiac.com/caption/S11E09/251560
+import combatRunner from "./js/lib/combat-runner";
+
 import { GameRoot } from "./js/components/game-root";
 
 const { 
@@ -36,27 +39,18 @@ const {
   startingArmor
 } = config;
 
-// @todo more mature version of this that loads saved state 
-// and falls back to defaults
-function bootstrapCharacter() {
-  const initialWeapon = itemsStore.getItem(startingWeapon);
-  const initialArmor = itemsStore.getItem(startingArmor);
-
-  setActiveWeapon(initialWeapon);
-  setActiveArmor(initialArmor);
-
-  // @todo this shouldn't be an add, we should just bootstrap
-  // the inventory store with saved data or a default starting item set
-  addToInventory([initialWeapon, initialArmor]);
-}
-
 // @todo what's the support for top-level await
 // @todo can these be done in 'parallel' or is there really a 
 // sequential dependency
 async function bootstrapLevel(startingLevel) {
-  await loadLevel(startingLevel);
-  await loadMonsters(startingLevel);
-  return loadItems(startingLevel);
+  try {
+    await loadLevel(startingLevel);
+    await loadMonsters(startingLevel);
+    return loadItems(startingLevel);
+  } catch (err) {
+    err.message = `Error bootstrapping level: ${err.message}`;
+    throw err;
+  }
 }
 
 // @todo begin game with start screen, etc, initialize stuff
@@ -65,7 +59,6 @@ async function bootstrapLevel(startingLevel) {
 bootstrapLevel(startingLevel)
   .then(() => {
     // @todo load saved character
-    bootstrapCharacter();
 
     ReactDOM.render(
       React.createElement(GameRoot),
