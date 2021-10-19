@@ -36,8 +36,8 @@ class ItemStore extends Store {
         if (this.data.levelName === payload.levelName) {
           return;
         }
-        itemsStore.data.levelName = payload.levelName;
-        itemsStore.data.itemsByName = payload.items;
+        this.data.levelName = payload.levelName;
+        this.data.itemsByName = payload.items;
   
         this.triggerChange();
         break;

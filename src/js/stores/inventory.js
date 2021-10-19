@@ -2,11 +2,13 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
+import itemsStore from "./items";
 import ItemFactory from "../lib/item-factory";
 import {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_ARMOR,
-  INVENTORY_SET_ACTIVE_WEAPON
+  INVENTORY_SET_ACTIVE_WEAPON,
+  ITEMS_LOADED
 } from "../constants/actions";
 
 import Weapon from "../models/weapon";
@@ -65,11 +67,12 @@ class InventoryStore extends Store {
     // by order of an item within an array, support sorting, etc.
     // but let's see what we want that to look like first
     this.data = {
-      activeWeapon: startingWeapon,
-      activeArmor: startingArmor,
+      initialized: false,
+      activeWeapon: null,
+      activeArmor: null,
       items: {
-        weapons: [startingWeapon],
-        armor: [startingArmor],
+        weapons: [],
+        armor: [],
         // @todo are there any starting items? should support em
         items: []
       }
@@ -90,11 +93,33 @@ class InventoryStore extends Store {
     } = action;
 
     switch (type) {
+      case ITEMS_LOADED:
+        // @todo this data will some day not be in a store
+        // and this dependency will change
+        dispatcher.waitFor([itemsStore.dispatchToken]);
+
+        if (this.data.initialized) {
+          throw new Error('Initialized inventory store re-initializing');
+        }
+        const initialArmor = ItemFactory(startingArmor);
+        const initialWeapon = ItemFactory(startingWeapon);
+        this.data = {
+          ...this.data,
+          activeArmor: initialArmor,
+          activeWeapon: initialWeapon,
+          items: {
+            weapons: [initialWeapon],
+            armor: [initialArmor],
+            items: []
+          },
+          initialized: true
+        };
       case INVENTORY_ADD_ITEMS:
-        const { items: itemNames } = payload;
+        const { items: itemsByName } = payload;
         // reconstituting the items here ensures the store
         // doesn't hold on to unexpected references
-        const items = itemNames.map(ItemFactory);
+        // @todo review & be deliberate
+        const items = Object.keys(itemsByName).map(ItemFactory);
 
         const itemsByCategory = sortItemsByType(items);
         // @todo probably want a Set here for unique items
@@ -125,7 +150,7 @@ class InventoryStore extends Store {
    * act like it
    * @returns {Object} An object with keys for armor, weapons,
    *                          and items; each is an array of 
-   *                          Items (or its Subclasses)
+   *                          Items (or its subclasses)
    * 
    */
   getFullInventory() {

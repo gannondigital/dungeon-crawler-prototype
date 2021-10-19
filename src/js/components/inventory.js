@@ -60,10 +60,12 @@ export class Inventory extends Component {
       itemsBeingShown = items[uiState];
     }
 
-    const itemTiles = itemsBeingShown.map(item =>  <ItemTile
+    const itemTiles = itemsBeingShown.map(item =>  {
+      return  (<ItemTile
         item={item}
         key={item.getName()}
       />);
+    });
 
     // @todo this is pretty hardcode-y but it'll do for now
     // @todo use 'classnames' library

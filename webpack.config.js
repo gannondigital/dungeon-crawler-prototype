@@ -29,7 +29,7 @@ module.exports = {
               [
                 '@babel/preset-env',
                 {
-                  debug: true
+                  debug: false
                 }
               ],
               '@babel/preset-react'],

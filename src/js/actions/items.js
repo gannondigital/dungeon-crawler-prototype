@@ -14,6 +14,8 @@ export const loadItems = async levelName => {
   }
 
   const items = await itemsService.getItems(levelName);
+  // @todo this should probably be an action creator but really data
+  // like this doesn't need to go through flux or be in stores, so...
   dispatcher.dispatch({
     type: ITEMS_LOADED,
     payload: {

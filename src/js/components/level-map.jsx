@@ -11,6 +11,10 @@ function getTilename(row, column) {
   return `${row}x${column}`;
 }
 
+/**
+ * @todo map output is borked, passages not connected
+ * (unless level data in demo is borked)
+ */
 export class LevelMap extends Component {
   render() {
     const mapEls = [];
@@ -22,7 +26,9 @@ export class LevelMap extends Component {
 
     return (
       <div className="level-map-wrapper">
-        <table className="">{mapEls}</table>
+        <table>
+          <tbody>{mapEls}</tbody>
+        </table>
       </div>
     );
   }
@@ -36,23 +42,24 @@ export class LevelMap extends Component {
       currCol++;
     }
 
-    return <tr>{colArr}</tr>;
+    return <tr key={`row-${currRow}`}>{colArr}</tr>;
   }
 
   renderCol(currRow, currCol) {
     const tileName = getTilename(currRow, currCol);
+    
     let mapTile;
     try {
       mapTile = levelStore.getTile(tileName);
     } catch (err) {
       // tile has not been populated
-      return <MapTile isEmpty />;
+      return <MapTile key={tileName} isEmpty />;
     }
 
     const currTileName = characterStore.getCurrTileName();
     const isCurrTile = !!(currTileName === tileName);
 
-    return <MapTile tile={mapTile} isCurrTile={isCurrTile} />;
+    return <MapTile key={tileName} tile={mapTile} isCurrTile={isCurrTile} />;
   }
 }
 
