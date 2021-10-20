@@ -53,6 +53,11 @@ class LevelStore extends Store {
     return this.data.levelName;
   }
 
+  // @todo this is backwards compared to rest of app -- TileFactory
+  // should be used externally, and it should hit this getTile for
+  // raw tile data.
+  // @todo kind of feels like there should be a separate TileStore,
+  // but then, it would always be a subset of the level data...
   getTile(tileName) {
     if (!tileName || typeof tileName !== "string") {
       throw new TypeError("invalid tileName passed to getTile.");
@@ -65,6 +70,8 @@ class LevelStore extends Store {
 
     // @todo this cloning should be more deliberate and consistent.
     // Decide where we have an airgap and where we explicitly don't
+    // @todo toying with the idea of domain objects being singletons,
+    //       e.g. every call to TileFactory for 1x1 returns same reference
     return TileFactory(cloneDeep(tile));
   }
 }

@@ -30,7 +30,7 @@ class CharacterStore extends Store {
     const {
       type,
       payload: {
-        tileName,
+        tile,
         direction,
         dmg
       }
@@ -38,8 +38,9 @@ class CharacterStore extends Store {
 
     switch (type) {
       case TILE_SET:
-        if (this.data.currTileName !== tileName) {
-          this.data.currTileName = tileName;
+        const newTileName = tile.getName();
+        if (this.data.currTileName !== newTileName) {
+          this.data.currTileName = newTileName;
           this.triggerChange();
         }
         break;

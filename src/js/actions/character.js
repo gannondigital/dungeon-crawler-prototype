@@ -18,6 +18,8 @@ export const setDirection = dir => {
 };
 
 export const setTile = tileName => {
+  // @todo for consistency, this should probably call TileFactory,
+  // which would pull the tile data from the level store
   const tile = levelStore.getTile(tileName);
 
   dispatcher.dispatch({

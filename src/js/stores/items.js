@@ -47,12 +47,12 @@ class ItemStore extends Store {
   };
 
   /**
-   * @todo do we actually need this anywhere?
+   * @todo do we actually need this array behavior anywhere?
    * @param  {Array<String>} itemNames Array of item 'name' fields
    * @return {Array<Object>}           Array of item data objects
    */
   getItems(itemNames) {
-    if (!itemNames || typeof itemNames !== "object" || !itemNames.length) {
+    if (!Array.isArray(itemNames) || itemNames.length === 0) {
       throw new TypeError("Invalid itemNames passed to getItems");
     }
 

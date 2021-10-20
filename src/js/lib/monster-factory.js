@@ -3,7 +3,6 @@ import Damage from "../models/damage";
 import OpponentAttack from "../models/opponent-attack";
 import TreasureFactory from "./treasure-factory";
 import monstersStore from "../stores/monsters";
-import ItemFactory from "./item-factory";
 
 /**
  * @todo does this still make sense as a pattern
@@ -39,7 +38,7 @@ import ItemFactory from "./item-factory";
  * @return {Monster}              Instance of Monster model
  */
 export const MonsterFactory = monsterName => {
-  // this should not be a store lookup
+  // @todo this should not be a store lookup
   const monsterData = monstersStore.getMonster(monsterName);
 
   const {

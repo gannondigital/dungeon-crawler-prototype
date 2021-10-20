@@ -11,7 +11,7 @@ import ItemFactory from "./item-factory";
 function validateItemNames(itemNames) {
   return Array.isArray(itemNames) && itemNames.reduce((isValid, item) => {
     return isValid && typeof item === 'string' && item;
-  })
+  }, true);
 }
 
 /**
@@ -21,7 +21,7 @@ function validateItemNames(itemNames) {
  * @return {Treasure}
  */
 export const TreasureFactory = ({
-  itemNames
+  items: itemNames
 }) => {
   
   if (!validateItemNames(itemNames)) {

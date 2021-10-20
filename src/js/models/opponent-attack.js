@@ -7,9 +7,9 @@ import Damage from "./damage";
  * @param {Object} attackProps see constructor
  * @returns {Boolean}
  */
-const isValidAttackProps = attackProps => {
-  return dmg & accuracyMod && dmg instanceof Damage &&
-    typeof accuracyMod === 'number';
+const isValidAttackProps = ({ dmg, accuracyMod }) => {
+  return dmg instanceof Damage && typeof accuracyMod === 'number' &&
+    !isNaN(accuracyMod);
 };
 
 export default class OpponentAttack {

@@ -17,8 +17,7 @@ export default class Treasure {
       throw new TypeError("Invalid props passed to Treasure constructor");
     }
 
-    const { items } = treasureProps;
-    this.items = items;
+    this.items = treasureProps.items;
   }
 
   getReceivedMessages() {
@@ -30,7 +29,7 @@ export default class Treasure {
  
 /**
  * 
- * @returns {Array<String>} Array of item names
+ * @returns {Array<Item>} Array of Item instances
  */
   getItemsForInventory() {
     return [].concat(this.items);

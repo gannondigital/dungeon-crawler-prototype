@@ -5,6 +5,9 @@ import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import { MONSTERS_LOADED } from "../constants/actions";
 
+// @todo this doesn't need to be a Store, or be managed via
+// flux, as it is constant once loaded
+// Use MonsterFactory to get monster references
 class MonstersStore extends Store {
   constructor() {
     super();
