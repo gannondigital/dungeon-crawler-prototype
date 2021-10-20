@@ -17,7 +17,7 @@ export class Inventory extends Component {
 
     const activeWeapon = inventoryStore.getActiveWeapon();
     const activeArmor = inventoryStore.getActiveArmor();
-    const itemsByType = inventoryStore.getFullInventory();
+    const itemsByType = inventoryStore.getItemsByType();
 
     this.state = {
       uiState: "equipped", // "armor" | "weapons" | "items"
@@ -32,7 +32,7 @@ export class Inventory extends Component {
   handleInventoryUpdate() {
     const activeWeapon = inventoryStore.getActiveWeapon();
     const activeArmor = inventoryStore.getActiveArmor();
-    const itemsByType = inventoryStore.getFullInventory();
+    const itemsByType = inventoryStore.getItemsByType();
 
     this.setState({
       items: itemsByType,
@@ -60,6 +60,7 @@ export class Inventory extends Component {
       itemsBeingShown = items[uiState];
     }
 
+    // assumes each item is unique (for key purposes)
     const itemTiles = itemsBeingShown.map(item =>  {
       return  (<ItemTile
         item={item}

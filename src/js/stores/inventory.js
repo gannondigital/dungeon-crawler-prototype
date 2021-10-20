@@ -33,20 +33,19 @@ const {
  * this is pretty hardcode-y, but it doesn't need to be all purpose
  * @param {[Item|Weapon|Armor]} itemInstances  
  * @returns {Object}  Object keyed by item type, where each
- *                    value is an array of item names
+ *                    value is an array of item instances
  */
 function sortItemsByType(itemInstances) {
   return itemInstances.reduce(
     (sortedItems, item) => {
-      const { meta: { name } } = item;
       const { weapons, armor, items } = sortedItems;
       
       if (item instanceof Weapon) {
-        weapons.push(name);
+        weapons.push(item);
       } else if (item instanceof Armor) {
-        armor.push(name);
+        armor.push(item);
       } else {
-        items.push(name);
+        items.push(item);
       }
       return sortedItems;
     },
@@ -81,10 +80,12 @@ class InventoryStore extends Store {
   }
 
   /**
-   * @param {Object} action SFO
+   * @param {Object} action SFA
    * @param {String} action.type
    * @param {Object} action.payload
    * @param {Array} action.payload.items Array of item name strings
+   * @param {String} action.payload.weaponName 
+   * @param {String} action.payload.armorName
    */
   handleAction = (action) => {
     const {
@@ -92,6 +93,7 @@ class InventoryStore extends Store {
       payload
     } = action;
 
+    // @todo getting chonky, break out as separate
     switch (type) {
       case ITEMS_LOADED:
         // @todo this data will some day not be in a store
@@ -115,20 +117,25 @@ class InventoryStore extends Store {
           initialized: true
         };
       case INVENTORY_ADD_ITEMS:
-        const { items: itemsByName } = payload;
+        const { items: newItemsByName } = payload;
         // reconstituting the items here ensures the store
         // doesn't hold on to unexpected references
         // @todo review & be deliberate
-        const items = Object.keys(itemsByName).map(ItemFactory);
+        const newItems = Object.keys(newItemsByName).map(ItemFactory);
+        const itemsByType = sortItemsByType(newItems);
 
-        const itemsByCategory = sortItemsByType(items);
-        // @todo probably want a Set here for unique items
+        // @todo this is awkward, data is probably structured wrong
+        // and even so there has got to be a better way to express
+        // @todo probably want a Set here for unique items, but
+        // that will only work if unique items are singletons
         // @todo consolidate items that you can have multiples of
-        // @todo dedupe item references in case same item is added twice
-        Object.keys(itemsByCategory).forEach(itemCategory => {
-          this.data.items[itemCategory] = this.data.items[
-            itemCategory
-          ].concat(itemsByCategory[itemCategory]);
+        Object.keys(itemsByType).forEach(itemType => {
+          const currentItems = this.data.items[itemType];
+          const newItems = itemsByType[itemType];
+          currentItems.concat(newItems.filter(item => {
+            const itemName = item.getName();
+            return !currentItems.some(item => item.getName() === itemName);
+          }));
         });
         break;
       // @todo validate
@@ -153,7 +160,7 @@ class InventoryStore extends Store {
    *                          Items (or its subclasses)
    * 
    */
-  getFullInventory() {
+  getItemsByType() {
     return this.data.items;
   }
 
