@@ -15,11 +15,12 @@ import {
 } from "../actions/combat";
 import { addToInventory } from "../actions/inventory";
 import { addToPlayHistory } from "../actions/play-history";
-import { SET_TILE, OPPONENTS } from "../constants/";
+import { OPPONENTS } from "../constants/";
 import {
   START_COMBAT,
   COMBAT_ACTION_ATTACK, // @todo these names/models aren't right
-  COMBAT_ATTACK_OPPONENT
+  COMBAT_ATTACK_OPPONENT,
+  TILE_SET
 } from "../constants/actions";
 import { getRandomNum } from "./util";
 import {
@@ -48,11 +49,14 @@ class CombatRunner {
       type
     } = action;
     switch(type) {
-      case SET_TILE:
+      case TILE_SET:
         dispatcher.waitFor([characterStore.dispatchToken]);
         this.checkTileForCombat();
         break;
-      // @todo SET_TILE above will remove the need for a START_COMBAT action
+      // this module triggers the START_COMBAT event itself, but we
+      // listen for that event instead of simply calling the method,
+      // because the combat runner needs to know the combat store 
+      // has updated before it begins
       case START_COMBAT:
         // ensure combat store has handled this action before we do 
         dispatcher.waitFor([combatStore.dispatchToken]);
@@ -82,14 +86,20 @@ class CombatRunner {
       !playHistoryStore.getTileEvent(tilename, "opponentsDefeated");
   }
 
+  /**
+   * @todo is this the right place for this?
+   * Determines whether a tile has any monsters that have not been
+   * defeated; if so initiates combat
+   */
   checkTileForCombat() {
     const currTileName = characterStore.getCurrTileName();
     const tile = levelStore.getTile(currTileName);
 
     if (this.tileHasUndefeatedOpponents(tile)) {
       const monsters = tile.getMonsters();
-      // @todo review -- do we still need an event, if not fix
-      // the combat store
+      // @todo implement 'advantage'/who goes first
+      // combat store holds all combat state, this populates it
+      // once the store has updated, we resume with this.startCombat
       this.startCombat({
         opponents: monsters
       });
@@ -480,3 +490,6 @@ class CombatRunner {
     hitSucceeded ? this.handleHitToOpponent() : this.handleMissToOpponent();
   }
 }
+
+const combatRunner = new CombatRunner();
+export default combatRunner;

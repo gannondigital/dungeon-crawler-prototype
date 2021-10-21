@@ -21,5 +21,5 @@ export const MONSTERS_LOADED = "monstersLoaded";
 export const REMOVE_GAME_MSG = "removeGamesg";;
 export const SHOW_GAME_MSG = "showGameMsg";
 export const START_COMBAT = "startCombat";
-export const TILE_SET = "setTile";
+export const TILE_SET = "TILE_SET";
 
