@@ -1,6 +1,5 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-// ^ those are for babel
+
+import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -9,10 +8,6 @@ import config from "./js/config/default";
 import { loadLevel } from "./js/actions/level";
 import { loadMonsters } from "./js/actions/monsters";
 import { loadItems } from "./js/actions/items";
-import {
-  setActiveWeapon,
-  setActiveArmor,
-} from "./js/actions/inventory";
 
 // these all use a module-as-singleton pattern. Booting
 // them up here because they need to start listening for
@@ -34,9 +29,7 @@ import { GameRoot } from "./js/components/game-root";
 
 const { 
   rootSelector,
-  startingLevel,
-  startingWeapon,
-  startingArmor
+  startingLevel
 } = config;
 
 // @todo what's the support for top-level await
