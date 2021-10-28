@@ -86,8 +86,7 @@ export class Passage extends Component {
       const nextTileName = tile.getAdjacentTileName(dir);
       this.fade(true).then(() => {
         console.log("setting new tile: " + nextTileName);
-        // @todo this should likely be a handler prop,
-        // with the `setTile` passed in
+        // @todo this should likely be a handler prop
         setTile(nextTileName);
         this.fade(false);
       });

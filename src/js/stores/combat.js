@@ -12,7 +12,8 @@ import {
   COMBAT_START_TURN_OPPONENTS,
   COMBAT_START_TURN_CHARACTER,
   COMBAT_START_ROUND,
-  COMBAT_END_TURN_CHARACTER
+  COMBAT_END_TURN_CHARACTER,
+  TILE_SET
 } from "../constants/actions";
 
 const initialState = {
@@ -47,15 +48,26 @@ class CombatStore extends Store {
    *        {Array} action.payload.opponents
    *        {String|null} action.payload.hasAdvantage
    */
-  handleAction = (action) => {
-    switch (action.type) {
+  handleAction = action => {
+    // I'm 50/50 on defining all the potential payloads here
+    const {
+      type,
+      payload: {
+        dmg,
+        hasAdvantage,
+        opponents,
+      }
+    } = action;
+    // @todo smallify this switch by breaking out more handlers,
+    // like handleSetTile. If the store gets too big, think
+    // about whether there's a subdivision of responsibilities
+    switch (type) {
       case START_COMBAT:
         if (this.data.inCombat) {
           throw new Error('Combat started when already in combat');
         }
 
         // @todo may want to support more initial combat state via payload
-        const { opponents, hasAdvantage } = action.payload;
         if (!Array.isArray(opponents) || opponents.length === 0) {
           throw new TypeError('Invalid opponents passed with START_COMBAT');
         }
@@ -63,14 +75,14 @@ class CombatStore extends Store {
         // @todo going to put param validation into the action creators themselves,
         // is there a good reason this is here and not there?
         // keeping the validation here makes this class more cohesive
-        if (hasAdvantage !== OPPONENTS && hasAdvantage !== CHARACTER && hasAdvantage) {
+        if (hasAdvantage && ![OPPONENTS, CHARACTER].includes(hasAdvantage)) {
           throw new TypeError('Invalid party with advantage at start of combat');
         }
 
         this.data = {
           inCombat: true,
           round: 1,
-          hasCurrTurn: hasAdvantage === OPPONENTS ? OPPONENTS : CHARACTER,
+          hasCurrTurn: null,
           hasAdvantage,
           opponents
         };
@@ -142,7 +154,6 @@ class CombatStore extends Store {
       // should it even be event based, opponents are part of the combat domain
       // & should be understood by, e.g. the combat runner
       case COMBAT_DAMAGE_OPPONENT:
-        const { dmg } = action.payload;
   
         // @todo support multiple opponents
         // @todo opponent should be moved out of this store

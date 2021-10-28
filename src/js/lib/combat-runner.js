@@ -8,6 +8,7 @@ import { showGameMsg } from "../actions/messages";
 import {
   damageCharacter,
   damageOpponent,
+  startCombat,
   endCombat,
   startRound,
   startOpponentsTurn,
@@ -15,7 +16,7 @@ import {
 } from "../actions/combat";
 import { addToInventory } from "../actions/inventory";
 import { addToPlayHistory } from "../actions/play-history";
-import { OPPONENTS } from "../constants/";
+import { OPPONENTS, CHARACTER } from "../constants/";
 import {
   START_COMBAT,
   COMBAT_ACTION_ATTACK, // @todo these names/models aren't right
@@ -46,21 +47,19 @@ class CombatRunner {
   // @todo enforce logical constraints, e.g. can't attack if not in combat
   handleAction = action => {
     const {
-      type
+      type,
+      payload: {
+        tile
+      }
     } = action;
     switch(type) {
+      // determines whether combat should begin when player enters a tile
       case TILE_SET:
-        dispatcher.waitFor([characterStore.dispatchToken]);
-        this.checkTileForCombat();
+        this.handleSetTile(tile);
         break;
-      // this module triggers the START_COMBAT event itself, but we
-      // listen for that event instead of simply calling the method,
-      // because the combat runner needs to know the combat store 
-      // has updated before it begins
+      //
       case START_COMBAT:
-        // ensure combat store has handled this action before we do 
-        dispatcher.waitFor([combatStore.dispatchToken]);
-        this.startCombat();
+        window.requestAnimationFrame(this.startCombat);
         break;
 
       case COMBAT_ATTACK_OPPONENT:
@@ -76,34 +75,39 @@ class CombatRunner {
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
-  // @todo does this belong here? should maybe be a method of Tile
-  tileHasUndefeatedOpponents(tile) {
-    const tilename = tile.getName();
-    const monsters = tile.getMonsters() || [];
-    // @todo is this the right way to model? monsters are always there
-    // and we check the play history to see if they're defeated...?
-    return monsters.length &&
-      !playHistoryStore.getTileEvent(tilename, "opponentsDefeated");
-  }
-
-  /**
-   * @todo is this the right place for this?
-   * Determines whether a tile has any monsters that have not been
-   * defeated; if so initiates combat
-   */
-  checkTileForCombat() {
-    const currTileName = characterStore.getCurrTileName();
-    const tile = levelStore.getTile(currTileName);
-
-    if (this.tileHasUndefeatedOpponents(tile)) {
-      const monsters = tile.getMonsters();
-      // @todo implement 'advantage'/who goes first
-      // combat store holds all combat state, this populates it
-      // once the store has updated, we resume with this.startCombat
-      this.startCombat({
-        opponents: monsters
-      });
+  handleSetTile(tile) {
+    // it should not be possible to move while in combat
+    if (combatStore.isInCombat()) {
+      throw new Error('Tile changed while in combat')
     }
+
+    // rethink if/when introduce random monster encounters
+    if (!tile.hasUndefeatedOpponents()) {
+      return;
+    }
+
+    const monsters = tile.getMonsters();
+    // @todo implement 'advantage'/who goes first, just stubbed here
+    const hasAdvantage = null;
+    // @todo may want to support more initial combat state via payload
+    // keeping the validation here makes this class more cohesive
+    if (hasAdvantage && ![OPPONENTS, CHARACTER].includes(hasAdvantage)) {
+      throw new TypeError('Invalid party with advantage at start of combat');
+    }
+
+    // flux cheat. SET_TILE is being dispatched but it does make sense to
+    // trigger the combat subsystem via event (dispatch). Could move this
+    // code further up the call stack into a 'smart' controller that both
+    // sets tile and starts combat (no more nested dispatch) but firing a 
+    // global event on combat start feels right
+    // @todo test navigating back & forth really fast, this should be last
+    // in, last out, or can we even fire multiple 'startCombats'?
+    window.requestAnimationFrame(() => {
+      startCombat({
+        opponents: monsters,
+        hasAdvantage
+      });
+    });
   }
 
   /**
@@ -111,18 +115,18 @@ class CombatRunner {
    * Validates that store knows we're in combat, shows message to player,
    * then kicks off turn-based combat loop
    */
-  startCombat() {
-    // @todo this now duplicates a check done in the store itself when
-    // handling the action, which seems better. Cut here?
-    // keeping validation in this class makes keeps the logical
-    // restraints as part of the business logic, which is good.
+  startCombat = () => {
     // maybe state-based validation (e.g. we are not in combat)
     // does belong here, external argument validation belongs in action
+    // since the combat store is now responsible for deciding when combat
+    // starts, this is redundant. It is still a meaningful constraint for
+    // the runner, though, I kind of like electrifying the guardrails this way
     if (!combatStore.isInCombat()) {
       throw new Error("Combat store is not in combat");
     }
     
     const opponentName = combatStore.getOpponentsName();
+    // @todo this dispatches an action, no-no because we're responding to one
     showGameMsg(`${opponentName} attacked!`);
     this.runCombat(combatStore.whoHasAdvantage());
   }
@@ -195,31 +199,30 @@ class CombatRunner {
   // the idea of a 'party' will need to be formalized, and
   // action order revisited
   runRound(orderedPartyTurns) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       startRound();
 
-      // @todo is it weird to drop async/await here? only need
-      // the outer promise syntax for the delayed `resolve`
-      orderedPartyTurns.forEach(async turnRunner => {
-        try {
-          // only the character runner is async right now, but this works
-          await turnRunner();
-          // @todo this might not be the right place for it, will be
-          // clearer when other turn actions, & other ways of ending
-          // turns, are added
-          if (combatStore.areOpponentsDefeated()) {
-            this.handleOpponentsDefeat();
-          }
-        } catch (err) {
-          reject(err);
-        }
-
-        // for smooth gameplay we need a delay between character
-        // & opponents' turns
-        setTimeout(() => {
+      orderedPartyTurns[0]().then(() => {
+        // @todo this might not be the right place for it, will be
+        // clearer when other turn actions, & other ways of ending
+        // turns, are added
+        if (combatStore.areOpponentsDefeated()) {
+          this.handleOpponentsDefeat();
           resolve();
-        }, DELAY_BETWEEN_TURNS_MS)
-      });
+        }
+        return orderedPartyTurns[1]();
+      })
+      .then(() => {
+        if (combatStore.areOpponentsDefeated()) {
+          this.handleOpponentsDefeat();
+          resolve();
+        }
+        resolve();
+      })
+      .catch(err => {
+        err.message = `Error running turn: ${err.message}`;
+        reject(err);
+      });    
     });
   }
 
@@ -367,6 +370,11 @@ class CombatRunner {
       this.handleMissToCharacter()
   }
 
+  /**
+   * Synchronous but returns promise to be compatible with async
+   * runTurnForCharacter
+   * @returns {Promise}
+   */
   runTurnForOpponent = () => {
     // @todo revisit this. how much do we have to track whose turn it is?
     // what's the right model?
@@ -383,10 +391,10 @@ class CombatRunner {
     switch (type) {
       case COMBAT_ACTION_ATTACK:
         this.attackCharacter(attack);
-        return;
+        return Promise.resolve();
 
       default:
-        throw new TypeError("Unrecognized combat action type");
+        return Promise.reject(new TypeError("Unrecognized combat action type"));
     }
   };
 
@@ -403,10 +411,9 @@ class CombatRunner {
    * and interacting with the UI fires a handler, which can eventually
    * change the state that ends this polling
    */
-  runTurnForCharacter = async () => {
+  runTurnForCharacter = () => {
     return new Promise((resolve, reject) => {
       startCharactersTurn();
-
       const charTurnCheck = setInterval(() => {
         if (!combatStore.isCharactersTurn()) {
           clearInterval(charTurnCheck);

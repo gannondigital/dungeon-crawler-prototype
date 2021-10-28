@@ -21,7 +21,7 @@ import {
  */
 export const startCombat = ({
   opponents,
-  hasAdvantage
+  hasAdvantage = null
 }) => {
   if (hasAdvantage && ![CHARACTER, OPPONENTS].includes(hasAdvantage)) {
     throw new TypeError('Invalid hasAdvantage passed to startCombat');
@@ -64,13 +64,15 @@ export const damageCharacter = dmg => {
 
 export const attackOpponent = () => {
   dispatcher.dispatch({
-    type: COMBAT_ATTACK_OPPONENT
+    type: COMBAT_ATTACK_OPPONENT,
+    payload: {}
   });
 };
 
 export const endCombat = () => {
   dispatcher.dispatch({
-    type: END_COMBAT
+    type: END_COMBAT,
+    payload: {}
   });
 };
 
@@ -93,29 +95,35 @@ export const setAdvantage = whoHasAdvantage => {
   });
 };
 
+// @todo another place where we have nested dispatch, cheating
+// around it for now
 export const startRound = () => {
   dispatcher.dispatch({
-    type: COMBAT_START_ROUND
+    type: COMBAT_START_ROUND,
+    payload: {}
   });
 };
 
 export const startOpponentsTurn = () => {
   console.log("starting opponents turn");
   dispatcher.dispatch({
-    type: COMBAT_START_TURN_OPPONENTS
+    type: COMBAT_START_TURN_OPPONENTS,
+    payload: {}
   });
 };
 
 export const startCharactersTurn = () => {
   console.log("starting chars turn");
   dispatcher.dispatch({
-    type: COMBAT_START_TURN_CHARACTER
+    type: COMBAT_START_TURN_CHARACTER,
+    payload: {}
   });
 };
 
 export const endCharactersTurn = () => {
   console.log("ending chars turn");
   dispatcher.dispatch({
-    type: COMBAT_END_TURN_CHARACTER
+    type: COMBAT_END_TURN_CHARACTER,
+    payload: {}
   });
 };

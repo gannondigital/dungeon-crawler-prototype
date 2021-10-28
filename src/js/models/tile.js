@@ -1,4 +1,6 @@
 import Monster from "./monster.js";
+import playHistoryStore from "../stores/play-history";
+import { OPPONENTS_DEFEATED } from "../constants/play-history.js";
 
 const nameFromCoords = coords => {
   return `${coords.x}x${coords.y}`;
@@ -103,7 +105,7 @@ export default class Tile {
     return nameFromCoords(coords);
   }
 
-  // @todo 
+  // @todo new concept I think
   getSurfacesForWall(direction) {
     const wall = this.walls[direction];
     if (typeof wall === "undefined") {
@@ -129,5 +131,20 @@ export default class Tile {
    */
   getMonsters() {
     return this.monsters;
+  }
+
+  // @todo is this the right way to model? monsters are always there
+  // and we check the play history to see if they're defeated...?
+  // the alternative would probably involve a stateful Tile that can
+  // change over time, but we're not doing that right now
+  // won't work for random encounters obviously, we'll have to rethink
+  // the idea of 'opponents defeated' when it's possible to have more than
+  // one combat on a given tile, over time
+  /**
+   * @returns {Boolean}
+   */
+  hasUndefeatedOpponents() {
+    return this.monsters.length &&
+      !playHistoryStore.getTileEvent(this.name, OPPONENTS_DEFEATED);
   }
 }

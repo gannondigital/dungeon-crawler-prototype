@@ -70,6 +70,8 @@ class LevelStore extends Store {
 
     // @todo this cloning should be more deliberate and consistent.
     // Decide where we have an airgap and where we explicitly don't
+    // right now this clone is ensuring that, e.g., a given zombie object 
+    // will not be referencing the same zombie instance you faced last 
     // @todo toying with the idea of domain objects being singletons,
     //       e.g. every call to TileFactory for 1x1 returns same reference
     return TileFactory(cloneDeep(tile));
