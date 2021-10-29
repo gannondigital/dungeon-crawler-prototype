@@ -63,7 +63,7 @@ class CombatRunner {
         break;
 
       case COMBAT_ATTACK_OPPONENT:
-        this.attackOpponent();
+        window.requestAnimationFrame(this.attackOpponent);
         break;
 
       default:
@@ -202,6 +202,7 @@ class CombatRunner {
     return new Promise((resolve, reject) => {
       startRound();
 
+      // @todo this is probably better written as a generator...?
       orderedPartyTurns[0]().then(() => {
         // @todo this might not be the right place for it, will be
         // clearer when other turn actions, & other ways of ending
@@ -488,7 +489,7 @@ class CombatRunner {
     showGameMsg("Missed!");
   }
 
-  attackOpponent() {
+  attackOpponent = () => {
     const hitSucceeded = this.doesAttackHit(
       this.getCharactersTotalAccuracy(),
       combatStore.getOpponentsEvasion()

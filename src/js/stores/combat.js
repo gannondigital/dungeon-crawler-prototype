@@ -149,6 +149,7 @@ class CombatStore extends Store {
       case COMBAT_END_TURN_CHARACTER:
         this.data.hasCurrTurn = null;
         this.triggerChange();
+        break;
 
       // @todo should this live in an Opponent namespace instead? And/or
       // should it even be event based, opponents are part of the combat domain
