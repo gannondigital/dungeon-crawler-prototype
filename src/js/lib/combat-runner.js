@@ -34,6 +34,7 @@ import {
 import OpponentAttack from "../models/opponent-attack";
 import Damage from "../models/damage";
 import Defense from "../models/defense";
+import { OPPONENTS_DEFEATED } from "../constants/play-history";
 
 /**
  * Responsible for orchestrating turn based combat between player
@@ -41,10 +42,18 @@ import Defense from "../models/defense";
  * 
  * @todo this maybe should be broken further into the combat runner and
  * combat system -- e.g. running rounds vs. calculating hit and damage
+ * @todo probably wants even more breaking down than that
  */
 class CombatRunner {
 
   // @todo enforce logical constraints, e.g. can't attack if not in combat
+  // requestAnimationFrame here is a Flux cheat, for combat we're going to
+  // need to dispatch actions, so we need to 'break out' of the dispatch
+  // we're responding to. Could move this code further up the call stack
+  // into a 'smart' controller that both sets tile and starts combat 
+  // (no more nested dispatch) but firing a global event on combat start
+  // feels right. Another approach would be a separate dispatcher for the
+  // combat subsystem
   handleAction = action => {
     const {
       type,
@@ -55,7 +64,9 @@ class CombatRunner {
     switch(type) {
       // determines whether combat should begin when player enters a tile
       case TILE_SET:
-        this.handleSetTile(tile);
+        window.requestAnimationFrame(() => {
+          this.handleSetTile(tile);
+        });
         break;
       //
       case START_COMBAT:
@@ -95,18 +106,11 @@ class CombatRunner {
       throw new TypeError('Invalid party with advantage at start of combat');
     }
 
-    // flux cheat. SET_TILE is being dispatched but it does make sense to
-    // trigger the combat subsystem via event (dispatch). Could move this
-    // code further up the call stack into a 'smart' controller that both
-    // sets tile and starts combat (no more nested dispatch) but firing a 
-    // global event on combat start feels right
     // @todo test navigating back & forth really fast, this should be last
     // in, last out, or can we even fire multiple 'startCombats'?
-    window.requestAnimationFrame(() => {
-      startCombat({
-        opponents: monsters,
-        hasAdvantage
-      });
+    startCombat({
+      opponents: monsters,
+      hasAdvantage
     });
   }
 
@@ -183,7 +187,7 @@ class CombatRunner {
 
     // @todo this whole model is likely to get more sophisticated
     addToPlayHistory({
-      eventName: "opponentsDefeated",
+      eventName: OPPONENTS_DEFEATED,
       tileName: characterStore.getCurrTileName()
     });
 

@@ -69,7 +69,7 @@ class PlayHistoryStore extends Store {
     // @todo are we storing one event per tile? that would obviously
     // not scale
     return historyByTile.find(tileEvent => {
-      return tileEvent === eventName;
+      return tileEvent.eventName === eventName;
     });
   }
 }
