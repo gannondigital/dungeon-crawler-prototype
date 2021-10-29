@@ -14,6 +14,7 @@ import { Monster } from "./monster";
 import { CombatControls } from "./combat-controls";
 import PassageControls from "./passage-controls";
 import Tile from "../models/tile";
+import { gameplayWait } from "../lib/util";
 
 const directionOrder = ["n", "e", "s", "w"];
 const FADE_TIME = 200;
@@ -44,35 +45,31 @@ export class Passage extends Component {
     };
   }
 
-  turnLeft = () => {
-    this.fade(true).then(() => {
-      const currDirection = this.state.direction;
-      const newDirection =
-        directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
-      console.log("curr orienation: " + currDirection);
-      console.log("new direction: " + newDirection);
-
-      setDirection(newDirection);
-
-      this.fade(false);
-    });
+  turnLeft = async () => {
+    await this.fade(true);
+    const currDirection = this.state.direction;
+    const newDirection =
+      directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
+    console.log("curr orienation: " + currDirection);
+    console.log("new direction: " + newDirection);
+    setDirection(newDirection);
+    await this.fade(false);
   };
 
-  turnRight = () => {
-    this.fade(true).then(() => {
-      const currDirection = this.state.direction;
-      const newDirection =
-        directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
-      console.log("curr orienation: " + currDirection);
-      console.log("new direction: " + newDirection);
+  turnRight = async () => {
+    await this.fade(true);
+    const currDirection = this.state.direction;
+    const newDirection =
+      directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
+    console.log("curr orienation: " + currDirection);
+    console.log("new direction: " + newDirection);
 
-      setDirection(newDirection);
-      this.fade(false);
-    });
+    setDirection(newDirection);
+    await this.fade(false);
   };
 
   // @todo this should live outside of ui and be passed as props
-  moveAhead = () => {
+  moveAhead = async () => {
     const dirsForWalls = getDirsForWalls(this.state.direction);
     const dir = dirsForWalls.ahead;
     const tile = this.state.tile;
@@ -84,12 +81,11 @@ export class Passage extends Component {
 
     if (tile.hasExitAtWall(dir)) {
       const nextTileName = tile.getAdjacentTileName(dir);
-      this.fade(true).then(() => {
-        console.log("setting new tile: " + nextTileName);
-        // @todo this should likely be a handler prop
-        setTile(nextTileName);
-        this.fade(false);
-      });
+      await this.fade(true);
+      console.log("setting new tile: " + nextTileName);
+      // @todo this should likely be a handler prop
+      setTile(nextTileName);
+      await this.fade(false);
     } else {
       console.log("You can't go that way.");
     }
@@ -149,17 +145,16 @@ export class Passage extends Component {
 
   // @todo there is likely a more elegant way to do this
   fade(fadeIn) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.setState(
         (prevState) => {
           const newState = cloneDeep(prevState);
           newState.faded = !!fadeIn;
           return newState;
         },
-        () => {
-          setTimeout(() => {
-            resolve();
-          }, FADE_TIME);
+        async () => {
+          await gameplayWait(FADE_TIME);
+          resolve();
         }
       );
     });

@@ -2,8 +2,6 @@ import { dispatcher } from "../lib/game-dispatcher";
 import combatStore from "../stores/combat";
 import characterStore from "../stores/character";
 import inventoryStore from "../stores/inventory";
-import levelStore from "../stores/level";
-import playHistoryStore from "../stores/play-history";
 import { showGameMsg } from "../actions/messages";
 import {
   damageCharacter,
@@ -23,7 +21,7 @@ import {
   COMBAT_ATTACK_OPPONENT,
   TILE_SET
 } from "../constants/actions";
-import { getRandomNum } from "./util";
+import { getRandomNum, gameplayWait } from "./util";
 import {
   DELAY_BETWEEN_TURNS_MS,
   DMG_PROTECTED_MOD,
@@ -207,27 +205,34 @@ class CombatRunner {
       startRound();
 
       // @todo this is probably better written as a generator...?
-      orderedPartyTurns[0]().then(() => {
-        // @todo this might not be the right place for it, will be
-        // clearer when other turn actions, & other ways of ending
-        // turns, are added
-        if (combatStore.areOpponentsDefeated()) {
-          this.handleOpponentsDefeat();
+      orderedPartyTurns[0]()
+        .then(() => {
+          return gameplayWait(DELAY_BETWEEN_TURNS_MS);
+        })
+        .then(() => {
+          // @todo this might not be the right place for these checks,
+          // will be clearer when other turn actions, & other ways of
+          // ending turns, are added
+          if (combatStore.areOpponentsDefeated()) {
+            this.handleOpponentsDefeat();
+            resolve();
+          }
+          return orderedPartyTurns[1]();
+        })
+        .then(() => {
+          return gameplayWait(DELAY_BETWEEN_TURNS_MS);
+        })
+        .then(() => {
+          if (combatStore.areOpponentsDefeated()) {
+            this.handleOpponentsDefeat();
+            resolve();
+          }
           resolve();
-        }
-        return orderedPartyTurns[1]();
-      })
-      .then(() => {
-        if (combatStore.areOpponentsDefeated()) {
-          this.handleOpponentsDefeat();
-          resolve();
-        }
-        resolve();
-      })
-      .catch(err => {
-        err.message = `Error running turn: ${err.message}`;
-        reject(err);
-      });    
+        })
+        .catch(err => {
+          err.message = `Error running turn: ${err.message}`;
+          reject(err);
+        });    
     });
   }
 
