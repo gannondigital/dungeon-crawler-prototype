@@ -1,3 +1,3 @@
-import * as flux from "flux";
-const Dispatcher = flux.Dispatcher;
+import { Dispatcher } from "flux";
+
 export const dispatcher = new Dispatcher();

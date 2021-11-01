@@ -1,8 +1,14 @@
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
-import ItemFactory from "../lib/item-factory";
+import { ITEMS_LOADED } from "../constants/actions";
 
+/**
+ * Data stores that are populated at load time and seldom
+ * change afterward are not well suited to the flux-y store
+ * pattern, but for now still implemented that way
+ * 
+ * This could potentially be folded into the ItemsService?
+ */
 class ItemStore extends Store {
   constructor() {
     super();
@@ -13,65 +19,65 @@ class ItemStore extends Store {
         items: []
       },
       itemsByName: {},
-      levelName: "none"
+      levelName: ""
     };
+    this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
+  handleAction = (action) => {
+    const {
+      type,
+      payload
+    } = action;
+
+    switch (type) {
+      // @todo validate
+      case ITEMS_LOADED:
+        if (this.data.levelName === payload.levelName) {
+          return;
+        }
+        this.data.levelName = payload.levelName;
+        this.data.itemsByName = payload.items;
+  
+        this.triggerChange();
+        break;
+      default:
+        break;
+    }
+  };
+
   /**
-   * @param  {Array} itemNames Array of item 'name' fields
-   * @return {Array}           Array of Item objects
+   * @todo do we actually need this array behavior anywhere?
+   * @param  {Array<String>} itemNames Array of item 'name' fields
+   * @return {Array<Object>}           Array of item data objects
    */
   getItems(itemNames) {
-    if (!itemNames || typeof itemNames !== "object" || !itemNames.length) {
+    if (!Array.isArray(itemNames) || itemNames.length === 0) {
       throw new TypeError("Invalid itemNames passed to getItems");
     }
 
-    const itemsArr = itemNames.map(itemName => {
+    return itemNames.map(itemName => {
       const item = this.data.itemsByName[itemName];
       if (!item) {
-        console.log(this);
         throw new ReferenceError(
           `Could not find item ${itemName} in itemsStore`
         );
       }
-
       return item;
-    });
-
-    const justItems = itemsArr.filter(item => {
+    }).filter(item => {
       return !!item;
     });
-
-    const itemObjs = justItems.map(itemData => {
-      return ItemFactory(itemData);
-    });
-
-    return itemObjs;
   }
 
-  getItem(itemName) {
+  /**
+   * 
+   * @param {String} itemName 
+   * @returns {Object} item data
+   */
+  getItemData(itemName) {
     return this.getItems([itemName])[0];
   }
 }
 
 const itemsStore = new ItemStore();
-itemsStore.dispatchToken = dispatcher.register(action => {
-  switch (action.type) {
-    case constants.ITEMS_LOADED:
-      const oldLevel = itemsStore.data.levelName;
-      const newLevel = action.payload.levelName;
-
-      if (oldLevel === newLevel) {
-        return;
-      }
-      itemsStore.data.levelName = newLevel;
-      itemsStore.data.itemsByName = action.payload.items;
-
-      itemsStore.triggerChange();
-      break;
-    default:
-      break;
-  }
-});
-
 export default itemsStore;

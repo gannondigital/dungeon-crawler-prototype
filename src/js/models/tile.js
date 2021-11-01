@@ -1,6 +1,6 @@
-import cloneDeep from "lodash.cloneDeep";
-
 import Monster from "./monster.js";
+import playHistoryStore from "../stores/play-history";
+import { OPPONENTS_DEFEATED } from "../constants/play-history.js";
 
 const nameFromCoords = coords => {
   return `${coords.x}x${coords.y}`;
@@ -35,26 +35,31 @@ const isValidWallProps = walls => {
     return false;
   }
 
-  const hasCorrectKeys = ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
+  // @todo
+  return ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
     return !!(
       lastVal &&
       typeof walls[currProp] === "object" &&
       walls[currProp]
     );
   }, "n");
-  return hasCorrectKeys;
 };
 
+/**
+ * 
+ * @param {Array<Monster>|undefined} monsterProps monsters for tile
+ * @returns 
+ */
 export const isValidMonsterProps = monsterProps => {
   if (typeof monsterProps === "undefined") {
     return true; // allow absent monsters prop
   }
 
-  if (!(monsterProps instanceof Array)) {
+  if (!Array.isArray(monsterProps)) {
     return false;
   }
   return monsterProps.reduce((accum, monster) => {
-    return accum && !!(monster instanceof Monster);
+    return accum && monster instanceof Monster;
   }, true);
 };
 
@@ -100,6 +105,7 @@ export default class Tile {
     return nameFromCoords(coords);
   }
 
+  // @todo new concept I think
   getSurfacesForWall(direction) {
     const wall = this.walls[direction];
     if (typeof wall === "undefined") {
@@ -108,7 +114,7 @@ export default class Tile {
       );
     }
 
-    return cloneDeep(wall.surfaces);
+    return wall.surfaces;
   }
 
   hasExitAtWall(direction) {
@@ -120,7 +126,25 @@ export default class Tile {
     return !!wall.exit;
   }
 
+  /**
+   * @returns {Array<Monster>}
+   */
   getMonsters() {
-    return cloneDeep(this.monsters);
+    return this.monsters;
+  }
+
+  // @todo is this the right way to model? monsters are always there
+  // and we check the play history to see if they're defeated...?
+  // the alternative would probably involve a stateful Tile that can
+  // change over time, but we're not doing that right now
+  // won't work for random encounters obviously, we'll have to rethink
+  // the idea of 'opponents defeated' when it's possible to have more than
+  // one combat on a given tile, over time
+  /**
+   * @returns {Boolean}
+   */
+  hasUndefeatedOpponents() {
+    return this.monsters.length &&
+      !playHistoryStore.getTileEvent(this.name, OPPONENTS_DEFEATED);
   }
 }

@@ -1,45 +1,47 @@
+// @todo why do we have a model for this attack, but not
+// one for the character's attack?
 import Damage from "./damage";
 
-const isValidAttackProps = attackProps => {
-  let isValid = true;
-  const required = ["dmg", "accuracyMod"];
-  required.forEach(propName => {
-    if (typeof attackProps[propName] === "undefined") {
-      isValid = false;
-    }
-  });
-
-  if (isValid) {
-    const { dmg, accuracyMod } = attackProps;
-    if (!(dmg instanceof Damage)) {
-      isValid = false;
-    }
-
-    if (typeof accuracyMod !== "number" || isNaN(accuracyMod)) {
-      isValid = false;
-    }
-  }
-
-  return isValid;
+/**
+ * Responsible for validating model data
+ * @param {Object} attackProps see constructor
+ * @returns {Boolean}
+ */
+const isValidAttackProps = ({ dmg, accuracyMod }) => {
+  return dmg instanceof Damage && typeof accuracyMod === 'number' &&
+    !isNaN(accuracyMod);
 };
 
 export default class OpponentAttack {
+  /**
+   * @param {Object} attackProps 
+   * @param {Damage} attackProps.dmg  A damage object representing the amount & type of dmg
+   * @param {Number} attackProps.accuracyMod  Accuracy modifier for hit calculation
+   */
   constructor(attackProps) {
-    const isValid = isValidAttackProps(attackProps);
-    if (!isValid) {
-      throw new TypeError("Invaid props passed to OpponentAttack");
+    if (!isValidAttackProps(attackProps)) {
+      throw new TypeError("Invalid props passed to OpponentAttack");
     }
     this.data = attackProps;
   }
 
+  /**
+   * @returns {Array<string>}
+   */
   getDmgTypes() {
     return this.data.dmg.getTypes();
   }
 
+  /**
+   * @returns {Number}
+   */
   getDmgPoints() {
     return this.data.dmg.getDmgPoints();
   }
 
+  /**
+   * @returns {Number}
+   */
   getAccuracyMod() {
     return this.data.accuracyMod;
   }

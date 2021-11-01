@@ -2,11 +2,12 @@ import isEqual from "lodash.isEqual";
 import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
-import { MonsterFactory } from "../lib/monster-factory";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
-import Monster from "../models/monster";
+import { MONSTERS_LOADED } from "../constants/actions";
 
+// @todo this doesn't need to be a Store, or be managed via
+// flux, as it is constant once loaded
+// Use MonsterFactory to get monster references
 class MonstersStore extends Store {
   constructor() {
     super();
@@ -14,7 +15,27 @@ class MonstersStore extends Store {
       levelName: "none",
       monsters: {}
     };
+    this.dispatchToken = dispatcher.register(this.handleAction);
   }
+
+  handleAction = (action) => {
+    const { type, payload } = action;
+    switch (type) {
+      case MONSTERS_LOADED:
+        const { levelName, monsters } = payload;
+        if (!isEqual(this.data, payload)) {
+          this.data = {
+            levelName,
+            monsters
+          };
+          this.triggerChange();
+        }
+  
+        break;
+      default:
+        break;
+    }
+  };
 
   getLevelName() {
     return this.data.levelName;
@@ -28,25 +49,9 @@ class MonstersStore extends Store {
       );
     }
 
-    return MonsterFactory(cloneDeep(monsterData));
+    return cloneDeep(monsterData);
   }
 }
 
 const monstersStore = new MonstersStore();
-monstersStore.dispatchToken = dispatcher.register(action => {
-  switch (action.type) {
-    case constants.MONSTERS_LOADED:
-      const { levelName, monsters } = action.payload;
-      if (!isEqual(monstersStore.data, action.payload)) {
-        monstersStore.data.levelName = levelName;
-        monstersStore.data.monsters = monsters;
-        monstersStore.triggerChange();
-      }
-
-      break;
-    default:
-      break;
-  }
-});
-
 export default monstersStore;

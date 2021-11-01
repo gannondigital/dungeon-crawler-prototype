@@ -4,7 +4,6 @@ import messagesStore from "../stores/messages";
 
 import "../../css/components/game-msg";
 
-// @todo set display duration based on message count
 export default class GameMsg extends Component {
   constructor(props) {
     super(props);
