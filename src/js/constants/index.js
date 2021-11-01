@@ -1,5 +1,3 @@
-export default {
-  "MSG_SPEED_MED": 500,
-  "CHARACTER": "CHARACTER",
-  "OPPONENT": "OPPONENT"
-};
+export const MSG_SPEED_MED = 500;
+export const CHARACTER = "CHARACTER";
+export const OPPONENTS = "OPPONENTS";

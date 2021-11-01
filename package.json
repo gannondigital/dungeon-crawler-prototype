@@ -4,7 +4,7 @@
   "description": "Game engine prototype for web-based 1st person turn based dungeon crawlers.",
   "private": true,
   "scripts": {
-    "start": "cp ./src/index.html ./dist/index.html && webpack serve --open",
+    "start": "cp ./src/index.html ./dist/index.html && webpack serve --open verbose",
     "clean": "rm -rf ./dist/*",
     "test": "webpack --config webpack-test.config.js",
     "prettier": "prettier --write \"./**/*.{js,scss,json,jsx,html}\""
@@ -12,19 +12,22 @@
   "author": "Brendan Gannon",
   "license": "not licensed for reproduction or use",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "classnames": "^2.3.1",
     "flux": "^4.0.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
     "babel-loader": "^8.2.2",
+    "core-js": "^3.19.0",
     "css-loader": "^6.2.0",
     "sass": "^1.37.5",
     "sass-loader": "^12.1.0",

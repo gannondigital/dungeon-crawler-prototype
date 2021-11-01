@@ -1,5 +1,5 @@
 {
-  "levelName": "one",
+  "name": "one",
   "tiles": {
     "1x1": {
       "coords": { "x": 1, "y": 1 },

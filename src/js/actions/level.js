@@ -1,28 +1,22 @@
 import levelService from "../services/level";
 import { dispatcher } from "../lib/game-dispatcher";
-import constants from "../constants/actions";
+import { LEVEL_LOADED } from "../constants/actions";
 
-export const loadLevel = levelName => {
-  return new Promise((resolve, reject) => {
-    if (!levelName || typeof levelName !== "string") {
-      throw new TypeError("Invalid levelName passed to loadLevel");
+/**
+ * Gets level data from level service, dispatches it
+ * @param {String} levelName e.g. "one"
+ */
+export const loadLevel = async levelName => {
+  if (!levelName || typeof levelName !== "string") {
+    throw new TypeError("Invalid levelName passed to loadLevel");
+  }
+
+  const { name, tiles } = await levelService.getLevel(levelName);
+  dispatcher.dispatch({
+    type: LEVEL_LOADED,
+    payload: {
+      levelName: name,
+      tiles
     }
-
-    levelService
-      .getLevel(levelName)
-      .then(level => {
-        dispatcher.dispatch({
-          type: constants.LEVEL_LOADED,
-          payload: {
-            levelName: level.levelName,
-            tiles: level.tiles
-          }
-        });
-        resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        reject(err);
-      });
   });
 };

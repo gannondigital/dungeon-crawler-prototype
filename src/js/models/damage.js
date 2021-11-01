@@ -1,27 +1,28 @@
-function isValidOpts(opts) {
-  if (
-    typeof opts !== "object" ||
-    !opts ||
-    typeof opts.dmgPoints !== "number" ||
-    isNaN(opts.dmgPoints) ||
-    typeof opts.types !== "object" ||
-    !opts.types ||
-    typeof opts.types.length !== "number"
-  ) {
-    return false;
-  }
-
-  return true;
+/**
+ * 
+ * 
+ * @returns {Boolean}
+ */
+function isValidDmgProps({dmgPoints, types}) {
+  return dmgPoints && types &&  (typeof dmgPoints === 'number') && 
+    Array.isArray(types) && types.reduce((isValid, dmgType) => {
+      return isValid && (typeof dmgType === 'string');
+    }, true);
 }
 
 export default class Damage {
-  constructor(opts) {
-    if (!isValidOpts(opts)) {
-      throw new TypeError("Invalid opts passed to Damage constructor");
+  /**
+   * @param {Object} dmgProps
+   * @param {Number} dmgProps.dmgPoints Amount of damage potentially done
+   * @param {Array<string>} dmgProps.types Array of damage types the damage does
+   */
+  constructor(dmgProps) {
+    if (!isValidDmgProps(dmgProps)) {
+      throw new TypeError("Invalid dmgProps passed to Damage constructor");
     }
 
-    this.dmgPoints = opts.dmgPoints;
-    this.types = opts.types;
+    this.dmgPoints = dmgProps.dmgPoints;
+    this.types = dmgProps.types;
   }
 
   getTypes() {

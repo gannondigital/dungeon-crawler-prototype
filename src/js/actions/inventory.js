@@ -1,35 +1,42 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import actionConstants from "../constants/actions";
-
-const {
+import {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_WEAPON,
   INVENTORY_SET_ACTIVE_ARMOR
-} = actionConstants;
+} from "../constants/actions";
 
-export const addToInventory = itemsArr => {
+/**
+ * @param {Array} itemNames Array of item name strings
+ */
+export const addToInventory = itemNames => {
   dispatcher.dispatch({
     type: INVENTORY_ADD_ITEMS,
     payload: {
-      items: itemsArr
+      items: itemNames
     }
   });
 };
 
-export const setActiveWeapon = weapon => {
+/**
+ * @param {String} weaponName 
+ */
+export const setActiveWeapon = weaponName => {
   dispatcher.dispatch({
     type: INVENTORY_SET_ACTIVE_WEAPON,
     payload: {
-      weapon
+      weaponName
     }
   });
 };
 
-export const setActiveArmor = armor => {
+/**
+ * @param {String} armorName 
+ */
+export const setActiveArmor = armorName => {
   dispatcher.dispatch({
     type: INVENTORY_SET_ACTIVE_ARMOR,
     payload: {
-      armor
+      armorName
     }
   });
 };

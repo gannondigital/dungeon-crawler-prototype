@@ -24,6 +24,7 @@ function validateProps(props) {
   return true;
 }
 
+// @todo this should probably not extend Item
 // @todo should this be able to provide a Damage
 // instance? clarify boundaries
 // we do need more than just this to get a final Damage

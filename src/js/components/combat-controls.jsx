@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-import { attackOpponent } from "../lib/combat";
-import { endCharactersTurn } from "../actions/combat";
+import { endCharactersTurn, attackOpponent } from "../actions/combat";
 
 import "../../css/components/combat-controls";
 
@@ -15,6 +14,7 @@ export class CombatControls extends Component {
     this.handleAttackClick = this.handleAttackClick.bind(this);
   }
 
+  // @todo this component should just accept handlers for actions
   handleAttackClick() {
     attackOpponent();
     endCharactersTurn();

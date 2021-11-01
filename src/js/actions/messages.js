@@ -1,20 +1,32 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import actionConstants from "../constants/actions";
-import generalConstants from "../constants/";
-import gameConfig from "../config/default";
+import { gameplayWait } from "../lib/util";
+import {
+  SHOW_GAME_MSG,
+  REMOVE_GAME_MSG
+} from "../constants/actions";
+import { MSG_SPEED_MED } from "../constants/";
 
-export const showGameMsg = (msgText) => {
-  dispatcher.dispatch({
-    type: actionConstants.SHOW_GAME_MSG,
-    payload: {
-      msgText
-    }
+// @todo the model for messages might be less flux-y because we
+// often want to do it while we are responding to a dispatch
+// that's why we cheat with the first requestAnimationFrame
+export const showGameMsg = async msgText => {
+  window.requestAnimationFrame(() => {
+    dispatcher.dispatch({
+      type: SHOW_GAME_MSG,
+      payload: {
+        msgText
+      }
+    });
   });
-  setTimeout(removeGameMsg, generalConstants.MSG_SPEED_MED);
+
+  // @todo make msg speed configurable
+  await gameplayWait(MSG_SPEED_MED);
+  removeGameMsg();
 };
 
 export const removeGameMsg = () => {
   dispatcher.dispatch({
-    type: actionConstants.REMOVE_GAME_MSG
+    type: REMOVE_GAME_MSG,
+    payload: {}
   });
 };
