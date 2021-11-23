@@ -15,7 +15,7 @@ function getTilename(row, column) {
  * @todo map output is borked, passages not connected
  * (unless level data in demo is borked)
  */
-export class LevelMap extends Component {
+export default class LevelMap extends Component {
   render() {
     const mapEls = [];
     let currRow = 1;

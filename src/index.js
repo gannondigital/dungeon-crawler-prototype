@@ -1,4 +1,3 @@
-
 import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -25,7 +24,8 @@ import monstersStore from "./js/stores/monsters";
 // https://frinkiac.com/caption/S11E09/251560
 import combatRunner from "./js/lib/combat-runner";
 
-import { GameRoot } from "./js/components/game-root";
+import { UIRouter } from "./js/components/ui-router";
+import "./css/lib/base.scss";
 
 const { 
   rootSelector,
@@ -54,7 +54,7 @@ bootstrapLevel(startingLevel)
     // @todo load saved character
 
     ReactDOM.render(
-      React.createElement(GameRoot),
+      React.createElement(UIRouter),
       document.querySelector(rootSelector)
     );
   })

@@ -1,42 +1,56 @@
-import React, { Component } from "react";
-import { PropTypes } from "prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 
-// @todo inject the subscriber method directly?
-import characterStore from "../stores/character.js";
 import { Compass } from "./compass";
+import {
+  UI_INVENTORY,
+  UI_MAP,
+  UI_PASSAGE
+} from "../constants";
 
 import "../../css/components/game-header.scss";
+import "../../css/components/header-nav-button";
 
-export class GameHeader extends Component {
-  constructor(props) {
-    super(props);
-    const currDirection = characterStore.getDirection();
-    this.state = {
-      direction: currDirection
-    };
-
-    characterStore.listen(this.handleDirectionUpdate.bind(this));
-  }
-
-  handleDirectionUpdate() {
-    const currDirection = characterStore.getDirection();
-    this.setState({ direction: currDirection });
-  }
-
-  render() {
-    const { button } = this.props;
-    return (
-      <header className="game_header">
-        {button && button}
-        <Compass direction={this.state.direction} />
-      </header>
-    );
-  }
-}
+export const GameHeader = ({
+  currDir,
+  handleBackBtnClick,
+  handleInventoryBtnClick,
+  handleMapBtnClick
+}) => {
+  // @todo highlight active tab
+  return (
+    <header className="game_header">
+      <button
+        className="header-nav-button"
+        onClick={handleBackBtnClick}
+      >
+        Back
+      </button>
+      <button
+        className="header-nav-button"
+        onClick={handleInventoryBtnClick}
+      >
+        Inventory
+      </button>
+      <button
+        className="header-nav-button"
+        onClick={handleMapBtnClick}
+      >
+        Map
+      </button>
+      <Compass direction={currDir} />
+    </header>
+  );
+};
+export default GameHeader;
 
 GameHeader.propTypes = {
-  button: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ])
+  currDir: PropTypes.oneOf([
+    UI_INVENTORY,
+    UI_MAP,
+    UI_PASSAGE
+  ]),
+  handleBackBtnClick: PropTypes.func,
+  handleInventoryBtnClick: PropTypes.func,
+  handleMapBtnClick: PropTypes.func,
 };

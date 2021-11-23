@@ -62,6 +62,7 @@ class CombatRunner {
     switch(type) {
       // determines whether combat should begin when player enters a tile
       case TILE_SET:
+        dispatcher.waitFor([characterStore.dispatchToken]);
         window.requestAnimationFrame(() => {
           this.handleSetTile(tile);
         });

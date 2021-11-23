@@ -11,7 +11,7 @@ import ItemFactory from "../lib/item-factory";
 // @todo if we have more item roles, abstract out the roles
 // @todo more specific naming in line with roles that manage 
 // views by game state, etc.
-export class Inventory extends Component {
+export default class Inventory extends Component {
   constructor(props) {
     super(props);
 

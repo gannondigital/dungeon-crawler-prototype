@@ -17,6 +17,10 @@ export const setDirection = dir => {
   });
 };
 
+/**
+ * Takes name of tile, pulls tile from level data, and dispatches the tile
+ * @param {String} tileName Name of tile
+ */
 export const setTile = tileName => {
   // @todo for consistency, this should probably call TileFactory,
   // which would pull the tile data from the level store
