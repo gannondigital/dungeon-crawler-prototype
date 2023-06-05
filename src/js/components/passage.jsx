@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import cloneDeep from "lodash.clonedeep";
 
 import levelStore from "../stores/level";
 import characterStore from "../stores/character";
@@ -61,14 +60,12 @@ const PassageProvider = () => {
   const handleTurnLeft = useCallback(async () => {
     const newDirection =
       directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
-    console.log('left direction', newDirection)
-      setDirection(newDirection);
+    setDirection(newDirection);
   }, [currDirection, currTile]);
 
   const handleTurnRight = useCallback(async () => {
     const newDirection =
       directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
-      console.log('right direction', newDirection)
     setDirection(newDirection);
   }, [currDirection, currTile]);
 
@@ -124,8 +121,6 @@ export const Passage = ({
   };
 
   const { right, left, ahead } = getDirsForWalls(direction);
-  console.log("directions");
-  console.log(direction);
   // @todo review
   if (!(currTile instanceof Tile)) {
     console.log("Invalid Tile in Passage state.");

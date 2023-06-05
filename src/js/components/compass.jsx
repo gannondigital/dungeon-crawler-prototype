@@ -13,11 +13,13 @@ const pointerClassSuffxs = {
 };
 
 export const Compass = ({ direction }) => {
-  const [currDirection, setCurrDirection] = useState(characterStore.getDirection());
+  const [currDirection, setCurrDirection] = useState(
+    characterStore.getDirection()
+  );
 
   const handleCharacterUpdate = () => {
-    setCurrDirection(characterStore.getDirection())
-  }
+    setCurrDirection(characterStore.getDirection());
+  };
 
   // @todo genericize
   useEffect(() => {

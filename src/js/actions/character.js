@@ -4,15 +4,15 @@ import { startCombat } from "../actions/combat";
 import { CHARACTER } from "../constants";
 import { DIRECTION_SET, TILE_SET } from "../constants/actions";
 
-export const setDirection = (dir) => {
-  if (!dir || typeof dir !== "string") {
-    console.log("invalid direction passed to setDirection");
-    return;
+export const setDirection = (direction) => {
+  if (!direction || typeof direction !== "string") {
+    throw new TypeError("invalid direction passed to setDirection");
   }
+
   dispatcher.dispatch({
     type: DIRECTION_SET,
     payload: {
-      direction: dir,
+      direction,
     },
   });
 };

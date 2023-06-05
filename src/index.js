@@ -29,7 +29,6 @@ import "./css/lib/base.scss";
 
 const { rootSelector, startingLevel } = config;
 
-// @todo what's the support for top-level await
 // @todo can these be done in 'parallel' or is there really a
 // sequential dependency
 async function bootstrapLevel(startingLevel) {
@@ -49,9 +48,8 @@ async function bootstrapLevel(startingLevel) {
 bootstrapLevel(startingLevel)
   .then(() => {
     // @todo load saved character
-    const currDir = characterStore.getDirection();
     ReactDOM.render(
-      React.createElement(UIRouter, { currDir }),
+      React.createElement(UIRouter),
       document.querySelector(rootSelector)
     );
   })

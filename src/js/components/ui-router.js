@@ -10,9 +10,6 @@ import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
 // @todo review
 import "../../css/components/game-root.scss";
 
-/**
- * @todo move currDir provision to the compass
- */
 export const UIRouter = () => {
   const [uiState, setUiState] = useState(UI_PASSAGE);
 
