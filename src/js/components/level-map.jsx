@@ -47,7 +47,7 @@ export default class LevelMap extends Component {
 
   renderCol(currRow, currCol) {
     const tileName = getTilename(currRow, currCol);
-    
+
     let mapTile;
     try {
       mapTile = levelStore.getTile(tileName);
@@ -65,5 +65,5 @@ export default class LevelMap extends Component {
 
 LevelMap.propTypes = {
   rows: PropTypes.number,
-  columns: PropTypes.number
+  columns: PropTypes.number,
 };

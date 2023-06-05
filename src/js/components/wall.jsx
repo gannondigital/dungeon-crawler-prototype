@@ -8,13 +8,13 @@ export class Wall extends Component {
     direction: "",
     surfaces: [],
     exit: false,
-    objects: []
+    objects: [],
   };
 
   static propTypes = {
     exit: PropTypes.bool,
     placement: PropTypes.string,
-    surfaces: PropTypes.arrayOf(PropTypes.string)
+    surfaces: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -26,7 +26,6 @@ export class Wall extends Component {
       true,
       /\/wall\-.*\.scss/
     )(req);
-
   }
 
   render() {
@@ -39,15 +38,9 @@ export class Wall extends Component {
   }
 
   getClasses() {
-    const {
-      surfaces,
-      placement
-    } = this.props;
+    const { surfaces, placement } = this.props;
 
-    const classArr = [
-      ...surfaces,
-      `wall-${placement}`
-    ];
+    const classArr = [...surfaces, `wall-${placement}`];
 
     return classArr.join(" ");
   }

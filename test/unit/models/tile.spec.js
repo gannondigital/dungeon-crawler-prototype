@@ -7,16 +7,16 @@ const validWalls = {
   n: {},
   e: {},
   s: {},
-  w: {}
+  w: {},
 };
 const validCoords = { x: 1, y: 1 };
 
-tape("Tile constructor validates props", t => {
+tape("Tile constructor validates props", (t) => {
   const validWalls = {
     n: {},
     e: {},
     s: {},
-    w: {}
+    w: {},
   };
 
   const tile = new Tile({ walls: validWalls, coords: validCoords });
@@ -24,7 +24,7 @@ tape("Tile constructor validates props", t => {
   t.end();
 });
 
-tape("Tile constructor rejects missing walls", t => {
+tape("Tile constructor rejects missing walls", (t) => {
   t.throws(() => {
     const tile = new Tile({ foo: "bar", coords: validCoords });
   }, "throws an excpetion when walls missing");
@@ -32,12 +32,12 @@ tape("Tile constructor rejects missing walls", t => {
   t.end();
 });
 
-tape("Tile constructor rejects missing wall props", t => {
+tape("Tile constructor rejects missing wall props", (t) => {
   t.throws(() => {
     const invalidWalls = {
       n: {},
       e: {},
-      s: {}
+      s: {},
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
   }, "throws an exception when west wall missing");
@@ -46,7 +46,7 @@ tape("Tile constructor rejects missing wall props", t => {
     const invalidWalls = {
       n: {},
       e: {},
-      w: {}
+      w: {},
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
   }, "throws an exception when south wall missing");
@@ -55,7 +55,7 @@ tape("Tile constructor rejects missing wall props", t => {
     const invalidWalls = {
       n: {},
       w: {},
-      s: {}
+      s: {},
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
   }, "throws an exception when east wall missing");
@@ -64,7 +64,7 @@ tape("Tile constructor rejects missing wall props", t => {
     const invalidWalls = {
       e: {},
       w: {},
-      s: {}
+      s: {},
     };
     const tile = new Tile({ walls: invalidWalls, coords: validCoords });
   }, "throws an exception when north wall missing");
@@ -72,7 +72,7 @@ tape("Tile constructor rejects missing wall props", t => {
   t.end();
 });
 
-tape("Tile constructor validates coordinates", t => {
+tape("Tile constructor validates coordinates", (t) => {
   t.throws(() => {
     const invalidCoords = {};
     const tile = new Tile({ walls: validWalls, coords: invalidCoords });
@@ -101,7 +101,7 @@ tape("Tile constructor validates coordinates", t => {
   t.end();
 });
 
-tape("Tile getAdjacentTileName returns correct name", t => {
+tape("Tile getAdjacentTileName returns correct name", (t) => {
   const tile = new Tile({ walls: validWalls, coords: { x: 22, y: 17 } });
 
   const name1 = tile.getAdjacentTileName("n");
@@ -123,7 +123,7 @@ tape("Tile getAdjacentTileName returns correct name", t => {
   t.end();
 });
 
-tape("Tile's isValidMonsterProps", t => {
+tape("Tile's isValidMonsterProps", (t) => {
   t.equals(isValidMonsterProps(), true, "allows missing prop");
   t.equals(
     isValidMonsterProps(["kobold", "shadow demon"]),

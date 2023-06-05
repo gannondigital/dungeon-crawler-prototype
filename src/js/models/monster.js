@@ -40,13 +40,16 @@ function validateProps({
   expLevel,
   stats,
   treasure,
-  initialStatus
+  initialStatus,
 }) {
-  return validateMeta(meta) &&
+  return (
+    validateMeta(meta) &&
     validateAttacks(attacks) &&
-    typeof expLevel === "number" && !isNaN(expLevel) &&
-    treasure instanceof Treasure;
-    // @todo
+    typeof expLevel === "number" &&
+    !isNaN(expLevel) &&
+    treasure instanceof Treasure
+  );
+  // @todo
 }
 
 function validateMeta(monsterMeta) {
@@ -73,7 +76,6 @@ function validateAttacks(monsterAttacks) {
 }
 
 export default class Monster {
-
   // @todo DRY up prop names
   constructor({
     meta,
@@ -83,21 +85,22 @@ export default class Monster {
     expLevel,
     stats,
     treasure,
-    initialStatus
+    initialStatus,
   }) {
-    const isValid = validateProps({ meta,
+    const isValid = validateProps({
+      meta,
       armor,
       attacks,
       attr,
       expLevel,
       stats,
       treasure,
-      initialStatus
+      initialStatus,
     });
     if (!isValid) {
       throw new TypeError("Invalid props passed to Monster constructor");
     }
-    
+
     this.attr = attr;
     this.stats = stats;
     // allow initial health to be the default max
@@ -108,7 +111,7 @@ export default class Monster {
     this.armor = armor;
     this.meta = meta;
     this.status = {
-      isDefeated: false
+      isDefeated: false,
     };
   }
 
@@ -140,7 +143,7 @@ export default class Monster {
 
   /**
    * Subtracts dmg from health, updates isDefeated as needed
-   * @param {Number} dmg 
+   * @param {Number} dmg
    */
   takeDamage(dmg) {
     if (typeof dmg !== "number") {
@@ -204,7 +207,7 @@ export default class Monster {
   }
 
   /**
-   * 
+   *
    * @returns {Object} Dictionary of OpponentAttacks, keyed by name
    */
   getAttacks() {

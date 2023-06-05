@@ -5,21 +5,15 @@ import LevelMap from "./level-map";
 import Inventory from "./inventory";
 import GameMsg from "./game-msg";
 import GameHeader from "./game-header";
-import {
-  UI_INVENTORY,
-  UI_MAP,
-  UI_PASSAGE
-} from "../constants";
+import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
 
 // @todo review
 import "../../css/components/game-root.scss";
 
 /**
- * @todo move currDir provision to the compass 
+ * @todo move currDir provision to the compass
  */
-export const UIRouter = ({
-  currDir
-}) => {
+export const UIRouter = () => {
   const [uiState, setUiState] = useState(UI_PASSAGE);
 
   const handleMapBtnClick = () => {
@@ -53,12 +47,11 @@ export const UIRouter = ({
     <div className="game-root">
       <GameMsg />
       <GameHeader
-        currDir={currDir}
         handleBackBtnClick={handleBackBtnClick}
-        handleMapBtnClick={handleMapBtnClick} 
+        handleMapBtnClick={handleMapBtnClick}
         handleInventoryBtnClick={handleInventoryBtnClick}
       />
       {gameContent}
     </div>
   );
-}
+};

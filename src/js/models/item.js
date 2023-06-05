@@ -1,4 +1,3 @@
-
 // @todo
 function isValidProps(itemProps) {
   return true;
@@ -16,7 +15,7 @@ export default class Item {
       bulkSize,
       isOwned,
       isEquipped,
-      equipsToSlot
+      equipsToSlot,
     } = props;
     this.meta = {};
     this.meta.name = meta.name;

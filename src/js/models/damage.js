@@ -1,13 +1,18 @@
 /**
- * 
- * 
+ *
+ *
  * @returns {Boolean}
  */
-function isValidDmgProps({dmgPoints, types}) {
-  return dmgPoints && types &&  (typeof dmgPoints === 'number') && 
-    Array.isArray(types) && types.reduce((isValid, dmgType) => {
-      return isValid && (typeof dmgType === 'string');
-    }, true);
+function isValidDmgProps({ dmgPoints, types }) {
+  return (
+    dmgPoints &&
+    types &&
+    typeof dmgPoints === "number" &&
+    Array.isArray(types) &&
+    types.reduce((isValid, dmgType) => {
+      return isValid && typeof dmgType === "string";
+    }, true)
+  );
 }
 
 export default class Damage {

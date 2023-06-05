@@ -1,8 +1,8 @@
-// super duper mocked out for now, this would be a network call or 
+// super duper mocked out for now, this would be a network call or
 // local db lookup IRL
 
 const itemsService = {
-  getItems: levelName => {
+  getItems: (levelName) => {
     if (!levelName || typeof levelName !== "string") {
       throw new TypeError("Invalid level name provided to items service");
     }
@@ -14,7 +14,7 @@ const itemsService = {
       default:
         throw new ReferenceError(`Could not find level ${levelName}`);
     }
-  }
+  },
 };
 
 export default itemsService;

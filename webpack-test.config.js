@@ -8,29 +8,29 @@ module.exports = {
   entry: "./test/index.spec.js",
   output: {
     path: path.resolve(__dirname, "dist", "test"),
-    filename: "test.js"
+    filename: "test.js",
   },
   module: {
     rules: [
       {
         test: /\.scss$/,
-        use: ["css-loader", "sass-loader"]
+        use: ["css-loader", "sass-loader"],
       },
       {
         test: /\.jsx?$/,
         loader: "babel-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.(jpg|png|gif)$/,
         exclude: /node_modules/,
-        use: ["file-loader", "image-webpack-loader"]
-      }
-    ]
+        use: ["file-loader", "image-webpack-loader"],
+      },
+    ],
   },
   plugins: [new TapWebpackPlugin(), new MiniCssExtractPlugin()],
   target: "node",
   resolve: {
-    extensions: [".js", ".jsx", ".json", ".scss"]
-  }
+    extensions: [".js", ".jsx", ".json", ".scss"],
+  },
 };

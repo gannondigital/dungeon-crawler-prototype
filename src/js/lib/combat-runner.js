@@ -10,7 +10,7 @@ import {
   endCombat,
   startRound,
   startOpponentsTurn,
-  startCharactersTurn
+  startCharactersTurn,
 } from "../actions/combat";
 import { addToInventory } from "../actions/inventory";
 import { addToPlayHistory } from "../actions/play-history";
@@ -19,7 +19,7 @@ import {
   START_COMBAT,
   COMBAT_ACTION_ATTACK, // @todo these names/models aren't right
   COMBAT_ATTACK_OPPONENT,
-  TILE_SET
+  TILE_SET,
 } from "../constants/actions";
 import { getRandomNum, gameplayWait } from "./util";
 import {
@@ -27,7 +27,7 @@ import {
   DMG_PROTECTED_MOD,
   DMG_VULNERABLE_MOD,
   HIT_CONST,
-  POLLING_INTERVAL_FOR_CHAR_ACTION
+  POLLING_INTERVAL_FOR_CHAR_ACTION,
 } from "../constants/combat";
 import OpponentAttack from "../models/opponent-attack";
 import Damage from "../models/damage";
@@ -37,29 +37,26 @@ import { OPPONENTS_DEFEATED } from "../constants/play-history";
 /**
  * Responsible for orchestrating turn based combat between player
  * and opponent.
- * 
+ *
  * @todo this maybe should be broken further into the combat runner and
  * combat system -- e.g. running rounds vs. calculating hit and damage
  * @todo probably wants even more breaking down than that
  */
 class CombatRunner {
-
   // @todo enforce logical constraints, e.g. can't attack if not in combat
   // requestAnimationFrame here is a Flux cheat, for combat we're going to
   // need to dispatch actions, so we need to 'break out' of the dispatch
   // we're responding to. Could move this code further up the call stack
-  // into a 'smart' controller that both sets tile and starts combat 
+  // into a 'smart' controller that both sets tile and starts combat
   // (no more nested dispatch) but firing a global event on combat start
   // feels right. Another approach would be a separate dispatcher for the
   // combat subsystem
-  handleAction = action => {
+  handleAction = (action) => {
     const {
       type,
-      payload: {
-        tile
-      }
+      payload: { tile },
     } = action;
-    switch(type) {
+    switch (type) {
       // determines whether combat should begin when player enters a tile
       case TILE_SET:
         dispatcher.waitFor([characterStore.dispatchToken]);
@@ -88,7 +85,7 @@ class CombatRunner {
   handleSetTile(tile) {
     // it should not be possible to move while in combat
     if (combatStore.isInCombat()) {
-      throw new Error('Tile changed while in combat')
+      throw new Error("Tile changed while in combat");
     }
 
     // rethink if/when introduce random monster encounters
@@ -102,14 +99,14 @@ class CombatRunner {
     // @todo may want to support more initial combat state via payload
     // keeping the validation here makes this class more cohesive
     if (hasAdvantage && ![OPPONENTS, CHARACTER].includes(hasAdvantage)) {
-      throw new TypeError('Invalid party with advantage at start of combat');
+      throw new TypeError("Invalid party with advantage at start of combat");
     }
 
     // @todo test navigating back & forth really fast, this should be last
     // in, last out, or can we even fire multiple 'startCombats'?
     startCombat({
       opponents: monsters,
-      hasAdvantage
+      hasAdvantage,
     });
   }
 
@@ -127,16 +124,16 @@ class CombatRunner {
     if (!combatStore.isInCombat()) {
       throw new Error("Combat store is not in combat");
     }
-    
+
     const opponentName = combatStore.getOpponentsName();
     // @todo this dispatches an action, no-no because we're responding to one
     showGameMsg(`${opponentName} attacked!`);
     this.runCombat(combatStore.whoHasAdvantage());
-  }
+  };
 
   /**
    * Runs combat rounds, each consisting of one character
-   * turn and one opponent turn. Stops when store indicates that 
+   * turn and one opponent turn. Stops when store indicates that
    * combat is over
    */
   async runCombat(whoHasAdvantage) {
@@ -145,9 +142,10 @@ class CombatRunner {
     const { runTurnForCharacter, runTurnForOpponent } = this;
     // there's a ton of ways to handle the polymorphism of turn-running,
     // but this doesn't need to scale, combat will always be two sides
-    const orderedPartyTurns = whoHasAdvantage === OPPONENTS ?
-      [runTurnForOpponent, runTurnForCharacter] :
-      [runTurnForCharacter, runTurnForOpponent];
+    const orderedPartyTurns =
+      whoHasAdvantage === OPPONENTS
+        ? [runTurnForOpponent, runTurnForCharacter]
+        : [runTurnForCharacter, runTurnForOpponent];
 
     // combat actions taken during the round will cause combat to end
     while (combatStore.isInCombat()) {
@@ -155,23 +153,22 @@ class CombatRunner {
     }
   }
 
-
-  // @todo should any of this responsibility live in the 
+  // @todo should any of this responsibility live in the
   // Treasure class...?
   /**
-   * 
-   * @param {Array<Treasure>} treasures 
+   *
+   * @param {Array<Treasure>} treasures
    */
   disburseTreasure(treasures) {
-    treasures.forEach(treasure => {
+    treasures.forEach((treasure) => {
       showGameMsg(treasure.getReceivedMessages());
       addToInventory(treasure.getItemsForInventory());
     });
-  };
+  }
 
   handleOpponentsDefeat() {
     const opponentName = combatStore.getOpponentsName();
-    // @todo if we have a reference to the opponent(s), which 
+    // @todo if we have a reference to the opponent(s), which
     // we do, why not getTreasure as a method of the opponent?
     // Or maybe a Treasure represents the total treasure for
     // the entire party defeated/the entire combat? More useful
@@ -180,14 +177,14 @@ class CombatRunner {
     const treasure = combatStore.getTreasure();
     // @todo TBD whether this is even specific to the combat domain
     // -- could easily see other reasons for the player to receive
-    // 'treasure' -- are there any bases not covered between 
+    // 'treasure' -- are there any bases not covered between
     // disburseTreasure (combat-specific) and addToInventory?
     this.disburseTreasure(treasure);
 
     // @todo this whole model is likely to get more sophisticated
     addToPlayHistory({
       eventName: OPPONENTS_DEFEATED,
-      tileName: characterStore.getCurrTileName()
+      tileName: characterStore.getCurrTileName(),
     });
 
     showGameMsg(`${opponentName} defeated!`);
@@ -230,10 +227,10 @@ class CombatRunner {
           }
           resolve();
         })
-        .catch(err => {
+        .catch((err) => {
           err.message = `Error running turn: ${err.message}`;
           reject(err);
-        });    
+        });
     });
   }
 
@@ -242,10 +239,10 @@ class CombatRunner {
    * @todo build some modicum of intelligence into this -- when do they try
    * to run/heal/change attack strategy? Maybe predefined tiers of cleverness,
    * monster data could specify a monster's tier. Or something less on rails
-   * @param {Array<OpponentAttack>} attacks Array of OpponentAttack objects 
+   * @param {Array<OpponentAttack>} attacks Array of OpponentAttack objects
    * @returns {Object}  A 'combat action' object
    */
-   chooseOpponentsAction(attacks) {
+  chooseOpponentsAction(attacks) {
     const attackList = Object.keys(attacks);
     // this check could probably be handled earlier on, and we trust here
     if (attackList.length === 0) {
@@ -253,26 +250,28 @@ class CombatRunner {
     }
 
     // @todo getRandomNum should handle the length = 1 case correctly
-    // so we don't have to branch logic. 
-    const attackName = attackList.length === 1 ? attackList[0] :
-      attackList[getRandomNum(attackList.length - 1)];
-  
+    // so we don't have to branch logic.
+    const attackName =
+      attackList.length === 1
+        ? attackList[0]
+        : attackList[getRandomNum(attackList.length - 1)];
+
     const action = {
       type: COMBAT_ACTION_ATTACK,
-      attack: attacks[attackName]
+      attack: attacks[attackName],
     };
     return action;
-  };
+  }
 
   /**
    * @todo again this is a value derived from existing state and
    * a property of the Opponent. Doesn't belong here
-   * @param {OpponentAttack} attack 
+   * @param {OpponentAttack} attack
    * @returns {Number}
    */
   getOpponentsTotalAccuracy(attack) {
     return combatStore.getOpponentsAccuracy() + attack.getAccuracyMod();
-  };
+  }
 
   // @todo tune tune tune this is totally random
   doesAttackHit(attackerAccuracy, defenderEvasion) {
@@ -280,7 +279,7 @@ class CombatRunner {
       return true;
     }
     return false;
-  };
+  }
 
   /**
    * @todo does this belong in an Opponent class?
@@ -288,7 +287,7 @@ class CombatRunner {
    * @param  {OpponentAttack} attack
    * @return {Damage}
    */
-   getDmgDealtByOpponent(attack) {
+  getDmgDealtByOpponent(attack) {
     const dmgTypes = attack.getDmgTypes();
 
     // should dmg vary this much?
@@ -298,7 +297,7 @@ class CombatRunner {
 
     const baseDmgDealt = attackDmg + opponentLevelDmgMod + opponentStrMod;
     return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes });
-  };
+  }
 
   /**
    * @todo this is a property of the opponent, and derived from existing state
@@ -309,7 +308,7 @@ class CombatRunner {
     const protectedAgainst = activeArmor.getProtectedAgainst();
     const vulnerableTo = activeArmor.getVulnerableTo();
     return new Defense({ protection, protectedAgainst, vulnerableTo });
-  };
+  }
 
   /**
    * Starting with a basic Dmg, applies modifiers based on protection/
@@ -338,7 +337,7 @@ class CombatRunner {
 
     modifiedDmg = modifiedDmg - protection;
     return modifiedDmg;
-  };
+  }
 
   /**
    * Does all the things when an opponent hits a character
@@ -346,7 +345,7 @@ class CombatRunner {
    * has no effect on gameplay :P but hey that's what demo means
    * @param  {OpponentAttack} attack
    */
-   handleHitToCharacter(attack) {
+  handleHitToCharacter(attack) {
     const opponentName = combatStore.getOpponentsName();
     const dmg = this.getDmgDealtByOpponent(attack);
     const defense = this.getCharactersDefense();
@@ -356,15 +355,15 @@ class CombatRunner {
 
     showGameMsg(`${opponentName} did ${modifiedDmg} damage!`);
     // @todo handle zero health/game over
-  };
+  }
 
   handleMissToCharacter() {
     const opponentName = combatStore.getOpponentsName();
     showGameMsg(`${opponentName} missed!`);
-  };
+  }
 
   /**
-   * @todo on the fence about whether this belongs in the combat runner 
+   * @todo on the fence about whether this belongs in the combat runner
    * or the Opponent class. Former establishes a more rigid but more predictable
    * pattern. Worth thinking about how not to paint ourselves into corner re:
    * targeting a specific character/opponent in a party (future looking)
@@ -372,13 +371,13 @@ class CombatRunner {
    * @param  {OpponentAttack} attack An OpponentAttack representing
    *                                 the attack being used
    */
-   attackCharacter(attack) {
+  attackCharacter(attack) {
     const charEvasion = characterStore.getEvasion();
     const totalAccuracy = this.getOpponentsTotalAccuracy(attack);
 
-    this.doesAttackHit(totalAccuracy, charEvasion) ?
-      this.handleHitToCharacter(attack) :
-      this.handleMissToCharacter()
+    this.doesAttackHit(totalAccuracy, charEvasion)
+      ? this.handleHitToCharacter(attack)
+      : this.handleMissToCharacter();
   }
 
   /**
@@ -394,7 +393,7 @@ class CombatRunner {
     // @todo at least some of this  probably belongs in an Opponent class
     const attacks = combatStore.getOpponentsAttacks();
     const combatAction = this.chooseOpponentsAction(attacks);
-    // @todo this is some nascent DSL for actions you can take in 
+    // @todo this is some nascent DSL for actions you can take in
     // combat. Is there any overlap with flux actions; if so how much
     // if not, maybe use a different term from 'combat action'
     const { type, attack } = combatAction;
@@ -411,10 +410,10 @@ class CombatRunner {
 
   /**
    * Any combat action by the character will end their turn,
-   * so we poll for the character's turn to be done. 
+   * so we poll for the character's turn to be done.
    * Would be more idiomatic to fire & respond to events...?
    * ...that sounds like a generator (a la sagas)
-   * as a rule, communication within the combat domain would not be 
+   * as a rule, communication within the combat domain would not be
    * event based, but this maybe makes the most sense that way?
    * @todo if I keep it this way, still need to revisit how to model
    * 'whose turn it is'
@@ -435,7 +434,7 @@ class CombatRunner {
   };
 
   /**
-   * @todo this value is derived from existing state and 
+   * @todo this value is derived from existing state and
    * essentially a property of the character. Should it live
    * in the CharacterStore?
    * @todo can there ever be no weapon selected? probably can
@@ -446,7 +445,7 @@ class CombatRunner {
     const selectedWeapon = inventoryStore.getActiveWeapon();
     // @todo active armor modifiers also
     return characterStore.getAccuracy() + selectedWeapon.getAccuracyMod();
-  };
+  }
 
   /**
    * @todo tune tune tune, totally random right now
@@ -469,7 +468,7 @@ class CombatRunner {
 
     const baseDmgDealt = weaponDmg + characterLevelDmgMod + characterStrMod;
     return new Damage({ dmgPoints: baseDmgDealt, types: dmgTypes });
-  }
+  };
 
   /**
    * @todo this is a property of the opponent, and derived from existing state
@@ -488,10 +487,10 @@ class CombatRunner {
     const opponentName = combatStore.getOpponentsName();
     const dmg = this.getDmgDealtByCharacter();
     const defense = this.getOpponentsDefense();
-  
+
     const modifiedDmg = this.calculateModifiedDmg(dmg, defense);
     damageOpponent(modifiedDmg);
-  
+
     showGameMsg(`Did ${modifiedDmg} damage!`);
   }
 
@@ -504,9 +503,9 @@ class CombatRunner {
       this.getCharactersTotalAccuracy(),
       combatStore.getOpponentsEvasion()
     );
-  
+
     hitSucceeded ? this.handleHitToOpponent() : this.handleMissToOpponent();
-  }
+  };
 }
 
 const combatRunner = new CombatRunner();

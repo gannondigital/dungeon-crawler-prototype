@@ -11,7 +11,7 @@ import monstersStore from "../stores/monsters";
  * @return {Object}               Similar object, with dmgPoints and types replaced by
  *                                a `dmg` object
  */
- function getAttacksForMonster(rawAttackData) {
+function getAttacksForMonster(rawAttackData) {
   const attackObjs = {};
   for (const attackName in rawAttackData) {
     if (!rawAttackData.hasOwnProperty(attackName)) {
@@ -21,11 +21,11 @@ import monstersStore from "../stores/monsters";
     const { dmgPoints, types, accuracyMod } = rawAttackData[attackName];
     const dmg = new Damage({
       dmgPoints,
-      types
+      types,
     });
     attackObjs[attackName] = new OpponentAttack({
       dmg,
-      accuracyMod
+      accuracyMod,
     });
   }
   return attackObjs;
@@ -33,24 +33,22 @@ import monstersStore from "../stores/monsters";
 
 /**
  * Composes the necessary data to make a monster; responsible for
- * retrieving the raw monster data. 
+ * retrieving the raw monster data.
  * @param  {String} monsterName name of monster in level data
  * @return {Monster}              Instance of Monster model
  */
-export const MonsterFactory = monsterName => {
+export const MonsterFactory = (monsterName) => {
   // @todo this should not be a store lookup
   const monsterData = monstersStore.getMonster(monsterName);
 
-  const {
-    treasure: monsterDataTreasure,
-    attacks: monsterDataAttacks
-  } = monsterData;
+  const { treasure: monsterDataTreasure, attacks: monsterDataAttacks } =
+    monsterData;
 
   const treasure = TreasureFactory(monsterDataTreasure);
   const attacks = getAttacksForMonster(monsterDataAttacks);
   return new Monster({
     ...monsterData,
     treasure,
-    attacks
+    attacks,
   });
 };

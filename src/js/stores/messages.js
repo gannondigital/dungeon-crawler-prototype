@@ -9,7 +9,7 @@ class MessagesStore extends Store {
     super();
     this.data = {
       msgs: [],
-      showingMsg: false
+      showingMsg: false,
     };
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
@@ -28,7 +28,7 @@ class MessagesStore extends Store {
       case REMOVE_GAME_MSG:
         this.data = {
           msgs: [],
-          showingMsg: false
+          showingMsg: false,
         };
         this.triggerChange();
         break;

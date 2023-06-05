@@ -9,7 +9,7 @@ import "../../css/components/inventory.scss";
 import ItemFactory from "../lib/item-factory";
 
 // @todo if we have more item roles, abstract out the roles
-// @todo more specific naming in line with roles that manage 
+// @todo more specific naming in line with roles that manage
 // views by game state, etc.
 export default class Inventory extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Inventory extends Component {
       uiState: "equipped", // "armor" | "weapons" | "items"
       items: itemsByType,
       activeWeapon,
-      activeArmor
+      activeArmor,
     };
   }
 
@@ -37,7 +37,7 @@ export default class Inventory extends Component {
     this.setState({
       items: itemsByType,
       activeWeapon,
-      activeArmor
+      activeArmor,
     });
   }
 
@@ -51,26 +51,23 @@ export default class Inventory extends Component {
 
   render() {
     const { uiState, items, activeWeapon, activeArmor } = this.state;
-    
+
     // @todo better names here
     let itemsBeingShown;
     if (uiState === "equipped") {
-      itemsBeingShown = [activeWeapon, activeArmor]
+      itemsBeingShown = [activeWeapon, activeArmor];
     } else {
       itemsBeingShown = items[uiState];
     }
 
     // assumes each item is unique (for key purposes)
-    const itemTiles = itemsBeingShown.map(item =>  {
-      return  (<ItemTile
-        item={item}
-        key={item.getName()}
-      />);
+    const itemTiles = itemsBeingShown.map((item) => {
+      return <ItemTile item={item} key={item.getName()} />;
     });
 
     // @todo this is pretty hardcode-y but it'll do for now
     // @todo use 'classnames' library
-    const tabs = ["equipped", "armor", "weapons", "items"].map(tabname => {
+    const tabs = ["equipped", "armor", "weapons", "items"].map((tabname) => {
       return (
         <button
           key={tabname}

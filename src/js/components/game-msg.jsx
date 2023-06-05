@@ -8,7 +8,7 @@ export default class GameMsg extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      msgs: []
+      msgs: [],
     };
   }
 
@@ -30,7 +30,7 @@ export default class GameMsg extends Component {
 
     let msgComponents = null;
     if (Array.isArray(msgs)) {
-      msgComponents = msgs.map(msg => {
+      msgComponents = msgs.map((msg) => {
         return <p key={msg}>{msg}</p>;
       });
     }

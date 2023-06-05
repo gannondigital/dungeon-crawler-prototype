@@ -4,13 +4,9 @@ import { PropTypes } from "prop-types";
 import "../../css/components/passage-controls";
 
 export default class PassageControls extends Component {
-
   handleKeyDown = (evt) => {
-    const {
-      leftClickHandler,
-      forwardClickHandler,
-      rightClickHandler
-    } = this.props;
+    const { leftClickHandler, forwardClickHandler, rightClickHandler } =
+      this.props;
 
     switch (evt.key) {
       case "ArrowLeft":
@@ -25,7 +21,7 @@ export default class PassageControls extends Component {
       default:
         break;
     }
-  }
+  };
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
@@ -36,11 +32,8 @@ export default class PassageControls extends Component {
   }
 
   render() {
-    const {
-      leftClickHandler,
-      forwardClickHandler,
-      rightClickHandler
-    } = this.props;
+    const { leftClickHandler, forwardClickHandler, rightClickHandler } =
+      this.props;
 
     return (
       <nav className="passage_controls">
@@ -49,10 +42,7 @@ export default class PassageControls extends Component {
             <button className="button_left" onClick={leftClickHandler} />
           </li>
           <li className="passage_controls--listitem">
-            <button
-              className="button_forward"
-              onClick={forwardClickHandler}
-            />
+            <button className="button_forward" onClick={forwardClickHandler} />
           </li>
           <li className="passage_controls--listitem">
             <button className="button_right" onClick={rightClickHandler} />
@@ -66,5 +56,5 @@ export default class PassageControls extends Component {
 PassageControls.propTypes = {
   leftClickHandler: PropTypes.func,
   forwardClickHandler: PropTypes.func,
-  rightClickHandler: PropTypes.func
+  rightClickHandler: PropTypes.func,
 };

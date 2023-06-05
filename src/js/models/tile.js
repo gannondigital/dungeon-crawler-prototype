@@ -2,18 +2,18 @@ import Monster from "./monster.js";
 import playHistoryStore from "../stores/play-history";
 import { OPPONENTS_DEFEATED } from "../constants/play-history.js";
 
-const nameFromCoords = coords => {
+const nameFromCoords = (coords) => {
   return `${coords.x}x${coords.y}`;
 };
 
-const validateTileProps = tileProps => {
+const validateTileProps = (tileProps) => {
   let isValid = isValidWallProps(tileProps.walls);
   isValid = isValid && isValidCoords(tileProps.coords);
   isValid = isValid && isValidMonsterProps(tileProps.monsters);
   return isValid;
 };
 
-const isValidCoords = coords => {
+const isValidCoords = (coords) => {
   if (typeof coords !== "object" || !coords) {
     return false;
   }
@@ -30,7 +30,7 @@ const isValidCoords = coords => {
   return true;
 };
 
-const isValidWallProps = walls => {
+const isValidWallProps = (walls) => {
   if (typeof walls !== "object" || !walls) {
     return false;
   }
@@ -46,11 +46,11 @@ const isValidWallProps = walls => {
 };
 
 /**
- * 
+ *
  * @param {Array<Monster>|undefined} monsterProps monsters for tile
- * @returns 
+ * @returns
  */
-export const isValidMonsterProps = monsterProps => {
+export const isValidMonsterProps = (monsterProps) => {
   if (typeof monsterProps === "undefined") {
     return true; // allow absent monsters prop
   }
@@ -144,7 +144,9 @@ export default class Tile {
    * @returns {Boolean}
    */
   hasUndefeatedOpponents() {
-    return this.monsters.length &&
-      !playHistoryStore.getTileEvent(this.name, OPPONENTS_DEFEATED);
+    return (
+      this.monsters.length &&
+      !playHistoryStore.getTileEvent(this.name, OPPONENTS_DEFEATED)
+    );
   }
 }

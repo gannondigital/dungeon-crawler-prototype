@@ -6,7 +6,7 @@ function validateProps(props) {
     protectedAgainst,
     vulnerableTo,
     evasionMod,
-    accuracyMod
+    accuracyMod,
   } = props;
   if (typeof protection !== "number" || isNaN(protection)) {
     return false;
@@ -39,7 +39,7 @@ export default class Armor extends Item {
       protectedAgainst,
       vulnerableTo,
       evasionMod,
-      accuracyMod
+      accuracyMod,
     } = props;
 
     if (!validateProps(props)) {
@@ -51,7 +51,7 @@ export default class Armor extends Item {
       protectedAgainst,
       vulnerableTo,
       evasionMod,
-      accuracyMod
+      accuracyMod,
     };
   }
 

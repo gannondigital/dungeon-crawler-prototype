@@ -14,7 +14,7 @@ import { loadItems } from "./js/actions/items";
 import characterStore from "./js/stores/character";
 import playHistoryStore from "./js/stores/play-history";
 import itemsStore from "./js/stores/items";
-import combatStore  from "./js/stores/combat";
+import combatStore from "./js/stores/combat";
 import inventoryStore from "./js/stores/inventory";
 import levelStore from "./js/stores/level";
 import messagesStore from "./js/stores/messages";
@@ -27,13 +27,10 @@ import combatRunner from "./js/lib/combat-runner";
 import { UIRouter } from "./js/components/ui-router";
 import "./css/lib/base.scss";
 
-const { 
-  rootSelector,
-  startingLevel
-} = config;
+const { rootSelector, startingLevel } = config;
 
 // @todo what's the support for top-level await
-// @todo can these be done in 'parallel' or is there really a 
+// @todo can these be done in 'parallel' or is there really a
 // sequential dependency
 async function bootstrapLevel(startingLevel) {
   try {
@@ -52,12 +49,12 @@ async function bootstrapLevel(startingLevel) {
 bootstrapLevel(startingLevel)
   .then(() => {
     // @todo load saved character
-
+    const currDir = characterStore.getDirection();
     ReactDOM.render(
-      React.createElement(UIRouter),
+      React.createElement(UIRouter, { currDir }),
       document.querySelector(rootSelector)
     );
   })
-  .catch(err => {
+  .catch((err) => {
     throw err;
   });
