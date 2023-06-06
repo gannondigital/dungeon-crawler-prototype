@@ -1,6 +1,7 @@
 import Monster from "./monster.js";
 import playHistoryStore from "../stores/play-history";
 import { OPPONENTS_DEFEATED } from "../constants/play-history.js";
+import { DIRECTIONS } from "../constants/index.js";
 
 const nameFromCoords = (coords) => {
   return `${coords.x}x${coords.y}`;
@@ -36,7 +37,7 @@ const isValidWallProps = (walls) => {
   }
 
   // @todo
-  return ["n", "e", "s", "w"].reduce((lastVal, currProp) => {
+  return DIRECTIONS.reduce((lastVal, currProp) => {
     return !!(
       lastVal &&
       typeof walls[currProp] === "object" &&

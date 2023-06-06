@@ -14,8 +14,8 @@ import { CombatControls } from "./combat-controls";
 import PassageControls from "./passage-controls";
 import Tile from "../models/tile";
 import { gameplayWait } from "../lib/util";
+import { DIRECTIONS } from "../constants";
 
-const directionOrder = ["n", "e", "s", "w"];
 const FADE_TIME = 200;
 
 import "../../css/lib/base";
@@ -59,13 +59,13 @@ const PassageProvider = () => {
 
   const handleTurnLeft = useCallback(async () => {
     const newDirection =
-      directionOrder[(directionOrder.indexOf(currDirection) - 1 + 4) % 4];
+      DIRECTIONS[(DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
     setDirection(newDirection);
   }, [currDirection, currTile]);
 
   const handleTurnRight = useCallback(async () => {
     const newDirection =
-      directionOrder[(directionOrder.indexOf(currDirection) + 1) % 4];
+      DIRECTIONS[(DIRECTIONS.indexOf(currDirection) + 1) % 4];
     setDirection(newDirection);
   }, [currDirection, currTile]);
 
@@ -209,7 +209,7 @@ export default PassageProvider;
 
 Passage.propTypes = {
   currTile: PropTypes.instanceOf(Tile).isRequired,
-  direction: PropTypes.oneOf(["n", "e", "s", "w"]).isRequired,
+  direction: PropTypes.oneOf(DIRECTIONS).isRequired,
   defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
   inCombat: PropTypes.bool,
   isCharactersTurn: PropTypes.bool,
@@ -245,7 +245,7 @@ const dirsForWalls = {
 // the only thing this fn does is validate input, scrap
 // @todo assumes north is the original forward dir
 const getDirsForWalls = (direction) => {
-  if (!directionOrder.includes(direction)) {
+  if (!DIRECTIONS.includes(direction)) {
     throw new TypeError("Invalid direction set on Passage");
   }
 
