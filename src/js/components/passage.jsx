@@ -15,6 +15,7 @@ import PassageControls from "./passage-controls";
 import Tile from "../models/tile";
 import { gameplayWait } from "../lib/util";
 import { DIRECTIONS } from "../constants";
+import { DIRS_FOR_WALLS } from "../constants/passageview";
 
 const FADE_TIME = 200;
 
@@ -119,7 +120,6 @@ export const Passage = ({
       gameplayWait(FADE_TIME).then(resolve);
     });
   };
-
   const { right, left, ahead } = getDirsForWalls(direction);
   // @todo review
   if (!(currTile instanceof Tile)) {
@@ -218,30 +218,6 @@ Passage.propTypes = {
   onMoveAhead: PropTypes.func,
 };
 
-// @todo there are almost certainly better ways to do all this
-const dirsForWalls = {
-  n: {
-    ahead: "n",
-    right: "e",
-    left: "w",
-  },
-  e: {
-    ahead: "e",
-    right: "s",
-    left: "n",
-  },
-  s: {
-    ahead: "s",
-    right: "w",
-    left: "e",
-  },
-  w: {
-    ahead: "w",
-    right: "n",
-    left: "s",
-  },
-};
-
 // the only thing this fn does is validate input, scrap
 // @todo assumes north is the original forward dir
 const getDirsForWalls = (direction) => {
@@ -249,5 +225,5 @@ const getDirsForWalls = (direction) => {
     throw new TypeError("Invalid direction set on Passage");
   }
 
-  return dirsForWalls[direction];
+  return DIRS_FOR_WALLS[direction];
 };

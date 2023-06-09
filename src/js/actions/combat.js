@@ -13,7 +13,7 @@ import {
   COMBAT_END_TURN_CHARACTER,
 } from "../constants/actions";
 import defaultConfig from "../config/default.json";
-const COMBAT_DEBUG = defaultConfig;
+const { COMBAT_DEBUG } = defaultConfig;
 
 function maybeLog(args) {
   if (COMBAT_DEBUG) {

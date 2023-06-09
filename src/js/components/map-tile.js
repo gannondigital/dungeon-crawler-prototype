@@ -3,8 +3,8 @@ import classnames from "classnames";
 
 import "../../css/components/map-tile.scss";
 
-// @todo is it weird to foward a 'key' like this, should
-// MapTile generate its own key from props...?
+// @todo should this component just accept a `tileName` prop
+// instead of `tile`?
 export const MapTile = (props) => {
   const { isEmpty, isCurrTile, tile } = props;
 
