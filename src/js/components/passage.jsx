@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 import levelStore from "../stores/level";
 import characterStore from "../stores/character";
@@ -10,13 +11,15 @@ import { showGameMsg } from "../actions/messages";
 
 import { Wall } from "./wall";
 import { Monster } from "./monster";
-import { CombatControls } from "./combat-controls";
+import CombatControls from "./combat-controls";
 import PassageControls from "./passage-controls";
 import Tile from "../models/tile";
 import { gameplayWait } from "../lib/util";
 import { DIRECTIONS } from "../constants";
 import { DIRS_FOR_WALLS } from "../constants/passageview";
+import config from "../config/default.json";
 
+const { defaultSurfaces } = config;
 const FADE_TIME = 200;
 
 import "../../css/lib/base";
@@ -37,7 +40,6 @@ const PassageProvider = () => {
   // @todo only call setters if value is different so as not to force render
   const handleCharacterUpdate = () => {
     setCurrDirection(characterStore.getDirection());
-    // const newTileObj = levelStore.getTile(characterStore.getCurrTileName());
     setCurrTile(() => {
       const newTile = levelStore.getTile(characterStore.getCurrTileName());
       return newTile;
@@ -104,8 +106,6 @@ export const Passage = ({
   currTile,
   inCombat,
   isCharactersTurn,
-  // @todo make this level config
-  defaultSurfaces = ["stonebrick", "shadow"],
   onTurnLeft,
   onTurnRight,
   onMoveAhead,
@@ -127,7 +127,6 @@ export const Passage = ({
     return <div className="passagenotile" />;
   }
 
-  // @todo use classnames pkg
   const overlayClass = isFaded ? " show" : "";
 
   // @todo ceiling and floor should be skinnable like walls
@@ -152,7 +151,7 @@ export const Passage = ({
     surfaces: currTile.getSurfacesForWall(ahead),
   };
 
-  let monsterElems = null;
+  let monsterElems = [];
   // @todo random encounters would be combat that is not
   // part of the tile object -- unless implement by instantiating
   // Tiles with random monsters/or not at creation
@@ -210,7 +209,6 @@ export default PassageProvider;
 Passage.propTypes = {
   currTile: PropTypes.instanceOf(Tile).isRequired,
   direction: PropTypes.oneOf(DIRECTIONS).isRequired,
-  defaultSurfaces: PropTypes.arrayOf(PropTypes.string),
   inCombat: PropTypes.bool,
   isCharactersTurn: PropTypes.bool,
   onTurnLeft: PropTypes.func,

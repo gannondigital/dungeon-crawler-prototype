@@ -6,5 +6,6 @@
   "startDirection": "n",
   "startTileName": "1x1",
   "startingArmor": "clothes",
-  "startingWeapon": "staff"
+  "startingWeapon": "staff",
+  "defaultSurfaces": ["stonebrick", "shadow"]
 }
