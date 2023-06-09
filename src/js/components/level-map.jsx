@@ -38,7 +38,13 @@ const LevelMapRow = ({ currRow, columns }) => {
   useEffect(() => {
     const newColEls = [];
     while (currCol <= columns) {
-      newColEls.push(<LevelMapColumn currCol={currCol} currRow={currRow} />);
+      newColEls.push(
+        <LevelMapColumn
+          key={`${currCol}x${currRow}`}
+          currCol={currCol}
+          currRow={currRow}
+        />
+      );
       currCol++;
     }
     setColEls(newColEls);
@@ -58,7 +64,13 @@ const LevelMap = ({ rows, columns }) => {
   useEffect(() => {
     const newMapEls = [];
     while (currRow <= rows) {
-      newMapEls.push(<LevelMapRow currRow={currRow} columns={columns} />);
+      newMapEls.push(
+        <LevelMapRow
+          key={`${currRow}x${columns}`}
+          currRow={currRow}
+          columns={columns}
+        />
+      );
       currRow++;
     }
     setMapEls(newMapEls);
