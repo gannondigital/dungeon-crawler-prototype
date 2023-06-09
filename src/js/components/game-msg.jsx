@@ -1,40 +1,24 @@
-import React, { Component } from "react";
+import React, { Component, useState, useCallback } from "react";
 
 import messagesStore from "../stores/messages";
+import { useStoreSubscription } from "../hooks";
 
 import "../../css/components/game-msg";
 
-export default class GameMsg extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      msgs: [],
-    };
+export const GameMsg = ({}) => {
+  const [msgs, setMessages] = useState([]);
+
+  const handleMsgUpdate = useCallback(
+    () => setMessages(messagesStore.getCurrMsgs()),
+    [setMessages, messagesStore]
+  );
+  useStoreSubscription([[messagesStore, handleMsgUpdate]]);
+
+  let msgComponents = [];
+  if (Array.isArray(msgs)) {
+    msgComponents = msgs.map((msg) => <p key={msg}>{msg}</p>);
   }
 
-  handleMsgUpdate = () => {
-    const msgs = messagesStore.getCurrMsgs();
-    this.setState({ msgs });
-  };
-
-  componentDidMount() {
-    messagesStore.listen(this.handleMsgUpdate);
-  }
-
-  componentWillUnmount() {
-    messagesStore.stopListening(this.handleMsgUpdate);
-  }
-
-  render() {
-    const { msgs } = this.state;
-
-    let msgComponents = null;
-    if (Array.isArray(msgs)) {
-      msgComponents = msgs.map((msg) => {
-        return <p key={msg}>{msg}</p>;
-      });
-    }
-
-    return <div className="game-msg--text">{msgComponents}</div>;
-  }
-}
+  return <div className="game-msg--text">{msgComponents}</div>;
+};
+export default GameMsg;

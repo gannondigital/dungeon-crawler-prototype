@@ -4,6 +4,7 @@ import { DIRECTIONS } from "../constants";
 
 import "../../css/components/compass.scss";
 import characterStore from "../stores/character";
+import { useStoreSubscription } from "../hooks";
 
 const pointerClassSuffxs = {
   n: "north",
@@ -21,13 +22,7 @@ export const Compass = ({ direction }) => {
     setCurrDirection(characterStore.getDirection());
   };
 
-  // @todo genericize
-  useEffect(() => {
-    characterStore.listen(handleCharacterUpdate);
-    return () => {
-      characterStore.stopListening(handleCharacterUpdate);
-    };
-  }, []);
+  useStoreSubscription([[characterStore, handleCharacterUpdate]]);
 
   if (!DIRECTIONS.includes(currDirection)) {
     throw new TypeError(`Compass received invalid direction ${currDirection}`);

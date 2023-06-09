@@ -9,7 +9,7 @@ const CombatControlsProvider = ({}) => {
   const handleAttackClick = useCallback(() => {
     attackOpponent();
     endCharactersTurn();
-  });
+  }, []);
 
   return <CombatControls handleAttackClick={handleAttackClick} />;
 };
@@ -36,5 +36,5 @@ export const CombatControls = ({ handleAttackClick }) => (
   </ul>
 );
 CombatControls.propTypes = {
-  handleAttackClick: PropTypes.function,
+  handleAttackClick: PropTypes.func,
 };

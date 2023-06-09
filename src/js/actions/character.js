@@ -1,7 +1,5 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import levelStore from "../stores/level";
-import { startCombat } from "../actions/combat";
-import { CHARACTER } from "../constants";
 import { DIRECTION_SET, TILE_SET } from "../constants/actions";
 
 export const setDirection = (direction) => {

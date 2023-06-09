@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 
 import levelStore from "../stores/level";
 import characterStore from "../stores/character";
@@ -8,6 +7,7 @@ import combatStore from "../stores/combat";
 
 import { setDirection, setTile } from "../actions/character";
 import { showGameMsg } from "../actions/messages";
+import { useStoreSubscription } from "../hooks";
 
 import { Wall } from "./wall";
 import { Monster } from "./monster";
@@ -50,15 +50,10 @@ const PassageProvider = () => {
     setIsCharactersTurn(combatStore.isCharactersTurn());
   }, []);
 
-  // @todo genericize
-  useEffect(() => {
-    characterStore.listen(handleCharacterUpdate);
-    combatStore.listen(handleCombatUpdate);
-    return () => {
-      characterStore.stopListening(handleCharacterUpdate);
-      combatStore.stopListening(handleCombatUpdate);
-    };
-  }, []);
+  useStoreSubscription([
+    [characterStore, handleCharacterUpdate],
+    [combatStore, handleCombatUpdate],
+  ]);
 
   const handleTurnLeft = useCallback(async () => {
     const newDirection =
