@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { MapTile } from "./map-tile";
@@ -11,59 +11,70 @@ function getTilename(row, column) {
   return `${row}x${column}`;
 }
 
-/**
- * @todo map output is borked, passages not connected
- * (unless level data in demo is borked)
- */
-export default class LevelMap extends Component {
-  render() {
-    const mapEls = [];
-    let currRow = 1;
-    while (currRow <= this.props.rows) {
-      mapEls.push(this.renderRow(currRow));
-      currRow++;
-    }
+const LevelMapColumn = ({ currRow, currCol }) => {
+  const tileName = getTilename(currRow, currCol);
 
-    return (
-      <div className="level-map-wrapper">
-        <table>
-          <tbody>{mapEls}</tbody>
-        </table>
-      </div>
-    );
+  let mapTile;
+  try {
+    mapTile = levelStore.getTile(tileName);
+  } catch (err) {
+    // tile has not been populated
+    return <MapTile key={tileName} isEmpty />;
   }
 
-  renderRow(currRow) {
-    let currCol = 1;
+  const currTileName = characterStore.getCurrTileName();
+  const isCurrTile = !!(currTileName === tileName);
+  return <MapTile key={tileName} tile={mapTile} isCurrTile={isCurrTile} />;
+};
+LevelMapColumn.propTypes = {
+  currRow: PropTypes.number,
+  currCol: PropTypes.number,
+};
 
-    const colArr = [];
-    while (currCol <= this.props.columns) {
-      colArr.push(this.renderCol(currCol, currRow));
+const LevelMapRow = ({ currRow, columns }) => {
+  let currCol = 1;
+  const [colEls, setColEls] = useState([]);
+
+  useEffect(() => {
+    const newColEls = [];
+    while (currCol <= columns) {
+      newColEls.push(<LevelMapColumn currCol={currCol} currRow={currRow} />);
       currCol++;
     }
+    setColEls(newColEls);
+  }, [columns, currRow]);
 
-    return <tr key={`row-${currRow}`}>{colArr}</tr>;
-  }
+  return <tr key={`row-${currRow}`}>{colEls}</tr>;
+};
+LevelMapRow.propTypes = {
+  currRow: PropTypes.number,
+  columns: PropTypes.number,
+};
 
-  renderCol(currRow, currCol) {
-    const tileName = getTilename(currRow, currCol);
+const LevelMap = ({ rows, columns }) => {
+  let currRow = 1;
+  let [mapEls, setMapEls] = useState([]);
 
-    let mapTile;
-    try {
-      mapTile = levelStore.getTile(tileName);
-    } catch (err) {
-      // tile has not been populated
-      return <MapTile key={tileName} isEmpty />;
+  useEffect(() => {
+    const newMapEls = [];
+    while (currRow <= rows) {
+      newMapEls.push(<LevelMapRow currRow={currRow} columns={columns} />);
+      currRow++;
     }
+    setMapEls(newMapEls);
+  }, [rows, columns]);
 
-    const currTileName = characterStore.getCurrTileName();
-    const isCurrTile = !!(currTileName === tileName);
-
-    return <MapTile key={tileName} tile={mapTile} isCurrTile={isCurrTile} />;
-  }
-}
-
+  return (
+    <div className="level-map-wrapper">
+      <table>
+        <tbody>{mapEls}</tbody>
+      </table>
+    </div>
+  );
+};
 LevelMap.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
 };
+
+export default LevelMap;

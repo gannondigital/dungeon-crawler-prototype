@@ -12,6 +12,14 @@ import {
   COMBAT_START_TURN_CHARACTER,
   COMBAT_END_TURN_CHARACTER,
 } from "../constants/actions";
+import defaultConfig from "../config/default.json";
+const COMBAT_DEBUG = defaultConfig;
+
+function maybeLog(args) {
+  if (COMBAT_DEBUG) {
+    console.log.call(console, args);
+  }
+}
 
 /**
  * @todo I think I prefer validating input at the store
@@ -102,7 +110,7 @@ export const startRound = () => {
 };
 
 export const startOpponentsTurn = () => {
-  console.log("starting opponents turn");
+  maybeLog("starting opponents turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_OPPONENTS,
     payload: {},
@@ -110,7 +118,7 @@ export const startOpponentsTurn = () => {
 };
 
 export const startCharactersTurn = () => {
-  console.log("starting chars turn");
+  maybeLog("starting chars turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_CHARACTER,
     payload: {},
@@ -118,7 +126,7 @@ export const startCharactersTurn = () => {
 };
 
 export const endCharactersTurn = () => {
-  console.log("ending chars turn");
+  maybeLog("ending chars turn");
   dispatcher.dispatch({
     type: COMBAT_END_TURN_CHARACTER,
     payload: {},

@@ -1,5 +1,7 @@
 {
   "rootSelector": "#game-root-container",
+  "combatDebug": false,
+
   "startingLevel": "one",
   "startDirection": "n",
   "startTileName": "1x1",

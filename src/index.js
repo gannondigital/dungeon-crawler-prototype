@@ -2,7 +2,7 @@ import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
-import config from "./js/config/default";
+import config from "./js/config/default.json";
 
 import { loadLevel } from "./js/actions/level";
 import { loadMonsters } from "./js/actions/monsters";
