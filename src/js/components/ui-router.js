@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Passage from "./passage";
 import LevelMap from "./level-map";
-import Inventory from "./inventory";
+import Inventory from "./Inventory/inventory";
 import GameMsg from "./game-msg";
 import GameHeader from "./GameHeader/game-header";
 import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";

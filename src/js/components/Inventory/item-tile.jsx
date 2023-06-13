@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../../css/components/item-tile";
+import "../../../css/components/Inventory/item-tile";
 
 export const ItemTile = ({ item }) => {
   const itemImgUrl = item.getImageUrl();

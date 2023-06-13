@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import inventoryStore from "../stores/inventory";
+import inventoryStore from "../../stores/inventory";
 import { ItemTile } from "./item-tile";
-import { useStoreSubscription } from "../hooks";
+import { useStoreSubscription } from "../../hooks";
 
-import "../../css/components/inventory.scss";
+import "../../../css/components/Inventory/inventory.scss";
 
 // @todo if we have more item roles, abstract out the roles
 // @todo more specific naming in line with roles that manage
