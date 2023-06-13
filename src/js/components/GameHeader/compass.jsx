@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { DIRECTIONS } from "../constants";
+import { DIRECTIONS } from "../../constants";
 
-import "../../css/components/compass.scss";
-import characterStore from "../stores/character";
-import { useStoreSubscription } from "../hooks";
+import "../../../css/components/GameHeader/compass.scss";
+import characterStore from "../../stores/character";
+import { useStoreSubscription } from "../../hooks";
 
 const pointerClassSuffxs = {
   n: "north",
@@ -13,7 +13,7 @@ const pointerClassSuffxs = {
   w: "west",
 };
 
-export const Compass = ({ direction }) => {
+export const Compass = () => {
   const [currDirection, setCurrDirection] = useState(
     characterStore.getDirection()
   );

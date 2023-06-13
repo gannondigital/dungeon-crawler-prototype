@@ -2,10 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Compass } from "./compass";
-import { DIRECTIONS, UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
 
-import "../../css/components/game-header.scss";
-import "../../css/components/header-nav-button";
+import "../../../css/components/GameHeader/game-header.scss";
 
 export const GameHeader = ({
   handleBackBtnClick,

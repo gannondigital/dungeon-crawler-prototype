@@ -76,6 +76,8 @@ const LevelMap = ({ rows, columns }) => {
     setMapEls(newMapEls);
   }, [rows, columns]);
 
+  // @todo show direction arrow in LevelMap so player can match 
+  // first person orientation with map direction
   return (
     <div className="level-map-wrapper">
       <table>
