@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { MapTile } from "./map-tile";
-import levelStore from "../stores/level";
-import characterStore from "../stores/character";
+import levelStore from "../../stores/level";
+import characterStore from "../../stores/character";
 
-import "../../css/components/level-map.scss";
+import "../../../css/components/LevelMap/level-map.scss";
 
 function getTilename(row, column) {
   return `${row}x${column}`;

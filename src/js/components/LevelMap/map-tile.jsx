@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 
-import "../../css/components/map-tile.scss";
+import "../../../css/components/LevelMap/map-tile.scss";
 
 // @todo should this component just accept a `tileName` prop
 // instead of `tile`?

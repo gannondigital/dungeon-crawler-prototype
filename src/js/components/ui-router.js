@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Passage from "./passage";
-import LevelMap from "./level-map";
+import LevelMap from "./LevelMap/level-map";
 import Inventory from "./Inventory/inventory";
 import GameMsg from "./game-msg";
 import GameHeader from "./GameHeader/game-header";
