@@ -10,7 +10,7 @@ const itemsService = {
     // @todo genericize, turn into a real thing
     switch (levelName) {
       case "one":
-        return require("../data/level-one-items");
+        return require("../game-data/level-one-items");
       default:
         throw new ReferenceError(`Could not find level ${levelName}`);
     }

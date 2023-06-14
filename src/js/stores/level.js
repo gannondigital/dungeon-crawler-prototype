@@ -2,7 +2,7 @@ import cloneDeep from "lodash.cloneDeep";
 
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
-import { TileFactory } from "../lib/tile-factory";
+import { TileFactory } from "../factories/tile-factory";
 import config from "../config/default.json";
 import { LEVEL_LOADED } from "../constants/actions";
 const { startDirection, startTileName } = config;

@@ -10,7 +10,7 @@ const monsterService = {
     // @todo genericize, turn into a real thing
     switch (levelName) {
       case "one":
-        return require("../data/level-one-monsters");
+        return require("../game-data/level-one-monsters");
       default:
         throw new ReferenceError(`Could not identify level ${levelName}`);
     }

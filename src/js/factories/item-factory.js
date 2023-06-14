@@ -19,13 +19,7 @@ import itemsStore from "../stores/items";
 export const ItemFactory = (itemName) => {
   // @todo level data, e.g. items, should not live in stores,
   // and this should not be a store lookup
-  // @todo pretty sure getItemData will throw, rather than return
-  // a falsey value, belt & suspenders
   const itemData = itemsStore.getItemData(itemName);
-  if (!itemData) {
-    throw new ReferenceError(`Item ${itemName} does not exist`);
-  }
-
   const { itemRoles } = itemData;
   if (itemRoles.includes("weapon")) {
     return new Weapon(itemData);

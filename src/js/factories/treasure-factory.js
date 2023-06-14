@@ -24,6 +24,7 @@ function validateItemNames(itemNames) {
  * @return {Treasure}
  */
 export const TreasureFactory = ({ items: itemNames }) => {
+  // @todo rm/improve validation
   if (!validateItemNames(itemNames)) {
     throw new TypeError("Invalid args passed to TreasureFactory");
   }

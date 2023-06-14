@@ -3,7 +3,7 @@ import cloneDeep from "lodash.cloneDeep";
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import itemsStore from "./items";
-import ItemFactory from "../lib/item-factory";
+import ItemFactory from "../factories/item-factory";
 import {
   INVENTORY_ADD_ITEMS,
   INVENTORY_SET_ACTIVE_ARMOR,
