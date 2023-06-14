@@ -1,4 +1,4 @@
-@import "../lib/mixins.scss";
+@import "../../lib/mixins.scss";
 
 .passage_controls {
   margin: 0 auto;
@@ -11,16 +11,16 @@
 }
 
 .button_left {
-  background-image: url("../../img/arrow-left.png");
+  background-image: url("../../../img/arrow-left.png");
   @include nav-button();
 }
 
 .button_forward {
-  background-image: url("../../img/arrow-forward.png");
+  background-image: url("../../../img/arrow-forward.png");
   @include nav-button();
 }
 
 .button_right {
-  background-image: url("../../img/arrow-right.png");
+  background-image: url("../../../img/arrow-right.png");
   @include nav-button();
 }

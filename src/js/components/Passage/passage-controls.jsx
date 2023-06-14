@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { PropTypes } from "prop-types";
 
-import "../../css/components/passage-controls";
+import "../../../css/components/Passage/passage-controls";
 
 export const PassageControls = ({
   leftClickHandler,

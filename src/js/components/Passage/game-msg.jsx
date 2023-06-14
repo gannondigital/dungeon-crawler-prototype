@@ -1,9 +1,9 @@
 import React, { Component, useState, useCallback } from "react";
 
-import messagesStore from "../stores/messages";
-import { useStoreSubscription } from "../hooks";
+import messagesStore from "../../stores/messages";
+import { useStoreSubscription } from "../../hooks";
 
-import "../../css/components/game-msg";
+import "../../../css/components/Passage/game-msg";
 
 export const GameMsg = ({}) => {
   const [msgs, setMessages] = useState([]);

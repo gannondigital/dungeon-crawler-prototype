@@ -1,6 +1,6 @@
 @use "sass:math";
-@import "../lib/mixins.scss";
-@import "../lib/vars.scss";
+@import "../../lib/mixins.scss";
+@import "../../lib/vars.scss";
 
 .wall-psg-right {
   @include panelWall;

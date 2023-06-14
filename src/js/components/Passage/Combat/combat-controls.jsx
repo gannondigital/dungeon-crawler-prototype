@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
-import { endCharactersTurn, attackOpponent } from "../actions/combat";
+import { endCharactersTurn, attackOpponent } from "../../../actions/combat";
 
-import "../../css/components/combat-controls";
+import "../../../../css/components/Passage/Combat/combat-controls";
 
 const CombatControlsProvider = ({}) => {
   const handleAttackClick = useCallback(() => {

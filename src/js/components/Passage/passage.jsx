@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 
-import levelStore from "../stores/level";
-import characterStore from "../stores/character";
-import combatStore from "../stores/combat";
+import levelStore from "../../stores/level";
+import characterStore from "../../stores/character";
+import combatStore from "../../stores/combat";
 
-import { setDirection, setTile } from "../actions/character";
-import { showGameMsg } from "../actions/messages";
-import { useStoreSubscription } from "../hooks";
+import { setDirection, setTile } from "../../actions/character";
+import { showGameMsg } from "../../actions/messages";
+import { useStoreSubscription } from "../../hooks";
+import Tile from "../../models/tile";
+import { gameplayWait } from "../../lib/util";
 
 import { Wall } from "./wall";
-import { Monster } from "./monster";
-import CombatControls from "./combat-controls";
 import PassageControls from "./passage-controls";
-import Tile from "../models/tile";
-import { gameplayWait } from "../lib/util";
-import { DIRECTIONS } from "../constants";
-import { DIRS_FOR_WALLS } from "../constants/passageview";
-import config from "../config/default.json";
+import { Monster } from "./Combat/monster";
+import CombatControls from "./Combat/combat-controls";
+
+import { DIRECTIONS } from "../../constants";
+import { DIRS_FOR_WALLS } from "../../constants/passageview";
+import config from "../../config/default.json";
 
 const { defaultSurfaces } = config;
 const FADE_TIME = 200;
 
-import "../../css/lib/base";
-import "../../css/components/passage";
+import "../../../css/lib/base";
+import "../../../css/components/Passage/passage";
 
 const PassageProvider = () => {
   const currTileObj = levelStore.getTile(characterStore.getCurrTileName());
