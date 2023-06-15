@@ -1,0 +1,26 @@
+@import "../../lib/mixins.scss";
+
+.passage_controls {
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+  width: 148px;
+}
+
+.passage_controls--listitem {
+  display: inline-block;
+}
+
+.button_left {
+  background-image: url("../../../img/arrow-left.png");
+  @include nav-button();
+}
+
+.button_forward {
+  background-image: url("../../../img/arrow-forward.png");
+  @include nav-button();
+}
+
+.button_right {
+  background-image: url("../../../img/arrow-right.png");
+  @include nav-button();
+}

@@ -1,10 +1,12 @@
 import Item from "./item";
 
 function validateProps({ items }) {
-  return Array.isArray(items) &&
+  return (
+    Array.isArray(items) &&
     items.reduce((isValid, item) => {
       return isValid && item instanceof Item;
-    }, true);
+    }, true)
+  );
 }
 
 /**
@@ -22,15 +24,15 @@ export default class Treasure {
 
   getReceivedMessages() {
     // @todo support non-item treasure
-    return this.items.map(item => {
+    return this.items.map((item) => {
       return `Received ${item.getLabel()}!`;
     });
   }
- 
-/**
- * 
- * @returns {Array<Item>} Array of Item instances
- */
+
+  /**
+   *
+   * @returns {Array<Item>} Array of Item instances
+   */
   getItemsForInventory() {
     return [].concat(this.items);
   }

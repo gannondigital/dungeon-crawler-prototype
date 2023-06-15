@@ -13,7 +13,7 @@
   "license": "not licensed for reproduction or use",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "flux": "^4.0.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
@@ -26,6 +26,7 @@
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@types/react": "^17.0.34",
     "babel-loader": "^8.2.2",
     "core-js": "^3.19.0",
     "css-loader": "^6.2.0",

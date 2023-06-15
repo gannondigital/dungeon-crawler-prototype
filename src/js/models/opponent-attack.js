@@ -8,13 +8,16 @@ import Damage from "./damage";
  * @returns {Boolean}
  */
 const isValidAttackProps = ({ dmg, accuracyMod }) => {
-  return dmg instanceof Damage && typeof accuracyMod === 'number' &&
-    !isNaN(accuracyMod);
+  return (
+    dmg instanceof Damage &&
+    typeof accuracyMod === "number" &&
+    !isNaN(accuracyMod)
+  );
 };
 
 export default class OpponentAttack {
   /**
-   * @param {Object} attackProps 
+   * @param {Object} attackProps
    * @param {Damage} attackProps.dmg  A damage object representing the amount & type of dmg
    * @param {Number} attackProps.accuracyMod  Accuracy modifier for hit calculation
    */

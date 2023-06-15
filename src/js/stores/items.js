@@ -6,7 +6,7 @@ import { ITEMS_LOADED } from "../constants/actions";
  * Data stores that are populated at load time and seldom
  * change afterward are not well suited to the flux-y store
  * pattern, but for now still implemented that way
- * 
+ *
  * This could potentially be folded into the ItemsService?
  */
 class ItemStore extends Store {
@@ -16,19 +16,16 @@ class ItemStore extends Store {
       items: {
         weapons: [],
         armor: [],
-        items: []
+        items: [],
       },
       itemsByName: {},
-      levelName: ""
+      levelName: "",
     };
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
   handleAction = (action) => {
-    const {
-      type,
-      payload
-    } = action;
+    const { type, payload } = action;
 
     switch (type) {
       // @todo validate
@@ -38,7 +35,7 @@ class ItemStore extends Store {
         }
         this.data.levelName = payload.levelName;
         this.data.itemsByName = payload.items;
-  
+
         this.triggerChange();
         break;
       default:
@@ -56,22 +53,24 @@ class ItemStore extends Store {
       throw new TypeError("Invalid itemNames passed to getItems");
     }
 
-    return itemNames.map(itemName => {
-      const item = this.data.itemsByName[itemName];
-      if (!item) {
-        throw new ReferenceError(
-          `Could not find item ${itemName} in itemsStore`
-        );
-      }
-      return item;
-    }).filter(item => {
-      return !!item;
-    });
+    return itemNames
+      .map((itemName) => {
+        const item = this.data.itemsByName[itemName];
+        if (!item) {
+          throw new ReferenceError(
+            `Could not find item ${itemName} in itemsStore`
+          );
+        }
+        return item;
+      })
+      .filter((item) => {
+        return !!item;
+      });
   }
 
   /**
-   * 
-   * @param {String} itemName 
+   *
+   * @param {String} itemName
    * @returns {Object} item data
    */
   getItemData(itemName) {

@@ -13,7 +13,7 @@ class MonstersStore extends Store {
     super();
     this.data = {
       levelName: "none",
-      monsters: {}
+      monsters: {},
     };
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
@@ -26,11 +26,11 @@ class MonstersStore extends Store {
         if (!isEqual(this.data, payload)) {
           this.data = {
             levelName,
-            monsters
+            monsters,
           };
           this.triggerChange();
         }
-  
+
         break;
       default:
         break;

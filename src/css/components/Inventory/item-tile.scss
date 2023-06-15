@@ -1,0 +1,14 @@
+@import "../../lib/vars.scss";
+
+.item_tile {
+  border: $itemTileBorderWidth solid $textLight;
+  border-radius: 4px;
+  height: 50px + $itemTileBorderWidth * 2;
+  width: 50px + $itemTileBorderWidth * 2;
+  margin: 5px 10px;
+  padding: 5px;
+
+  img {
+    width: 40px;
+  }
+}

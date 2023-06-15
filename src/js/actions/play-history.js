@@ -6,7 +6,7 @@ export const addToPlayHistory = ({ eventName, tileName }) => {
     type: ADD_TO_HISTORY,
     payload: {
       eventName,
-      tileName
-    }
+      tileName,
+    },
   });
 };

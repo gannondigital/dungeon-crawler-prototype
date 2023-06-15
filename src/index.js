@@ -1,9 +1,8 @@
-
 import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
-import config from "./js/config/default";
+import config from "./js/config/default.json";
 
 import { loadLevel } from "./js/actions/level";
 import { loadMonsters } from "./js/actions/monsters";
@@ -15,7 +14,7 @@ import { loadItems } from "./js/actions/items";
 import characterStore from "./js/stores/character";
 import playHistoryStore from "./js/stores/play-history";
 import itemsStore from "./js/stores/items";
-import combatStore  from "./js/stores/combat";
+import combatStore from "./js/stores/combat";
 import inventoryStore from "./js/stores/inventory";
 import levelStore from "./js/stores/level";
 import messagesStore from "./js/stores/messages";
@@ -25,15 +24,12 @@ import monstersStore from "./js/stores/monsters";
 // https://frinkiac.com/caption/S11E09/251560
 import combatRunner from "./js/lib/combat-runner";
 
-import { GameRoot } from "./js/components/game-root";
+import { UIRouter } from "./js/components/ui-router";
+import "./css/lib/base.scss";
 
-const { 
-  rootSelector,
-  startingLevel
-} = config;
+const { rootSelector, startingLevel } = config;
 
-// @todo what's the support for top-level await
-// @todo can these be done in 'parallel' or is there really a 
+// @todo can these be done in 'parallel' or is there really a
 // sequential dependency
 async function bootstrapLevel(startingLevel) {
   try {
@@ -52,12 +48,11 @@ async function bootstrapLevel(startingLevel) {
 bootstrapLevel(startingLevel)
   .then(() => {
     // @todo load saved character
-
     ReactDOM.render(
-      React.createElement(GameRoot),
+      React.createElement(UIRouter),
       document.querySelector(rootSelector)
     );
   })
-  .catch(err => {
+  .catch((err) => {
     throw err;
   });

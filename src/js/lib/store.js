@@ -2,8 +2,9 @@ import EventEmitter from "events";
 
 const CHANGE = "CHANGE";
 
-const Store = function() {
+const Store = function () {
   this.events = new EventEmitter();
+  this.data = null;
 };
 Store.prototype.get = function get() {
   return this.data;

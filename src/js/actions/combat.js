@@ -8,77 +8,82 @@ import {
   END_COMBAT,
   COMBAT_SET_ADVANTAGE,
   COMBAT_START_ROUND,
-  COMBAT_START_TURN_OPPONENTS, 
+  COMBAT_START_TURN_OPPONENTS,
   COMBAT_START_TURN_CHARACTER,
-  COMBAT_END_TURN_CHARACTER
+  COMBAT_END_TURN_CHARACTER,
 } from "../constants/actions";
+import defaultConfig from "../config/default.json";
+const { COMBAT_DEBUG } = defaultConfig;
+
+function maybeLog(args) {
+  if (COMBAT_DEBUG) {
+    console.log.call(console, args);
+  }
+}
 
 /**
  * @todo I think I prefer validating input at the store
  * @param {Object} payloadProps
  * @param {Array<>} payloadProps.opponents
- * @param {String|null} payloadProps.hasAdvantage 
+ * @param {String|null} payloadProps.hasAdvantage
  */
-export const startCombat = ({
-  opponents,
-  hasAdvantage = null
-}) => {
+export const startCombat = ({ opponents, hasAdvantage = null }) => {
   if (hasAdvantage && ![CHARACTER, OPPONENTS].includes(hasAdvantage)) {
-    throw new TypeError('Invalid hasAdvantage passed to startCombat');
+    throw new TypeError("Invalid hasAdvantage passed to startCombat");
   }
   // @todo verify that each opponent is valid -- Opponent model TBD
   if (!Array.isArray(opponents) || opponents.length === 0) {
-    throw new TypeError('Invalid opponents passed to startCombat');
+    throw new TypeError("Invalid opponents passed to startCombat");
   }
 
   dispatcher.dispatch({
     type: START_COMBAT,
     payload: {
       opponents,
-      hasAdvantage
-    }
+      hasAdvantage,
+    },
   });
 };
 
-export const damageOpponent = dmg => {
+export const damageOpponent = (dmg) => {
   if (typeof dmg !== "number" || isNaN(dmg)) {
     throw new TypeError("Invalid damage passed to damageOpponent");
   }
 
   dispatcher.dispatch({
     type: COMBAT_DAMAGE_OPPONENT,
-    payload: { dmg }
+    payload: { dmg },
   });
 };
 
-export const damageCharacter = dmg => {
+export const damageCharacter = (dmg) => {
   if (typeof dmg !== "number" || isNaN(dmg)) {
     throw new TypeError("Invalid damage passed to damageCharacter");
   }
 
   dispatcher.dispatch({
     type: COMBAT_DAMAGE_CHARACTER,
-    payload: { dmg }
+    payload: { dmg },
   });
 };
 
 export const attackOpponent = () => {
   dispatcher.dispatch({
     type: COMBAT_ATTACK_OPPONENT,
-    payload: {}
+    payload: {},
   });
 };
 
 export const endCombat = () => {
   dispatcher.dispatch({
     type: END_COMBAT,
-    payload: {}
+    payload: {},
   });
 };
 
 // @todo this can probably be removed? advantage only set once
 // when combat begins
-export const setAdvantage = whoHasAdvantage => {
+export const setAdvantage = (whoHasAdvantage) => {
   if (
     whoHasAdvantage &&
     whoHasAdvantage !== CHARACTER &&
@@ -90,8 +95,8 @@ export const setAdvantage = whoHasAdvantage => {
   dispatcher.dispatch({
     type: COMBAT_SET_ADVANTAGE,
     payload: {
-      whoHasAdvantage
-    }
+      whoHasAdvantage,
+    },
   });
 };
 
@@ -100,30 +105,30 @@ export const setAdvantage = whoHasAdvantage => {
 export const startRound = () => {
   dispatcher.dispatch({
     type: COMBAT_START_ROUND,
-    payload: {}
+    payload: {},
   });
 };
 
 export const startOpponentsTurn = () => {
-  console.log("starting opponents turn");
+  maybeLog("starting opponents turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_OPPONENTS,
-    payload: {}
+    payload: {},
   });
 };
 
 export const startCharactersTurn = () => {
-  console.log("starting chars turn");
+  maybeLog("starting chars turn");
   dispatcher.dispatch({
     type: COMBAT_START_TURN_CHARACTER,
-    payload: {}
+    payload: {},
   });
 };
 
 export const endCharactersTurn = () => {
-  console.log("ending chars turn");
+  maybeLog("ending chars turn");
   dispatcher.dispatch({
     type: COMBAT_END_TURN_CHARACTER,
-    payload: {}
+    payload: {},
   });
 };

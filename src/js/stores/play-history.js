@@ -1,4 +1,3 @@
-
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import { ADD_TO_HISTORY } from "../constants/actions";
@@ -9,11 +8,11 @@ const findEventInEventlist = (eventName, eventList) => {
   });
 };
 
-// @todo is this really enough for keeping track of everything that the 
+// @todo is this really enough for keeping track of everything that the
 // player has done/that has occurred? Probably too flat and will end up
 // being a more domain-specific abstraction
 class PlayHistoryStore extends Store {
-  handleAction = action => {
+  handleAction = (action) => {
     const { type, payload } = action;
     switch (type) {
       // @todo are there 'play history' events that aren't associated
@@ -30,7 +29,7 @@ class PlayHistoryStore extends Store {
         dataByTile[tileName] = dataByTile[tileName] || [];
         dataByTile[tileName].push({
           tileName,
-          eventName
+          eventName,
         });
         console.log(`event:${JSON.stringify({ tileName, eventName })}`);
 
@@ -43,7 +42,7 @@ class PlayHistoryStore extends Store {
   constructor() {
     super();
     this.data = {
-      byTile: {}
+      byTile: {},
     };
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
@@ -68,7 +67,7 @@ class PlayHistoryStore extends Store {
 
     // @todo are we storing one event per tile? that would obviously
     // not scale
-    return historyByTile.find(tileEvent => {
+    return historyByTile.find((tileEvent) => {
       return tileEvent.eventName === eventName;
     });
   }

@@ -4,7 +4,7 @@ import { shallow, mount } from "enzyme";
 
 import { Compass } from "../../../src/js/components/compass";
 
-tape("Compass ", t => {
+tape("Compass ", (t) => {
   const wrapperN = shallow(<Compass direction="n" />);
   t.equal(
     wrapperN.find(".compass_pointer--north").length,

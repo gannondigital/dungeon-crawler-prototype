@@ -50,7 +50,7 @@
 }
 
 @mixin panel($backgroundWidth, $backgroundHeight) {
-  background-image: url("../../img/brick-wall-pixel-wip-3-highlights-borders.png");
+  background-image: url("../../../img/brick-wall-pixel-wip-3-highlights-borders.png");
   background-repeat: no-repeat;
   background-size: $backgroundWidth $backgroundHeight;
   display: block;

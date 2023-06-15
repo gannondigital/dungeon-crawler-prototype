@@ -3,7 +3,7 @@ import { dispatcher } from "../lib/game-dispatcher";
 import {
   TILE_SET,
   DIRECTION_SET,
-  COMBAT_DAMAGE_CHARACTER
+  COMBAT_DAMAGE_CHARACTER,
 } from "../constants/actions";
 
 class CharacterStore extends Store {
@@ -19,21 +19,17 @@ class CharacterStore extends Store {
         dex: 0,
         str: 1,
         intelligence: 0,
-        stamina: 0
+        stamina: 0,
       },
-      expLevel: 1
+      expLevel: 1,
     };
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
-  handleAction = action => {
+  handleAction = (action) => {
     const {
       type,
-      payload: {
-        tile,
-        direction,
-        dmg
-      }
+      payload: { tile, direction, dmg },
     } = action;
 
     switch (type) {
@@ -44,17 +40,17 @@ class CharacterStore extends Store {
           this.triggerChange();
         }
         break;
-  
+
       case DIRECTION_SET:
         if (this.data.currDirection !== direction) {
           this.data.currDirection = direction;
           this.triggerChange();
         }
         break;
-  
+
       case COMBAT_DAMAGE_CHARACTER:
         const {
-          data: { health }
+          data: { health },
         } = this;
         this.data.health = health - dmg;
         // @todo handle character "death"
@@ -63,7 +59,7 @@ class CharacterStore extends Store {
         }
         this.triggerChange();
         break;
-  
+
       default:
         break;
     }

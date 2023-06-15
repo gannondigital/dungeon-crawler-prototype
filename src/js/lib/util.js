@@ -1,6 +1,6 @@
 /**
  * Returns semi-random integer between 1 and maxVal
- * @param {Int} maxVal 
+ * @param {Int} maxVal
  * @returns {Int}
  */
 export const getRandomNum = (maxVal = 20) => {
@@ -9,11 +9,11 @@ export const getRandomNum = (maxVal = 20) => {
 
 /**
  * Resolves after durationMs milliseconds
- * @param {Int} durationMs 
+ * @param {Int} durationMs
  * @returns {Promise}
  */
-export const gameplayWait = durationMs => {
-  return new Promise(resolve => {
+export const gameplayWait = (durationMs) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       window.requestAnimationFrame(resolve);
     }, durationMs);
