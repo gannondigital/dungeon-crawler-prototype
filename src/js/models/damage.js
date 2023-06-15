@@ -1,6 +1,4 @@
 /**
- *
- *
  * @returns {Boolean}
  */
 function isValidDmgProps({ dmgPoints, types }) {

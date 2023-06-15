@@ -28,9 +28,6 @@
 
 import Treasure from "../models/treasure";
 import OpponentAttack from "../models/opponent-attack";
-import combatConstants from "../constants/combat";
-
-const placeholderImg = require("../../img/monster-placeholder.png");
 
 function validateProps({
   meta,
@@ -64,7 +61,7 @@ function validateMeta(monsterMeta) {
 }
 
 /**
- * Validates attack data, which should be a obj of OpponentAttacks
+ * Validates attack data, which should be an obj of OpponentAttacks
  * keyed by attack name.
  * @param  {Object} monsterAttacks OpponentAttack objects keyed on attack name
  * @return {Boolean}

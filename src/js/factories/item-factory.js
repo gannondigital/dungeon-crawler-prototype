@@ -4,7 +4,7 @@ import Armor from "../models/armor";
 import itemsStore from "../stores/items";
 
 /**
- * @todo kind of like the idea of unique items being singletons
+ * @todo I kind of like the idea of unique items being singletons
  *       if you can only own 1 XYZ at a time, then every attempt
  *       to create item XYZ should return the same reference(?)`
  * Instantiates a Weapon, Armor, or Item based on item type. Responsible

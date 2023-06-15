@@ -4,6 +4,7 @@ const CHANGE = "CHANGE";
 
 const Store = function () {
   this.events = new EventEmitter();
+  this.data = null;
 };
 Store.prototype.get = function get() {
   return this.data;

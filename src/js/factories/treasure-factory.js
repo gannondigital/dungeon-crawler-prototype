@@ -1,6 +1,3 @@
-import Item from "../models/item";
-import Weapon from "../models/weapon";
-import Armor from "../models/armor";
 import Treasure from "../models/treasure";
 import ItemFactory from "./item-factory";
 
