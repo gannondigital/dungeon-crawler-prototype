@@ -14,13 +14,13 @@ This prototype uses a simple React/Flux pattern. The game level, and the tiles o
 #### yes, that flux
 One of the behaviors that comes with using the OG `flux` is that an action can't be dispatched as the result of another action being dispatched. Every action runs to completion before another can be triggered. Makes you think about how the app's state/data is shaped, and how it gets changed over time.
 
-### domain-driven design
+#### domain-driven design
 Domain-driven design, as applied to a simple take on a React/Flux application. DDD is common sense, intutive design choices. Both A. in how the application code is divided and organized (the "business logic"), and B. how common patterns are employed as part of the app's architecture (e.g. anything shared).
 
-# scss, not SC
+#### scss, not SC
 CSS is currently implemented as Sass, transpiled by webpack. I use Styled Components at work a lot, and it's awesome. But it's refreshing to get back to separate style code, and away from stacks of `styled` wrappers in React.
 
-# factories? providers?
+#### factories? providers?
 Some of the patterns I'm thinking about, their value is under-realized in modern JS. What do they look like in a modern JS app? What if we designed our own software when we wrote javascript -- what new patterns emerge?
 
 ## Current State and Next Steps
