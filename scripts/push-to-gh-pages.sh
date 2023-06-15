@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-push to github pages script
-
 # builds app in /dist folder
 cp ./src/index.html ./dist/index.html && webpack
 
