@@ -7,7 +7,8 @@
     "start": "cp ./src/index.html ./dist/index.html && webpack serve --open verbose",
     "clean": "rm -rf ./dist/*",
     "test": "webpack --config webpack-test.config.js",
-    "prettier": "prettier --write \"./**/*.{js,scss,json,jsx,html}\""
+    "prettier": "prettier --write \"./**/*.{js,scss,json,jsx,html}\"",
+    "push-gh-pages": "./scripts/push-to-gh-pages.sh"
   },
   "author": "Brendan Gannon",
   "license": "not licensed for reproduction or use",
