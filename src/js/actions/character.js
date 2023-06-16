@@ -1,5 +1,4 @@
 import { dispatcher } from "../lib/game-dispatcher";
-import levelStore from "../stores/level";
 import { DIRECTION_SET, TILE_SET } from "../constants/actions";
 
 export const setDirection = (direction) => {

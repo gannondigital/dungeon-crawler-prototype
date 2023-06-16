@@ -29,12 +29,10 @@ import {
   HIT_CONST,
   POLLING_INTERVAL_FOR_CHAR_ACTION,
 } from "../constants/combat";
-import OpponentAttack from "../models/opponent-attack";
 import Damage from "../models/damage";
 import Defense from "../models/defense";
 import { OPPONENTS_DEFEATED } from "../constants/play-history";
 import { TileFactory } from "../factories/tile-factory";
-import levelStore from "../stores/level";
 
 /**
  * Responsible for orchestrating turn based combat between player
