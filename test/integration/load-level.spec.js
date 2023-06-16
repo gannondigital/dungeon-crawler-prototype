@@ -11,10 +11,10 @@ tape("level can be loaded by calling an action creator", (t) => {
 
   loadLevel("one")
     .then(() => {
-      const tile = levelStore.getTile("1x2");
+      const tile = levelStore.getTileData("1x2");
       t.deepEqual(
         tile,
-        TileFactory(levelOne.tiles["1x2"]),
+        TileFactory("1x2"),
         "tile in store is identical to tile in raw level data"
       );
       t.end();

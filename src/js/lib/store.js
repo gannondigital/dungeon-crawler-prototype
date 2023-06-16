@@ -2,21 +2,27 @@ import EventEmitter from "events";
 
 const CHANGE = "CHANGE";
 
-const Store = function () {
-  this.events = new EventEmitter();
-  this.data = null;
-};
-Store.prototype.get = function get() {
-  return this.data;
-};
-Store.prototype.listen = function listen(cb) {
-  this.events.on(CHANGE, cb);
-};
-Store.prototype.stopListening = function stopListening(cb) {
-  this.events.removeListener(CHANGE, cb);
-};
-Store.prototype.triggerChange = function triggerChange() {
-  this.events.emit(CHANGE);
-};
+class Store {
+  constructor() {
+    this.events = new EventEmitter();
+    this.data = null;
+  }
+
+  get() {
+    return this.data;
+  }
+
+  listen(callback) {
+    this.events.on(CHANGE, callback);
+  }
+
+  stopListening(callback) {
+    this.events.removeListener(CHANGE, callback);
+  }
+
+  triggerChange() {
+    this.events.emit(CHANGE);
+  }
+}
 
 export default Store;

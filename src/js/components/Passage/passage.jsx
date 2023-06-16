@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 
-import levelStore from "../../stores/level";
 import characterStore from "../../stores/character";
 import combatStore from "../../stores/combat";
 
@@ -25,9 +24,10 @@ const FADE_TIME = 200;
 
 import "../../../css/lib/base";
 import "../../../css/components/Passage/passage";
+import { TileFactory } from "../../factories/tile-factory";
 
 const PassageProvider = () => {
-  const currTileObj = levelStore.getTile(characterStore.getCurrTileName());
+  const currTileObj = TileFactory(characterStore.getCurrTileName());
 
   const [currTile, setCurrTile] = useState(currTileObj);
   const [currDirection, setCurrDirection] = useState(
@@ -42,7 +42,7 @@ const PassageProvider = () => {
   const handleCharacterUpdate = () => {
     setCurrDirection(characterStore.getDirection());
     setCurrTile(() => {
-      const newTile = levelStore.getTile(characterStore.getCurrTileName());
+      const newTile = TileFactory(characterStore.getCurrTileName());
       return newTile;
     });
   };

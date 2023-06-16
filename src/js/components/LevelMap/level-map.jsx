@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { MapTile } from "./map-tile";
-import levelStore from "../../stores/level";
 import characterStore from "../../stores/character";
 
 import "../../../css/components/LevelMap/level-map.scss";
+import { TileFactory } from "../../factories/tile-factory";
 
 function getTilename(row, column) {
   return `${row}x${column}`;
@@ -16,7 +16,7 @@ const LevelMapColumn = ({ currRow, currCol }) => {
 
   let mapTile;
   try {
-    mapTile = levelStore.getTile(tileName);
+    mapTile = TileFactory(tileName);
   } catch (err) {
     // tile has not been populated
     return <MapTile key={tileName} isEmpty />;
