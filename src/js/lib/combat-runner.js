@@ -33,6 +33,8 @@ import OpponentAttack from "../models/opponent-attack";
 import Damage from "../models/damage";
 import Defense from "../models/defense";
 import { OPPONENTS_DEFEATED } from "../constants/play-history";
+import { TileFactory } from "../factories/tile-factory";
+import levelStore from "../stores/level";
 
 /**
  * Responsible for orchestrating turn based combat between player
@@ -52,16 +54,14 @@ class CombatRunner {
   // feels right. Another approach would be a separate dispatcher for the
   // combat subsystem
   handleAction = (action) => {
-    const {
-      type,
-      payload: { tile },
-    } = action;
+    const { type, payload } = action;
     switch (type) {
       // determines whether combat should begin when player enters a tile
       case TILE_SET:
         dispatcher.waitFor([characterStore.dispatchToken]);
+        const { tileName } = payload;
         window.requestAnimationFrame(() => {
-          this.handleSetTile(tile);
+          this.handleSetTile(tileName);
         });
         break;
       //
@@ -82,12 +82,13 @@ class CombatRunner {
     this.dispatchToken = dispatcher.register(this.handleAction);
   }
 
-  handleSetTile(tile) {
+  handleSetTile(tileName) {
     // it should not be possible to move while in combat
     if (combatStore.isInCombat()) {
       throw new Error("Tile changed while in combat");
     }
 
+    const tile = TileFactory(tileName);
     // rethink if/when introduce random monster encounters
     if (!tile.hasUndefeatedOpponents()) {
       return;

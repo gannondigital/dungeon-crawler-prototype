@@ -5,6 +5,7 @@ import {
   DIRECTION_SET,
   COMBAT_DAMAGE_CHARACTER,
 } from "../constants/actions";
+import { TileFactory } from "../factories/tile-factory";
 
 class CharacterStore extends Store {
   constructor() {
@@ -27,13 +28,12 @@ class CharacterStore extends Store {
   }
 
   handleAction = (action) => {
-    const {
-      type,
-      payload: { tile, direction, dmg },
-    } = action;
+    const { type, payload } = action;
 
     switch (type) {
       case TILE_SET:
+        const { tileName } = payload;
+        const tile = TileFactory(tileName);
         const newTileName = tile.getName();
         if (this.data.currTileName !== newTileName) {
           this.data.currTileName = newTileName;
@@ -42,6 +42,7 @@ class CharacterStore extends Store {
         break;
 
       case DIRECTION_SET:
+        const { direction } = payload;
         if (this.data.currDirection !== direction) {
           this.data.currDirection = direction;
           this.triggerChange();
@@ -49,6 +50,7 @@ class CharacterStore extends Store {
         break;
 
       case COMBAT_DAMAGE_CHARACTER:
+        const { dmg } = payload;
         const {
           data: { health },
         } = this;

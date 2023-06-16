@@ -37,7 +37,7 @@ export const UIRouter = () => {
       gameContent = <Inventory />;
       break;
     default:
-      throw new TypeError("Invalid UI state in GameRoot");
+      throw new TypeError("Invalid UI state in UIRouter");
   }
 
   return (
