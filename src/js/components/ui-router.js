@@ -7,7 +7,7 @@ import GameMsg from "./Passage/game-msg";
 import GameHeader from "./GameHeader/game-header";
 import TitleScreen from "./title-screen";
 import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
-import { TITLE_SCREEN } from "../constants/game-status";
+import { TITLE_SCREEN, GAMEPLAY } from "../constants/game-status";
 import gameStatusStore from "../stores/game-status";
 import { useStoreSubscription } from "../hooks";
 
@@ -25,11 +25,12 @@ export const UIRouter = () => {
       case TITLE_SCREEN:
         setUiState(TITLE_SCREEN);
         break;
-      default:
-        throw new TypeError(`Invalid status ${currStatus} in UIRouter`);
+      case GAMEPLAY:
+        setUiState(UI_PASSAGE);
     }
   }, [gameStatusStore]);
   useEffect(handleGameStatusChange, []);
+  useStoreSubscription([[gameStatusStore, handleGameStatusChange]]);
 
   const handleMapBtnClick = () => {
     setUiState(UI_MAP);
@@ -40,7 +41,6 @@ export const UIRouter = () => {
   const handleInventoryBtnClick = () => {
     setUiState(UI_INVENTORY);
   };
-  useStoreSubscription([[gameStatusStore, handleGameStatusChange]]);
 
   let currContent = null;
   // @todo make this all less cruddy

@@ -1,7 +1,7 @@
 import Store from "../lib/store";
 import { dispatcher } from "../lib/game-dispatcher";
 import { START_GAME } from "../constants/actions";
-import { TITLE_SCREEN } from "../constants/game-status";
+import { TITLE_SCREEN, GAMEPLAY } from "../constants/game-status";
 
 class GameStatusStore extends Store {
   constructor() {
@@ -21,7 +21,8 @@ class GameStatusStore extends Store {
 
     switch (type) {
       case START_GAME:
-        if (this.data.status !== START_GAME) {
+        if (this.data.status !== GAMEPLAY) {
+          this.data.status = GAMEPLAY;
           this.triggerChange();
         }
         break;

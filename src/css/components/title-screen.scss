@@ -1,0 +1,15 @@
+@import "../lib/vars.scss";
+
+.title_screen {
+  background-image: url("../../img/start-screen2x.png");
+  background-size: cover;
+  position: relative;
+  height: $wall_height;
+  width: $wall_width;
+}
+
+.title_screen--start_btn {
+  position: absolute;
+  top: 80%;
+  left: $wall_width / 6;
+}

@@ -10,7 +10,7 @@ export const GameHeader = ({
   handleInventoryBtnClick,
   handleMapBtnClick,
 }) => {
-  // @todo highlight active tab
+  // @todo highlight active tab, hide back button on passageview
   return (
     <header className="game_header">
       <button className="header-nav-button" onClick={handleBackBtnClick}>
