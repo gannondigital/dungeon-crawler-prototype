@@ -9119,6 +9119,112 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "./node_modules/@ba
 
 /***/ }),
 
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/config/default.json */ "./src/js/config/default.json");
+/* harmony import */ var _js_actions_level__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/actions/level */ "./src/js/actions/level.js");
+/* harmony import */ var _js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/actions/monsters */ "./src/js/actions/monsters.js");
+/* harmony import */ var _js_actions_items__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/actions/items */ "./src/js/actions/items.js");
+/* harmony import */ var _js_stores_character__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/stores/character */ "./src/js/stores/character.js");
+/* harmony import */ var _js_stores_play_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/stores/play-history */ "./src/js/stores/play-history.js");
+/* harmony import */ var _js_stores_items__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/stores/items */ "./src/js/stores/items.js");
+/* harmony import */ var _js_stores_combat__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./js/stores/combat */ "./src/js/stores/combat.js");
+/* harmony import */ var _js_stores_inventory__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./js/stores/inventory */ "./src/js/stores/inventory.js");
+/* harmony import */ var _js_stores_level__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./js/stores/level */ "./src/js/stores/level.js");
+/* harmony import */ var _js_stores_messages__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./js/stores/messages */ "./src/js/stores/messages.js");
+/* harmony import */ var _js_stores_monsters__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./js/stores/monsters */ "./src/js/stores/monsters.js");
+/* harmony import */ var _js_lib_combat_runner__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./js/lib/combat-runner */ "./src/js/lib/combat-runner.js");
+/* harmony import */ var _js_components_ui_router__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./js/components/ui-router */ "./src/js/components/ui-router.js");
+/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./css/lib/base.scss */ "./src/css/lib/base.scss");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+ // these all use a module-as-singleton pattern. Booting
+// them up here because they need to start listening for
+// actions. This is simple/crude but all I need for now
+
+
+
+
+
+
+
+
+ // same for combatRunner as it listens for actions
+// https://frinkiac.com/caption/S11E09/251560
+
+
+
+
+var rootSelector = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.rootSelector,
+    startingLevel = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.startingLevel; // @todo can these be done in 'parallel' or is there really a
+// sequential dependency
+
+function bootstrapLevel(_x) {
+  return _bootstrapLevel.apply(this, arguments);
+} // @todo begin game with start screen, etc, initialize stuff
+// to manage the gameplay status & view changing
+// @todo don't load assets until we need them
+
+
+function _bootstrapLevel() {
+  _bootstrapLevel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(startingLevel) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return (0,_js_actions_level__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(startingLevel);
+
+          case 3:
+            _context.next = 5;
+            return (0,_js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__.loadMonsters)(startingLevel);
+
+          case 5:
+            return _context.abrupt("return", (0,_js_actions_items__WEBPACK_IMPORTED_MODULE_6__.loadItems)(startingLevel));
+
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](0);
+            _context.t0.message = "Error bootstrapping level: ".concat(_context.t0.message);
+            throw _context.t0;
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 8]]);
+  }));
+  return _bootstrapLevel.apply(this, arguments);
+}
+
+await bootstrapLevel(startingLevel);
+react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_js_components_ui_router__WEBPACK_IMPORTED_MODULE_16__.UIRouter), document.querySelector(rootSelector));
+__webpack_handle_async_dependencies__();
+}, 1);
+
+/***/ }),
+
 /***/ "./src/js/actions/character.js":
 /*!*************************************!*\
   !*** ./src/js/actions/character.js ***!
@@ -9132,9 +9238,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setTile": () => (/* binding */ setTile)
 /* harmony export */ });
 /* harmony import */ var _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/game-dispatcher */ "./src/js/lib/game-dispatcher.js");
-/* harmony import */ var _stores_level__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stores/level */ "./src/js/stores/level.js");
-/* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
-
+/* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
 
 
 var setDirection = function setDirection(direction) {
@@ -9143,7 +9247,7 @@ var setDirection = function setDirection(direction) {
   }
 
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.dispatch({
-    type: _constants_actions__WEBPACK_IMPORTED_MODULE_2__.DIRECTION_SET,
+    type: _constants_actions__WEBPACK_IMPORTED_MODULE_1__.DIRECTION_SET,
     payload: {
       direction: direction
     }
@@ -9155,13 +9259,10 @@ var setDirection = function setDirection(direction) {
  */
 
 var setTile = function setTile(tileName) {
-  // @todo for consistency, this should probably call TileFactory,
-  // which would pull the tile data from the level store
-  var tile = _stores_level__WEBPACK_IMPORTED_MODULE_1__.default.getTile(tileName);
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.dispatch({
-    type: _constants_actions__WEBPACK_IMPORTED_MODULE_2__.TILE_SET,
+    type: _constants_actions__WEBPACK_IMPORTED_MODULE_1__.TILE_SET,
     payload: {
-      tile: tile
+      tileName: tileName
     }
   });
 };
@@ -9309,6 +9410,30 @@ var endCharactersTurn = function endCharactersTurn() {
   maybeLog("ending chars turn");
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.dispatch({
     type: _constants_actions__WEBPACK_IMPORTED_MODULE_2__.COMBAT_END_TURN_CHARACTER,
+    payload: {}
+  });
+};
+
+/***/ }),
+
+/***/ "./src/js/actions/game-status.js":
+/*!***************************************!*\
+  !*** ./src/js/actions/game-status.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "startGame": () => (/* binding */ startGame)
+/* harmony export */ });
+/* harmony import */ var _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/game-dispatcher */ "./src/js/lib/game-dispatcher.js");
+/* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
+
+
+var startGame = function startGame() {
+  _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.dispatch({
+    type: _constants_actions__WEBPACK_IMPORTED_MODULE_1__.START_GAME,
     payload: {}
   });
 };
@@ -9780,7 +9905,7 @@ var GameHeader = function GameHeader(_ref) {
   var handleBackBtnClick = _ref.handleBackBtnClick,
       handleInventoryBtnClick = _ref.handleInventoryBtnClick,
       handleMapBtnClick = _ref.handleMapBtnClick;
-  // @todo highlight active tab
+  // @todo highlight active tab, hide back button on passageview
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
     className: "game_header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -9955,9 +10080,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _map_tile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./map-tile */ "./src/js/components/LevelMap/map-tile.jsx");
-/* harmony import */ var _stores_level__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../stores/level */ "./src/js/stores/level.js");
-/* harmony import */ var _stores_character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../stores/character */ "./src/js/stores/character.js");
-/* harmony import */ var _css_components_LevelMap_level_map_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../css/components/LevelMap/level-map.scss */ "./src/css/components/LevelMap/level-map.scss");
+/* harmony import */ var _stores_character__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../stores/character */ "./src/js/stores/character.js");
+/* harmony import */ var _css_components_LevelMap_level_map_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../css/components/LevelMap/level-map.scss */ "./src/css/components/LevelMap/level-map.scss");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -9988,7 +10113,7 @@ var LevelMapColumn = function LevelMapColumn(_ref) {
   var mapTile;
 
   try {
-    mapTile = _stores_level__WEBPACK_IMPORTED_MODULE_3__.default.getTile(tileName);
+    mapTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_5__.TileFactory)(tileName);
   } catch (err) {
     // tile has not been populated
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_map_tile__WEBPACK_IMPORTED_MODULE_2__.MapTile, {
@@ -9997,7 +10122,7 @@ var LevelMapColumn = function LevelMapColumn(_ref) {
     });
   }
 
-  var currTileName = _stores_character__WEBPACK_IMPORTED_MODULE_4__.default.getCurrTileName();
+  var currTileName = _stores_character__WEBPACK_IMPORTED_MODULE_3__.default.getCurrTileName();
   var isCurrTile = !!(currTileName === tileName);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_map_tile__WEBPACK_IMPORTED_MODULE_2__.MapTile, {
     key: tileName,
@@ -10376,23 +10501,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _stores_level__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../stores/level */ "./src/js/stores/level.js");
-/* harmony import */ var _stores_character__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../stores/character */ "./src/js/stores/character.js");
-/* harmony import */ var _stores_combat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../stores/combat */ "./src/js/stores/combat.js");
-/* harmony import */ var _actions_character__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/character */ "./src/js/actions/character.js");
-/* harmony import */ var _actions_messages__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/messages */ "./src/js/actions/messages.js");
-/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
-/* harmony import */ var _models_tile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../models/tile */ "./src/js/models/tile.js");
-/* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../lib/util */ "./src/js/lib/util.js");
-/* harmony import */ var _wall__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./wall */ "./src/js/components/Passage/wall.jsx");
-/* harmony import */ var _passage_controls__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./passage-controls */ "./src/js/components/Passage/passage-controls.jsx");
-/* harmony import */ var _Combat_monster__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Combat/monster */ "./src/js/components/Passage/Combat/monster.jsx");
-/* harmony import */ var _Combat_combat_controls__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Combat/combat-controls */ "./src/js/components/Passage/Combat/combat-controls.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../constants */ "./src/js/constants/index.js");
-/* harmony import */ var _constants_passageview__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../constants/passageview */ "./src/js/constants/passageview.js");
-/* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
-/* harmony import */ var _css_lib_base__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../css/lib/base */ "./src/css/lib/base.scss");
-/* harmony import */ var _css_components_Passage_passage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../css/components/Passage/passage */ "./src/css/components/Passage/passage.scss");
+/* harmony import */ var _stores_character__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../stores/character */ "./src/js/stores/character.js");
+/* harmony import */ var _stores_combat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../stores/combat */ "./src/js/stores/combat.js");
+/* harmony import */ var _actions_character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/character */ "./src/js/actions/character.js");
+/* harmony import */ var _actions_messages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/messages */ "./src/js/actions/messages.js");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _models_tile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../models/tile */ "./src/js/models/tile.js");
+/* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/util */ "./src/js/lib/util.js");
+/* harmony import */ var _wall__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wall */ "./src/js/components/Passage/wall.jsx");
+/* harmony import */ var _passage_controls__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./passage-controls */ "./src/js/components/Passage/passage-controls.jsx");
+/* harmony import */ var _Combat_monster__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Combat/monster */ "./src/js/components/Passage/Combat/monster.jsx");
+/* harmony import */ var _Combat_combat_controls__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Combat/combat-controls */ "./src/js/components/Passage/Combat/combat-controls.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _constants_passageview__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../constants/passageview */ "./src/js/constants/passageview.js");
+/* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
+/* harmony import */ var _css_lib_base__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../css/lib/base */ "./src/css/lib/base.scss");
+/* harmony import */ var _css_components_Passage_passage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../css/components/Passage/passage */ "./src/css/components/Passage/passage.scss");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -10425,57 +10550,57 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var defaultSurfaces = _config_default_json__WEBPACK_IMPORTED_MODULE_16__.defaultSurfaces;
+var defaultSurfaces = _config_default_json__WEBPACK_IMPORTED_MODULE_15__.defaultSurfaces;
 var FADE_TIME = 200;
 
 
 
+
 var PassageProvider = function PassageProvider() {
-  var currTileObj = _stores_level__WEBPACK_IMPORTED_MODULE_2__.default.getTile(_stores_character__WEBPACK_IMPORTED_MODULE_3__.default.getCurrTileName());
+  var currTileObj = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currTileObj),
       _useState2 = _slicedToArray(_useState, 2),
       currTile = _useState2[0],
       setCurrTile = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_character__WEBPACK_IMPORTED_MODULE_3__.default.getDirection()),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getDirection()),
       _useState4 = _slicedToArray(_useState3, 2),
       currDirection = _useState4[0],
       setCurrDirection = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_combat__WEBPACK_IMPORTED_MODULE_4__.default.isInCombat()),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isInCombat()),
       _useState6 = _slicedToArray(_useState5, 2),
       inCombat = _useState6[0],
       setInCombat = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_combat__WEBPACK_IMPORTED_MODULE_4__.default.isCharactersTurn()),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isCharactersTurn()),
       _useState8 = _slicedToArray(_useState7, 2),
       isCharactersTurn = _useState8[0],
       setIsCharactersTurn = _useState8[1]; // @todo only call setters if value is different so as not to force render
 
 
   var handleCharacterUpdate = function handleCharacterUpdate() {
-    setCurrDirection(_stores_character__WEBPACK_IMPORTED_MODULE_3__.default.getDirection());
+    setCurrDirection(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getDirection());
     setCurrTile(function () {
-      var newTile = _stores_level__WEBPACK_IMPORTED_MODULE_2__.default.getTile(_stores_character__WEBPACK_IMPORTED_MODULE_3__.default.getCurrTileName());
+      var newTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
       return newTile;
     });
   };
 
   var handleCombatUpdate = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    setInCombat(_stores_combat__WEBPACK_IMPORTED_MODULE_4__.default.isInCombat());
-    setIsCharactersTurn(_stores_combat__WEBPACK_IMPORTED_MODULE_4__.default.isCharactersTurn());
+    setInCombat(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isInCombat());
+    setIsCharactersTurn(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isCharactersTurn());
   }, []);
-  (0,_hooks__WEBPACK_IMPORTED_MODULE_7__.useStoreSubscription)([[_stores_character__WEBPACK_IMPORTED_MODULE_3__.default, handleCharacterUpdate], [_stores_combat__WEBPACK_IMPORTED_MODULE_4__.default, handleCombatUpdate]]);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_6__.useStoreSubscription)([[_stores_character__WEBPACK_IMPORTED_MODULE_2__.default, handleCharacterUpdate], [_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default, handleCombatUpdate]]);
   var handleTurnLeft = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var newDirection;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            newDirection = _constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
-            (0,_actions_character__WEBPACK_IMPORTED_MODULE_5__.setDirection)(newDirection);
+            newDirection = _constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
+            (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection)(newDirection);
 
           case 2:
           case "end":
@@ -10490,8 +10615,8 @@ var PassageProvider = function PassageProvider() {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            newDirection = _constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.indexOf(currDirection) + 1) % 4];
-            (0,_actions_character__WEBPACK_IMPORTED_MODULE_5__.setDirection)(newDirection);
+            newDirection = _constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.indexOf(currDirection) + 1) % 4];
+            (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection)(newDirection);
 
           case 2:
           case "end":
@@ -10504,17 +10629,17 @@ var PassageProvider = function PassageProvider() {
     var dir = getDirsForWalls(currDirection).ahead;
 
     if (inCombat) {
-      (0,_actions_messages__WEBPACK_IMPORTED_MODULE_6__.showGameMsg)("Can't get past without fighting!");
+      (0,_actions_messages__WEBPACK_IMPORTED_MODULE_5__.showGameMsg)("Can't get past without fighting!");
       return;
     }
 
     if (currTile.hasExitAtWall(dir)) {
       var nextTileName = currTile.getAdjacentTileName(dir);
-      (0,_actions_character__WEBPACK_IMPORTED_MODULE_5__.setTile)(nextTileName);
+      (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile)(nextTileName);
     } else {
       console.log("You can't go that way.");
     }
-  }, [currDirection, inCombat, currTile, _actions_character__WEBPACK_IMPORTED_MODULE_5__.setTile]);
+  }, [currDirection, inCombat, currTile, _actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Passage, {
     currTile: currTile,
     inCombat: inCombat,
@@ -10545,7 +10670,7 @@ var Passage = function Passage(_ref3) {
     return new Promise(function (resolve) {
       setIsFaded(isFaded); // wait for css animation to execute
 
-      (0,_lib_util__WEBPACK_IMPORTED_MODULE_9__.gameplayWait)(FADE_TIME).then(resolve);
+      (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.gameplayWait)(FADE_TIME).then(resolve);
     });
   };
 
@@ -10555,7 +10680,7 @@ var Passage = function Passage(_ref3) {
       ahead = _getDirsForWalls.ahead; // @todo review
 
 
-  if (!(currTile instanceof _models_tile__WEBPACK_IMPORTED_MODULE_8__.default)) {
+  if (!(currTile instanceof _models_tile__WEBPACK_IMPORTED_MODULE_7__.default)) {
     console.log("Invalid Tile in Passage state.");
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "passagenotile"
@@ -10591,7 +10716,7 @@ var Passage = function Passage(_ref3) {
   if (inCombat) {
     var monsters = currTile.getMonsters() || [];
     monsterElems = monsters.map(function (monster) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_monster__WEBPACK_IMPORTED_MODULE_12__.Monster, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_monster__WEBPACK_IMPORTED_MODULE_11__.Monster, {
         monster: monster,
         key: monster.getName()
       });
@@ -10668,9 +10793,9 @@ var Passage = function Passage(_ref3) {
     className: "passagewrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passage"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsCeiling), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsFloor), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsRightWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsLeftWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsAhead)), monsterElems), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsCeiling), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsFloor), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsRightWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsLeftWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsAhead)), monsterElems), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passageoverlay".concat(overlayClass)
-  }), inCombat && isCharactersTurn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_13__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_passage_controls__WEBPACK_IMPORTED_MODULE_11__.default, {
+  }), inCombat && isCharactersTurn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_12__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_passage_controls__WEBPACK_IMPORTED_MODULE_10__.default, {
     leftClickHandler: handleLeftClick,
     forwardClickHandler: handleForwardClick,
     rightClickHandler: handleRightClick
@@ -10678,8 +10803,8 @@ var Passage = function Passage(_ref3) {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PassageProvider);
 Passage.propTypes = {
-  currTile: prop_types__WEBPACK_IMPORTED_MODULE_1___default().instanceOf(_models_tile__WEBPACK_IMPORTED_MODULE_8__.default).isRequired,
-  direction: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS).isRequired,
+  currTile: prop_types__WEBPACK_IMPORTED_MODULE_1___default().instanceOf(_models_tile__WEBPACK_IMPORTED_MODULE_7__.default).isRequired,
+  direction: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS).isRequired,
   inCombat: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
   isCharactersTurn: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
   onTurnLeft: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
@@ -10689,11 +10814,11 @@ Passage.propTypes = {
 // @todo assumes north is the original forward dir
 
 var getDirsForWalls = function getDirsForWalls(direction) {
-  if (!_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.includes(direction)) {
+  if (!_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.includes(direction)) {
     throw new TypeError("Invalid direction set on Passage");
   }
 
-  return _constants_passageview__WEBPACK_IMPORTED_MODULE_15__.DIRS_FOR_WALLS[direction];
+  return _constants_passageview__WEBPACK_IMPORTED_MODULE_14__.DIRS_FOR_WALLS[direction];
 };
 
 /***/ }),
@@ -10753,6 +10878,50 @@ Wall.propTypes = {
 
 /***/ }),
 
+/***/ "./src/js/components/title-screen.jsx":
+/*!********************************************!*\
+  !*** ./src/js/components/title-screen.jsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _actions_game_status__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/game-status */ "./src/js/actions/game-status.js");
+/* harmony import */ var _css_components_title_screen_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/components/title-screen.scss */ "./src/css/components/title-screen.scss");
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+
+
+
+
+var TITLE_SCREEN = function TITLE_SCREEN(_ref) {
+  _objectDestructuringEmpty(_ref);
+
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    (0,_actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame)();
+  }, [_actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.addEventListener("keydown", _actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame);
+    return function () {
+      window.removeEventListener("keydown", _actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame);
+    };
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "title_screen"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    onClick: handleClick,
+    className: "title_screen--start_btn"
+  }, "Start"));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TITLE_SCREEN);
+
+/***/ }),
+
 /***/ "./src/js/components/ui-router.js":
 /*!****************************************!*\
   !*** ./src/js/components/ui-router.js ***!
@@ -10770,8 +10939,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Inventory_inventory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Inventory/inventory */ "./src/js/components/Inventory/inventory.jsx");
 /* harmony import */ var _Passage_game_msg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Passage/game-msg */ "./src/js/components/Passage/game-msg.jsx");
 /* harmony import */ var _GameHeader_game_header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameHeader/game-header */ "./src/js/components/GameHeader/game-header.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/js/constants/index.js");
-/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
+/* harmony import */ var _title_screen__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./title-screen */ "./src/js/components/title-screen.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _constants_game_status__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../constants/game-status */ "./src/js/constants/game-status.js");
+/* harmony import */ var _stores_game_status__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../stores/game-status */ "./src/js/stores/game-status.js");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -10790,47 +10963,71 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
- // @todo review
 
+
+
+
+ // @todo review, where should this be imported
+
+ // @todo there should probably be clearer lines between in-game routing
+// and out-of-game routing, but this works for now
 
 var UIRouter = function UIRouter() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_constants__WEBPACK_IMPORTED_MODULE_6__.UI_PASSAGE),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       uiState = _useState2[0],
       setUiState = _useState2[1];
 
+  var handleGameStatusChange = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    var currStatus = _stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default.getGameStatus();
+
+    switch (currStatus) {
+      case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN:
+        setUiState(_constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN);
+        break;
+
+      case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.GAMEPLAY:
+        setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE);
+    }
+  }, [_stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(handleGameStatusChange, []);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_10__.useStoreSubscription)([[_stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default, handleGameStatusChange]]);
+
   var handleMapBtnClick = function handleMapBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_6__.UI_MAP);
+    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_MAP);
   };
 
   var handleBackBtnClick = function handleBackBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_6__.UI_PASSAGE);
+    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE);
   };
 
   var handleInventoryBtnClick = function handleInventoryBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_6__.UI_INVENTORY);
+    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_INVENTORY);
   };
 
-  var gameContent = null; // @todo make this all less cruddy
+  var currContent = null; // @todo make this all less cruddy
 
   switch (uiState) {
-    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_PASSAGE:
-      gameContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_passage__WEBPACK_IMPORTED_MODULE_1__.default, null);
+    case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN:
+    default:
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_title_screen__WEBPACK_IMPORTED_MODULE_6__.default, null);
       break;
 
-    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_MAP:
-      gameContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__.default, {
+    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE:
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_passage__WEBPACK_IMPORTED_MODULE_1__.default, null);
+      break;
+
+    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_MAP:
+      // @todo move values to config, fetch them in LevelMap
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__.default, {
         rows: 10,
         columns: 20
       });
       break;
 
-    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_INVENTORY:
-      gameContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Inventory_inventory__WEBPACK_IMPORTED_MODULE_3__.default, null);
+    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_INVENTORY:
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Inventory_inventory__WEBPACK_IMPORTED_MODULE_3__.default, null);
       break;
-
-    default:
-      throw new TypeError("Invalid UI state in GameRoot");
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -10839,7 +11036,7 @@ var UIRouter = function UIRouter() {
     handleBackBtnClick: handleBackBtnClick,
     handleMapBtnClick: handleMapBtnClick,
     handleInventoryBtnClick: handleInventoryBtnClick
-  }), gameContent);
+  }), currContent);
 };
 
 /***/ }),
@@ -10853,6 +11050,7 @@ var UIRouter = function UIRouter() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "START_GAME": () => (/* binding */ START_GAME),
 /* harmony export */   "ADD_TO_HISTORY": () => (/* binding */ ADD_TO_HISTORY),
 /* harmony export */   "COMBAT_DAMAGE_OPPONENT": () => (/* binding */ COMBAT_DAMAGE_OPPONENT),
 /* harmony export */   "COMBAT_DAMAGE_CHARACTER": () => (/* binding */ COMBAT_DAMAGE_CHARACTER),
@@ -10877,28 +11075,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "START_COMBAT": () => (/* binding */ START_COMBAT),
 /* harmony export */   "TILE_SET": () => (/* binding */ TILE_SET)
 /* harmony export */ });
-var ADD_TO_HISTORY = "addToHistory";
-var COMBAT_DAMAGE_OPPONENT = "combat;DamageOpponent";
-var COMBAT_DAMAGE_CHARACTER = "combaDamageCharacter;";
-var COMBAT_OPPONENTS_DEFEATED = "combatOpponentsDefet;ed";
-var COMBAT_SET_ADVANTAGE = "combatSetAdvantage";
-var COMBAT_START_ROUND = "combatStartRound";
-var COMBAT_START_TURN_OPPONENTS = "combatStartTurnOpponents";
-var COMBAT_START_TURN_CHARACTER = "combatStatTurnCharacter;";
-var COMBAT_END_TURN_CHARACTER = "combatEndTurnCharacter";
+var START_GAME = "START_GAME";
+var ADD_TO_HISTORY = "ADD_TO_HISTORY";
+var COMBAT_DAMAGE_OPPONENT = "COMBAT_DAMAGE_OPPONENT";
+var COMBAT_DAMAGE_CHARACTER = "COMBAT_DAMAGE_CHARACTER;";
+var COMBAT_OPPONENTS_DEFEATED = "COMBAT_OPPONENTS_DEFEATED;ed";
+var COMBAT_SET_ADVANTAGE = "COMBAT_SET_ADVANTAGE";
+var COMBAT_START_ROUND = "COMBAT_START_ROUND";
+var COMBAT_START_TURN_OPPONENTS = "COMBAT_START_TURN_OPPONENTS";
+var COMBAT_START_TURN_CHARACTER = "COMBAT_START_TURN_CHARACTER;";
+var COMBAT_END_TURN_CHARACTER = "COMBAT_END_TURN_CHARACTER";
 var COMBAT_ATTACK_OPPONENT = "COMBAT_ATTACK_OPPONENT";
 var COMBAT_ACTION_ATTACK = "COMBAT_ACTION_ATTACK";
-var DIRECTION_SET = "setDirection";
-var END_COMBAT = "endCombat";
-var INVENTORY_ADD_ITEMS = "inventoryAddItems";
-var INVENTORY_SET_ACTIVE_WEAPON = "inventorySetActiveWeapon";
-var INVENTORY_SET_ACTIVE_ARMOR = "inventorySetctiveArmor";
-var ITEMS_LOADED = "itemsLoaded";
-var LEVEL_LOADED = "levelLoaded";
-var MONSTERS_LOADED = "monstersLoaded";
-var REMOVE_GAME_MSG = "removeGamesg";
-var SHOW_GAME_MSG = "showGameMsg";
-var START_COMBAT = "startCombat";
+var DIRECTION_SET = "DIRECTION_SET";
+var END_COMBAT = "END_COMBAT";
+var INVENTORY_ADD_ITEMS = "INVENTORY_ADD_ITEMS";
+var INVENTORY_SET_ACTIVE_WEAPON = "INVENTORY_SET_ACTIVE_WEAPON";
+var INVENTORY_SET_ACTIVE_ARMOR = "INVENTORY_SET_ACTIVE_ARMOR";
+var ITEMS_LOADED = "ITEMS_LOADED";
+var LEVEL_LOADED = "LEVEL_LOADED";
+var MONSTERS_LOADED = "MONSTERS_LOADED";
+var REMOVE_GAME_MSG = "REMOVE_GAME_MSG";
+var SHOW_GAME_MSG = "SHOW_GAME_MSG";
+var START_COMBAT = "START_COMBAT";
 var TILE_SET = "TILE_SET";
 
 /***/ }),
@@ -10932,6 +11131,25 @@ var POLLING_INTERVAL_FOR_CHAR_ACTION = 250;
 
 /***/ }),
 
+/***/ "./src/js/constants/game-status.js":
+/*!*****************************************!*\
+  !*** ./src/js/constants/game-status.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TITLE_SCREEN": () => (/* binding */ TITLE_SCREEN),
+/* harmony export */   "GAMEPLAY": () => (/* binding */ GAMEPLAY),
+/* harmony export */   "GAMEOVER": () => (/* binding */ GAMEOVER)
+/* harmony export */ });
+var TITLE_SCREEN = "TITLE_SCREEN";
+var GAMEPLAY = "GAMEPLAY";
+var GAMEOVER = "GAMEOVER";
+
+/***/ }),
+
 /***/ "./src/js/constants/index.js":
 /*!***********************************!*\
   !*** ./src/js/constants/index.js ***!
@@ -10949,9 +11167,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UI_INVENTORY": () => (/* binding */ UI_INVENTORY),
 /* harmony export */   "DIRECTIONS": () => (/* binding */ DIRECTIONS)
 /* harmony export */ });
-// @todo these are all gameplay-based, maybe they belong at
-// e.g. /gameplay rather than index to account for non-gameplay
-// use cases for constants
 var MSG_SPEED_MED = 500;
 var CHARACTER = "CHARACTER";
 var OPPONENTS = "OPPONENTS";
@@ -11159,7 +11374,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TileFactory": () => (/* binding */ TileFactory)
 /* harmony export */ });
 /* harmony import */ var _models_tile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/tile */ "./src/js/models/tile.js");
-/* harmony import */ var _monster_factory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./monster-factory */ "./src/js/factories/monster-factory.js");
+/* harmony import */ var _stores_level__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stores/level */ "./src/js/stores/level.js");
+/* harmony import */ var _monster_factory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./monster-factory */ "./src/js/factories/monster-factory.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -11168,9 +11384,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var TileFactory = function TileFactory(tileProps) {
+
+var TileFactory = function TileFactory(tileName) {
+  var tileProps = _stores_level__WEBPACK_IMPORTED_MODULE_1__.default.getTileData(tileName);
   var monstArr = tileProps.monsters || [];
-  var monsters = monstArr.map(_monster_factory__WEBPACK_IMPORTED_MODULE_1__.MonsterFactory);
+  var monsters = monstArr.map(_monster_factory__WEBPACK_IMPORTED_MODULE_2__.MonsterFactory);
   return new _models_tile__WEBPACK_IMPORTED_MODULE_0__.default(_objectSpread(_objectSpread({}, tileProps), {}, {
     monsters: monsters
   }));
@@ -11302,10 +11520,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util */ "./src/js/lib/util.js");
 /* harmony import */ var _constants_combat__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../constants/combat */ "./src/js/constants/combat.js");
-/* harmony import */ var _models_opponent_attack__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../models/opponent-attack */ "./src/js/models/opponent-attack.js");
-/* harmony import */ var _models_damage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../models/damage */ "./src/js/models/damage.js");
-/* harmony import */ var _models_defense__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../models/defense */ "./src/js/models/defense.js");
-/* harmony import */ var _constants_play_history__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../constants/play-history */ "./src/js/constants/play-history.js");
+/* harmony import */ var _models_damage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../models/damage */ "./src/js/models/damage.js");
+/* harmony import */ var _models_defense__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../models/defense */ "./src/js/models/defense.js");
+/* harmony import */ var _constants_play_history__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../constants/play-history */ "./src/js/constants/play-history.js");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -11359,14 +11577,15 @@ var CombatRunner = /*#__PURE__*/function () {
 
     _defineProperty(this, "handleAction", function (action) {
       var type = action.type,
-          tile = action.payload.tile;
+          payload = action.payload;
 
       switch (type) {
         // determines whether combat should begin when player enters a tile
         case _constants_actions__WEBPACK_IMPORTED_MODULE_9__.TILE_SET:
           _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.waitFor([_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.dispatchToken]);
+          var tileName = payload.tileName;
           window.requestAnimationFrame(function () {
-            _this.handleSetTile(tile);
+            _this.handleSetTile(tileName);
           });
           break;
         //
@@ -11449,7 +11668,7 @@ var CombatRunner = /*#__PURE__*/function () {
 
       var characterStrMod = _stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getStr();
       var baseDmgDealt = weaponDmg + characterLevelDmgMod + characterStrMod;
-      return new _models_damage__WEBPACK_IMPORTED_MODULE_13__.default({
+      return new _models_damage__WEBPACK_IMPORTED_MODULE_12__.default({
         dmgPoints: baseDmgDealt,
         types: dmgTypes
       });
@@ -11466,12 +11685,13 @@ var CombatRunner = /*#__PURE__*/function () {
 
   _createClass(CombatRunner, [{
     key: "handleSetTile",
-    value: function handleSetTile(tile) {
+    value: function handleSetTile(tileName) {
       // it should not be possible to move while in combat
       if (_stores_combat__WEBPACK_IMPORTED_MODULE_1__.default.isInCombat()) {
         throw new Error("Tile changed while in combat");
-      } // rethink if/when introduce random monster encounters
+      }
 
+      var tile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_15__.TileFactory)(tileName); // rethink if/when introduce random monster encounters
 
       if (!tile.hasUndefeatedOpponents()) {
         return;
@@ -11581,7 +11801,7 @@ var CombatRunner = /*#__PURE__*/function () {
       this.disburseTreasure(treasure); // @todo this whole model is likely to get more sophisticated
 
       (0,_actions_play_history__WEBPACK_IMPORTED_MODULE_7__.addToPlayHistory)({
-        eventName: _constants_play_history__WEBPACK_IMPORTED_MODULE_15__.OPPONENTS_DEFEATED,
+        eventName: _constants_play_history__WEBPACK_IMPORTED_MODULE_14__.OPPONENTS_DEFEATED,
         tileName: _stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName()
       });
       (0,_actions_messages__WEBPACK_IMPORTED_MODULE_4__.showGameMsg)("".concat(opponentName, " defeated!"));
@@ -11696,7 +11916,7 @@ var CombatRunner = /*#__PURE__*/function () {
       var opponentLevelDmgMod = (0,_util__WEBPACK_IMPORTED_MODULE_10__.getRandomNum)(_stores_combat__WEBPACK_IMPORTED_MODULE_1__.default.getOpponentsLevel());
       var opponentStrMod = _stores_combat__WEBPACK_IMPORTED_MODULE_1__.default.getOpponentsStr();
       var baseDmgDealt = attackDmg + opponentLevelDmgMod + opponentStrMod;
-      return new _models_damage__WEBPACK_IMPORTED_MODULE_13__.default({
+      return new _models_damage__WEBPACK_IMPORTED_MODULE_12__.default({
         dmgPoints: baseDmgDealt,
         types: dmgTypes
       });
@@ -11712,7 +11932,7 @@ var CombatRunner = /*#__PURE__*/function () {
       var protection = activeArmor.getProtection();
       var protectedAgainst = activeArmor.getProtectedAgainst();
       var vulnerableTo = activeArmor.getVulnerableTo();
-      return new _models_defense__WEBPACK_IMPORTED_MODULE_14__.default({
+      return new _models_defense__WEBPACK_IMPORTED_MODULE_13__.default({
         protection: protection,
         protectedAgainst: protectedAgainst,
         vulnerableTo: vulnerableTo
@@ -11831,7 +12051,7 @@ var CombatRunner = /*#__PURE__*/function () {
       var protection = armor.protection,
           protectedAgainst = armor.protectedAgainst,
           vulnerableTo = armor.vulnerableTo;
-      return new _models_defense__WEBPACK_IMPORTED_MODULE_14__.default({
+      return new _models_defense__WEBPACK_IMPORTED_MODULE_13__.default({
         protection: protection,
         protectedAgainst: protectedAgainst,
         vulnerableTo: vulnerableTo
@@ -11896,29 +12116,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! events */ "./node_modules/events/events.js");
 /* harmony import */ var events__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(events__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 var CHANGE = "CHANGE";
 
-var Store = function Store() {
-  this.events = new (events__WEBPACK_IMPORTED_MODULE_0___default())();
-  this.data = null;
-};
+var Store = /*#__PURE__*/function () {
+  function Store() {
+    _classCallCheck(this, Store);
 
-Store.prototype.get = function get() {
-  return this.data;
-};
+    this.events = new (events__WEBPACK_IMPORTED_MODULE_0___default())();
+    this.data = null;
+    this.dispatchToken = null;
+  }
 
-Store.prototype.listen = function listen(cb) {
-  this.events.on(CHANGE, cb);
-};
+  _createClass(Store, [{
+    key: "get",
+    value: function get() {
+      return this.data;
+    }
+  }, {
+    key: "listen",
+    value: function listen(callback) {
+      this.events.on(CHANGE, callback);
+    }
+  }, {
+    key: "stopListening",
+    value: function stopListening(callback) {
+      this.events.removeListener(CHANGE, callback);
+    }
+  }, {
+    key: "triggerChange",
+    value: function triggerChange() {
+      this.events.emit(CHANGE);
+    }
+  }]);
 
-Store.prototype.stopListening = function stopListening(cb) {
-  this.events.removeListener(CHANGE, cb);
-};
-
-Store.prototype.triggerChange = function triggerChange() {
-  this.events.emit(CHANGE);
-};
+  return Store;
+}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Store);
 
@@ -13238,6 +13477,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/store */ "./src/js/lib/store.js");
 /* harmony import */ var _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/game-dispatcher */ "./src/js/lib/game-dispatcher.js");
 /* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13266,6 +13506,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var CharacterStore = /*#__PURE__*/function (_Store) {
   _inherits(CharacterStore, _Store);
 
@@ -13280,13 +13521,12 @@ var CharacterStore = /*#__PURE__*/function (_Store) {
 
     _defineProperty(_assertThisInitialized(_this), "handleAction", function (action) {
       var type = action.type,
-          _action$payload = action.payload,
-          tile = _action$payload.tile,
-          direction = _action$payload.direction,
-          dmg = _action$payload.dmg;
+          payload = action.payload;
 
       switch (type) {
         case _constants_actions__WEBPACK_IMPORTED_MODULE_2__.TILE_SET:
+          var tileName = payload.tileName;
+          var tile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_3__.TileFactory)(tileName);
           var newTileName = tile.getName();
 
           if (_this.data.currTileName !== newTileName) {
@@ -13298,6 +13538,8 @@ var CharacterStore = /*#__PURE__*/function (_Store) {
           break;
 
         case _constants_actions__WEBPACK_IMPORTED_MODULE_2__.DIRECTION_SET:
+          var direction = payload.direction;
+
           if (_this.data.currDirection !== direction) {
             _this.data.currDirection = direction;
 
@@ -13307,6 +13549,8 @@ var CharacterStore = /*#__PURE__*/function (_Store) {
           break;
 
         case _constants_actions__WEBPACK_IMPORTED_MODULE_2__.COMBAT_DAMAGE_CHARACTER:
+          var dmg = payload.dmg;
+
           var _assertThisInitialize = _assertThisInitialized(_this),
               health = _assertThisInitialize.data.health;
 
@@ -13715,6 +13959,102 @@ var CombatStore = /*#__PURE__*/function (_Store) {
 
 var combatStore = new CombatStore();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (combatStore);
+
+/***/ }),
+
+/***/ "./src/js/stores/game-status.js":
+/*!**************************************!*\
+  !*** ./src/js/stores/game-status.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _lib_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/store */ "./src/js/lib/store.js");
+/* harmony import */ var _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/game-dispatcher */ "./src/js/lib/game-dispatcher.js");
+/* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
+/* harmony import */ var _constants_game_status__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/game-status */ "./src/js/constants/game-status.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var GameStatusStore = /*#__PURE__*/function (_Store) {
+  _inherits(GameStatusStore, _Store);
+
+  var _super = _createSuper(GameStatusStore);
+
+  function GameStatusStore() {
+    var _this;
+
+    _classCallCheck(this, GameStatusStore);
+
+    _this = _super.call(this);
+
+    _defineProperty(_assertThisInitialized(_this), "handleAction", function (action) {
+      var type = action.type;
+
+      switch (type) {
+        case _constants_actions__WEBPACK_IMPORTED_MODULE_2__.START_GAME:
+          if (_this.data.status !== _constants_game_status__WEBPACK_IMPORTED_MODULE_3__.GAMEPLAY) {
+            _this.data.status = _constants_game_status__WEBPACK_IMPORTED_MODULE_3__.GAMEPLAY;
+
+            _this.triggerChange();
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    _this.data = {
+      status: _constants_game_status__WEBPACK_IMPORTED_MODULE_3__.TITLE_SCREEN
+    };
+    _this.dispatchToken = _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_1__.dispatcher.register(_this.handleAction);
+    return _this;
+  }
+
+  _createClass(GameStatusStore, [{
+    key: "getGameStatus",
+    value: function getGameStatus() {
+      return this.data.status;
+    }
+  }]);
+
+  return GameStatusStore;
+}(_lib_store__WEBPACK_IMPORTED_MODULE_0__.default);
+
+var gameStatusStore = new GameStatusStore();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gameStatusStore);
 
 /***/ }),
 
@@ -14223,32 +14563,21 @@ var LevelStore = /*#__PURE__*/function (_Store) {
     key: "getLevelName",
     value: function getLevelName() {
       return this.data.levelName;
-    } // @todo this is backwards compared to rest of app -- TileFactory
-    // should be used externally, and it should hit this getTile for
-    // raw tile data.
-    // @todo kind of feels like there should be a separate TileStore,
-    // but then, it would always be a subset of the level data...
-
+    }
   }, {
-    key: "getTile",
-    value: function getTile(tileName) {
+    key: "getTileData",
+    value: function getTileData(tileName) {
       if (!tileName || typeof tileName !== "string") {
-        throw new TypeError("invalid tileName passed to getTile.");
+        throw new TypeError("invalid tileName passed to getTileData.");
       }
 
       var tile = this.data.tiles[tileName];
 
       if (typeof tile === "undefined") {
         throw new ReferenceError("Could not find tile ".concat(tileName));
-      } // @todo this cloning should be more deliberate and consistent.
-      // Decide where we have an airgap and where we explicitly don't
-      // right now this clone is ensuring that, e.g., a given zombie object
-      // will not be referencing the same zombie instance you faced last
-      // @todo toying with the idea of domain objects being singletons,
-      //       e.g. every call to TileFactory for 1x1 returns same reference
+      }
 
-
-      return (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_3__.TileFactory)(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(tile));
+      return lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(tile);
     }
   }]);
 
@@ -15180,7 +15509,39 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/game-root.scss"],"names":[],"mappings":"AAEA;EACE,sBAAA;EACA,cAAA;EACA,kBAAA;EACA,aAAA;EACA,YAAA;AADF","sourcesContent":["@import \"../lib/vars.scss\";\n\n.game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/game-root.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,sBAAA;EACA,cAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb","sourcesContent":["@import \"../lib/vars.scss\";\n\n.game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/components/title-screen.scss":
+/*!***************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/components/title-screen.scss ***!
+  \***************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
+// Imports
+
+
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../../img/start-screen2x.png */ "./src/img/start-screen2x.png"), __webpack_require__.b);
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".title_screen {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: cover;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: 80px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/title-screen.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,yDAAA;EACA,sBAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb;;AAIA;EACE,kBAAA;EACA,QAAA;EACA,UAAA;AADF","sourcesContent":["@import \"../lib/vars.scss\";\n\n.title_screen {\n  background-image: url(\"../../img/start-screen2x.png\");\n  background-size: cover;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: $wall_width / 6;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -52336,6 +52697,61 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/css/components/title-screen.scss":
+/*!**********************************************!*\
+  !*** ./src/css/components/title-screen.scss ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_title_screen_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./title-screen.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/components/title-screen.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_title_screen_scss__WEBPACK_IMPORTED_MODULE_6__.default, options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_title_screen_scss__WEBPACK_IMPORTED_MODULE_6__.default && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_title_screen_scss__WEBPACK_IMPORTED_MODULE_6__.default.locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_title_screen_scss__WEBPACK_IMPORTED_MODULE_6__.default.locals : undefined);
+
+
+/***/ }),
+
 /***/ "./src/css/lib/base.scss":
 /*!*******************************!*\
   !*** ./src/css/lib/base.scss ***!
@@ -52960,6 +53376,17 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAACHCAYAAAAo
 
 /***/ }),
 
+/***/ "./src/img/start-screen2x.png":
+/*!************************************!*\
+  !*** ./src/img/start-screen2x.png ***!
+  \************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = "data:image/png;base64,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";
+
+/***/ }),
+
 /***/ "./src/js/config/default.json":
 /*!************************************!*\
   !*** ./src/js/config/default.json ***!
@@ -53037,6 +53464,80 @@ module.exports = JSON.parse('{"name":"one","tiles":{"1x1":{"coords":{"x":1,"y":1
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/async module */
+/******/ 	(() => {
+/******/ 		var webpackThen = typeof Symbol === "function" ? Symbol("webpack then") : "__webpack_then__";
+/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 		var completeQueue = (queue) => {
+/******/ 			if(queue) {
+/******/ 				queue.forEach((fn) => (fn.r--));
+/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 			}
+/******/ 		}
+/******/ 		var completeFunction = (fn) => (!--fn.r && fn());
+/******/ 		var queueFunction = (queue, fn) => (queue ? queue.push(fn) : completeFunction(fn));
+/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 			if(dep !== null && typeof dep === "object") {
+/******/ 				if(dep[webpackThen]) return dep;
+/******/ 				if(dep.then) {
+/******/ 					var queue = [];
+/******/ 					dep.then((r) => {
+/******/ 						obj[webpackExports] = r;
+/******/ 						completeQueue(queue);
+/******/ 						queue = 0;
+/******/ 					});
+/******/ 					var obj = {};
+/******/ 												obj[webpackThen] = (fn, reject) => (queueFunction(queue, fn), dep.catch(reject));
+/******/ 					return obj;
+/******/ 				}
+/******/ 			}
+/******/ 			var ret = {};
+/******/ 								ret[webpackThen] = (fn) => (completeFunction(fn));
+/******/ 								ret[webpackExports] = dep;
+/******/ 								return ret;
+/******/ 		}));
+/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
+/******/ 			var queue = hasAwait && [];
+/******/ 			var exports = module.exports;
+/******/ 			var currentDeps;
+/******/ 			var outerResolve;
+/******/ 			var reject;
+/******/ 			var isEvaluating = true;
+/******/ 			var nested = false;
+/******/ 			var whenAll = (deps, onResolve, onReject) => {
+/******/ 				if (nested) return;
+/******/ 				nested = true;
+/******/ 				onResolve.r += deps.length;
+/******/ 				deps.map((dep, i) => (dep[webpackThen](onResolve, onReject)));
+/******/ 				nested = false;
+/******/ 			};
+/******/ 			var promise = new Promise((resolve, rej) => {
+/******/ 				reject = rej;
+/******/ 				outerResolve = () => (resolve(exports), completeQueue(queue), queue = 0);
+/******/ 			});
+/******/ 			promise[webpackExports] = exports;
+/******/ 			promise[webpackThen] = (fn, rejectFn) => {
+/******/ 				if (isEvaluating) { return completeFunction(fn); }
+/******/ 				if (currentDeps) whenAll(currentDeps, fn, rejectFn);
+/******/ 				queueFunction(queue, fn);
+/******/ 				promise.catch(rejectFn);
+/******/ 			};
+/******/ 			module.exports = promise;
+/******/ 			body((deps) => {
+/******/ 				if(!deps) return outerResolve();
+/******/ 				currentDeps = wrapDeps(deps);
+/******/ 				var fn, result;
+/******/ 				var promise = new Promise((resolve, reject) => {
+/******/ 					fn = () => (resolve(result = currentDeps.map((d) => (d[webpackExports]))));
+/******/ 					fn.r = 0;
+/******/ 					whenAll(currentDeps, fn, reject);
+/******/ 				});
+/******/ 				return fn.r ? promise : result;
+/******/ 			}).then(outerResolve, reject);
+/******/ 			isEvaluating = false;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -53125,112 +53626,12 @@ module.exports = JSON.parse('{"name":"one","tiles":{"1x1":{"coords":{"x":1,"y":1
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/config/default.json */ "./src/js/config/default.json");
-/* harmony import */ var _js_actions_level__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/actions/level */ "./src/js/actions/level.js");
-/* harmony import */ var _js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/actions/monsters */ "./src/js/actions/monsters.js");
-/* harmony import */ var _js_actions_items__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/actions/items */ "./src/js/actions/items.js");
-/* harmony import */ var _js_stores_character__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/stores/character */ "./src/js/stores/character.js");
-/* harmony import */ var _js_stores_play_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/stores/play-history */ "./src/js/stores/play-history.js");
-/* harmony import */ var _js_stores_items__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/stores/items */ "./src/js/stores/items.js");
-/* harmony import */ var _js_stores_combat__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./js/stores/combat */ "./src/js/stores/combat.js");
-/* harmony import */ var _js_stores_inventory__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./js/stores/inventory */ "./src/js/stores/inventory.js");
-/* harmony import */ var _js_stores_level__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./js/stores/level */ "./src/js/stores/level.js");
-/* harmony import */ var _js_stores_messages__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./js/stores/messages */ "./src/js/stores/messages.js");
-/* harmony import */ var _js_stores_monsters__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./js/stores/monsters */ "./src/js/stores/monsters.js");
-/* harmony import */ var _js_lib_combat_runner__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./js/lib/combat-runner */ "./src/js/lib/combat-runner.js");
-/* harmony import */ var _js_components_ui_router__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./js/components/ui-router */ "./src/js/components/ui-router.js");
-/* harmony import */ var _css_lib_base_scss__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./css/lib/base.scss */ "./src/css/lib/base.scss");
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
- // these all use a module-as-singleton pattern. Booting
-// them up here because they need to start listening for
-// actions. This is simple/crude but all I need for now
-
-
-
-
-
-
-
-
- // same for combatRunner as it listens for actions
-// https://frinkiac.com/caption/S11E09/251560
-
-
-
-
-var rootSelector = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.rootSelector,
-    startingLevel = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.startingLevel; // @todo can these be done in 'parallel' or is there really a
-// sequential dependency
-
-function bootstrapLevel(_x) {
-  return _bootstrapLevel.apply(this, arguments);
-} // @todo begin game with start screen, etc, initialize stuff
-// to manage the gameplay status & view changing
-// @todo don't load assets until we need them
-
-
-function _bootstrapLevel() {
-  _bootstrapLevel = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(startingLevel) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return (0,_js_actions_level__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(startingLevel);
-
-          case 3:
-            _context.next = 5;
-            return (0,_js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__.loadMonsters)(startingLevel);
-
-          case 5:
-            return _context.abrupt("return", (0,_js_actions_items__WEBPACK_IMPORTED_MODULE_6__.loadItems)(startingLevel));
-
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context["catch"](0);
-            _context.t0.message = "Error bootstrapping level: ".concat(_context.t0.message);
-            throw _context.t0;
-
-          case 12:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 8]]);
-  }));
-  return _bootstrapLevel.apply(this, arguments);
-}
-
-bootstrapLevel(startingLevel).then(function () {
-  // @todo load saved character
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_js_components_ui_router__WEBPACK_IMPORTED_MODULE_16__.UIRouter), document.querySelector(rootSelector));
-})["catch"](function (err) {
-  throw err;
-});
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module used 'module' so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=main.js.map
