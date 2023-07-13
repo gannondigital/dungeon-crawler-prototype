@@ -45,14 +45,8 @@ async function bootstrapLevel(startingLevel) {
 // @todo begin game with start screen, etc, initialize stuff
 // to manage the gameplay status & view changing
 // @todo don't load assets until we need them
-bootstrapLevel(startingLevel)
-  .then(() => {
-    // @todo load saved character
-    ReactDOM.render(
-      React.createElement(UIRouter),
-      document.querySelector(rootSelector)
-    );
-  })
-  .catch((err) => {
-    throw err;
-  });
+await bootstrapLevel(startingLevel);
+ReactDOM.render(
+  React.createElement(UIRouter),
+  document.querySelector(rootSelector)
+);

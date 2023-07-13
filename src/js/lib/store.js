@@ -6,6 +6,7 @@ class Store {
   constructor() {
     this.events = new EventEmitter();
     this.data = null;
+    this.dispatchToken = null;
   }
 
   get() {
