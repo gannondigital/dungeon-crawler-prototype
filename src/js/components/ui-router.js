@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Passage from "./Passage/passage";
 import LevelMap from "./LevelMap/level-map";
 import Inventory from "./Inventory/inventory";
 import GameMsg from "./Passage/game-msg";
 import GameHeader from "./GameHeader/game-header";
+import TitleScreen from "./title-screen";
 import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
+import { TITLE_SCREEN } from "../constants/game-status";
+import gameStatusStore from "../stores/game-status";
+import { useStoreSubscription } from "../hooks";
 
-// @todo review
+// @todo review, where should this be imported
 import "../../css/components/game-root.scss";
 
+// @todo there should probably be clearer lines between in-game routing
+// and out-of-game routing, but this works for now
 export const UIRouter = () => {
-  const [uiState, setUiState] = useState(UI_PASSAGE);
+  const [uiState, setUiState] = useState(null);
+
+  const handleGameStatusChange = useCallback(() => {
+    const currStatus = gameStatusStore.getGameStatus();
+    switch (currStatus) {
+      case TITLE_SCREEN:
+        setUiState(TITLE_SCREEN);
+        break;
+      default:
+        throw new TypeError(`Invalid status ${currStatus} in UIRouter`);
+    }
+  }, [gameStatusStore]);
+  useEffect(handleGameStatusChange, []);
 
   const handleMapBtnClick = () => {
     setUiState(UI_MAP);
@@ -19,25 +37,28 @@ export const UIRouter = () => {
   const handleBackBtnClick = () => {
     setUiState(UI_PASSAGE);
   };
-
   const handleInventoryBtnClick = () => {
     setUiState(UI_INVENTORY);
   };
+  useStoreSubscription([[gameStatusStore, handleGameStatusChange]]);
 
-  let gameContent = null;
+  let currContent = null;
   // @todo make this all less cruddy
   switch (uiState) {
+    case TITLE_SCREEN:
+    default:
+      currContent = <TitleScreen />;
+      break;
     case UI_PASSAGE:
-      gameContent = <Passage />;
+      currContent = <Passage />;
       break;
     case UI_MAP:
-      gameContent = <LevelMap rows={10} columns={20} />;
+      // @todo move values to config, fetch them in LevelMap
+      currContent = <LevelMap rows={10} columns={20} />;
       break;
     case UI_INVENTORY:
-      gameContent = <Inventory />;
+      currContent = <Inventory />;
       break;
-    default:
-      throw new TypeError("Invalid UI state in UIRouter");
   }
 
   return (
@@ -48,7 +69,7 @@ export const UIRouter = () => {
         handleMapBtnClick={handleMapBtnClick}
         handleInventoryBtnClick={handleInventoryBtnClick}
       />
-      {gameContent}
+      {currContent}
     </div>
   );
 };

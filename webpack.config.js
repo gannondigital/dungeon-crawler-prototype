@@ -48,4 +48,7 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".json", ".scss"],
   },
+  experiments: {
+    topLevelAwait: true,
+  },
 };
