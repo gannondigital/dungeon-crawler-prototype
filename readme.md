@@ -2,6 +2,9 @@
 
 This is a prototype of an HTML/JS game engine inspired by the RPGs of the 80s. Because of the simple demands of the game (e.g. turn-based actions rather than real-time interactivity), there is no canvas-based game engine, or a canvas at all -- the rendering relies on traditional HTML/CSS (via React).
 
+## Play online!
+See the prototype in action at http://gannondigital.github.io/dungeon-crawler-prototype/. 
+
 ## Why?
 
 It's just something fun to work on. I like figuring out designs for systems I haven't created before.
@@ -31,7 +34,6 @@ Some of the patterns I'm thinking about, their value is under-realized in modern
 - You can receive items as 'treasure' after defeating a monster, and view your items in an Inventory screen.
 
 Next steps would include:
-* starting screen, transition to/from gameplay
 * improve design of combat subsystem
 * standardize usage of provider and factory patterns
 * replace some flux stores with constant data
@@ -45,9 +47,6 @@ Next steps would include:
 * item use, in and out of combat
 * magic use, in and out of combat
 * soundtrack and sound effects, web API
-
-## Play online!
-See the prototype in action at http://gannondigital.github.io/dungeon-crawler-prototype/. 
 
 ## License
 
