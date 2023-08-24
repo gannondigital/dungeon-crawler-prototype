@@ -110,12 +110,9 @@ class InventoryStore extends Store {
           },
           initialized: true,
         };
+        break;
       case INVENTORY_ADD_ITEMS:
-        const { items: newItemsByName } = payload;
-        // reconstituting the items here ensures the store
-        // doesn't hold on to unexpected references
-        // @todo review & be deliberate
-        const newItems = Object.keys(newItemsByName).map(ItemFactory);
+        const { items: newItems } = payload;
         const itemsByType = sortItemsByType(newItems);
 
         // @todo this is awkward, data is probably structured wrong

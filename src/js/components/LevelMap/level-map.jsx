@@ -8,12 +8,11 @@ import "../../../css/components/LevelMap/level-map.scss";
 import { TileFactory } from "../../factories/tile-factory";
 
 function getTilename(row, column) {
-  return `${row}x${column}`;
+  return `${column}x${row}`;
 }
 
 const LevelMapColumn = ({ currRow, currCol }) => {
   const tileName = getTilename(currRow, currCol);
-
   let mapTile;
   try {
     mapTile = TileFactory(tileName);
@@ -66,7 +65,7 @@ const LevelMap = ({ rows, columns }) => {
     while (currRow <= rows) {
       newMapEls.push(
         <LevelMapRow
-          key={`${currRow}x${columns}`}
+          key={`${columns}x${currRow}`}
           currRow={currRow}
           columns={columns}
         />

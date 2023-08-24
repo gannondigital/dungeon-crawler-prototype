@@ -109,13 +109,7 @@ export const Passage = ({
   const [isFaded, setIsFaded] = useState(false);
 
   // @todo there is likely a more elegant way to do this
-  const fade = (isFaded) => {
-    return new Promise((resolve) => {
-      setIsFaded(isFaded);
-      // wait for css animation to execute
-      gameplayWait(FADE_TIME).then(resolve);
-    });
-  };
+
   const { right, left, ahead } = getDirsForWalls(direction);
   // @todo review
   if (!(currTile instanceof Tile)) {
@@ -158,24 +152,30 @@ export const Passage = ({
     });
   }
 
-  // @todo there should be a 'changePassageView' or something
-  // that abstracts out the fading and takes a callback
+  const fade = (isFaded) => {
+    return new Promise((resolve) => {
+      setIsFaded(isFaded);
+      // wait for css animation to execute
+      gameplayWait(FADE_TIME).then(resolve);
+    });
+  };
+
+  const changePassageView = async (updateFn) => {
+    await fade(true);
+    updateFn();
+    await fade(false);
+  };
+
+  const handleLeftClick = useCallback(() => {
+    changePassageView(onTurnLeft);
+  }, [onTurnLeft, direction, currTile]);
+  const handleRightClick = useCallback(() => {
+    changePassageView(onTurnRight);
+  }, [onTurnRight, direction, currTile]);
   // @todo when onMoveAhead is an invalid action there should be
   // no fading
-  const handleLeftClick = useCallback(async () => {
-    await fade(true);
-    onTurnLeft();
-    await fade(false);
-  }, [onTurnLeft, direction, currTile]);
-  const handleRightClick = useCallback(async () => {
-    await fade(true);
-    onTurnRight();
-    await fade(false);
-  }, [onTurnRight, direction, currTile]);
-  const handleForwardClick = useCallback(async () => {
-    await fade(true);
-    onMoveAhead();
-    await fade(false);
+  const handleForwardClick = useCallback(() => {
+    changePassageView(onMoveAhead);
   }, [onMoveAhead, direction, currTile]);
 
   return (
