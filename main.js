@@ -9458,14 +9458,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * @param {Array} itemNames Array of item name strings
+ * @param {Array} items Array of Item instances
  */
 
-var addToInventory = function addToInventory(itemNames) {
+var addToInventory = function addToInventory(items) {
   _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__.dispatcher.dispatch({
     type: _constants_actions__WEBPACK_IMPORTED_MODULE_1__.INVENTORY_ADD_ITEMS,
     payload: {
-      items: itemNames
+      items: items
     }
   });
 };
@@ -10103,7 +10103,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function getTilename(row, column) {
-  return "".concat(row, "x").concat(column);
+  return "".concat(column, "x").concat(row);
 }
 
 var LevelMapColumn = function LevelMapColumn(_ref) {
@@ -10185,7 +10185,7 @@ var LevelMap = function LevelMap(_ref3) {
 
     while (currRow <= rows) {
       newMapEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LevelMapRow, {
-        key: "".concat(currRow, "x").concat(columns),
+        key: "".concat(columns, "x").concat(currRow),
         currRow: currRow,
         columns: columns
       }));
@@ -10666,14 +10666,6 @@ var Passage = function Passage(_ref3) {
       setIsFaded = _useState10[1]; // @todo there is likely a more elegant way to do this
 
 
-  var fade = function fade(isFaded) {
-    return new Promise(function (resolve) {
-      setIsFaded(isFaded); // wait for css animation to execute
-
-      (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.gameplayWait)(FADE_TIME).then(resolve);
-    });
-  };
-
   var _getDirsForWalls = getDirsForWalls(direction),
       right = _getDirsForWalls.right,
       left = _getDirsForWalls.left,
@@ -10721,72 +10713,54 @@ var Passage = function Passage(_ref3) {
         key: monster.getName()
       });
     });
-  } // @todo there should be a 'changePassageView' or something
-  // that abstracts out the fading and takes a callback
-  // @todo when onMoveAhead is an invalid action there should be
+  }
+
+  var fade = function fade(isFaded) {
+    return new Promise(function (resolve) {
+      setIsFaded(isFaded); // wait for css animation to execute
+
+      (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.gameplayWait)(FADE_TIME).then(resolve);
+    });
+  };
+
+  var changePassageView = /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(updateFn) {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return fade(true);
+
+            case 2:
+              updateFn();
+              _context3.next = 5;
+              return fade(false);
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function changePassageView(_x) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+
+  var handleLeftClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    changePassageView(onTurnLeft);
+  }, [onTurnLeft, direction, currTile]);
+  var handleRightClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    changePassageView(onTurnRight);
+  }, [onTurnRight, direction, currTile]); // @todo when onMoveAhead is an invalid action there should be
   // no fading
 
-
-  var handleLeftClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return fade(true);
-
-          case 2:
-            onTurnLeft();
-            _context3.next = 5;
-            return fade(false);
-
-          case 5:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  })), [onTurnLeft, direction, currTile]);
-  var handleRightClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.next = 2;
-            return fade(true);
-
-          case 2:
-            onTurnRight();
-            _context4.next = 5;
-            return fade(false);
-
-          case 5:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4);
-  })), [onTurnRight, direction, currTile]);
-  var handleForwardClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.next = 2;
-            return fade(true);
-
-          case 2:
-            onMoveAhead();
-            _context5.next = 5;
-            return fade(false);
-
-          case 5:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5);
-  })), [onMoveAhead, direction, currTile]);
+  var handleForwardClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    changePassageView(onMoveAhead);
+  }, [onMoveAhead, direction, currTile]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passageroot"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -14197,13 +14171,10 @@ var InventoryStore = /*#__PURE__*/function (_Store) {
             },
             initialized: true
           });
+          break;
 
         case _constants_actions__WEBPACK_IMPORTED_MODULE_5__.INVENTORY_ADD_ITEMS:
-          var newItemsByName = payload.items; // reconstituting the items here ensures the store
-          // doesn't hold on to unexpected references
-          // @todo review & be deliberate
-
-          var newItems = Object.keys(newItemsByName).map(_factories_item_factory__WEBPACK_IMPORTED_MODULE_4__.default);
+          var newItems = payload.items;
           var itemsByType = sortItemsByType(newItems); // @todo this is awkward, data is probably structured wrong
           // and even so there has got to be a better way to express
           // @todo probably want a Set here for unique items, but
@@ -53416,7 +53387,7 @@ module.exports = JSON.parse('{"healing-potion":{"bulkSize":1,"itemRoles":["item"
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"blade-bearer":{"meta":{"name":"blade-bearer","label":"Blade Bearer","type":["undead"],"lore":"super spooky","imgUrl":"bladebearer.png"},"expLevel":1,"stats":{"maxHealth":8},"treasure":{"items":[]},"attr":{"str":3,"dex":1,"accuracy":3},"attacks":{"swipe":{"dmgPoints":2,"types":["undead","weapon-edged"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","weapon-blunt","weapon-normal","cold"],"vulnerableTo":["faith"]}},"deep-fungus":{"meta":{"name":"deep-fungus","label":"Deep Fungus","type":["earth","plant","fungus","poison"],"lore":"Smells weird","imgUrl":"deep-fungus.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":1,"dex":1,"accuracy":3},"attacks":{"spore-puff":{"dmgPoints":1,"types":["poison"],"accuracyMod":2}},"armor":{"protection":1,"protectedAgainst":["cold","poison","fear"],"vulnerableTo":["fire"]}},"eye-slime":{"meta":{"name":"eye-slime","label":"Eye Slime","type":["slime","watcher"],"lore":"You\'re not supposed to look them in the eyes","imgUrl":"eye-slime.png"},"expLevel":1,"stats":{"maxHealth":5},"treasure":{"items":[]},"attr":{"str":2,"dex":2,"accuracy":3},"attacks":{"daze":{"dmgPoints":1,"types":["stun","slow"],"accuracyMod":3},"ooze":{"dmgPoints":2,"types":["poison","slime"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","cold","poison","stun"],"vulnerableTo":["weapon-ranged"]}},"mimic":{"meta":{"name":"mimic","label":"Mimic","type":["horror","shapechanger","magic"],"lore":"If your torch is getting low, you want to be sure to look real close","imgUrl":"mimic.png"},"expLevel":2,"stats":{"maxHealth":10},"treasure":{"items":["healing-potion"]},"attr":{"str":4,"dex":2,"accuracy":1},"attacks":{"bash":{"dmgPoints":2,"types":["weapon-blunt"],"accuracyMod":0},"flowing-maw":{"dmgPoints":4,"types":["weapon-blunt","shapechanger","surprise"],"accuracyMod":1}},"armor":{"protection":3,"protectedAgainst":[],"vulnerableTo":["fire"]}},"moss-golem":{"meta":{"name":"moss-golem","label":"Moss Golem","type":["magic","plant","golem"],"lore":"It\'s slow, and it\'s damp.","imgUrl":"moss-golem.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":3,"dex":2,"accuracy":1},"attacks":{"sap":{"dmgPoints":1,"types":["drain","plant"],"accuracyMod":1},"envelop":{"dmgPoints":3,"types":["plant","stun"],"accuracyMod":0}},"armor":{"protection":2,"protectedAgainst":["weapon-blunt","weapon-ranged","cold","water","fire"],"vulnerableTo":["weapon-edged"]}}}');
+module.exports = JSON.parse('{"blade-bearer":{"meta":{"name":"blade-bearer","label":"Blade Bearer","type":["undead"],"lore":"super spooky","imgUrl":"bladebearer.png"},"expLevel":1,"stats":{"maxHealth":8},"treasure":{"items":["healing-potion"]},"attr":{"str":3,"dex":1,"accuracy":3},"attacks":{"swipe":{"dmgPoints":2,"types":["undead","weapon-edged"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","weapon-blunt","weapon-normal","cold"],"vulnerableTo":["faith"]}},"deep-fungus":{"meta":{"name":"deep-fungus","label":"Deep Fungus","type":["earth","plant","fungus","poison"],"lore":"Smells weird","imgUrl":"deep-fungus.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":1,"dex":1,"accuracy":3},"attacks":{"spore-puff":{"dmgPoints":1,"types":["poison"],"accuracyMod":2}},"armor":{"protection":1,"protectedAgainst":["cold","poison","fear"],"vulnerableTo":["fire"]}},"eye-slime":{"meta":{"name":"eye-slime","label":"Eye Slime","type":["slime","watcher"],"lore":"You\'re not supposed to look them in the eyes","imgUrl":"eye-slime.png"},"expLevel":1,"stats":{"maxHealth":5},"treasure":{"items":[]},"attr":{"str":2,"dex":2,"accuracy":3},"attacks":{"daze":{"dmgPoints":1,"types":["stun","slow"],"accuracyMod":3},"ooze":{"dmgPoints":2,"types":["poison","slime"],"accuracyMod":0}},"armor":{"protection":3,"protectedAgainst":["weapon-edged","cold","poison","stun"],"vulnerableTo":["weapon-ranged"]}},"mimic":{"meta":{"name":"mimic","label":"Mimic","type":["horror","shapechanger","magic"],"lore":"If your torch is getting low, you want to be sure to look real close","imgUrl":"mimic.png"},"expLevel":2,"stats":{"maxHealth":10},"treasure":{"items":["healing-potion"]},"attr":{"str":4,"dex":2,"accuracy":1},"attacks":{"bash":{"dmgPoints":2,"types":["weapon-blunt"],"accuracyMod":0},"flowing-maw":{"dmgPoints":4,"types":["weapon-blunt","shapechanger","surprise"],"accuracyMod":1}},"armor":{"protection":3,"protectedAgainst":[],"vulnerableTo":["fire"]}},"moss-golem":{"meta":{"name":"moss-golem","label":"Moss Golem","type":["magic","plant","golem"],"lore":"It\'s slow, and it\'s damp.","imgUrl":"moss-golem.png"},"expLevel":1,"stats":{"maxHealth":4},"treasure":{"items":[]},"attr":{"str":3,"dex":2,"accuracy":1},"attacks":{"sap":{"dmgPoints":1,"types":["drain","plant"],"accuracyMod":1},"envelop":{"dmgPoints":3,"types":["plant","stun"],"accuracyMod":0}},"armor":{"protection":2,"protectedAgainst":["weapon-blunt","weapon-ranged","cold","water","fire"],"vulnerableTo":["weapon-edged"]}}}');
 
 /***/ }),
 
@@ -53427,7 +53398,7 @@ module.exports = JSON.parse('{"blade-bearer":{"meta":{"name":"blade-bearer","lab
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"one","tiles":{"1x1":{"coords":{"x":1,"y":1},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"1x2":{"coords":{"x":1,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow","open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}},"monsters":["blade-bearer"]},"1x3":{"coords":{"x":1,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"2x3":{"coords":{"x":2,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"3x3":{"coords":{"x":3,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}},"monsters":["moss-golem"]},"4x3":{"coords":{"x":4,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"5x3":{"coords":{"x":5,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"5x2":{"coords":{"x":5,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"6x2":{"coords":{"x":6,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"6x3":{"coords":{"x":6,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["door-1","shadow"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}},"monsters":["eye-slime"]},"5x4":{"coords":{"x":5,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"6x4":{"coords":{"x":6,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}}}}');
+module.exports = JSON.parse('{"name":"one","tiles":{"1x1":{"coords":{"x":1,"y":1},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"1x2":{"coords":{"x":1,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow","open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow","open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}},"monsters":["blade-bearer"]},"1x3":{"coords":{"x":1,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"2x3":{"coords":{"x":2,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"3x3":{"coords":{"x":3,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}},"monsters":["moss-golem"]},"4x3":{"coords":{"x":4,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"5x3":{"coords":{"x":5,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"5x2":{"coords":{"x":5,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"6x2":{"coords":{"x":6,"y":2},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}}},"6x3":{"coords":{"x":6,"y":3},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open","shadow"],"exit":true},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}},"monsters":["eye-slime"]},"5x4":{"coords":{"x":5,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}}},"6x4":{"coords":{"x":6,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"7x3":{"coords":{"x":7,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["open"],"exit":true},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["open"],"exit":true}}},"8x3":{"coords":{"x":8,"y":3},"walls":{"n":{"surfaces":["stonebrick","shadow"]},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["open"],"exit":true}},"monsters":["deep-fungus"]},"8x4":{"coords":{"x":8,"y":4},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["open"],"exit":true},"w":{"surfaces":["stonebrick","shadow"]}}},"8x5":{"coords":{"x":8,"y":5},"walls":{"n":{"surfaces":["open"],"exit":true},"e":{"surfaces":["stonebrick","shadow"]},"s":{"surfaces":["stonebrick","shadow"]},"w":{"surfaces":["stonebrick","shadow"]}},"monsters":["mimic"]}}}');
 
 /***/ })
 
