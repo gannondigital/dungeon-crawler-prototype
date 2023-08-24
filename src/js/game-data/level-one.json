@@ -183,7 +183,7 @@
           "exit": true
         },
         "e": {
-          "surfaces": ["door-1", "shadow"],
+          "surfaces": ["open", "shadow"],
           "exit": true
         },
         "s": {
@@ -234,6 +234,83 @@
           "exit": true
         }
       }
+    },
+    "7x3": {
+      "coords": { "x": 7, "y": 3 },
+      "walls": {
+        "n": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "e": {
+          "surfaces": ["open"],
+          "exit": true
+        },
+        "s": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "w": {
+          "surfaces": ["open"],
+          "exit": true
+        }
+      }
+    },
+    "8x3": {
+      "coords": { "x": 8, "y": 3 },
+      "walls": {
+        "n": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "e": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "s": {
+          "surfaces": ["open"],
+          "exit": true
+        },
+        "w": {
+          "surfaces": ["open"],
+          "exit": true
+        }
+      },
+      "monsters": ["deep-fungus"]
+    },
+    "8x4": {
+      "coords": { "x": 8, "y": 4 },
+      "walls": {
+        "n": {
+          "surfaces": ["open"],
+          "exit": true
+        },
+        "e": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "s": {
+          "surfaces": ["open"],
+          "exit": true
+        },
+        "w": {
+          "surfaces": ["stonebrick", "shadow"]
+        }
+      }
+    },
+    "8x5": {
+      "coords": { "x": 8, "y": 5 },
+      "walls": {
+        "n": {
+          "surfaces": ["open"],
+          "exit": true
+        },
+        "e": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "s": {
+          "surfaces": ["stonebrick", "shadow"]
+        },
+        "w": {
+          "surfaces": ["stonebrick", "shadow"]
+        }
+      },
+      "monsters": ["mimic"]
     }
   }
 }

@@ -6,13 +6,13 @@ import {
 } from "../constants/actions";
 
 /**
- * @param {Array} itemNames Array of item name strings
+ * @param {Array} items Array of Item instances
  */
-export const addToInventory = (itemNames) => {
+export const addToInventory = (items) => {
   dispatcher.dispatch({
     type: INVENTORY_ADD_ITEMS,
     payload: {
-      items: itemNames,
+      items,
     },
   });
 };

@@ -12,7 +12,7 @@
       "maxHealth": 8
     },
     "treasure": {
-      "items": []
+      "items": ["healing-potion"]
     },
     "attr": {
       "str": 3,
