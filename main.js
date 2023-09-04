@@ -9175,14 +9175,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var rootSelector = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.rootSelector,
-    startingLevel = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.startingLevel; // @todo can these be done in 'parallel' or is there really a
-// sequential dependency
+    startingLevel = _js_config_default_json__WEBPACK_IMPORTED_MODULE_3__.startingLevel;
 
 function bootstrapLevel(_x) {
   return _bootstrapLevel.apply(this, arguments);
-} // @todo begin game with start screen, etc, initialize stuff
-// to manage the gameplay status & view changing
-// @todo don't load assets until we need them
+} // @todo don't load assets until we need them
 
 
 function _bootstrapLevel() {
@@ -9193,27 +9190,23 @@ function _bootstrapLevel() {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return (0,_js_actions_level__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(startingLevel);
+            return Promise.all([(0,_js_actions_level__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(startingLevel), (0,_js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__.loadMonsters)(startingLevel), (0,_js_actions_items__WEBPACK_IMPORTED_MODULE_6__.loadItems)(startingLevel)]);
 
           case 3:
-            _context.next = 5;
-            return (0,_js_actions_monsters__WEBPACK_IMPORTED_MODULE_5__.loadMonsters)(startingLevel);
+            return _context.abrupt("return", _context.sent);
 
-          case 5:
-            return _context.abrupt("return", (0,_js_actions_items__WEBPACK_IMPORTED_MODULE_6__.loadItems)(startingLevel));
-
-          case 8:
-            _context.prev = 8;
+          case 6:
+            _context.prev = 6;
             _context.t0 = _context["catch"](0);
             _context.t0.message = "Error bootstrapping level: ".concat(_context.t0.message);
             throw _context.t0;
 
-          case 12:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 6]]);
   }));
   return _bootstrapLevel.apply(this, arguments);
 }
@@ -10074,15 +10067,17 @@ var ItemTile = function ItemTile(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "LevelMap": () => (/* binding */ LevelMap)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _map_tile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./map-tile */ "./src/js/components/LevelMap/map-tile.jsx");
 /* harmony import */ var _stores_character__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../stores/character */ "./src/js/stores/character.js");
-/* harmony import */ var _css_components_LevelMap_level_map_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../css/components/LevelMap/level-map.scss */ "./src/css/components/LevelMap/level-map.scss");
-/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
+/* harmony import */ var _css_components_LevelMap_level_map_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../css/components/LevelMap/level-map.scss */ "./src/css/components/LevelMap/level-map.scss");
+/* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -10102,9 +10097,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var levelMapRows = _config_default_json__WEBPACK_IMPORTED_MODULE_6__.levelMapRows,
+    levelMapColumns = _config_default_json__WEBPACK_IMPORTED_MODULE_6__.levelMapColumns;
+
 function getTilename(row, column) {
   return "".concat(column, "x").concat(row);
 }
+
+var LevelMapProvider = function LevelMapProvider() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LevelMap, {
+    rows: levelMapRows,
+    columns: levelMapColumns
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LevelMapProvider);
 
 var LevelMapColumn = function LevelMapColumn(_ref) {
   var currRow = _ref.currRow,
@@ -10113,7 +10120,7 @@ var LevelMapColumn = function LevelMapColumn(_ref) {
   var mapTile;
 
   try {
-    mapTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_5__.TileFactory)(tileName);
+    mapTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_4__.TileFactory)(tileName);
   } catch (err) {
     // tile has not been populated
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_map_tile__WEBPACK_IMPORTED_MODULE_2__.MapTile, {
@@ -10169,7 +10176,6 @@ LevelMapRow.propTypes = {
   currRow: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
   columns: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number)
 };
-
 var LevelMap = function LevelMap(_ref3) {
   var rows = _ref3.rows,
       columns = _ref3.columns;
@@ -10200,12 +10206,10 @@ var LevelMap = function LevelMap(_ref3) {
     className: "level-map-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, mapEls)));
 };
-
 LevelMap.propTypes = {
   rows: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
   columns: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number)
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LevelMap);
 
 /***/ }),
 
@@ -10992,11 +10996,7 @@ var UIRouter = function UIRouter() {
       break;
 
     case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_MAP:
-      // @todo move values to config, fetch them in LevelMap
-      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__.default, {
-        rows: 10,
-        columns: 20
-      });
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__.default, null);
       break;
 
     case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_INVENTORY:
@@ -11863,12 +11863,12 @@ var CombatRunner = /*#__PURE__*/function () {
     key: "getOpponentsTotalAccuracy",
     value: function getOpponentsTotalAccuracy(attack) {
       return _stores_combat__WEBPACK_IMPORTED_MODULE_1__.default.getOpponentsAccuracy() + attack.getAccuracyMod();
-    } // @todo tune tune tune this is totally random
+    } // @todo may need tuning
 
   }, {
     key: "doesAttackHit",
     value: function doesAttackHit(attackerAccuracy, defenderEvasion) {
-      if ((0,_util__WEBPACK_IMPORTED_MODULE_10__.getRandomNum)() - defenderEvasion + attackerAccuracy > _constants_combat__WEBPACK_IMPORTED_MODULE_11__.HIT_CONST) {
+      if ((0,_util__WEBPACK_IMPORTED_MODULE_10__.getRandomNum)() * 2 - defenderEvasion + attackerAccuracy > _constants_combat__WEBPACK_IMPORTED_MODULE_11__.HIT_CONST) {
         return true;
       }
 
@@ -14184,10 +14184,10 @@ var InventoryStore = /*#__PURE__*/function (_Store) {
           Object.keys(itemsByType).forEach(function (itemType) {
             var currentItems = _this.data.items[itemType];
             var newItems = itemsByType[itemType];
-            currentItems.concat(newItems.filter(function (item) {
-              var itemName = item.getName();
-              return !currentItems.some(function (item) {
-                return item.getName() === itemName;
+            _this.data.items[itemType] = currentItems.concat(newItems.filter(function (newItem) {
+              var itemName = newItem.getName();
+              return !currentItems.some(function (currItem) {
+                return currItem.getName() === itemName;
               });
             }));
           });
@@ -53365,7 +53365,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAEOCAYAAABR
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"rootSelector":"#game-root-container","combatDebug":false,"startingLevel":"one","startDirection":"n","startTileName":"1x1","startingArmor":"clothes","startingWeapon":"staff","defaultSurfaces":["stonebrick","shadow"]}');
+module.exports = JSON.parse('{"rootSelector":"#game-root-container","combatDebug":false,"startingLevel":"one","startDirection":"n","startTileName":"1x1","startingArmor":"clothes","startingWeapon":"staff","defaultSurfaces":["stonebrick","shadow"],"levelMapRows":10,"levelMapColumns":20}');
 
 /***/ }),
 
