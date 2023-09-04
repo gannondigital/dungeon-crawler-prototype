@@ -123,10 +123,12 @@ class InventoryStore extends Store {
         Object.keys(itemsByType).forEach((itemType) => {
           const currentItems = this.data.items[itemType];
           const newItems = itemsByType[itemType];
-          currentItems.concat(
-            newItems.filter((item) => {
-              const itemName = item.getName();
-              return !currentItems.some((item) => item.getName() === itemName);
+          this.data.items[itemType] = currentItems.concat(
+            newItems.filter((newItem) => {
+              const itemName = newItem.getName();
+              return !currentItems.some(
+                (currItem) => currItem.getName() === itemName
+              );
             })
           );
         });

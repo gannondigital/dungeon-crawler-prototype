@@ -3,13 +3,22 @@ import PropTypes from "prop-types";
 
 import { MapTile } from "./map-tile";
 import characterStore from "../../stores/character";
-
-import "../../../css/components/LevelMap/level-map.scss";
 import { TileFactory } from "../../factories/tile-factory";
+import "../../../css/components/LevelMap/level-map.scss";
+import config from "../../config/default.json";
+const { levelMapRows, levelMapColumns } = config;
 
 function getTilename(row, column) {
   return `${column}x${row}`;
 }
+
+const LevelMapProvider = () => (
+  <LevelMap 
+    rows={levelMapRows}
+    columns={levelMapColumns}
+  />
+);
+export default LevelMapProvider;
 
 const LevelMapColumn = ({ currRow, currCol }) => {
   const tileName = getTilename(currRow, currCol);
@@ -56,7 +65,7 @@ LevelMapRow.propTypes = {
   columns: PropTypes.number,
 };
 
-const LevelMap = ({ rows, columns }) => {
+export const LevelMap = ({ rows, columns }) => {
   let currRow = 1;
   let [mapEls, setMapEls] = useState([]);
 
@@ -89,5 +98,3 @@ LevelMap.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
 };
-
-export default LevelMap;

@@ -53,8 +53,7 @@ export const UIRouter = () => {
       currContent = <Passage />;
       break;
     case UI_MAP:
-      // @todo move values to config, fetch them in LevelMap
-      currContent = <LevelMap rows={10} columns={20} />;
+      currContent = <LevelMap />;
       break;
     case UI_INVENTORY:
       currContent = <Inventory />;
