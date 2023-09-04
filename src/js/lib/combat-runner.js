@@ -272,9 +272,9 @@ class CombatRunner {
     return combatStore.getOpponentsAccuracy() + attack.getAccuracyMod();
   }
 
-  // @todo tune tune tune this is totally random
+  // @todo may need tuning
   doesAttackHit(attackerAccuracy, defenderEvasion) {
-    if (getRandomNum() - defenderEvasion + attackerAccuracy > HIT_CONST) {
+    if ((getRandomNum() * 2) - defenderEvasion + attackerAccuracy > HIT_CONST) {
       return true;
     }
     return false;
