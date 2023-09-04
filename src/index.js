@@ -29,21 +29,19 @@ import "./css/lib/base.scss";
 
 const { rootSelector, startingLevel } = config;
 
-// @todo can these be done in 'parallel' or is there really a
-// sequential dependency
 async function bootstrapLevel(startingLevel) {
   try {
-    await loadLevel(startingLevel);
-    await loadMonsters(startingLevel);
-    return loadItems(startingLevel);
+    return await Promise.all([
+      loadLevel(startingLevel),
+      loadMonsters(startingLevel),
+      loadItems(startingLevel),
+    ])
   } catch (err) {
     err.message = `Error bootstrapping level: ${err.message}`;
     throw err;
   }
 }
 
-// @todo begin game with start screen, etc, initialize stuff
-// to manage the gameplay status & view changing
 // @todo don't load assets until we need them
 await bootstrapLevel(startingLevel);
 ReactDOM.render(

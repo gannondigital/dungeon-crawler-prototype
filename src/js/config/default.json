@@ -1,11 +1,12 @@
 {
   "rootSelector": "#game-root-container",
   "combatDebug": false,
-
   "startingLevel": "one",
   "startDirection": "n",
   "startTileName": "1x1",
   "startingArmor": "clothes",
   "startingWeapon": "staff",
-  "defaultSurfaces": ["stonebrick", "shadow"]
+  "defaultSurfaces": ["stonebrick", "shadow"],
+  "levelMapRows": 10,
+  "levelMapColumns": 20
 }
