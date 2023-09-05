@@ -33,6 +33,7 @@ export const Compass = () => {
     <article className="compass">
       <span className="compass_disc" />
       <span className={`compass_pointer--${suffx}`} />
+      <span className="compass_pointer_fulcrum" />
     </article>
   );
 };

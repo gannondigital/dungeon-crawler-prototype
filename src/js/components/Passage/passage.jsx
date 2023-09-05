@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 import characterStore from "../../stores/character";
@@ -10,6 +10,7 @@ import { useStoreSubscription } from "../../hooks";
 import Tile from "../../models/tile";
 import { gameplayWait } from "../../lib/util";
 
+import GameMsg from './game-msg';
 import { Wall } from "./wall";
 import PassageControls from "./passage-controls";
 import { Monster } from "./Combat/monster";
@@ -85,15 +86,18 @@ const PassageProvider = () => {
   }, [currDirection, inCombat, currTile, setTile]);
 
   return (
-    <Passage
-      currTile={currTile}
-      inCombat={inCombat}
-      direction={currDirection}
-      isCharactersTurn={isCharactersTurn}
-      onTurnLeft={handleTurnLeft}
-      onTurnRight={handleTurnRight}
-      onMoveAhead={handleMoveAhead}
-    />
+    <>
+      <GameMsg />
+      <Passage
+        currTile={currTile}
+        inCombat={inCombat}
+        direction={currDirection}
+        isCharactersTurn={isCharactersTurn}
+        onTurnLeft={handleTurnLeft}
+        onTurnRight={handleTurnRight}
+        onMoveAhead={handleMoveAhead}
+      />
+    </>
   );
 };
 

@@ -2,6 +2,8 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 import { endCharactersTurn, attackOpponent } from "../../../actions/combat";
+import { useWindowKeydown } from '../../../hooks';
+import { KEY_ATTACK } from '../../../constants';
 
 import "../../../../css/components/Passage/Combat/combat-controls";
 
@@ -9,18 +11,30 @@ const CombatControlsProvider = ({}) => {
   const handleAttackClick = useCallback(() => {
     attackOpponent();
     endCharactersTurn();
-  }, []);
+  }, [attackOpponent, endCharactersTurn]);
 
-  return <CombatControls handleAttackClick={handleAttackClick} />;
+  const buttonDoneClicked = () => {
+    handleAttackClick();
+  }
+
+  const handleWindowKeydown = useCallback((keyPressed) => {
+    if (keyPressed === KEY_ATTACK) {
+      handleAttackClick();
+    }
+  }, [handleAttackClick]);
+
+  useWindowKeydown(handleWindowKeydown);
+
+  return <CombatControls handleAttackClick={buttonDoneClicked} />;
 };
 export default CombatControlsProvider;
 /**
- * @todo support Magic, Run and Item options
+ * @todo support Magic, Run and Use options
  */
 export const CombatControls = ({ handleAttackClick }) => (
   <ul className="combat-controls">
     <li>
-      <button className="combat-controls--attack" onClick={handleAttackClick}>
+      <button onClick={handleAttackClick} type="button">
         Attack
       </button>
     </li>
@@ -28,11 +42,12 @@ export const CombatControls = ({ handleAttackClick }) => (
       <button disabled>Magic</button>
     </li>
     <li>
-      <button disabled>Run</button>
+      <button disabled>Use</button>
     </li>
     <li>
-      <button disabled>Item</button>
+      <button disabled>Run</button>
     </li>
+    
   </ul>
 );
 CombatControls.propTypes = {

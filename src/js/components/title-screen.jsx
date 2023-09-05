@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 
 import { startGame } from "../actions/game-status";
+import { useWindowKeydown } from '../hooks';
 
 import "../../css/components/title-screen.scss";
 
@@ -9,12 +10,7 @@ const TITLE_SCREEN = ({}) => {
     startGame();
   }, [startGame]);
 
-  useEffect(() => {
-    window.addEventListener("keydown", startGame);
-    return () => {
-      window.removeEventListener("keydown", startGame);
-    };
-  }, []);
+  useWindowKeydown(startGame);
 
   return (
     <div className="title_screen">

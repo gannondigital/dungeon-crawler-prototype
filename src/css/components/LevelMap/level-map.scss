@@ -1,4 +1,8 @@
+@import "../../lib/vars.scss";
+
 .level-map-wrapper {
+  padding-top: 12px + $headerHeight;
+
   table {
     width: 90%;
     margin: 0 auto;

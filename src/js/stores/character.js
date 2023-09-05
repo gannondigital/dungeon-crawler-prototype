@@ -8,6 +8,7 @@ import {
 import { TileFactory } from "../factories/tile-factory";
 
 class CharacterStore extends Store {
+  // @todo populate initial state from game config
   constructor() {
     super();
     this.data = {

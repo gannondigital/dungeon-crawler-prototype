@@ -7,6 +7,6 @@
   "startingArmor": "clothes",
   "startingWeapon": "staff",
   "defaultSurfaces": ["stonebrick", "shadow"],
-  "levelMapRows": 10,
+  "levelMapRows": 9,
   "levelMapColumns": 20
 }
