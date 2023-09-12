@@ -9649,7 +9649,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_game_dispatcher__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/game-dispatcher */ "./src/js/lib/game-dispatcher.js");
 /* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/util */ "./src/js/lib/util.js");
 /* harmony import */ var _constants_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/actions */ "./src/js/constants/actions.js");
-/* harmony import */ var _constants___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/ */ "./src/js/constants/index.js");
+/* harmony import */ var _config_default__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/default */ "./src/js/config/default.json");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -9657,7 +9657,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
- // @todo the model for messages might be less flux-y because we
+
+var msgSpeed = _config_default__WEBPACK_IMPORTED_MODULE_3__.msgSpeed; // @todo the model for messages might be less flux-y because we
 // often want to do it while we are responding to a dispatch
 // that's why we cheat with the first requestAnimationFrame
 
@@ -9674,10 +9675,10 @@ var showGameMsg = /*#__PURE__*/function () {
                   msgText: msgText
                 }
               });
-            }); // @todo make msg speed configurable
+            }); // @todo move pause to msg component, increase with message count
 
             _context.next = 3;
-            return (0,_lib_util__WEBPACK_IMPORTED_MODULE_1__.gameplayWait)(_constants___WEBPACK_IMPORTED_MODULE_3__.MSG_SPEED_MED);
+            return (0,_lib_util__WEBPACK_IMPORTED_MODULE_1__.gameplayWait)(msgSpeed);
 
           case 3:
             removeGameMsg();
@@ -9868,6 +9869,8 @@ var Compass = function Compass() {
     className: "compass_disc"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "compass_pointer--".concat(suffx)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "compass_pointer_fulcrum"
   }));
 };
 
@@ -9882,41 +9885,209 @@ var Compass = function Compass() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "GameHeader": () => (/* binding */ GameHeader),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "GameHeaderProvider": () => (/* binding */ GameHeaderProvider),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "GameHeader": () => (/* binding */ GameHeader)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _compass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./compass */ "./src/js/components/GameHeader/compass.jsx");
-/* harmony import */ var _css_components_GameHeader_game_header_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../css/components/GameHeader/game-header.scss */ "./src/css/components/GameHeader/game-header.scss");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _constants_game_status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants/game-status */ "./src/js/constants/game-status.js");
+/* harmony import */ var _compass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./compass */ "./src/js/components/GameHeader/compass.jsx");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _css_components_GameHeader_game_header_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../css/components/GameHeader/game-header.scss */ "./src/css/components/GameHeader/game-header.scss");
+/* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/util */ "./src/js/lib/util.js");
+var _SUPPORTED_BUTTONS;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
-var GameHeader = function GameHeader(_ref) {
-  var handleBackBtnClick = _ref.handleBackBtnClick,
-      handleInventoryBtnClick = _ref.handleInventoryBtnClick,
-      handleMapBtnClick = _ref.handleMapBtnClick;
-  // @todo highlight active tab, hide back button on passageview
+
+
+
+
+
+
+var BTN_INVENTORY = "BTN_INVENTORY";
+var BTN_MAP = "BTN_MAP";
+var BTN_BACK = "BTN_BACK";
+var SUPPORTED_BUTTONS = (_SUPPORTED_BUTTONS = {}, _defineProperty(_SUPPORTED_BUTTONS, _constants_game_status__WEBPACK_IMPORTED_MODULE_4__.TITLE_SCREEN, []), _defineProperty(_SUPPORTED_BUTTONS, _constants__WEBPACK_IMPORTED_MODULE_3__.UI_MAP, [BTN_INVENTORY, BTN_BACK]), _defineProperty(_SUPPORTED_BUTTONS, _constants__WEBPACK_IMPORTED_MODULE_3__.UI_PASSAGE, [BTN_INVENTORY, BTN_MAP]), _defineProperty(_SUPPORTED_BUTTONS, _constants__WEBPACK_IMPORTED_MODULE_3__.UI_INVENTORY, [BTN_MAP, BTN_BACK]), _SUPPORTED_BUTTONS);
+var GameHeaderProvider = function GameHeaderProvider(_ref) {
+  var screenState = _ref.screenState,
+      setScreenState = _ref.setScreenState;
+  var validBtns = SUPPORTED_BUTTONS[screenState];
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeButton = _useState2[0],
+      setActiveButton = _useState2[1];
+
+  var handleBackBtnClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    setScreenState(_constants__WEBPACK_IMPORTED_MODULE_3__.UI_PASSAGE);
+  }, [setScreenState]);
+  var handleInventoryBtnClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    setScreenState(_constants__WEBPACK_IMPORTED_MODULE_3__.UI_INVENTORY);
+  }, [setScreenState]);
+  var handleMapBtnClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    setScreenState(_constants__WEBPACK_IMPORTED_MODULE_3__.UI_MAP);
+  }, [setScreenState]);
+  var handleWindowKeydown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(keyPressed) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.t0 = keyPressed;
+              _context.next = _context.t0 === _constants__WEBPACK_IMPORTED_MODULE_3__.KEY_BACK ? 3 : _context.t0 === _constants__WEBPACK_IMPORTED_MODULE_3__.KEY_INVENTORY ? 9 : _context.t0 === _constants__WEBPACK_IMPORTED_MODULE_3__.KEY_MAP ? 15 : 21;
+              break;
+
+            case 3:
+              if (!validBtns.includes(BTN_BACK)) {
+                _context.next = 8;
+                break;
+              }
+
+              setActiveButton("back");
+              _context.next = 7;
+              return (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.uiDelayedUpdate)(function () {
+                setActiveButton(null);
+              });
+
+            case 7:
+              handleBackBtnClick();
+
+            case 8:
+              return _context.abrupt("break", 22);
+
+            case 9:
+              if (!validBtns.includes(BTN_INVENTORY)) {
+                _context.next = 14;
+                break;
+              }
+
+              setActiveButton("inventory");
+              _context.next = 13;
+              return (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.uiDelayedUpdate)(function () {
+                setActiveButton(null);
+              });
+
+            case 13:
+              handleInventoryBtnClick();
+
+            case 14:
+              return _context.abrupt("break", 22);
+
+            case 15:
+              if (!validBtns.includes(BTN_MAP)) {
+                _context.next = 20;
+                break;
+              }
+
+              setActiveButton("map");
+              _context.next = 19;
+              return (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.uiDelayedUpdate)(function () {
+                setActiveButton(null);
+              });
+
+            case 19:
+              handleMapBtnClick();
+
+            case 20:
+              return _context.abrupt("break", 22);
+
+            case 21:
+              return _context.abrupt("break", 22);
+
+            case 22:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function (_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }(), [validBtns]);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_6__.useWindowKeydown)(handleWindowKeydown);
+  var gameHeaderProps = {
+    activeButton: activeButton,
+    handleBackBtnClick: validBtns.includes(BTN_BACK) ? handleBackBtnClick : null,
+    handleInventoryBtnClick: validBtns.includes(BTN_INVENTORY) ? handleInventoryBtnClick : null,
+    handleMapBtnClick: validBtns.includes(BTN_MAP) ? handleMapBtnClick : null
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(GameHeader, gameHeaderProps);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameHeaderProvider);
+/**
+ * Displays header buttons when there is a callback passed for that
+ */
+
+var GameHeader = function GameHeader(_ref3) {
+  var activeButton = _ref3.activeButton,
+      handleBackBtnClick = _ref3.handleBackBtnClick,
+      handleInventoryBtnClick = _ref3.handleInventoryBtnClick,
+      handleMapBtnClick = _ref3.handleMapBtnClick;
+
+  if (!handleBackBtnClick && !handleInventoryBtnClick && !handleMapBtnClick) {
+    return null;
+  }
+
+  var backClassnames = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    "header-nav-button": true,
+    active: activeButton === "back"
+  });
+  var inventoryClassnames = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    "header-nav-button": true,
+    active: activeButton === "inventory"
+  });
+  var mapClassnames = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    "header-nav-button": true,
+    active: activeButton === "map"
+  });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
     className: "game_header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "header-nav-button",
+  }, handleBackBtnClick && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: backClassnames,
     onClick: handleBackBtnClick
-  }, "Back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "header-nav-button",
+  }, "Back"), handleInventoryBtnClick && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: inventoryClassnames,
     onClick: handleInventoryBtnClick
-  }, "Inventory"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "header-nav-button",
+  }, "Inventory"), handleMapBtnClick && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: mapClassnames,
     onClick: handleMapBtnClick
-  }, "Map"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_compass__WEBPACK_IMPORTED_MODULE_2__.Compass, null));
+  }, "Map"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_compass__WEBPACK_IMPORTED_MODULE_5__.Compass, null));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameHeader);
 GameHeader.propTypes = {
   handleBackBtnClick: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
   handleInventoryBtnClick: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
   handleMapBtnClick: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func)
+};
+GameHeaderProvider.propTypes = {
+  screenState: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string.isRequired),
+  setScreenState: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired)
 };
 
 /***/ }),
@@ -9938,6 +10109,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _item_tile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./item-tile */ "./src/js/components/Inventory/item-tile.jsx");
 /* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
 /* harmony import */ var _css_components_Inventory_inventory_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../css/components/Inventory/inventory.scss */ "./src/css/components/Inventory/inventory.scss");
+/* harmony import */ var _Passage_game_msg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Passage/game-msg */ "./src/js/components/Passage/game-msg.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -9951,6 +10123,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 
 
 
@@ -10017,13 +10190,13 @@ var Inventory = function Inventory(_ref) {
       className: uiState === tabname ? "inventory_tab--selected" : ""
     }, tabname.toUpperCase());
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_game_msg__WEBPACK_IMPORTED_MODULE_5__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "inventory"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
     className: "inventory--tabs"
   }, tabs), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
     className: "inventory--content"
-  }, itemTiles));
+  }, itemTiles)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Inventory);
 
@@ -10078,6 +10251,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 /* harmony import */ var _css_components_LevelMap_level_map_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../css/components/LevelMap/level-map.scss */ "./src/css/components/LevelMap/level-map.scss");
 /* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
+/* harmony import */ var _Passage_game_msg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Passage/game-msg */ "./src/js/components/Passage/game-msg.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -10089,6 +10263,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -10202,9 +10377,9 @@ var LevelMap = function LevelMap(_ref3) {
   }, [rows, columns]); // @todo show direction arrow in LevelMap so player can match
   // first person orientation with map direction
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_game_msg__WEBPACK_IMPORTED_MODULE_7__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "level-map-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, mapEls)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, mapEls))));
 };
 LevelMap.propTypes = {
   rows: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
@@ -10265,9 +10440,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _actions_combat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/combat */ "./src/js/actions/combat.js");
-/* harmony import */ var _css_components_Passage_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../css/components/Passage/Combat/combat-controls */ "./src/css/components/Passage/Combat/combat-controls.scss");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _actions_combat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/combat */ "./src/js/actions/combat.js");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/util */ "./src/js/lib/util.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _css_components_Passage_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../css/components/Passage/Combat/combat-controls */ "./src/css/components/Passage/Combat/combat-controls.scss");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+
+
+
 
 
 
@@ -10277,37 +10477,84 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 var CombatControlsProvider = function CombatControlsProvider(_ref) {
   _objectDestructuringEmpty(_ref);
 
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeButton = _useState2[0],
+      setActiveButton = _useState2[1];
+
   var handleAttackClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    (0,_actions_combat__WEBPACK_IMPORTED_MODULE_2__.attackOpponent)();
-    (0,_actions_combat__WEBPACK_IMPORTED_MODULE_2__.endCharactersTurn)();
-  }, []);
+    (0,_actions_combat__WEBPACK_IMPORTED_MODULE_3__.attackOpponent)();
+    (0,_actions_combat__WEBPACK_IMPORTED_MODULE_3__.endCharactersTurn)();
+  }, [_actions_combat__WEBPACK_IMPORTED_MODULE_3__.attackOpponent, _actions_combat__WEBPACK_IMPORTED_MODULE_3__.endCharactersTurn]);
+  var handleWindowKeydown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(keyPressed) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(keyPressed === _constants__WEBPACK_IMPORTED_MODULE_6__.KEY_ATTACK)) {
+                _context.next = 5;
+                break;
+              }
+
+              setActiveButton("attack");
+              _context.next = 4;
+              return (0,_lib_util__WEBPACK_IMPORTED_MODULE_5__.uiDelayedUpdate)(function () {
+                setActiveButton(null);
+              });
+
+            case 4:
+              handleAttackClick();
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function (_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }(), [handleAttackClick, setActiveButton]);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_4__.useWindowKeydown)(handleWindowKeydown);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CombatControls, {
+    activeButton: activeButton,
     handleAttackClick: handleAttackClick
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CombatControlsProvider);
 /**
- * @todo support Magic, Run and Item options
+ * @todo support Magic, Run and Use options
  */
 
-var CombatControls = function CombatControls(_ref2) {
-  var handleAttackClick = _ref2.handleAttackClick;
+var CombatControls = function CombatControls(_ref3) {
+  var handleAttackClick = _ref3.handleAttackClick,
+      activeButton = _ref3.activeButton;
+  var attackClasses = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    "combat-controls__button": true,
+    active: activeButton === "attack"
+  }); // @todo same for other buttons when supported
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "combat-controls"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "combat-controls--attack",
-    onClick: handleAttackClick
+    className: attackClasses,
+    onClick: handleAttackClick,
+    type: "button"
   }, "Attack")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     disabled: true
   }, "Magic")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     disabled: true
-  }, "Run")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, "Use")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     disabled: true
-  }, "Item")));
+  }, "Run")));
 };
 CombatControls.propTypes = {
-  handleAttackClick: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func)
+  activeButton: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
+  handleAttackClick: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired)
 };
 
 /***/ }),
@@ -10429,63 +10676,187 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _css_components_Passage_passage_controls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/components/Passage/passage-controls */ "./src/css/components/Passage/passage-controls.scss");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _css_components_Passage_passage_controls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../css/components/Passage/passage-controls */ "./src/css/components/Passage/passage-controls.scss");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
 
 
 
 var PassageControls = function PassageControls(_ref) {
-  var leftClickHandler = _ref.leftClickHandler,
-      forwardClickHandler = _ref.forwardClickHandler,
-      rightClickHandler = _ref.rightClickHandler;
-  // this should be turned into a shared util, if needed again
-  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (evt) {
-    switch (evt.key) {
-      case "ArrowLeft":
-        leftClickHandler();
-        break;
+  var validateMoveAhead = _ref.validateMoveAhead,
+      onTurnLeft = _ref.onTurnLeft,
+      onTurnRight = _ref.onTurnRight,
+      onMoveAhead = _ref.onMoveAhead,
+      changePassageView = _ref.changePassageView;
 
-      case "ArrowUp":
-        forwardClickHandler();
-        break;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeButton = _useState2[0],
+      setActiveButton = _useState2[1];
 
-      case "ArrowRight":
-        rightClickHandler();
-        break;
+  var handleLeftClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return changePassageView(onTurnLeft);
 
-      default:
-        break;
-    }
-  }, [leftClickHandler, forwardClickHandler, rightClickHandler]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    document.addEventListener("keydown", handleKeyDown);
-    return function () {
-      document.removeEventListener("keydown", handleKeyDown);
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  })), [onTurnLeft]);
+  var handleRightClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return changePassageView(onTurnRight);
+
+          case 2:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  })), [onTurnRight]);
+  var handleForwardClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            if (validateMoveAhead()) {
+              _context3.next = 2;
+              break;
+            }
+
+            return _context3.abrupt("return");
+
+          case 2:
+            _context3.next = 4;
+            return changePassageView(onMoveAhead);
+
+          case 4:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  })), [onMoveAhead, validateMoveAhead]);
+  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(keyPressed) {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.t0 = keyPressed;
+              _context4.next = _context4.t0 === "arrowleft" ? 3 : _context4.t0 === "arrowright" ? 8 : _context4.t0 === "arrowup" ? 13 : 18;
+              break;
+
+            case 3:
+              setActiveButton("left");
+              _context4.next = 6;
+              return handleLeftClick();
+
+            case 6:
+              setActiveButton(null);
+              return _context4.abrupt("break", 19);
+
+            case 8:
+              setActiveButton("right");
+              _context4.next = 11;
+              return handleRightClick();
+
+            case 11:
+              setActiveButton(null);
+              return _context4.abrupt("break", 19);
+
+            case 13:
+              setActiveButton("forward");
+              _context4.next = 16;
+              return handleForwardClick();
+
+            case 16:
+              setActiveButton(null);
+              return _context4.abrupt("break", 19);
+
+            case 18:
+              return _context4.abrupt("break", 19);
+
+            case 19:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    return function (_x) {
+      return _ref5.apply(this, arguments);
     };
+  }(), [handleLeftClick, handleRightClick, handleForwardClick]);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_4__.useWindowKeydown)(handleKeyDown);
+  var leftClasses = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    button_left: true,
+    active: activeButton === "left"
+  });
+  var rightClasses = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    button_right: true,
+    active: activeButton === "right"
+  });
+  var forwardClasses = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
+    button_forward: true,
+    active: activeButton === "forward"
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
     className: "passage_controls"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "passage_controls--listitem"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "button_left",
-    onClick: leftClickHandler
+    className: leftClasses,
+    onClick: handleLeftClick
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "passage_controls--listitem"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "button_forward",
-    onClick: forwardClickHandler
+    className: forwardClasses,
+    onClick: handleForwardClick
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "passage_controls--listitem"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "button_right",
-    onClick: rightClickHandler
+    className: rightClasses,
+    onClick: handleRightClick
   }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PassageControls);
 PassageControls.propTypes = {
-  leftClickHandler: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func,
-  forwardClickHandler: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func,
-  rightClickHandler: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func
+  validateMoveAhead: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func.isRequired,
+  onTurnLeft: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func.isRequired,
+  onTurnRight: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func.isRequired,
+  onMoveAhead: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func.isRequired,
+  changePassageView: prop_types__WEBPACK_IMPORTED_MODULE_1__.PropTypes.func.isRequired
 };
 
 /***/ }),
@@ -10499,8 +10870,8 @@ PassageControls.propTypes = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Passage": () => (/* binding */ Passage),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "Passage": () => (/* binding */ Passage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -10512,16 +10883,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../hooks */ "./src/js/hooks/index.js");
 /* harmony import */ var _models_tile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../models/tile */ "./src/js/models/tile.js");
 /* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/util */ "./src/js/lib/util.js");
-/* harmony import */ var _wall__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wall */ "./src/js/components/Passage/wall.jsx");
-/* harmony import */ var _passage_controls__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./passage-controls */ "./src/js/components/Passage/passage-controls.jsx");
-/* harmony import */ var _Combat_monster__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Combat/monster */ "./src/js/components/Passage/Combat/monster.jsx");
-/* harmony import */ var _Combat_combat_controls__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Combat/combat-controls */ "./src/js/components/Passage/Combat/combat-controls.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../constants */ "./src/js/constants/index.js");
-/* harmony import */ var _constants_passageview__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../constants/passageview */ "./src/js/constants/passageview.js");
-/* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
-/* harmony import */ var _css_lib_base__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../css/lib/base */ "./src/css/lib/base.scss");
-/* harmony import */ var _css_components_Passage_passage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../css/components/Passage/passage */ "./src/css/components/Passage/passage.scss");
-/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
+/* harmony import */ var _game_msg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./game-msg */ "./src/js/components/Passage/game-msg.jsx");
+/* harmony import */ var _wall__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./wall */ "./src/js/components/Passage/wall.jsx");
+/* harmony import */ var _passage_controls__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./passage-controls */ "./src/js/components/Passage/passage-controls.jsx");
+/* harmony import */ var _Combat_monster__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Combat/monster */ "./src/js/components/Passage/Combat/monster.jsx");
+/* harmony import */ var _Combat_combat_controls__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Combat/combat-controls */ "./src/js/components/Passage/Combat/combat-controls.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _constants_passageview__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../constants/passageview */ "./src/js/constants/passageview.js");
+/* harmony import */ var _config_default_json__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../config/default.json */ "./src/js/config/default.json");
+/* harmony import */ var _css_lib_base__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../css/lib/base */ "./src/css/lib/base.scss");
+/* harmony import */ var _css_components_Passage_passage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../css/components/Passage/passage */ "./src/css/components/Passage/passage.scss");
+/* harmony import */ var _factories_tile_factory__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../factories/tile-factory */ "./src/js/factories/tile-factory.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -10554,14 +10926,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var defaultSurfaces = _config_default_json__WEBPACK_IMPORTED_MODULE_15__.defaultSurfaces;
-var FADE_TIME = 200;
+
+var defaultSurfaces = _config_default_json__WEBPACK_IMPORTED_MODULE_16__.defaultSurfaces,
+    uiDelayTimeMs = _config_default_json__WEBPACK_IMPORTED_MODULE_16__.uiDelayTimeMs;
 
 
+ // the only thing this fn does is validate input, scrap
+// @todo assumes north is the original forward dir
 
+var getDirsForWalls = function getDirsForWalls(direction) {
+  if (!_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.includes(direction)) {
+    throw new TypeError("Invalid direction set on Passage");
+  }
+
+  return _constants_passageview__WEBPACK_IMPORTED_MODULE_15__.DIRS_FOR_WALLS[direction];
+};
 
 var PassageProvider = function PassageProvider() {
-  var currTileObj = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
+  var currTileObj = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_19__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currTileObj),
       _useState2 = _slicedToArray(_useState, 2),
@@ -10584,18 +10966,17 @@ var PassageProvider = function PassageProvider() {
       setIsCharactersTurn = _useState8[1]; // @todo only call setters if value is different so as not to force render
 
 
-  var handleCharacterUpdate = function handleCharacterUpdate() {
+  var handleCharacterUpdate = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     setCurrDirection(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getDirection());
     setCurrTile(function () {
-      var newTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_18__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
+      var newTile = (0,_factories_tile_factory__WEBPACK_IMPORTED_MODULE_19__.TileFactory)(_stores_character__WEBPACK_IMPORTED_MODULE_2__.default.getCurrTileName());
       return newTile;
     });
-  };
-
+  }, [_stores_character__WEBPACK_IMPORTED_MODULE_2__.default, _factories_tile_factory__WEBPACK_IMPORTED_MODULE_19__.TileFactory, setCurrDirection, setCurrTile]);
   var handleCombatUpdate = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     setInCombat(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isInCombat());
     setIsCharactersTurn(_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default.isCharactersTurn());
-  }, []);
+  }, [setInCombat, setIsCharactersTurn, _stores_combat__WEBPACK_IMPORTED_MODULE_3__.default]);
   (0,_hooks__WEBPACK_IMPORTED_MODULE_6__.useStoreSubscription)([[_stores_character__WEBPACK_IMPORTED_MODULE_2__.default, handleCharacterUpdate], [_stores_combat__WEBPACK_IMPORTED_MODULE_3__.default, handleCombatUpdate]]);
   var handleTurnLeft = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var newDirection;
@@ -10603,7 +10984,7 @@ var PassageProvider = function PassageProvider() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            newDirection = _constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
+            newDirection = _constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
             (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection)(newDirection);
 
           case 2:
@@ -10612,14 +10993,14 @@ var PassageProvider = function PassageProvider() {
         }
       }
     }, _callee);
-  })), [currDirection, currTile]);
+  })), [currDirection, _actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection]);
   var handleTurnRight = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     var newDirection;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            newDirection = _constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.indexOf(currDirection) + 1) % 4];
+            newDirection = _constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS[(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS.indexOf(currDirection) + 1) % 4];
             (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection)(newDirection);
 
           case 2:
@@ -10628,33 +11009,40 @@ var PassageProvider = function PassageProvider() {
         }
       }
     }, _callee2);
-  })), [currDirection, currTile]);
-  var handleMoveAhead = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    var dir = getDirsForWalls(currDirection).ahead;
-
+  })), [currDirection, _actions_character__WEBPACK_IMPORTED_MODULE_4__.setDirection]);
+  var validateMoveAhead = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     if (inCombat) {
       (0,_actions_messages__WEBPACK_IMPORTED_MODULE_5__.showGameMsg)("Can't get past without fighting!");
-      return;
+      return false;
     }
 
-    if (currTile.hasExitAtWall(dir)) {
-      var nextTileName = currTile.getAdjacentTileName(dir);
-      (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile)(nextTileName);
-    } else {
-      console.log("You can't go that way.");
+    var dir = getDirsForWalls(currDirection).ahead;
+
+    if (!currTile.hasExitAtWall(dir)) {
+      (0,_actions_messages__WEBPACK_IMPORTED_MODULE_5__.showGameMsg)("Can't go that way.");
+      return false;
     }
-  }, [currDirection, inCombat, currTile, _actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Passage, {
+
+    return true;
+  }, [inCombat, _actions_messages__WEBPACK_IMPORTED_MODULE_5__.showGameMsg, currDirection, currTile]);
+  var handleMoveAhead = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    var dir = getDirsForWalls(currDirection).ahead;
+    var nextTileName = currTile.getAdjacentTileName(dir);
+    (0,_actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile)(nextTileName);
+  }, [currDirection, currTile, _actions_character__WEBPACK_IMPORTED_MODULE_4__.setTile]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_game_msg__WEBPACK_IMPORTED_MODULE_9__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Passage, {
     currTile: currTile,
     inCombat: inCombat,
     direction: currDirection,
     isCharactersTurn: isCharactersTurn,
     onTurnLeft: handleTurnLeft,
     onTurnRight: handleTurnRight,
-    onMoveAhead: handleMoveAhead
-  });
+    onMoveAhead: handleMoveAhead,
+    validateMoveAhead: validateMoveAhead
+  }));
 };
 
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PassageProvider);
 var Passage = function Passage(_ref3) {
   var direction = _ref3.direction,
       currTile = _ref3.currTile,
@@ -10662,26 +11050,18 @@ var Passage = function Passage(_ref3) {
       isCharactersTurn = _ref3.isCharactersTurn,
       onTurnLeft = _ref3.onTurnLeft,
       onTurnRight = _ref3.onTurnRight,
-      onMoveAhead = _ref3.onMoveAhead;
+      onMoveAhead = _ref3.onMoveAhead,
+      validateMoveAhead = _ref3.validateMoveAhead;
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState10 = _slicedToArray(_useState9, 2),
       isFaded = _useState10[0],
-      setIsFaded = _useState10[1]; // @todo there is likely a more elegant way to do this
-
+      setIsFaded = _useState10[1];
 
   var _getDirsForWalls = getDirsForWalls(direction),
       right = _getDirsForWalls.right,
       left = _getDirsForWalls.left,
-      ahead = _getDirsForWalls.ahead; // @todo review
-
-
-  if (!(currTile instanceof _models_tile__WEBPACK_IMPORTED_MODULE_7__.default)) {
-    console.log("Invalid Tile in Passage state.");
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "passagenotile"
-    });
-  }
+      ahead = _getDirsForWalls.ahead;
 
   var overlayClass = isFaded ? " show" : ""; // @todo ceiling and floor should be skinnable like walls
 
@@ -10712,7 +11092,7 @@ var Passage = function Passage(_ref3) {
   if (inCombat) {
     var monsters = currTile.getMonsters() || [];
     monsterElems = monsters.map(function (monster) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_monster__WEBPACK_IMPORTED_MODULE_11__.Monster, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_monster__WEBPACK_IMPORTED_MODULE_12__.Monster, {
         monster: monster,
         key: monster.getName()
       });
@@ -10723,7 +11103,7 @@ var Passage = function Passage(_ref3) {
     return new Promise(function (resolve) {
       setIsFaded(isFaded); // wait for css animation to execute
 
-      (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.gameplayWait)(FADE_TIME).then(resolve);
+      (0,_lib_util__WEBPACK_IMPORTED_MODULE_8__.gameplayWait)(uiDelayTimeMs).then(resolve);
     });
   };
 
@@ -10754,49 +11134,38 @@ var Passage = function Passage(_ref3) {
     };
   }();
 
-  var handleLeftClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    changePassageView(onTurnLeft);
-  }, [onTurnLeft, direction, currTile]);
-  var handleRightClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    changePassageView(onTurnRight);
-  }, [onTurnRight, direction, currTile]); // @todo when onMoveAhead is an invalid action there should be
-  // no fading
+  if (!(currTile instanceof _models_tile__WEBPACK_IMPORTED_MODULE_7__.default)) {
+    console.log("Invalid Tile in Passage state.");
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "passagenotile"
+    });
+  }
 
-  var handleForwardClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    changePassageView(onMoveAhead);
-  }, [onMoveAhead, direction, currTile]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passageroot"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passagewrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passage"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsCeiling), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsFloor), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsRightWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsLeftWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_9__.Wall, propsAhead)), monsterElems), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsCeiling), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsFloor), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsRightWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsLeftWall), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wall__WEBPACK_IMPORTED_MODULE_10__.Wall, propsAhead)), monsterElems), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "passageoverlay".concat(overlayClass)
-  }), inCombat && isCharactersTurn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_12__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_passage_controls__WEBPACK_IMPORTED_MODULE_10__.default, {
-    leftClickHandler: handleLeftClick,
-    forwardClickHandler: handleForwardClick,
-    rightClickHandler: handleRightClick
+  }), inCombat && isCharactersTurn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Combat_combat_controls__WEBPACK_IMPORTED_MODULE_13__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_passage_controls__WEBPACK_IMPORTED_MODULE_11__.default, {
+    onTurnLeft: onTurnLeft,
+    onTurnRight: onTurnRight,
+    onMoveAhead: onMoveAhead,
+    validateMoveAhead: validateMoveAhead,
+    changePassageView: changePassageView
   }));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PassageProvider);
 Passage.propTypes = {
   currTile: prop_types__WEBPACK_IMPORTED_MODULE_1___default().instanceOf(_models_tile__WEBPACK_IMPORTED_MODULE_7__.default).isRequired,
-  direction: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS).isRequired,
-  inCombat: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  isCharactersTurn: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  onTurnLeft: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
-  onTurnRight: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
-  onMoveAhead: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func)
-}; // the only thing this fn does is validate input, scrap
-// @todo assumes north is the original forward dir
-
-var getDirsForWalls = function getDirsForWalls(direction) {
-  if (!_constants__WEBPACK_IMPORTED_MODULE_13__.DIRECTIONS.includes(direction)) {
-    throw new TypeError("Invalid direction set on Passage");
-  }
-
-  return _constants_passageview__WEBPACK_IMPORTED_MODULE_14__.DIRS_FOR_WALLS[direction];
+  direction: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(_constants__WEBPACK_IMPORTED_MODULE_14__.DIRECTIONS).isRequired,
+  inCombat: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool.isRequired),
+  isCharactersTurn: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool.isRequired),
+  onTurnLeft: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired),
+  onTurnRight: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired),
+  onMoveAhead: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired),
+  validateMoveAhead: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func.isRequired)
 };
 
 /***/ }),
@@ -10869,8 +11238,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _actions_game_status__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/game-status */ "./src/js/actions/game-status.js");
-/* harmony import */ var _css_components_title_screen_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/components/title-screen.scss */ "./src/css/components/title-screen.scss");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _css_components_title_screen_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../css/components/title-screen.scss */ "./src/css/components/title-screen.scss");
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 
 
 
@@ -10882,12 +11253,7 @@ var TITLE_SCREEN = function TITLE_SCREEN(_ref) {
   var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     (0,_actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame)();
   }, [_actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    window.addEventListener("keydown", _actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame);
-    return function () {
-      window.removeEventListener("keydown", _actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame);
-    };
-  }, []);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_2__.useWindowKeydown)(_actions_game_status__WEBPACK_IMPORTED_MODULE_1__.startGame);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "title_screen"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -10915,14 +11281,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Passage_passage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Passage/passage */ "./src/js/components/Passage/passage.jsx");
 /* harmony import */ var _LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LevelMap/level-map */ "./src/js/components/LevelMap/level-map.jsx");
 /* harmony import */ var _Inventory_inventory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Inventory/inventory */ "./src/js/components/Inventory/inventory.jsx");
-/* harmony import */ var _Passage_game_msg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Passage/game-msg */ "./src/js/components/Passage/game-msg.jsx");
-/* harmony import */ var _GameHeader_game_header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameHeader/game-header */ "./src/js/components/GameHeader/game-header.jsx");
-/* harmony import */ var _title_screen__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./title-screen */ "./src/js/components/title-screen.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../constants */ "./src/js/constants/index.js");
-/* harmony import */ var _constants_game_status__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../constants/game-status */ "./src/js/constants/game-status.js");
-/* harmony import */ var _stores_game_status__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../stores/game-status */ "./src/js/stores/game-status.js");
-/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks */ "./src/js/hooks/index.js");
-/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
+/* harmony import */ var _GameHeader_game_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameHeader/game-header */ "./src/js/components/GameHeader/game-header.jsx");
+/* harmony import */ var _title_screen__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./title-screen */ "./src/js/components/title-screen.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/js/constants/index.js");
+/* harmony import */ var _constants_game_status__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../constants/game-status */ "./src/js/constants/game-status.js");
+/* harmony import */ var _stores_game_status__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../stores/game-status */ "./src/js/stores/game-status.js");
+/* harmony import */ var _hooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks */ "./src/js/hooks/index.js");
+/* harmony import */ var _css_components_game_root_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../css/components/game-root.scss */ "./src/css/components/game-root.scss");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -10944,73 +11309,62 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
  // @todo review, where should this be imported
 
  // @todo there should probably be clearer lines between in-game routing
 // and out-of-game routing, but this works for now
 
 var UIRouter = function UIRouter() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_constants_game_status__WEBPACK_IMPORTED_MODULE_7__.TITLE_SCREEN),
       _useState2 = _slicedToArray(_useState, 2),
-      uiState = _useState2[0],
-      setUiState = _useState2[1];
+      screenState = _useState2[0],
+      setScreenState = _useState2[1];
 
   var handleGameStatusChange = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    var currStatus = _stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default.getGameStatus();
+    var currStatus = _stores_game_status__WEBPACK_IMPORTED_MODULE_8__.default.getGameStatus();
 
     switch (currStatus) {
-      case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN:
-        setUiState(_constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN);
+      case _constants_game_status__WEBPACK_IMPORTED_MODULE_7__.TITLE_SCREEN:
+        setScreenState(_constants_game_status__WEBPACK_IMPORTED_MODULE_7__.TITLE_SCREEN);
         break;
 
-      case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.GAMEPLAY:
-        setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE);
+      case _constants_game_status__WEBPACK_IMPORTED_MODULE_7__.GAMEPLAY:
+        setScreenState(_constants__WEBPACK_IMPORTED_MODULE_6__.UI_PASSAGE);
     }
-  }, [_stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default]);
+  }, [_stores_game_status__WEBPACK_IMPORTED_MODULE_8__.default]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(handleGameStatusChange, []);
-  (0,_hooks__WEBPACK_IMPORTED_MODULE_10__.useStoreSubscription)([[_stores_game_status__WEBPACK_IMPORTED_MODULE_9__.default, handleGameStatusChange]]);
+  (0,_hooks__WEBPACK_IMPORTED_MODULE_9__.useStoreSubscription)([[_stores_game_status__WEBPACK_IMPORTED_MODULE_8__.default, handleGameStatusChange]]);
+  var currContent = null;
 
-  var handleMapBtnClick = function handleMapBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_MAP);
-  };
-
-  var handleBackBtnClick = function handleBackBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE);
-  };
-
-  var handleInventoryBtnClick = function handleInventoryBtnClick() {
-    setUiState(_constants__WEBPACK_IMPORTED_MODULE_7__.UI_INVENTORY);
-  };
-
-  var currContent = null; // @todo make this all less cruddy
-
-  switch (uiState) {
-    case _constants_game_status__WEBPACK_IMPORTED_MODULE_8__.TITLE_SCREEN:
+  switch (screenState) {
+    case _constants_game_status__WEBPACK_IMPORTED_MODULE_7__.TITLE_SCREEN:
     default:
-      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_title_screen__WEBPACK_IMPORTED_MODULE_6__.default, null);
+      currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_title_screen__WEBPACK_IMPORTED_MODULE_5__.default, null);
       break;
 
-    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_PASSAGE:
+    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_PASSAGE:
       currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_passage__WEBPACK_IMPORTED_MODULE_1__.default, null);
       break;
 
-    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_MAP:
+    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_MAP:
       currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LevelMap_level_map__WEBPACK_IMPORTED_MODULE_2__.default, null);
       break;
 
-    case _constants__WEBPACK_IMPORTED_MODULE_7__.UI_INVENTORY:
+    case _constants__WEBPACK_IMPORTED_MODULE_6__.UI_INVENTORY:
       currContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Inventory_inventory__WEBPACK_IMPORTED_MODULE_3__.default, null);
       break;
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "game-root"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Passage_game_msg__WEBPACK_IMPORTED_MODULE_4__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GameHeader_game_header__WEBPACK_IMPORTED_MODULE_5__.default, {
-    handleBackBtnClick: handleBackBtnClick,
-    handleMapBtnClick: handleMapBtnClick,
-    handleInventoryBtnClick: handleInventoryBtnClick
-  }), currContent);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "game_root"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GameHeader_game_header__WEBPACK_IMPORTED_MODULE_4__.default, {
+    screenState: screenState,
+    setScreenState: setScreenState
+  }), currContent), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
+    className: "repo_link",
+    href: _constants__WEBPACK_IMPORTED_MODULE_6__.REPO_URL,
+    target: "_blank"
+  }, "See the code >"));
 };
 
 /***/ }),
@@ -11133,21 +11487,29 @@ var GAMEOVER = "GAMEOVER";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MSG_SPEED_MED": () => (/* binding */ MSG_SPEED_MED),
+/* harmony export */   "REPO_URL": () => (/* binding */ REPO_URL),
 /* harmony export */   "CHARACTER": () => (/* binding */ CHARACTER),
 /* harmony export */   "OPPONENTS": () => (/* binding */ OPPONENTS),
 /* harmony export */   "UI_PASSAGE": () => (/* binding */ UI_PASSAGE),
 /* harmony export */   "UI_MAP": () => (/* binding */ UI_MAP),
 /* harmony export */   "UI_INVENTORY": () => (/* binding */ UI_INVENTORY),
-/* harmony export */   "DIRECTIONS": () => (/* binding */ DIRECTIONS)
+/* harmony export */   "DIRECTIONS": () => (/* binding */ DIRECTIONS),
+/* harmony export */   "KEY_ATTACK": () => (/* binding */ KEY_ATTACK),
+/* harmony export */   "KEY_INVENTORY": () => (/* binding */ KEY_INVENTORY),
+/* harmony export */   "KEY_MAP": () => (/* binding */ KEY_MAP),
+/* harmony export */   "KEY_BACK": () => (/* binding */ KEY_BACK)
 /* harmony export */ });
-var MSG_SPEED_MED = 500;
+var REPO_URL = "https://github.com/gannondigital/dungeon-crawler-prototype/";
 var CHARACTER = "CHARACTER";
 var OPPONENTS = "OPPONENTS";
 var UI_PASSAGE = "UI_PASSAGE";
 var UI_MAP = "UI_MAP";
 var UI_INVENTORY = "UI_INVENTORY";
 var DIRECTIONS = ["n", "e", "s", "w"];
+var KEY_ATTACK = "a";
+var KEY_INVENTORY = "i";
+var KEY_MAP = "m";
+var KEY_BACK = "b";
 
 /***/ }),
 
@@ -11432,7 +11794,8 @@ var TreasureFactory = function TreasureFactory(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "useStoreSubscription": () => (/* binding */ useStoreSubscription)
+/* harmony export */   "useStoreSubscription": () => (/* binding */ useStoreSubscription),
+/* harmony export */   "useWindowKeydown": () => (/* binding */ useWindowKeydown)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -11467,6 +11830,23 @@ var useStoreSubscription = function useStoreSubscription(storeSubscriptions) {
       });
     };
   }, []);
+};
+/**
+ * Passes to `callback` the character pressed, lowercased
+ * @param {func} callback
+ * @returns
+ */
+
+var useWindowKeydown = function useWindowKeydown(callback) {
+  var handleKeydown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (evt) {
+    callback(evt.key.toLowerCase());
+  }, [callback]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.addEventListener("keydown", handleKeydown);
+    return function () {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, [handleKeydown]);
 };
 
 /***/ }),
@@ -12147,13 +12527,18 @@ var Store = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getRandomNum": () => (/* binding */ getRandomNum),
-/* harmony export */   "gameplayWait": () => (/* binding */ gameplayWait)
+/* harmony export */   "gameplayWait": () => (/* binding */ gameplayWait),
+/* harmony export */   "uiDelayedUpdate": () => (/* binding */ uiDelayedUpdate)
 /* harmony export */ });
+/* harmony import */ var _config_default__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config/default */ "./src/js/config/default.json");
+
+var uiDelayTimeMs = _config_default__WEBPACK_IMPORTED_MODULE_0__.uiDelayTimeMs;
 /**
  * Returns semi-random integer between 1 and maxVal
  * @param {Int} maxVal
  * @returns {Int}
  */
+
 var getRandomNum = function getRandomNum() {
   var maxVal = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 20;
   return Math.floor(Math.random() * maxVal) + 1;
@@ -12169,6 +12554,14 @@ var gameplayWait = function gameplayWait(durationMs) {
     setTimeout(function () {
       window.requestAnimationFrame(resolve);
     }, durationMs);
+  });
+};
+var uiDelayedUpdate = function uiDelayedUpdate(callback) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      callback();
+      resolve();
+    }, uiDelayTimeMs);
   });
 };
 
@@ -13486,6 +13879,7 @@ var CharacterStore = /*#__PURE__*/function (_Store) {
 
   var _super = _createSuper(CharacterStore);
 
+  // @todo populate initial state from game config
   function CharacterStore() {
     var _this;
 
@@ -15014,7 +15408,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".compass {\n  position: absolute;\n  right: 20px;\n}\n\n.compass_disc {\n  background: #fff;\n  display: block;\n  height: 30px;\n  width: 30px;\n  border-radius: 15px;\n}\n\n.compass_pointer--north {\n  display: block;\n  height: 15px;\n  width: 5px;\n  background: green;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  top: 10%;\n  left: 44%;\n}\n\n.compass_pointer--east {\n  display: block;\n  height: 15px;\n  width: 5px;\n  background: green;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  transform: rotate(-90deg);\n  top: 0;\n  left: 14px;\n}\n\n.compass_pointer--south {\n  display: block;\n  height: 15px;\n  width: 5px;\n  background: green;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  transform: rotate(180deg);\n  top: 0;\n  left: 44%;\n}\n\n.compass_pointer--west {\n  display: block;\n  height: 15px;\n  width: 5px;\n  background: green;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  transform: rotate(90deg);\n  top: 0;\n  left: 44%;\n}", "",{"version":3,"sources":["webpack://./src/css/components/GameHeader/compass.scss"],"names":[],"mappings":"AAAA;EACE,kBAAA;EACA,WAAA;AACF;;AAEA;EACE,gBAAA;EACA,cAAA;EACA,YAAA;EACA,WAAA;EACA,mBAAA;AACF;;AAcA;EATE,cAAA;EACA,YAAA;EACA,UAAA;EACA,iBAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EAKA,QAAA;EACA,SAAA;AALF;;AAQA;EAfE,cAAA;EACA,YAAA;EACA,UAAA;EACA,iBAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EAWA,yBAAA;EACA,MAAA;EACA,UAAA;AACF;;AAEA;EAtBE,cAAA;EACA,YAAA;EACA,UAAA;EACA,iBAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EAkBA,yBAAA;EACA,MAAA;EACA,SAAA;AAOF;;AAJA;EA7BE,cAAA;EACA,YAAA;EACA,UAAA;EACA,iBAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EAyBA,wBAAA;EACA,MAAA;EACA,SAAA;AAaF","sourcesContent":[".compass {\n  position: absolute;\n  right: 20px;\n}\n\n.compass_disc {\n  background: #fff;\n  display: block;\n  height: 30px;\n  width: 30px;\n  border-radius: 15px;\n}\n\n// @todo be cleverer about the transition/rotation so that the needle never\n// takes the 'long' way around the dial\n@mixin compassPointer {\n  display: block;\n  height: 15px;\n  width: 5px;\n  background: green;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n}\n\n.compass_pointer--north {\n  @include compassPointer;\n  top: 10%;\n  left: 44%;\n}\n\n.compass_pointer--east {\n  @include compassPointer;\n  transform: rotate(-90deg);\n  top: 0;\n  left: 14px;\n}\n\n.compass_pointer--south {\n  @include compassPointer;\n  transform: rotate(180deg);\n  top: 0;\n  left: 44%;\n}\n\n.compass_pointer--west {\n  @include compassPointer;\n  transform: rotate(90deg);\n  top: 0;\n  left: 44%;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".compass {\n  position: absolute;\n  right: 20px;\n}\n\n.compass_disc {\n  background: #fff;\n  display: block;\n  height: 24px;\n  width: 24px;\n  border-radius: 12px;\n}\n\n.compass_pointer_fulcrum {\n  background: purple;\n  border-radius: 1.5px;\n  position: absolute;\n  top: 10.5px;\n  left: 10.5px;\n  height: 3px;\n  width: 3px;\n}\n\n.compass_pointer--north {\n  display: block;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  height: 0;\n  width: 0;\n  top: 0;\n  left: 9px;\n  border-left: 3px solid transparent;\n  border-right: 3px solid transparent;\n  border-bottom: 12px solid purple;\n}\n\n.compass_pointer--east {\n  display: block;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  height: 0;\n  width: 0;\n  top: 0;\n  left: 9px;\n  border-left: 3px solid transparent;\n  border-right: 3px solid transparent;\n  border-bottom: 12px solid purple;\n  transform: rotate(-90deg);\n}\n\n.compass_pointer--south {\n  display: block;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  height: 0;\n  width: 0;\n  top: 0;\n  left: 9px;\n  border-left: 3px solid transparent;\n  border-right: 3px solid transparent;\n  border-bottom: 12px solid purple;\n  transform: rotate(180deg);\n}\n\n.compass_pointer--west {\n  display: block;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  height: 0;\n  width: 0;\n  top: 0;\n  left: 9px;\n  border-left: 3px solid transparent;\n  border-right: 3px solid transparent;\n  border-bottom: 12px solid purple;\n  transform: rotate(90deg);\n}", "",{"version":3,"sources":["webpack://./src/css/components/GameHeader/compass.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,kBAAA;EACA,WAAA;AADF;;AAIA;EACE,gBAAA;EACA,cAAA;EACA,YCLa;EDMb,WCNa;EDOb,mBAAA;AADF;;AAIA;EACE,kBAAA;EACA,oBAAA;EACA,kBAAA;EACA,WAAA;EACA,YAAA;EACA,WAAA;EACA,UAAA;AADF;;AAoBA;EAbE,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EACA,SAAA;EACA,QAAA;EACA,MAAA;EACA,SAAA;EACA,kCAAA;EACA,mCAAA;EACA,gCAAA;AAHF;;AAUA;EAjBE,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EACA,SAAA;EACA,QAAA;EACA,MAAA;EACA,SAAA;EACA,kCAAA;EACA,mCAAA;EACA,gCAAA;EASA,yBAAA;AAGF;;AAAA;EAtBE,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EACA,SAAA;EACA,QAAA;EACA,MAAA;EACA,SAAA;EACA,kCAAA;EACA,mCAAA;EACA,gCAAA;EAcA,yBAAA;AAaF;;AAVA;EA3BE,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,sCAAA;EACA,SAAA;EACA,QAAA;EACA,MAAA;EACA,SAAA;EACA,kCAAA;EACA,mCAAA;EACA,gCAAA;EAmBA,wBAAA;AAuBF","sourcesContent":["@import \"../../lib/vars.scss\";\n\n.compass {\n  position: absolute;\n  right: 20px;\n}\n\n.compass_disc {\n  background: #fff;\n  display: block;\n  height: $buttonHeight;\n  width: $buttonHeight;\n  border-radius: $buttonHeight / 2;\n}\n\n.compass_pointer_fulcrum {\n  background: purple;\n  border-radius: 1.5px;\n  position: absolute;\n  top: ($buttonHeight / 2) - 1.5px;\n  left: ($buttonHeight / 2) - 1.5px;\n  height: 3px;\n  width: 3px;\n}\n\n// @todo be cleverer about the transition/rotation so that the needle never\n// takes the 'long' way around the dial\n@mixin compassPointer {\n  display: block;\n  position: absolute;\n  transform-origin: bottom center;\n  transition: transform 0.2s ease-in-out;\n  height: 0;\n  width: 0;\n  top: 0;\n  left: 9px;\n  border-left: 3px solid transparent;\n  border-right: 3px solid transparent;\n  border-bottom: 12px solid purple;\n}\n\n.compass_pointer--north {\n  @include compassPointer;\n}\n\n.compass_pointer--east {\n  @include compassPointer;\n  transform: rotate(-90deg);\n}\n\n.compass_pointer--south {\n  @include compassPointer;\n  transform: rotate(180deg);\n}\n\n.compass_pointer--west {\n  @include compassPointer;\n  transform: rotate(90deg);\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15041,7 +15435,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".game_header {\n  background: #222;\n  height: 35px;\n  position: relative;\n}\n\n.header-nav-button {\n  float: left;\n}", "",{"version":3,"sources":["webpack://./src/css/components/GameHeader/game-header.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,gBCEY;EDDZ,YCEa;EDDb,kBAAA;AADF;;AAIA;EACE,WAAA;AADF","sourcesContent":["@import \"../../lib/vars.scss\";\n\n.game_header {\n  background: $headerColor;\n  height: $headerHeight;\n  position: relative;\n}\n\n.header-nav-button {\n  float: left;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".game_header {\n  background: #222;\n  display: flex;\n  align-items: center;\n  height: 35px;\n  padding: 6px;\n  position: absolute;\n  width: 100%;\n  z-index: 100;\n}\n\n.header-nav-button {\n  float: left;\n  text-transform: capitalize;\n}\n.header-nav-button::first-letter {\n  font-style: bold;\n  text-decoration: underline;\n}\n.header-nav-button:active, .header-nav-button.active {\n  opacity: 75%;\n}", "",{"version":3,"sources":["webpack://./src/css/components/GameHeader/game-header.scss","webpack://./src/css/lib/vars.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAGA;EACE,gBCGY;EDFZ,aAAA;EACA,mBAAA;EACA,YCCa;EDAb,YAAA;EACA,kBAAA;EACA,WAAA;EACA,YAAA;AAFF;;AAKA;EACE,WAAA;EACA,0BAAA;AAFF;AAIE;EACE,gBAAA;EACA,0BAAA;AAFJ;AE6EE;EAEE,YAAA;AF5EJ","sourcesContent":["@import \"../../lib/vars.scss\";\n@import \"../../lib/mixins.scss\";\n\n.game_header {\n  background: $headerColor;\n  display: flex;\n  align-items: center;\n  height: $headerHeight;\n  padding: 6px;\n  position: absolute;\n  width: 100%;\n  z-index: 100;\n}\n\n.header-nav-button {\n  float: left;\n  text-transform: capitalize;\n\n  &::first-letter {\n    font-style: bold;\n    text-decoration: underline;\n  }\n\n  @include button-active-states();\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15068,7 +15462,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".inventory {\n  padding: 12px;\n  width: 480px;\n  height: 270px;\n  background: #000;\n  color: #ccc;\n}\n\n.inventory--tabs {\n  margin-bottom: 12px;\n}\n\n.inventory_tab--selected {\n  background: #ddd;\n}\n\n.inventory--content {\n  display: flex;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Inventory/inventory.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,aAAA;EACA,YAAA;EACA,aAAA;EACA,gBAAA;EACA,WCCU;ADFZ;;AAIA;EACE,mBAAA;AADF;;AAIA;EACE,gBAAA;AADF;;AAIA;EACE,aAAA;AADF","sourcesContent":["@import \"../../lib/vars.scss\";\n\n.inventory {\n  padding: 12px;\n  width: 480px;\n  height: 270px;\n  background: #000;\n  color: $textLight;\n}\n\n.inventory--tabs {\n  margin-bottom: 12px;\n}\n\n.inventory_tab--selected {\n  background: #ddd;\n}\n\n.inventory--content {\n  display: flex;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".inventory {\n  padding: 12px;\n  padding-top: 47px;\n  width: 480px;\n  height: 270px;\n  background: #000;\n  color: #ccc;\n}\n\n.inventory--tabs {\n  margin-bottom: 12px;\n}\n\n.inventory_tab--selected {\n  background: #ddd;\n}\n\n.inventory--content {\n  display: flex;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Inventory/inventory.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,aAAA;EACA,iBAAA;EACA,YAAA;EACA,aAAA;EACA,gBAAA;EACA,WCEU;ADHZ;;AAIA;EACE,mBAAA;AADF;;AAIA;EACE,gBAAA;AADF;;AAIA;EACE,aAAA;AADF","sourcesContent":["@import \"../../lib/vars.scss\";\n\n.inventory {\n  padding: 12px;\n  padding-top: 12px + $headerHeight;\n  width: 480px;\n  height: 270px;\n  background: #000;\n  color: $textLight;\n}\n\n.inventory--tabs {\n  margin-bottom: 12px;\n}\n\n.inventory_tab--selected {\n  background: #ddd;\n}\n\n.inventory--content {\n  display: flex;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15122,7 +15516,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".level-map-wrapper table {\n  width: 90%;\n  margin: 0 auto;\n}", "",{"version":3,"sources":["webpack://./src/css/components/LevelMap/level-map.scss"],"names":[],"mappings":"AACE;EACE,UAAA;EACA,cAAA;AAAJ","sourcesContent":[".level-map-wrapper {\n  table {\n    width: 90%;\n    margin: 0 auto;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".level-map-wrapper {\n  padding-top: 47px;\n}\n.level-map-wrapper table {\n  width: 90%;\n  margin: 0 auto;\n}", "",{"version":3,"sources":["webpack://./src/css/components/LevelMap/level-map.scss"],"names":[],"mappings":"AAEA;EACE,iBAAA;AADF;AAGE;EACE,UAAA;EACA,cAAA;AADJ","sourcesContent":["@import \"../../lib/vars.scss\";\n\n.level-map-wrapper {\n  padding-top: 12px + $headerHeight;\n\n  table {\n    width: 90%;\n    margin: 0 auto;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15176,7 +15570,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".combat-controls {\n  position: absolute;\n  top: 287px;\n  background-color: rgba(0, 0, 0, 0.7);\n  width: 100%;\n  z-index: 10;\n}\n.combat-controls li {\n  display: inline-block;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/Combat/combat-controls.scss"],"names":[],"mappings":"AAAA;EACE,kBAAA;EACA,UAAA;EACA,oCAAA;EACA,WAAA;EACA,WAAA;AACF;AACE;EACE,qBAAA;AACJ","sourcesContent":[".combat-controls {\n  position: absolute;\n  top: 287px;\n  background-color: rgba(0, 0, 0, 0.7);\n  width: 100%;\n  z-index: 10;\n\n  li {\n    display: inline-block;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".combat-controls {\n  display: flex;\n  align-items: center;\n  height: 30px;\n  padding: 0 6px;\n  position: absolute;\n  top: 240px;\n  background-color: rgba(0, 0, 0, 0.4);\n  width: 100%;\n  z-index: 10;\n}\n.combat-controls li {\n  display: inline-block;\n}\n.combat-controls .combat-controls__button {\n  height: 24px;\n  text-align: center;\n  text-transform: capitalize;\n}\n.combat-controls .combat-controls__button::first-letter {\n  font-style: bold;\n  text-decoration: underline;\n}\n.combat-controls .combat-controls__button:active, .combat-controls .combat-controls__button.active {\n  opacity: 75%;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/Combat/combat-controls.scss","webpack://./src/css/lib/vars.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAGA;EACE,aAAA;EACA,mBAAA;EACA,YCQqB;EDPrB,cAAA;EACA,kBAAA;EACA,UAAA;EACA,oCAAA;EACA,WAAA;EACA,WAAA;AAFF;AAIE;EACE,qBAAA;AAFJ;AAIE;EACE,YCbW;EDcX,kBAAA;EACA,0BAAA;AAFJ;AAII;EACE,gBAAA;EACA,0BAAA;AAFN;AEyEE;EAEE,YAAA;AFxEJ","sourcesContent":["@import \"../../../lib/vars.scss\";\n@import \"../../../lib/mixins.scss\";\n\n.combat-controls {\n  display: flex;\n  align-items: center;\n  height: $combatControlsHeight;\n  padding: 0 6px;\n  position: absolute;\n  top: 270 - $combatControlsHeight;\n  background-color: rgba(0, 0, 0, 0.4);\n  width: 100%;\n  z-index: 10;\n\n  li {\n    display: inline-block;\n  }\n  .combat-controls__button {\n    height: $buttonHeight;\n    text-align: center;\n    text-transform: capitalize;\n\n    &::first-letter {\n      font-style: bold;\n      text-decoration: underline;\n    }\n\n    @include button-active-states();\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15203,7 +15597,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* @todo make less hardcodey */\n.monster {\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  /* temp measure, adjust monster graphics so that monster overlay is 1:1\n    with passage UI and monsters still align on 'ground' */\n  margin-top: 80px;\n  position: absolute;\n  text-align: center;\n  width: 480px;\n}\n.monster img {\n  width: 480px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/Combat/monster.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAGA,8BAAA;AACA;EC0CE,qCAAA;EACA,kCAAA;EACA,6BAAA;EDzCA;0DAAA;EAEA,gBAAA;EACA,kBAAA;EACA,kBAAA;EACA,YAAA;AADF;AAGE;EACE,YAAA;AADJ","sourcesContent":["@import \"../../../lib/mixins.scss\";\n@import \"../../../lib/vars.scss\";\n\n/* @todo make less hardcodey */\n.monster {\n  @include translateZ(-$wall_height);\n\n  /* temp measure, adjust monster graphics so that monster overlay is 1:1\n    with passage UI and monsters still align on 'ground' */\n  margin-top: 80px;\n  position: absolute;\n  text-align: center;\n  width: 480px;\n\n  img {\n    width: 480px;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* @todo make less hardcodey */\n.monster {\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  /* temp measure, adjust monster graphics so that monster overlay is 1:1\n    with passage UI and monsters still align on 'ground' */\n  margin-top: 50px;\n  position: absolute;\n  text-align: center;\n  width: 480px;\n}\n.monster img {\n  width: 480px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/Combat/monster.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAGA,8BAAA;AACA;EC0CE,qCAAA;EACA,kCAAA;EACA,6BAAA;EDzCA;0DAAA;EAEA,gBAAA;EACA,kBAAA;EACA,kBAAA;EACA,YAAA;AADF;AAGE;EACE,YAAA;AADJ","sourcesContent":["@import \"../../../lib/mixins.scss\";\n@import \"../../../lib/vars.scss\";\n\n/* @todo make less hardcodey */\n.monster {\n  @include translateZ(-$wall_height);\n\n  /* temp measure, adjust monster graphics so that monster overlay is 1:1\n    with passage UI and monsters still align on 'ground' */\n  margin-top: 50px;\n  position: absolute;\n  text-align: center;\n  width: 480px;\n\n  img {\n    width: 480px;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15266,7 +15660,7 @@ var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_g
 var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".passage_controls {\n  margin: 0 auto;\n  padding: 20px 0 0 0;\n  width: 148px;\n}\n\n.passage_controls--listitem {\n  display: inline-block;\n}\n\n.button_left {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n\n.button_forward {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n\n.button_right {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/passage-controls.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAEA;EACE,cAAA;EACA,mBAAA;EACA,YAAA;AADF;;AAIA;EACE,qBAAA;AADF;;AAIA;EACE,yDAAA;EC2EA,eAAA;EACA,YAAA;EACA,WAAA;AD3EF;;AAEA;EACE,yDAAA;ECsEA,eAAA;EACA,YAAA;EACA,WAAA;ADpEF;;AAAA;EACE,yDAAA;ECiEA,eAAA;EACA,YAAA;EACA,WAAA;AD7DF","sourcesContent":["@import \"../../lib/mixins.scss\";\n\n.passage_controls {\n  margin: 0 auto;\n  padding: 20px 0 0 0;\n  width: 148px;\n}\n\n.passage_controls--listitem {\n  display: inline-block;\n}\n\n.button_left {\n  background-image: url(\"../../../img/arrow-left.png\");\n  @include nav-button();\n}\n\n.button_forward {\n  background-image: url(\"../../../img/arrow-forward.png\");\n  @include nav-button();\n}\n\n.button_right {\n  background-image: url(\"../../../img/arrow-right.png\");\n  @include nav-button();\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".passage_controls {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  z-index: 100;\n}\n\n.passage_controls--listitem {\n  display: inline-block;\n}\n\n.button_left {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n.button_left:active, .button_left.active {\n  opacity: 75%;\n}\n\n.button_forward {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n.button_forward:active, .button_forward.active {\n  opacity: 75%;\n}\n\n.button_right {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n.button_right:active, .button_right.active {\n  opacity: 75%;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/passage-controls.scss","webpack://./src/css/lib/mixins.scss"],"names":[],"mappings":"AAEA;EACE,kBAAA;EACA,SAAA;EACA,QAAA;EACA,YAAA;AADF;;AAIA;EACE,qBAAA;AADF;;AAIA;EACE,yDAAA;EC0EA,wBAAA;EACA,eAAA;EACA,YAAA;EACA,WAAA;AD1EF;AC8EE;EAEE,YAAA;AD7EJ;;AADA;EACE,yDAAA;ECoEA,wBAAA;EACA,eAAA;EACA,YAAA;EACA,WAAA;AD/DF;ACmEE;EAEE,YAAA;ADlEJ;;AANA;EACE,yDAAA;EC8DA,wBAAA;EACA,eAAA;EACA,YAAA;EACA,WAAA;ADpDF;ACwDE;EAEE,YAAA;ADvDJ","sourcesContent":["@import \"../../lib/mixins.scss\";\n\n.passage_controls {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  z-index: 100;\n}\n\n.passage_controls--listitem {\n  display: inline-block;\n}\n\n.button_left {\n  background-image: url(\"../../../img/arrow-left.png\");\n  @include nav-button();\n  @include button-active-states();\n}\n\n.button_forward {\n  background-image: url(\"../../../img/arrow-forward.png\");\n  @include nav-button();\n  @include button-active-states();\n}\n\n.button_right {\n  background-image: url(\"../../../img/arrow-right.png\");\n  @include nav-button();\n  @include button-active-states();\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15293,7 +15687,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".passageroot {\n  display: relative;\n}\n\n.passagewrap {\n  -webkit-perspective: 480px;\n  -moz-perspective: 480px;\n  perspective: 480px;\n  background: black;\n  width: 480px;\n  height: 270px;\n  overflow: hidden;\n  position: relative;\n}\n\n.passage {\n  -webkit-transform-style: preserve-3d;\n  -moz-transform-style: preserve-3d;\n  transform-style: preserve-3d;\n  height: 100%;\n  width: 100%;\n  position: absolute;\n}\n\n.passageoverlay {\n  background: #000;\n  height: 270px;\n  opacity: 0;\n  position: absolute;\n  top: 35px;\n  transition: opacity 200ms;\n  width: 480px;\n  z-index: 10;\n}\n.passageoverlay.show {\n  opacity: 100;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/passage.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;EACE,iBAAA;AAFF;;AAKA;ECeE,0BCtBW;EDuBX,uBCvBW;EDwBX,kBCxBW;EFUX,iBAAA;EACA,YEXW;EFYX,aEXY;EFYZ,gBAAA;EACA,kBAAA;AADF;;AAIA;ECWE,oCDVyB;ECWzB,iCDXyB;ECYzB,4BDZyB;EAEzB,YAAA;EACA,WAAA;EACA,kBAAA;AAAF;;AAGA;EACE,gBAAA;EACA,aE1BY;EF2BZ,UAAA;EACA,kBAAA;EACA,SExBa;EFyBb,yBAAA;EACA,YEhCW;EFiCX,WAAA;AAAF;AAEE;EACE,YAAA;AAAJ","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.passageroot {\n  display: relative;\n}\n\n.passagewrap {\n  @include perspective($wall_width);\n\n  background: black;\n  width: $wall_width;\n  height: $wall_height;\n  overflow: hidden;\n  position: relative;\n}\n\n.passage {\n  @include transform-style(preserve-3d);\n\n  height: 100%;\n  width: 100%;\n  position: absolute;\n}\n\n.passageoverlay {\n  background: #000;\n  height: $wall_height;\n  opacity: 0;\n  position: absolute;\n  top: $headerHeight;\n  transition: opacity 200ms;\n  width: $wall_width;\n  z-index: 10;\n\n  &.show {\n    opacity: 100;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".passageroot {\n  position: relative;\n}\n\n.passagewrap {\n  -webkit-perspective: 480px;\n  -moz-perspective: 480px;\n  perspective: 480px;\n  background: black;\n  width: 480px;\n  height: 270px;\n  overflow: hidden;\n  position: relative;\n}\n\n.passage {\n  -webkit-transform-style: preserve-3d;\n  -moz-transform-style: preserve-3d;\n  transform-style: preserve-3d;\n  height: 100%;\n  width: 100%;\n  position: absolute;\n}\n\n.passageoverlay {\n  background: #000;\n  height: 235px;\n  opacity: 0;\n  position: absolute;\n  top: 35px;\n  transition: opacity 200ms;\n  width: 480px;\n  z-index: 10;\n}\n.passageoverlay.show {\n  opacity: 100;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/passage.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;EACE,kBAAA;AAFF;;AAKA;ECeE,0BCtBW;EDuBX,uBCvBW;EDwBX,kBCxBW;EFUX,iBAAA;EACA,YEXW;EFYX,aEXY;EFYZ,gBAAA;EACA,kBAAA;AADF;;AAIA;ECWE,oCDVyB;ECWzB,iCDXyB;ECYzB,4BDZyB;EAEzB,YAAA;EACA,WAAA;EACA,kBAAA;AAAF;;AAGA;EACE,gBAAA;EACA,aAAA;EACA,UAAA;EACA,kBAAA;EACA,SEtBa;EFuBb,yBAAA;EACA,YEhCW;EFiCX,WAAA;AAAF;AAEE;EACE,YAAA;AAAJ","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.passageroot {\n  position: relative;\n}\n\n.passagewrap {\n  @include perspective($wall_width);\n\n  background: black;\n  width: $wall_width;\n  height: $wall_height;\n  overflow: hidden;\n  position: relative;\n}\n\n.passage {\n  @include transform-style(preserve-3d);\n\n  height: 100%;\n  width: 100%;\n  position: absolute;\n}\n\n.passageoverlay {\n  background: #000;\n  height: $wall_height - $headerHeight;\n  opacity: 0;\n  position: absolute;\n  top: $headerHeight;\n  transition: opacity 200ms;\n  width: $wall_width;\n  z-index: 10;\n\n  &.show {\n    opacity: 100;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15325,7 +15719,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-ahead {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-ahead.shadow {\n  -webkit-box-shadow: inset 0 0 168px 70px #000;\n  -moz-box-shadow: inset 0 0 168px 70px #000;\n  box-shadow: inset 0 0 168px 70px #000;\n}\n.wall-psg-ahead.open {\n  background: #000 !important;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-ahead.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAVA,qCAAA;EACA,kCAAA;EACA,6BAAA;EDzCA,YEPW;EFQX,aEPY;AFUd;AADE;EC+BA,6CAAA;EACA,0CAAA;EACA,qCAAA;AD3BF;AAFE;EACE,2BAAA;AAIJ","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-ahead {\n  @include panel($wall_width, $wall_height);\n  @include translateZ(-$wall_height);\n\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include box-shadow($blur: $wall_width * 0.35, $spread: 70px);\n  }\n\n  &.open {\n    background: #000 !important;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-ahead {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: translateZ(-270px);\n  -moz-transform: translateZ(-270px);\n  transform: translateZ(-270px);\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-ahead.shadow {\n  -webkit-box-shadow: inset 0 0 168px 70px #000;\n  -moz-box-shadow: inset 0 0 168px 70px #000;\n  box-shadow: inset 0 0 168px 70px #000;\n}\n.wall-psg-ahead.open {\n  background: #000 !important;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-ahead.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAVA,qCAAA;EACA,kCAAA;EACA,6BAAA;EDzCA,YEPW;EFQX,aEPY;AFUd;AADE;EC+BA,6CAAA;EACA,0CAAA;EACA,qCAAA;AD3BF;AAFE;EACE,2BAAA;AAIJ","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-ahead {\n  @include panel($wall_width, $wall_height);\n  @include translateZ(-$wall_height);\n\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include box-shadow($blur: $wall_width * 0.35, $spread: 70px);\n  }\n\n  &.open {\n    background: #000 !important;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15357,7 +15751,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-ceiling {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 540px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateX(-89deg);\n  -moz-transform: rotateX(-89deg);\n  -ms-transform: rotateX(-89deg);\n  transform: rotateX(-89deg);\n  -webkit-transform-origin: center 0;\n  -moz-transform-origin: center 0;\n  -ms-transform-origin: center 0;\n  transform-origin: center 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-ceiling.shadow {\n  -webkit-box-shadow: inset 0 -135px 140px 34px #000;\n  -moz-box-shadow: inset 0 -135px 140px 34px #000;\n  box-shadow: inset 0 -135px 140px 34px #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-ceiling.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EA9CA,kCAAA;EACA,+BAAA;EACA,8BAAA;EACA,0BAAA;EATA,kCDE0B;ECD1B,+BDC0B;ECA1B,8BAAA;EACA,0BDD0B;EAE1B,YERW;EFSX,aERY;AFed;AALE;EC8BA,kDAAA;EACA,+CAAA;EACA,0CAAA;ADtBF","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-ceiling {\n  @include panelCeilingFloor;\n  @include rotateX(-89deg);\n  @include transform-origin(center 0);\n\n  width: $ceiling_floor_width;\n  height: $ceiling_floor_height;\n\n  &.shadow {\n    @include ceiling-shadow();\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-ceiling {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 540px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateX(-89deg);\n  -moz-transform: rotateX(-89deg);\n  -ms-transform: rotateX(-89deg);\n  transform: rotateX(-89deg);\n  -webkit-transform-origin: center 0;\n  -moz-transform-origin: center 0;\n  -ms-transform-origin: center 0;\n  transform-origin: center 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-ceiling.shadow {\n  -webkit-box-shadow: inset 0 -35px 140px 34px #000;\n  -moz-box-shadow: inset 0 -35px 140px 34px #000;\n  box-shadow: inset 0 -35px 140px 34px #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-ceiling.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EA9CA,kCAAA;EACA,+BAAA;EACA,8BAAA;EACA,0BAAA;EATA,kCDE0B;ECD1B,+BDC0B;ECA1B,8BAAA;EACA,0BDD0B;EAE1B,YERW;EFSX,aERY;AFed;AALE;EC8BA,iDAAA;EACA,8CAAA;EACA,yCAAA;ADtBF","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-ceiling {\n  @include panelCeilingFloor;\n  @include rotateX(-89deg);\n  @include transform-origin(center 0);\n\n  width: $ceiling_floor_width;\n  height: $ceiling_floor_height;\n\n  &.shadow {\n    @include ceiling-shadow();\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15389,7 +15783,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-floor {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 540px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateX(89deg);\n  -moz-transform: rotateX(89deg);\n  -ms-transform: rotateX(89deg);\n  transform: rotateX(89deg);\n  -webkit-transform-origin: center 235px;\n  -moz-transform-origin: center 235px;\n  -ms-transform-origin: center 235px;\n  transform-origin: center 235px;\n  width: 480px;\n  height: 355px;\n}\n.wall-psg-floor.shadow {\n  -webkit-box-shadow: inset 0 270px 140px 34px #000;\n  -moz-box-shadow: inset 0 270px 140px 34px #000;\n  box-shadow: inset 0 270px 140px 34px #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-floor.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EA9CA,iCAAA;EACA,8BAAA;EACA,6BAAA;EACA,yBAAA;EATA,sCDE0B;ECD1B,mCDC0B;ECA1B,kCAAA;EACA,8BDD0B;EAE1B,YERW;EFSX,aAAA;AAOF;AALE;EC8BA,iDAAA;EACA,8CAAA;EACA,yCAAA;ADtBF","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-floor {\n  @include panelCeilingFloor;\n  @include rotateX(89deg);\n  @include transform-origin(center 235px);\n\n  width: $ceiling_floor_width;\n  height: 355px;\n\n  &.shadow {\n    @include floor-shadow();\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-floor {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 540px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateX(89deg);\n  -moz-transform: rotateX(89deg);\n  -ms-transform: rotateX(89deg);\n  transform: rotateX(89deg);\n  -webkit-transform-origin: center 235px;\n  -moz-transform-origin: center 235px;\n  -ms-transform-origin: center 235px;\n  transform-origin: center 235px;\n  width: 480px;\n  height: 355px;\n}\n.wall-psg-floor.shadow {\n  -webkit-box-shadow: inset 0 170px 140px 34px #000;\n  -moz-box-shadow: inset 0 170px 140px 34px #000;\n  box-shadow: inset 0 170px 140px 34px #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-floor.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAGA;ECiDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EA9CA,iCAAA;EACA,8BAAA;EACA,6BAAA;EACA,yBAAA;EATA,sCDE0B;ECD1B,mCDC0B;ECA1B,kCAAA;EACA,8BDD0B;EAE1B,YERW;EFSX,aAAA;AAOF;AALE;EC8BA,iDAAA;EACA,8CAAA;EACA,yCAAA;ADtBF","sourcesContent":["@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-floor {\n  @include panelCeilingFloor;\n  @include rotateX(89deg);\n  @include transform-origin(center 235px);\n\n  width: $ceiling_floor_width;\n  height: 355px;\n\n  &.shadow {\n    @include floor-shadow();\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15421,7 +15815,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-left {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateY(89deg);\n  -moz-transform: rotateY(89deg);\n  -ms-transform: rotateY(89deg);\n  transform: rotateY(89deg);\n  -webkit-transform-origin: 0px;\n  -moz-transform-origin: 0px;\n  -ms-transform-origin: 0px;\n  transform-origin: 0px;\n  top: 0;\n  left: 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-left.shadow {\n  -webkit-box-shadow: inset -240px 0 168px 50px #000;\n  -moz-box-shadow: inset -240px 0 168px 50px #000;\n  box-shadow: inset -240px 0 168px 50px #000;\n}\n.wall-psg-left.open {\n  background: #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-left.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAIA;ECgDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAxCA,iCAAA;EACA,8BAAA;EACA,6BAAA;EACA,yBAAA;EAfA,6BDG0B;ECF1B,0BDE0B;ECD1B,yBDC0B;ECA1B,qBAAA;EDEA,MAAA;EACA,OAAA;EACA,YEXW;EFYX,aEXY;AFiBd;AAJE;EC2BA,kDAAA;EACA,+CAAA;EACA,0CAAA;ADpBF;AALE;EACE,gBAAA;AAOJ","sourcesContent":["@use \"sass:math\";\n@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-left {\n  @include panelWall;\n  @include rotateY(89deg);\n  @include transform-origin(0px);\n\n  top: 0;\n  left: 0;\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include wall-shadow(math.div($wall_width, -2));\n  }\n\n  &.open {\n    background: #000;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-left {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateY(89deg);\n  -moz-transform: rotateY(89deg);\n  -ms-transform: rotateY(89deg);\n  transform: rotateY(89deg);\n  -webkit-transform-origin: 0px;\n  -moz-transform-origin: 0px;\n  -ms-transform-origin: 0px;\n  transform-origin: 0px;\n  top: 0;\n  left: 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-left.shadow {\n  -webkit-box-shadow: inset -240px 0 168px 50px #000;\n  -moz-box-shadow: inset -240px 0 168px 50px #000;\n  box-shadow: inset -240px 0 168px 50px #000;\n}\n.wall-psg-left.open {\n  background: #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-left.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAIA;ECgDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAxCA,iCAAA;EACA,8BAAA;EACA,6BAAA;EACA,yBAAA;EAfA,6BDG0B;ECF1B,0BDE0B;ECD1B,yBDC0B;ECA1B,qBAAA;EDEA,MAAA;EACA,OAAA;EACA,YEXW;EFYX,aEXY;AFiBd;AAJE;EC2BA,kDAAA;EACA,+CAAA;EACA,0CAAA;ADpBF;AALE;EACE,gBAAA;AAOJ","sourcesContent":["@use \"sass:math\";\n@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-left {\n  @include panelWall;\n  @include rotateY(89deg);\n  @include transform-origin(0px);\n\n  top: 0;\n  left: 0;\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include wall-shadow(math.div($wall_width, -2));\n  }\n\n  &.open {\n    background: #000;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15453,7 +15847,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-right {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateY(-91deg);\n  -moz-transform: rotateY(-91deg);\n  -ms-transform: rotateY(-91deg);\n  transform: rotateY(-91deg);\n  -webkit-transform-origin: right;\n  -moz-transform-origin: right;\n  -ms-transform-origin: right;\n  transform-origin: right;\n  right: 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-right.shadow {\n  -webkit-box-shadow: inset 240px 0 168px 50px #000;\n  -moz-box-shadow: inset 240px 0 168px 50px #000;\n  box-shadow: inset 240px 0 168px 50px #000;\n}\n.wall-psg-right.open {\n  background: #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-right.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAIA;ECgDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAxCA,kCAAA;EACA,+BAAA;EACA,8BAAA;EACA,0BAAA;EAfA,+BDG0B;ECF1B,4BDE0B;ECD1B,2BDC0B;ECA1B,uBAAA;EDEA,QAAA;EACA,YEVW;EFWX,aEVY;AFgBd;AAJE;EC4BA,iDAAA;EACA,8CAAA;EACA,yCAAA;ADrBF;AALE;EACE,gBAAA;AAOJ","sourcesContent":["@use \"sass:math\";\n@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-right {\n  @include panelWall;\n  @include rotateY(-91deg);\n  @include transform-origin(right);\n\n  right: 0;\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include wall-shadow(math.div($wall_width, 2));\n  }\n\n  &.open {\n    background: #000;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2));\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin nav-button() {\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wall-psg-right {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-size: 480px 270px;\n  display: block;\n  position: absolute;\n  -webkit-transform: rotateY(-91deg);\n  -moz-transform: rotateY(-91deg);\n  -ms-transform: rotateY(-91deg);\n  transform: rotateY(-91deg);\n  -webkit-transform-origin: right;\n  -moz-transform-origin: right;\n  -ms-transform-origin: right;\n  transform-origin: right;\n  right: 0;\n  width: 480px;\n  height: 270px;\n}\n.wall-psg-right.shadow {\n  -webkit-box-shadow: inset 240px 0 168px 50px #000;\n  -moz-box-shadow: inset 240px 0 168px 50px #000;\n  box-shadow: inset 240px 0 168px 50px #000;\n}\n.wall-psg-right.open {\n  background: #000;\n}", "",{"version":3,"sources":["webpack://./src/css/components/Passage/wall-psg-right.scss","webpack://./src/css/lib/mixins.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAIA;ECgDE,yDAAA;EACA,4BAAA;EACA,4BAAA;EACA,cAAA;EACA,kBAAA;EAxCA,kCAAA;EACA,+BAAA;EACA,8BAAA;EACA,0BAAA;EAfA,+BDG0B;ECF1B,4BDE0B;ECD1B,2BDC0B;ECA1B,uBAAA;EDEA,QAAA;EACA,YEVW;EFWX,aEVY;AFgBd;AAJE;EC4BA,iDAAA;EACA,8CAAA;EACA,yCAAA;ADrBF;AALE;EACE,gBAAA;AAOJ","sourcesContent":["@use \"sass:math\";\n@import \"../../lib/mixins.scss\";\n@import \"../../lib/vars.scss\";\n\n.wall-psg-right {\n  @include panelWall;\n  @include rotateY(-91deg);\n  @include transform-origin(right);\n\n  right: 0;\n  width: $wall_width;\n  height: $wall_height;\n\n  &.shadow {\n    @include wall-shadow(math.div($wall_width, 2));\n  }\n\n  &.open {\n    background: #000;\n  }\n}\n","@use \"sass:math\";\n@import \"./vars.scss\";\n\n@mixin transform-origin($origin) {\n  -webkit-transform-origin: $origin;\n  -moz-transform-origin: $origin;\n  -ms-transform-origin: $origin;\n  transform-origin: $origin;\n}\n@mixin rotateX($deg) {\n  -webkit-transform: rotateX($deg);\n  -moz-transform: rotateX($deg);\n  -ms-transform: rotateX($deg);\n  transform: rotateX($deg);\n}\n@mixin rotateY($deg) {\n  -webkit-transform: rotateY($deg);\n  -moz-transform: rotateY($deg);\n  -ms-transform: rotateY($deg);\n  transform: rotateY($deg);\n}\n@mixin perspective($perspective) {\n  -webkit-perspective: $perspective;\n  -moz-perspective: $perspective;\n  perspective: $perspective;\n}\n// IE doesn't support the preserve-3d value, if needed workaround by applying same 3d transform to children\n@mixin transform-style($style) {\n  -webkit-transform-style: $style;\n  -moz-transform-style: $style;\n  transform-style: $style;\n}\n// for box-shadow in IE9 or later, must set border-collaps: separate;\n@mixin box-shadow(\n  $inset: inset,\n  $offset_x: 0,\n  $offset_y: 0,\n  $blur: 0,\n  $spread: 0,\n  $color: #000\n) {\n  -webkit-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  -moz-box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n  box-shadow: $inset $offset_x $offset_y $blur $spread $color;\n}\n@mixin translateZ($translate) {\n  -webkit-transform: translateZ($translate);\n  -moz-transform: translateZ($translate);\n  transform: translateZ($translate);\n}\n\n@mixin panel($backgroundWidth, $backgroundHeight) {\n  background-image: url(\"../../../img/brick-wall-pixel-wip-3-highlights-borders.png\");\n  background-repeat: no-repeat;\n  background-size: $backgroundWidth $backgroundHeight;\n  display: block;\n  position: absolute;\n}\n\n@mixin panelCeilingFloor {\n  @include panel($wall_width, $wall_height * 2);\n}\n\n@mixin panelWall {\n  @include panel($wall_width, $wall_height);\n}\n\n@mixin wall-shadow($off_x) {\n  @include box-shadow(\n    $offset_x: $off_x,\n    $blur: $wall_width * 0.35,\n    $spread: 50px\n  );\n}\n\n@mixin floor-ceiling-shadow($off_y) {\n  @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);\n}\n\n@mixin floor-shadow() {\n  @include floor-ceiling-shadow($wall_height - 100);\n}\n\n@mixin ceiling-shadow() {\n  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);\n}\n\n@mixin nav-button() {\n  background-size: contain;\n  cursor: pointer;\n  height: 30px;\n  width: 30px;\n}\n\n@mixin button-active-states() {\n  &:active,\n  &.active {\n    opacity: 75%;\n  }\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15480,7 +15874,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/game-root.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,sBAAA;EACA,cAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb","sourcesContent":["@import \"../lib/vars.scss\";\n\n.game-root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".game_root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}\n\n.repo_link {\n  display: block;\n  margin: 12px auto 0;\n  padding: 12px;\n  text-align: center;\n  text-decoration: none;\n  width: 50%;\n}\n\nbutton {\n  height: 24px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/game-root.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,sBAAA;EACA,cAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb;;AAIA;EACE,cAAA;EACA,mBAAA;EACA,aAAA;EACA,kBAAA;EACA,qBAAA;EACA,UAAA;AADF;;AAIA;EACE,YCfa;ADcf","sourcesContent":["@import \"../lib/vars.scss\";\n\n.game_root {\n  background-color: #000;\n  margin: 0 auto;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n\n.repo_link {\n  display: block;\n  margin: 12px auto 0;\n  padding: 12px;\n  text-align: center;\n  text-decoration: none;\n  width: 50%;\n}\n\nbutton {\n  height: $buttonHeight;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15512,7 +15906,7 @@ var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".title_screen {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: cover;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: 80px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/title-screen.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,yDAAA;EACA,sBAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb;;AAIA;EACE,kBAAA;EACA,QAAA;EACA,UAAA;AADF","sourcesContent":["@import \"../lib/vars.scss\";\n\n.title_screen {\n  background-image: url(\"../../img/start-screen2x.png\");\n  background-size: cover;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: $wall_width / 6;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".title_screen {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: cover;\n  position: relative;\n  height: 270px;\n  width: 480px;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: 80px;\n}", "",{"version":3,"sources":["webpack://./src/css/components/title-screen.scss","webpack://./src/css/lib/vars.scss"],"names":[],"mappings":"AAEA;EACE,yDAAA;EACA,sBAAA;EACA,kBAAA;EACA,aCLY;EDMZ,YCPW;ADMb;;AAIA;EACE,kBAAA;EACA,QAAA;EACA,UAAA;AADF","sourcesContent":["@import \"../lib/vars.scss\";\n\n.title_screen {\n  background-image: url(\"../../img/start-screen2x.png\");\n  background-size: cover;\n  position: relative;\n  height: $wall_height;\n  width: $wall_width;\n}\n\n.title_screen--start_btn {\n  position: absolute;\n  top: 80%;\n  left: $wall_width / 6;\n}\n","$wall_width: 480px;\n$wall_height: 270px;\n$ceiling_floor_width: $wall_width;\n$ceiling_floor_height: $wall_height;\n\n$buttonHeight: 24px;\n\n$headerColor: #222;\n$headerHeight: 35px;\n\n$textLight: #ccc;\n\n$itemTileBorderWidth: 2px;\n\n$combatControlsHeight: 30px;\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53365,7 +53759,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAEOCAYAAABR
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"rootSelector":"#game-root-container","combatDebug":false,"startingLevel":"one","startDirection":"n","startTileName":"1x1","startingArmor":"clothes","startingWeapon":"staff","defaultSurfaces":["stonebrick","shadow"],"levelMapRows":10,"levelMapColumns":20}');
+module.exports = JSON.parse('{"rootSelector":"#game-root-container","combatDebug":false,"startingLevel":"one","startDirection":"n","startTileName":"1x1","startingArmor":"clothes","startingWeapon":"staff","defaultSurfaces":["stonebrick","shadow"],"levelMapRows":9,"levelMapColumns":20,"uiDelayTimeMs":200,"msgSpeed":500}');
 
 /***/ }),
 
