@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 
 import { startGame } from "../actions/game-status";
-import { useWindowKeydown } from '../hooks';
+import { useWindowKeydown } from "../hooks";
 
 import "../../css/components/title-screen.scss";
 

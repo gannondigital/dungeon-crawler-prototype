@@ -5,7 +5,7 @@ import { ItemTile } from "./item-tile";
 import { useStoreSubscription } from "../../hooks";
 
 import "../../../css/components/Inventory/inventory.scss";
-import GameMsg from '../Passage/game-msg';
+import GameMsg from "../Passage/game-msg";
 
 // @todo if we have more item roles, abstract out the roles
 // @todo more specific naming in line with roles that manage

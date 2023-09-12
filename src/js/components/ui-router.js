@@ -5,7 +5,7 @@ import LevelMap from "./LevelMap/level-map";
 import Inventory from "./Inventory/inventory";
 import GameHeader from "./GameHeader/game-header";
 import TitleScreen from "./title-screen";
-import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
+import { REPO_URL, UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
 import { TITLE_SCREEN, GAMEPLAY } from "../constants/game-status";
 import gameStatusStore from "../stores/game-status";
 import { useStoreSubscription } from "../hooks";
@@ -31,7 +31,6 @@ export const UIRouter = () => {
   useEffect(handleGameStatusChange, []);
   useStoreSubscription([[gameStatusStore, handleGameStatusChange]]);
 
-
   let currContent = null;
   switch (screenState) {
     case TITLE_SCREEN:
@@ -50,9 +49,14 @@ export const UIRouter = () => {
   }
 
   return (
-    <div className="game-root">
-      <GameHeader screenState={screenState} setScreenState={setScreenState} />
-      {currContent}
-    </div>
+    <>
+      <div className="game_root">
+        <GameHeader screenState={screenState} setScreenState={setScreenState} />
+        {currContent}
+      </div>
+      <a className="repo_link" href={REPO_URL} target="_blank">
+        See the code &gt;
+      </a>
+    </>
   );
 };

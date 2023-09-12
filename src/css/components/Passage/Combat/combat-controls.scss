@@ -1,4 +1,5 @@
 @import "../../../lib/vars.scss";
+@import "../../../lib/mixins.scss";
 
 .combat-controls {
   display: flex;
@@ -14,8 +15,7 @@
   li {
     display: inline-block;
   }
-
-  button {
+  .combat-controls__button {
     height: $buttonHeight;
     text-align: center;
     text-transform: capitalize;
@@ -24,5 +24,7 @@
       font-style: bold;
       text-decoration: underline;
     }
+
+    @include button-active-states();
   }
 }

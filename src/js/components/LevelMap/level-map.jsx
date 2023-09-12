@@ -6,7 +6,7 @@ import characterStore from "../../stores/character";
 import { TileFactory } from "../../factories/tile-factory";
 import "../../../css/components/LevelMap/level-map.scss";
 import config from "../../config/default.json";
-import GameMsg from '../Passage/game-msg';
+import GameMsg from "../Passage/game-msg";
 const { levelMapRows, levelMapColumns } = config;
 
 function getTilename(row, column) {
@@ -14,10 +14,7 @@ function getTilename(row, column) {
 }
 
 const LevelMapProvider = () => (
-  <LevelMap 
-    rows={levelMapRows}
-    columns={levelMapColumns}
-  />
+  <LevelMap rows={levelMapRows} columns={levelMapColumns} />
 );
 export default LevelMapProvider;
 

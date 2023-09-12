@@ -86,7 +86,15 @@
 }
 
 @mixin nav-button() {
+  background-size: contain;
   cursor: pointer;
-  height: 36px;
-  width: 36px;
+  height: 30px;
+  width: 30px;
+}
+
+@mixin button-active-states() {
+  &:active,
+  &.active {
+    opacity: 75%;
+  }
 }

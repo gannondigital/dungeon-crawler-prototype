@@ -1,7 +1,8 @@
 import { dispatcher } from "../lib/game-dispatcher";
 import { gameplayWait } from "../lib/util";
 import { SHOW_GAME_MSG, REMOVE_GAME_MSG } from "../constants/actions";
-import { MSG_SPEED_MED } from "../constants/";
+import config from "../config/default";
+const { msgSpeed } = config;
 
 // @todo the model for messages might be less flux-y because we
 // often want to do it while we are responding to a dispatch
@@ -16,8 +17,8 @@ export const showGameMsg = async (msgText) => {
     });
   });
 
-  // @todo make msg speed configurable
-  await gameplayWait(MSG_SPEED_MED);
+  // @todo move pause to msg component, increase with message count
+  await gameplayWait(msgSpeed);
   removeGameMsg();
 };
 

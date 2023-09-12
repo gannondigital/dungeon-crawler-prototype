@@ -8,5 +8,7 @@
   "startingWeapon": "staff",
   "defaultSurfaces": ["stonebrick", "shadow"],
   "levelMapRows": 9,
-  "levelMapColumns": 20
+  "levelMapColumns": 20,
+  "uiDelayTimeMs": 200,
+  "msgSpeed": 500
 }

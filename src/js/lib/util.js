@@ -1,3 +1,6 @@
+import config from "../config/default";
+const { uiDelayTimeMs } = config;
+
 /**
  * Returns semi-random integer between 1 and maxVal
  * @param {Int} maxVal
@@ -17,5 +20,14 @@ export const gameplayWait = (durationMs) => {
     setTimeout(() => {
       window.requestAnimationFrame(resolve);
     }, durationMs);
+  });
+};
+
+export const uiDelayedUpdate = (callback) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      callback();
+      resolve();
+    }, uiDelayTimeMs);
   });
 };
