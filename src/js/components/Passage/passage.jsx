@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 import characterStore from "../../stores/character";
@@ -10,6 +10,7 @@ import { useStoreSubscription } from "../../hooks";
 import Tile from "../../models/tile";
 import { gameplayWait } from "../../lib/util";
 
+import GameMsg from "./game-msg";
 import { Wall } from "./wall";
 import PassageControls from "./passage-controls";
 import { Monster } from "./Combat/monster";
@@ -19,16 +20,24 @@ import { DIRECTIONS } from "../../constants";
 import { DIRS_FOR_WALLS } from "../../constants/passageview";
 import config from "../../config/default.json";
 
-const { defaultSurfaces } = config;
-const FADE_TIME = 200;
+const { defaultSurfaces, uiDelayTimeMs } = config;
 
 import "../../../css/lib/base";
 import "../../../css/components/Passage/passage";
 import { TileFactory } from "../../factories/tile-factory";
 
+// the only thing this fn does is validate input, scrap
+// @todo assumes north is the original forward dir
+const getDirsForWalls = (direction) => {
+  if (!DIRECTIONS.includes(direction)) {
+    throw new TypeError("Invalid direction set on Passage");
+  }
+
+  return DIRS_FOR_WALLS[direction];
+};
+
 const PassageProvider = () => {
   const currTileObj = TileFactory(characterStore.getCurrTileName());
-
   const [currTile, setCurrTile] = useState(currTileObj);
   const [currDirection, setCurrDirection] = useState(
     characterStore.getDirection()
@@ -39,17 +48,17 @@ const PassageProvider = () => {
   );
 
   // @todo only call setters if value is different so as not to force render
-  const handleCharacterUpdate = () => {
+  const handleCharacterUpdate = useCallback(() => {
     setCurrDirection(characterStore.getDirection());
     setCurrTile(() => {
       const newTile = TileFactory(characterStore.getCurrTileName());
       return newTile;
     });
-  };
+  }, [characterStore, TileFactory, setCurrDirection, setCurrTile]);
   const handleCombatUpdate = useCallback(() => {
     setInCombat(combatStore.isInCombat());
     setIsCharactersTurn(combatStore.isCharactersTurn());
-  }, []);
+  }, [setInCombat, setIsCharactersTurn, combatStore]);
 
   useStoreSubscription([
     [characterStore, handleCharacterUpdate],
@@ -60,42 +69,51 @@ const PassageProvider = () => {
     const newDirection =
       DIRECTIONS[(DIRECTIONS.indexOf(currDirection) - 1 + 4) % 4];
     setDirection(newDirection);
-  }, [currDirection, currTile]);
+  }, [currDirection, setDirection]);
 
   const handleTurnRight = useCallback(async () => {
     const newDirection =
       DIRECTIONS[(DIRECTIONS.indexOf(currDirection) + 1) % 4];
     setDirection(newDirection);
-  }, [currDirection, currTile]);
+  }, [currDirection, setDirection]);
+
+  const validateMoveAhead = useCallback(() => {
+    if (inCombat) {
+      showGameMsg("Can't get past without fighting!");
+      return false;
+    }
+
+    const dir = getDirsForWalls(currDirection).ahead;
+    if (!currTile.hasExitAtWall(dir)) {
+      showGameMsg("Can't go that way.");
+      return false;
+    }
+    return true;
+  }, [inCombat, showGameMsg, currDirection, currTile]);
 
   const handleMoveAhead = useCallback(() => {
     const dir = getDirsForWalls(currDirection).ahead;
-
-    if (inCombat) {
-      showGameMsg("Can't get past without fighting!");
-      return;
-    }
-
-    if (currTile.hasExitAtWall(dir)) {
-      const nextTileName = currTile.getAdjacentTileName(dir);
-      setTile(nextTileName);
-    } else {
-      console.log("You can't go that way.");
-    }
-  }, [currDirection, inCombat, currTile, setTile]);
+    const nextTileName = currTile.getAdjacentTileName(dir);
+    setTile(nextTileName);
+  }, [currDirection, currTile, setTile]);
 
   return (
-    <Passage
-      currTile={currTile}
-      inCombat={inCombat}
-      direction={currDirection}
-      isCharactersTurn={isCharactersTurn}
-      onTurnLeft={handleTurnLeft}
-      onTurnRight={handleTurnRight}
-      onMoveAhead={handleMoveAhead}
-    />
+    <>
+      <GameMsg />
+      <Passage
+        currTile={currTile}
+        inCombat={inCombat}
+        direction={currDirection}
+        isCharactersTurn={isCharactersTurn}
+        onTurnLeft={handleTurnLeft}
+        onTurnRight={handleTurnRight}
+        onMoveAhead={handleMoveAhead}
+        validateMoveAhead={validateMoveAhead}
+      />
+    </>
   );
 };
+export default PassageProvider;
 
 export const Passage = ({
   direction,
@@ -105,18 +123,10 @@ export const Passage = ({
   onTurnLeft,
   onTurnRight,
   onMoveAhead,
+  validateMoveAhead,
 }) => {
   const [isFaded, setIsFaded] = useState(false);
-
-  // @todo there is likely a more elegant way to do this
-
   const { right, left, ahead } = getDirsForWalls(direction);
-  // @todo review
-  if (!(currTile instanceof Tile)) {
-    console.log("Invalid Tile in Passage state.");
-    return <div className="passagenotile" />;
-  }
-
   const overlayClass = isFaded ? " show" : "";
 
   // @todo ceiling and floor should be skinnable like walls
@@ -156,7 +166,7 @@ export const Passage = ({
     return new Promise((resolve) => {
       setIsFaded(isFaded);
       // wait for css animation to execute
-      gameplayWait(FADE_TIME).then(resolve);
+      gameplayWait(uiDelayTimeMs).then(resolve);
     });
   };
 
@@ -166,17 +176,10 @@ export const Passage = ({
     await fade(false);
   };
 
-  const handleLeftClick = useCallback(() => {
-    changePassageView(onTurnLeft);
-  }, [onTurnLeft, direction, currTile]);
-  const handleRightClick = useCallback(() => {
-    changePassageView(onTurnRight);
-  }, [onTurnRight, direction, currTile]);
-  // @todo when onMoveAhead is an invalid action there should be
-  // no fading
-  const handleForwardClick = useCallback(() => {
-    changePassageView(onMoveAhead);
-  }, [onMoveAhead, direction, currTile]);
+  if (!(currTile instanceof Tile)) {
+    console.log("Invalid Tile in Passage state.");
+    return <div className="passagenotile" />;
+  }
 
   return (
     <div className="passageroot">
@@ -193,31 +196,23 @@ export const Passage = ({
       <div className={`passageoverlay${overlayClass}`} />
       {inCombat && isCharactersTurn && <CombatControls />}
       <PassageControls
-        leftClickHandler={handleLeftClick}
-        forwardClickHandler={handleForwardClick}
-        rightClickHandler={handleRightClick}
+        onTurnLeft={onTurnLeft}
+        onTurnRight={onTurnRight}
+        onMoveAhead={onMoveAhead}
+        validateMoveAhead={validateMoveAhead}
+        changePassageView={changePassageView}
       />
     </div>
   );
 };
-export default PassageProvider;
 
 Passage.propTypes = {
   currTile: PropTypes.instanceOf(Tile).isRequired,
   direction: PropTypes.oneOf(DIRECTIONS).isRequired,
-  inCombat: PropTypes.bool,
-  isCharactersTurn: PropTypes.bool,
-  onTurnLeft: PropTypes.func,
-  onTurnRight: PropTypes.func,
-  onMoveAhead: PropTypes.func,
-};
-
-// the only thing this fn does is validate input, scrap
-// @todo assumes north is the original forward dir
-const getDirsForWalls = (direction) => {
-  if (!DIRECTIONS.includes(direction)) {
-    throw new TypeError("Invalid direction set on Passage");
-  }
-
-  return DIRS_FOR_WALLS[direction];
+  inCombat: PropTypes.bool.isRequired,
+  isCharactersTurn: PropTypes.bool.isRequired,
+  onTurnLeft: PropTypes.func.isRequired,
+  onTurnRight: PropTypes.func.isRequired,
+  onMoveAhead: PropTypes.func.isRequired,
+  validateMoveAhead: PropTypes.func.isRequired,
 };

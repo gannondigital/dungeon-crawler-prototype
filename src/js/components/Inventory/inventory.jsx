@@ -5,6 +5,7 @@ import { ItemTile } from "./item-tile";
 import { useStoreSubscription } from "../../hooks";
 
 import "../../../css/components/Inventory/inventory.scss";
+import GameMsg from "../Passage/game-msg";
 
 // @todo if we have more item roles, abstract out the roles
 // @todo more specific naming in line with roles that manage
@@ -53,10 +54,13 @@ export const Inventory = ({}) => {
   });
 
   return (
-    <div className="inventory">
-      <nav className="inventory--tabs">{tabs}</nav>
-      <section className="inventory--content">{itemTiles}</section>
-    </div>
+    <>
+      <GameMsg />
+      <div className="inventory">
+        <nav className="inventory--tabs">{tabs}</nav>
+        <section className="inventory--content">{itemTiles}</section>
+      </div>
+    </>
   );
 };
 export default Inventory;

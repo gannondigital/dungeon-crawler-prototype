@@ -7,6 +7,8 @@
   "startingArmor": "clothes",
   "startingWeapon": "staff",
   "defaultSurfaces": ["stonebrick", "shadow"],
-  "levelMapRows": 10,
-  "levelMapColumns": 20
+  "levelMapRows": 9,
+  "levelMapColumns": 20,
+  "uiDelayTimeMs": 200,
+  "msgSpeed": 500
 }

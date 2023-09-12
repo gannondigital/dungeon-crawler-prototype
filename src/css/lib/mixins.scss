@@ -73,20 +73,28 @@
   );
 }
 
-@mixin floor-shadow() {
-  @include floor-ceiling-shadow($wall_height);
-}
-
-@mixin ceiling-shadow() {
-  @include floor-ceiling-shadow(math.div($wall_height, -2));
-}
-
 @mixin floor-ceiling-shadow($off_y) {
   @include box-shadow($offset_y: $off_y, $blur: 140px, $spread: 34px);
 }
 
+@mixin floor-shadow() {
+  @include floor-ceiling-shadow($wall_height - 100);
+}
+
+@mixin ceiling-shadow() {
+  @include floor-ceiling-shadow(math.div($wall_height, -2) + 100);
+}
+
 @mixin nav-button() {
+  background-size: contain;
   cursor: pointer;
-  height: 36px;
-  width: 36px;
+  height: 30px;
+  width: 30px;
+}
+
+@mixin button-active-states() {
+  &:active,
+  &.active {
+    opacity: 75%;
+  }
 }

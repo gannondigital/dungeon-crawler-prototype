@@ -2,6 +2,7 @@
 
 .inventory {
   padding: 12px;
+  padding-top: 12px + $headerHeight;
   width: 480px;
   height: 270px;
   background: #000;

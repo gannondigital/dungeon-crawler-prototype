@@ -1,3 +1,5 @@
+@import "../../lib/vars.scss";
+
 .compass {
   position: absolute;
   right: 20px;
@@ -6,46 +8,52 @@
 .compass_disc {
   background: #fff;
   display: block;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
+  height: $buttonHeight;
+  width: $buttonHeight;
+  border-radius: $buttonHeight / 2;
+}
+
+.compass_pointer_fulcrum {
+  background: purple;
+  border-radius: 1.5px;
+  position: absolute;
+  top: ($buttonHeight / 2) - 1.5px;
+  left: ($buttonHeight / 2) - 1.5px;
+  height: 3px;
+  width: 3px;
 }
 
 // @todo be cleverer about the transition/rotation so that the needle never
 // takes the 'long' way around the dial
 @mixin compassPointer {
   display: block;
-  height: 15px;
-  width: 5px;
-  background: green;
   position: absolute;
   transform-origin: bottom center;
   transition: transform 0.2s ease-in-out;
+  height: 0;
+  width: 0;
+  top: 0;
+  left: 9px;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 12px solid purple;
 }
 
 .compass_pointer--north {
   @include compassPointer;
-  top: 10%;
-  left: 44%;
 }
 
 .compass_pointer--east {
   @include compassPointer;
   transform: rotate(-90deg);
-  top: 0;
-  left: 14px;
 }
 
 .compass_pointer--south {
   @include compassPointer;
   transform: rotate(180deg);
-  top: 0;
-  left: 44%;
 }
 
 .compass_pointer--west {
   @include compassPointer;
   transform: rotate(90deg);
-  top: 0;
-  left: 44%;
 }

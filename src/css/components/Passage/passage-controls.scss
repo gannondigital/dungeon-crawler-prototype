@@ -1,9 +1,10 @@
 @import "../../lib/mixins.scss";
 
 .passage_controls {
-  margin: 0 auto;
-  padding: 20px 0 0 0;
-  width: 148px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .passage_controls--listitem {
@@ -13,14 +14,17 @@
 .button_left {
   background-image: url("../../../img/arrow-left.png");
   @include nav-button();
+  @include button-active-states();
 }
 
 .button_forward {
   background-image: url("../../../img/arrow-forward.png");
   @include nav-button();
+  @include button-active-states();
 }
 
 .button_right {
   background-image: url("../../../img/arrow-right.png");
   @include nav-button();
+  @include button-active-states();
 }

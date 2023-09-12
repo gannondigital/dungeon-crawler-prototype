@@ -274,7 +274,7 @@ class CombatRunner {
 
   // @todo may need tuning
   doesAttackHit(attackerAccuracy, defenderEvasion) {
-    if ((getRandomNum() * 2) - defenderEvasion + attackerAccuracy > HIT_CONST) {
+    if (getRandomNum() * 2 - defenderEvasion + attackerAccuracy > HIT_CONST) {
       return true;
     }
     return false;

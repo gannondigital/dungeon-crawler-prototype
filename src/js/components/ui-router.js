@@ -3,10 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import Passage from "./Passage/passage";
 import LevelMap from "./LevelMap/level-map";
 import Inventory from "./Inventory/inventory";
-import GameMsg from "./Passage/game-msg";
 import GameHeader from "./GameHeader/game-header";
 import TitleScreen from "./title-screen";
-import { UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
+import { REPO_URL, UI_INVENTORY, UI_MAP, UI_PASSAGE } from "../constants";
 import { TITLE_SCREEN, GAMEPLAY } from "../constants/game-status";
 import gameStatusStore from "../stores/game-status";
 import { useStoreSubscription } from "../hooks";
@@ -17,34 +16,23 @@ import "../../css/components/game-root.scss";
 // @todo there should probably be clearer lines between in-game routing
 // and out-of-game routing, but this works for now
 export const UIRouter = () => {
-  const [uiState, setUiState] = useState(null);
+  const [screenState, setScreenState] = useState(TITLE_SCREEN);
 
   const handleGameStatusChange = useCallback(() => {
     const currStatus = gameStatusStore.getGameStatus();
     switch (currStatus) {
       case TITLE_SCREEN:
-        setUiState(TITLE_SCREEN);
+        setScreenState(TITLE_SCREEN);
         break;
       case GAMEPLAY:
-        setUiState(UI_PASSAGE);
+        setScreenState(UI_PASSAGE);
     }
   }, [gameStatusStore]);
   useEffect(handleGameStatusChange, []);
   useStoreSubscription([[gameStatusStore, handleGameStatusChange]]);
 
-  const handleMapBtnClick = () => {
-    setUiState(UI_MAP);
-  };
-  const handleBackBtnClick = () => {
-    setUiState(UI_PASSAGE);
-  };
-  const handleInventoryBtnClick = () => {
-    setUiState(UI_INVENTORY);
-  };
-
   let currContent = null;
-  // @todo make this all less cruddy
-  switch (uiState) {
+  switch (screenState) {
     case TITLE_SCREEN:
     default:
       currContent = <TitleScreen />;
@@ -61,14 +49,14 @@ export const UIRouter = () => {
   }
 
   return (
-    <div className="game-root">
-      <GameMsg />
-      <GameHeader
-        handleBackBtnClick={handleBackBtnClick}
-        handleMapBtnClick={handleMapBtnClick}
-        handleInventoryBtnClick={handleInventoryBtnClick}
-      />
-      {currContent}
-    </div>
+    <>
+      <div className="game_root">
+        <GameHeader screenState={screenState} setScreenState={setScreenState} />
+        {currContent}
+      </div>
+      <a className="repo_link" href={REPO_URL} target="_blank">
+        See the code &gt;
+      </a>
+    </>
   );
 };

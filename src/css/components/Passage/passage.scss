@@ -2,7 +2,7 @@
 @import "../../lib/vars.scss";
 
 .passageroot {
-  display: relative;
+  position: relative;
 }
 
 .passagewrap {
@@ -25,7 +25,7 @@
 
 .passageoverlay {
   background: #000;
-  height: $wall_height;
+  height: $wall_height - $headerHeight;
   opacity: 0;
   position: absolute;
   top: $headerHeight;

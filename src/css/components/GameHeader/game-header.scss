@@ -1,11 +1,25 @@
 @import "../../lib/vars.scss";
+@import "../../lib/mixins.scss";
 
 .game_header {
   background: $headerColor;
+  display: flex;
+  align-items: center;
   height: $headerHeight;
-  position: relative;
+  padding: 6px;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
 }
 
 .header-nav-button {
   float: left;
+  text-transform: capitalize;
+
+  &::first-letter {
+    font-style: bold;
+    text-decoration: underline;
+  }
+
+  @include button-active-states();
 }

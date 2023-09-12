@@ -35,7 +35,7 @@ async function bootstrapLevel(startingLevel) {
       loadLevel(startingLevel),
       loadMonsters(startingLevel),
       loadItems(startingLevel),
-    ])
+    ]);
   } catch (err) {
     err.message = `Error bootstrapping level: ${err.message}`;
     throw err;

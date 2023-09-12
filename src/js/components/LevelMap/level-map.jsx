@@ -6,6 +6,7 @@ import characterStore from "../../stores/character";
 import { TileFactory } from "../../factories/tile-factory";
 import "../../../css/components/LevelMap/level-map.scss";
 import config from "../../config/default.json";
+import GameMsg from "../Passage/game-msg";
 const { levelMapRows, levelMapColumns } = config;
 
 function getTilename(row, column) {
@@ -13,10 +14,7 @@ function getTilename(row, column) {
 }
 
 const LevelMapProvider = () => (
-  <LevelMap 
-    rows={levelMapRows}
-    columns={levelMapColumns}
-  />
+  <LevelMap rows={levelMapRows} columns={levelMapColumns} />
 );
 export default LevelMapProvider;
 
@@ -87,11 +85,14 @@ export const LevelMap = ({ rows, columns }) => {
   // @todo show direction arrow in LevelMap so player can match
   // first person orientation with map direction
   return (
-    <div className="level-map-wrapper">
-      <table>
-        <tbody>{mapEls}</tbody>
-      </table>
-    </div>
+    <>
+      <GameMsg />
+      <div className="level-map-wrapper">
+        <table>
+          <tbody>{mapEls}</tbody>
+        </table>
+      </div>
+    </>
   );
 };
 LevelMap.propTypes = {

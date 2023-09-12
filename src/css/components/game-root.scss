@@ -1,9 +1,22 @@
 @import "../lib/vars.scss";
 
-.game-root {
+.game_root {
   background-color: #000;
   margin: 0 auto;
   position: relative;
   height: $wall_height;
   width: $wall_width;
+}
+
+.repo_link {
+  display: block;
+  margin: 12px auto 0;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  width: 50%;
+}
+
+button {
+  height: $buttonHeight;
 }
